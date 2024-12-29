@@ -1,11 +1,20 @@
+import os
 from contextlib import contextmanager
 from typing import Any, Dict, Optional
 
-import sglang.srt.layers.moe.fused_moe_triton.fused_moe  # noqa
-from sglang.srt.layers.moe.fused_moe_triton.fused_moe import (
-    fused_experts,
-    get_config_file_name,
-)
+if os.environ.get("SGLANG_FUSED_MOE_BACKEND") == "LMDEPLOY":
+    import sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy  # noqa
+    from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import (
+        fused_experts,
+        get_config_file_name,
+    )
+else:
+    import sglang.srt.layers.moe.fused_moe_triton.fused_moe  # noqa
+    from sglang.srt.layers.moe.fused_moe_triton.fused_moe import (
+        fused_experts,
+        get_config_file_name,
+    )
+
 from sglang.srt.layers.moe.fused_moe_triton.layer import (
     FusedMoE,
     FusedMoEMethodBase,

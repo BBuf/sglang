@@ -5,6 +5,7 @@ from vllm.model_executor.layers.fused_moe import fused_moe as fused_moe_vllm
 
 from sglang.srt.layers.activation import SiluAndMul
 from sglang.srt.layers.moe.fused_moe_triton.fused_moe import fused_moe
+from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import fused_moe_lmdeploy
 
 
 class TestFusedMOE(unittest.TestCase):
@@ -88,6 +89,74 @@ class TestFusedMOE(unittest.TestCase):
             torch_output = self.torch_naive_moe(a, w1, w2, score, topk)
             torch.testing.assert_close(triton_output, torch_output, atol=2e-2, rtol=0)
 
+    def _test_case_lmdeploy(self, m, n, k, e, topk, dtype, use_fp8_w8a8=False):
+        if use_fp8_w8a8:
+            # AssertionError: fp8e4nv data type is not supported on CUDA arch < 89
+            capability = torch.cuda.get_device_capability()
+            if not (capability[0] >= 9 or capability == (8, 9)):
+                return
+
+            a = torch.randn((m, k), device="cuda", dtype=dtype) / 10
+            w1 = torch.randn((e, 2 * n, k), device="cuda", dtype=dtype) / 10
+            w2 = torch.randn((e, k, n), device="cuda", dtype=dtype) / 10
+            w1 = w1.to(torch.float8_e4m3fn)
+            w2 = w2.to(torch.float8_e4m3fn)
+            score = torch.randn((m, e), device="cuda", dtype=dtype)
+
+            w1_scale = torch.randn(e, dtype=torch.float32, device="cuda")
+            w2_scale = torch.randn(e, dtype=torch.float32, device="cuda")
+            a1_scale = torch.randn(1, dtype=torch.float32, device="cuda")
+            a2_scale = torch.randn(1, dtype=torch.float32, device="cuda")
+
+            sglang_output = fused_moe(
+                a,
+                w1,
+                w2,
+                score,
+                topk,
+                renormalize=False,
+                use_fp8_w8a8=True,
+                w1_scale=w1_scale,
+                w2_scale=w2_scale,
+                a1_scale=a1_scale,
+                a2_scale=a2_scale,
+            )
+
+            lmdeploy_output = fused_moe_lmdeploy(
+                a,
+                w1,
+                w2,
+                score,
+                topk,
+                renormalize=False,
+                use_fp8_w8a8=True,
+                w1_scale=w1_scale,
+                w2_scale=w2_scale,
+                a1_scale=a1_scale,
+                a2_scale=a2_scale,
+            )
+
+            torch.testing.assert_close(
+                sglang_output, lmdeploy_output, atol=2e-2, rtol=0
+            )
+
+        else:
+            a = torch.randn((m, k), device="cuda", dtype=dtype) / 10
+            w1 = torch.randn((e, 2 * n, k), device="cuda", dtype=dtype) / 10
+            w2 = torch.randn((e, k, n), device="cuda", dtype=dtype) / 10
+            score = torch.randn((m, e), device="cuda", dtype=dtype)
+
+            sglang_output = fused_moe(a, w1, w2, score, topk, renormalize=False)
+            lmdeploy_output = fused_moe_lmdeploy(
+                a, w1, w2, score, topk, renormalize=False
+            )
+            torch_output = self.torch_naive_moe(a, w1, w2, score, topk)
+
+            torch.testing.assert_close(
+                sglang_output, lmdeploy_output, atol=2e-2, rtol=0
+            )
+            torch.testing.assert_close(lmdeploy_output, torch_output, atol=2e-2, rtol=0)
+
     def test_various_configurations(self):
         m_values = [1, 33, 64, 222, 1024 * 128]
         n_values = [128, 1024, 2048]
@@ -112,6 +181,15 @@ class TestFusedMOE(unittest.TestCase):
                                         fp8=use_fp8_w8a8,
                                     ):
                                         self._test_case(
+                                            m,
+                                            n,
+                                            k,
+                                            e,
+                                            topk,
+                                            dtype,
+                                            use_fp8_w8a8=use_fp8_w8a8,
+                                        )
+                                        self._test_case_lmdeploy(
                                             m,
                                             n,
                                             k,

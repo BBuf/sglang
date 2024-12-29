@@ -1,5 +1,6 @@
 # Adapted from https://github.com/vllm-project/vllm/blob/a6221a144af772fd1a68fe7e627935dc53e81738/vllm/model_executor/layers/fused_moe/layer.py
 
+import os
 from abc import abstractmethod
 from enum import Enum
 from typing import Callable, List, Optional, Tuple
@@ -21,7 +22,12 @@ from sglang.srt.layers.quantization.base_config import (
 from sglang.srt.utils import set_weight_attrs
 
 if torch.cuda.is_available():
-    from sglang.srt.layers.moe.fused_moe_triton.fused_moe import fused_experts
+    if os.environ.get("SGLANG_FUSED_MOE_BACKEND") == "LMDEPLOY":
+        from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import (
+            fused_experts,
+        )
+    else:
+        from sglang.srt.layers.moe.fused_moe_triton.fused_moe import fused_experts
 else:
     fused_experts = None  # type: ignore
 

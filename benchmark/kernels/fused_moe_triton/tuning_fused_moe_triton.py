@@ -1,6 +1,7 @@
 # Adapted from https://github.com/vllm-project/vllm/blob/main/benchmarks/kernels/benchmark_moe.py
 import argparse
 import json
+import os
 import time
 from datetime import datetime
 from typing import Any, Dict, List, Tuple, TypedDict
@@ -11,13 +12,24 @@ import triton
 from ray.experimental.tqdm_ray import tqdm
 from transformers import AutoConfig
 
-from sglang.srt.layers.moe.fused_moe_triton.fused_moe import (
-    fused_moe,
-    get_config_dtype_str,
-    get_config_file_name,
-    get_default_config,
-    get_moe_configs,
-)
+if os.environ.get("SGLANG_FUSED_MOE_BACKEND") == "LMDEPLOY":
+    from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import (
+        fused_moe_lmdeploy as fused_moe,
+    )
+    from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import (
+        get_config_dtype_str,
+        get_config_file_name,
+        get_default_config,
+        get_moe_configs,
+    )
+else:
+    from sglang.srt.layers.moe.fused_moe_triton.fused_moe import (
+        fused_moe,
+        get_config_dtype_str,
+        get_config_file_name,
+        get_default_config,
+        get_moe_configs,
+    )
 
 
 class BenchmarkConfig(TypedDict):

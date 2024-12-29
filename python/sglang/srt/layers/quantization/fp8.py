@@ -699,7 +699,13 @@ class Fp8MoEMethod:
         correction_bias: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
         from sglang.srt.layers.moe.fused_moe_triton import FusedMoE
-        from sglang.srt.layers.moe.fused_moe_triton.fused_moe import fused_experts
+
+        if os.environ.get("SGLANG_FUSED_MOE_BACKEND") == "LMDEPLOY":
+            from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import (
+                fused_experts,
+            )
+        else:
+            from sglang.srt.layers.moe.fused_moe_triton.fused_moe import fused_experts
         from sglang.srt.layers.moe.topk import select_experts
 
         # Expert selection
