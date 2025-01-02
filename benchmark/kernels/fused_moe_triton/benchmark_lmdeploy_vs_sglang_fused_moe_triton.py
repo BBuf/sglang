@@ -3,12 +3,12 @@ import argparse
 import torch
 import triton
 from transformers import AutoConfig
-from vllm.model_executor.layers.fused_moe.fused_moe import fused_moe as fused_moe_vllm
-
+from sglang.srt.layers.moe.fused_moe_triton.fused_moe_lmdeploy import (
+    fused_moe_lmdeploy,
+)
 from sglang.srt.layers.moe.fused_moe_triton.fused_moe import (
     fused_moe as fused_moe_sglang,
 )
-
 
 def get_model_config(model_name: str, tp_size: int):
     """Get model configuration parameters"""
@@ -52,7 +52,7 @@ def get_model_config(model_name: str, tp_size: int):
     return shape_configs
 
 
-def fused_moe_vllm_api(
+def fused_moe_lmdeploy_api(
     x,
     w1,
     w2,
@@ -64,7 +64,7 @@ def fused_moe_vllm_api(
     a1_scale=None,
     a2_scale=None,
 ):
-    return fused_moe_vllm(
+    return fused_moe_lmdeploy(
         x,
         w1,
         w2,
@@ -114,11 +114,11 @@ def fused_moe_sglang_api(
         x_vals=list(range(1, 513)),
         line_arg="provider",
         line_vals=[
-            "vllm_fused_moe_triton",
+            "lmdeploy_fused_moe_triton",
             "sglang_fused_moe_triton",
         ],
         line_names=[
-            "vllm_fused_moe_triton",
+            "lmdeploy_fused_moe_triton",
             "sglang_fused_moe_triton",
         ],
         styles=[
@@ -169,8 +169,8 @@ def benchmark(batch_size, provider, model_config, use_fp8=False):
 
     # Warmup
     api_func = (
-        fused_moe_vllm_api
-        if provider == "vllm_fused_moe_triton"
+        fused_moe_lmdeploy_api
+        if provider == "lmdeploy_fused_moe_triton"
         else fused_moe_sglang_api
     )
     for _ in range(10):
@@ -217,7 +217,7 @@ def main():
     parser.add_argument(
         "--save-path",
         type=str,
-        default="./configs/benchmark_ops/vllm_sglang_fused_moe/",
+        default="./configs/benchmark_ops/lmdeploy_sglang_fused_moe/",
     )
     args = parser.parse_args()
 
