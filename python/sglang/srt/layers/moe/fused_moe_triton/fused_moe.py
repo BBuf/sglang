@@ -475,8 +475,7 @@ def get_default_config(
                     "num_stages": 4,
                 }
         else:
-            # Block-wise quant: BLOCK_SIZE_N must be divisable by block_shape[0]
-            # BLOCK_SIZE_K must be divisable by block_shape[1]
+            # Block-wise quant: BLOCK_SIZE_K must be divisable by block_shape[1]
             config = {
                 "BLOCK_SIZE_M": 64,
                 "BLOCK_SIZE_N": block_shape[0],
@@ -855,11 +854,17 @@ def fused_experts_impl(
             block_shape=block_shape,
         )
 
-        torch.sum(
-            intermediate_cache3.view(*intermediate_cache3.shape),
-            dim=1,
-            out=out_hidden_states[begin_chunk_idx:end_chunk_idx],
-        )
+        if not_hip:
+            torch.sum(
+                intermediate_cache3.view(*intermediate_cache3.shape),
+                dim=1,
+                out=out_hidden_states[begin_chunk_idx:end_chunk_idx],
+            )
+        else:
+            ops.moe_sum(
+                intermediate_cache3.view(*intermediate_cache3.shape),
+                out_hidden_states[begin_chunk_idx:end_chunk_idx],
+            )
     return out_hidden_states
 
 

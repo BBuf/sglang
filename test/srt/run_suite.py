@@ -44,10 +44,12 @@ suites = {
         "test_vision_chunked_prefill.py",
         "test_vision_openai_server.py",
         "test_session_control.py",
+        "test_engine_token_ids.py",
     ],
     "nightly": [
         "test_nightly_gsm8k_eval.py",
         "test_nightly_human_eval.py",
+        "test_nightly_math_eval.py",
     ],
     "sampling/penaltylib": glob.glob(
         "sampling/penaltylib/**/test_*.py", recursive=True
