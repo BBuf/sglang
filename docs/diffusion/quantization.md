@@ -68,6 +68,7 @@ here instead of duplicating them in workflow skills.
 | --- | --- | --- | --- |
 | `black-forest-labs/FLUX.1-dev` | mixed BF16+NVFP4 transformer override, correctness validation, 4x RTX 5090 benchmark, torch-profiler trace | `unpublished` | use `build_modelopt_nvfp4_transformer.py`; validated builder keeps selected FLUX.1 modules in BF16 and sets `swap_weight_nibbles=false` |
 | `black-forest-labs/FLUX.2-dev` | packed-QKV load path | `black-forest-labs/FLUX.2-dev-NVFP4` | validated packed export detection and runtime layout handling |
+| `Wan-AI/Wan2.2-TI2V-5B-Diffusers` | single-transformer override, TI2V correctness validation, 4x RTX 5090 benchmark, torch-profiler trace | `unpublished` | build an SGLang-ready override with `build_modelopt_nvfp4_transformer.py`; validate with `--dit-layerwise-offload true` and pure Ulysses (`--ulysses-degree 4 --ring-degree 1`) |
 
 ## ModelOpt FP8
 

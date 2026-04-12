@@ -261,10 +261,12 @@ def build_server_kwargs(args: argparse.Namespace, *, variant: str) -> dict[str, 
         "dit_cpu_offload": args.dit_cpu_offload,
         "dit_layerwise_offload": args.dit_layerwise_offload,
         "text_encoder_cpu_offload": args.text_encoder_cpu_offload,
+        "image_encoder_cpu_offload": args.image_encoder_cpu_offload,
         "vae_cpu_offload": args.vae_cpu_offload,
         "pin_cpu_memory": args.pin_cpu_memory,
         "enable_cfg_parallel": args.enable_cfg_parallel,
         "ulysses_degree": args.ulysses_degree,
+        "ring_degree": args.ring_degree,
     }
     if args.sp_degree is not None:
         kwargs["sp_degree"] = args.sp_degree
@@ -294,6 +296,10 @@ def build_sampling_kwargs(
         kwargs["output_path"] = output_dir
     if args.num_frames is not None:
         kwargs["num_frames"] = args.num_frames
+    if args.fps is not None:
+        kwargs["fps"] = args.fps
+    if args.image_path is not None:
+        kwargs["image_path"] = args.image_path
     if args.guidance_scale_2 is not None:
         kwargs["guidance_scale_2"] = args.guidance_scale_2
     return kwargs
@@ -343,12 +349,15 @@ def main() -> None:
     parser.add_argument("--width", type=int, required=True)
     parser.add_argument("--height", type=int, required=True)
     parser.add_argument("--num-frames", type=int)
+    parser.add_argument("--fps", type=int)
+    parser.add_argument("--image-path")
     parser.add_argument("--num-inference-steps", type=int, required=True)
     parser.add_argument("--guidance-scale", type=float, required=True)
     parser.add_argument("--guidance-scale-2", type=float)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num-gpus", type=int, default=1)
     parser.add_argument("--ulysses-degree", type=int, default=1)
+    parser.add_argument("--ring-degree", type=int, default=1)
     parser.add_argument("--sp-degree", type=int)
     parser.add_argument("--trajectory-step-index", type=int, default=-1)
     parser.add_argument("--reference-transformer-path")
@@ -383,6 +392,11 @@ def main() -> None:
     )
     parser.add_argument(
         "--vae-cpu-offload",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+    )
+    parser.add_argument(
+        "--image-encoder-cpu-offload",
         action=argparse.BooleanOptionalAction,
         default=False,
     )
@@ -444,6 +458,8 @@ def main() -> None:
             "width": args.width,
             "height": args.height,
             "num_frames": args.num_frames,
+            "fps": args.fps,
+            "image_path": args.image_path,
             "num_inference_steps": args.num_inference_steps,
             "guidance_scale": args.guidance_scale,
             "guidance_scale_2": args.guidance_scale_2,
