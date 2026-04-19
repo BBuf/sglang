@@ -3,6 +3,7 @@ This unittest is introduced in #22360, preventing duplicate transformer safetens
 """
 
 import json
+import os
 import sys
 import tempfile
 import types
@@ -11,6 +12,8 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import torch
+from safetensors import safe_open
+from safetensors.torch import save_file
 
 partial_json_parser = types.ModuleType("partial_json_parser")
 partial_json_parser_core = types.ModuleType("partial_json_parser.core")
@@ -43,12 +46,18 @@ sys.modules.setdefault(
 )
 sys.modules.setdefault("partial_json_parser.core.options", partial_json_parser_options)
 
+from sglang.multimodal_gen.configs.models.dits.qwenimage import (
+    QwenImageArchConfig,
+    QwenImageDitConfig,
+)
 from sglang.multimodal_gen.runtime.layers.linear import UnquantizedLinearMethod
 from sglang.multimodal_gen.runtime.layers.quantization.configs.nunchaku_config import (
     NunchakuConfig,
 )
 from sglang.multimodal_gen.runtime.layers.quantization.modelopt_quant import (
     ModelOptFp4Config,
+    ModelOptFp8Config,
+    ModelOptFp8LinearMethod,
     _prepare_nvfp4_weight_bytes,
 )
 from sglang.multimodal_gen.runtime.loader.transformer_load_utils import (
@@ -58,6 +67,15 @@ from sglang.multimodal_gen.runtime.loader.transformer_load_utils import (
     resolve_transformer_safetensors_to_load,
 )
 from sglang.multimodal_gen.runtime.models.dits.flux import FluxSingleTransformerBlock
+from sglang.multimodal_gen.runtime.models.dits.qwen_image import (
+    QwenImageTransformer2DModel,
+    QwenImageTransformerBlock,
+)
+from sglang.multimodal_gen.tools.build_modelopt_fp8_transformer import (
+    build_modelopt_fp8_transformer,
+    get_default_keep_bf16_patterns,
+    should_keep_bf16,
+)
 from sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer import (
     _updated_quant_config,
 )
@@ -326,6 +344,228 @@ class TestTransformerQuantHelpers(unittest.TestCase):
         self.assertIsInstance(block.proj_mlp.quant_method, UnquantizedLinearMethod)
         self.assertIsInstance(block.proj_out.quant_method, UnquantizedLinearMethod)
         self.assertIsInstance(block.attn.to_q.quant_method, UnquantizedLinearMethod)
+
+    @patch("sglang.multimodal_gen.runtime.layers.linear.get_group_rank", return_value=0)
+    @patch("sglang.multimodal_gen.runtime.layers.linear.get_group_size", return_value=1)
+    @patch(
+        "sglang.multimodal_gen.runtime.layers.linear.get_tp_group", return_value=None
+    )
+    @patch(
+        "sglang.multimodal_gen.runtime.layers.attention.layer.get_ring_parallel_world_size",
+        return_value=1,
+    )
+    @patch(
+        "sglang.multimodal_gen.runtime.layers.attention.selector.get_global_server_args",
+        return_value=SimpleNamespace(attention_backend=None),
+    )
+    def test_qwen_image_block_modelopt_fp8_uses_full_prefixes(
+        self,
+        _mock_server_args,
+        _mock_ring_world_size,
+        _mock_tp_group,
+        _mock_group_size,
+        _mock_group_rank,
+    ):
+        quant_config = ModelOptFp8Config(
+            is_checkpoint_fp8_serialized=True,
+            exclude_modules=[
+                "transformer_blocks.0.attn.to_q",
+                "transformer_blocks.0.attn.add_q_proj",
+                "transformer_blocks.0.img_mlp.net.0.proj",
+                "transformer_blocks.0.img_mlp.net.2",
+                "transformer_blocks.0.img_mod",
+            ],
+        )
+
+        block = QwenImageTransformerBlock(
+            dim=64,
+            num_attention_heads=4,
+            attention_head_dim=16,
+            quant_config=quant_config,
+            prefix="transformer_blocks.0",
+        )
+
+        self.assertEqual(block.attn.to_q.prefix, "transformer_blocks.0.attn.to_q")
+        self.assertEqual(
+            block.attn.add_q_proj.prefix, "transformer_blocks.0.attn.add_q_proj"
+        )
+        self.assertEqual(
+            block.img_mlp.net[0].proj.prefix,
+            "transformer_blocks.0.img_mlp.net.0.proj",
+        )
+        self.assertEqual(
+            block.img_mlp.net[2].prefix, "transformer_blocks.0.img_mlp.net.2"
+        )
+        self.assertEqual(block.img_mod[1].prefix, "transformer_blocks.0.img_mod")
+        self.assertIsInstance(block.attn.to_q.quant_method, UnquantizedLinearMethod)
+        self.assertIsInstance(
+            block.attn.add_q_proj.quant_method, UnquantizedLinearMethod
+        )
+        self.assertIsInstance(
+            block.img_mlp.net[0].proj.quant_method, UnquantizedLinearMethod
+        )
+        self.assertIsInstance(
+            block.img_mlp.net[2].quant_method, UnquantizedLinearMethod
+        )
+        self.assertIsInstance(block.img_mod[1].quant_method, UnquantizedLinearMethod)
+        self.assertIsInstance(block.attn.to_k.quant_method, ModelOptFp8LinearMethod)
+
+    @patch(
+        "sglang.multimodal_gen.runtime.models.dits.qwen_image.get_local_torch_device",
+        return_value=torch.device("cpu"),
+    )
+    @patch("sglang.multimodal_gen.runtime.layers.linear.get_group_rank", return_value=0)
+    @patch("sglang.multimodal_gen.runtime.layers.linear.get_group_size", return_value=1)
+    @patch(
+        "sglang.multimodal_gen.runtime.layers.linear.get_tp_group", return_value=None
+    )
+    @patch(
+        "sglang.multimodal_gen.runtime.layers.attention.layer.get_ring_parallel_world_size",
+        return_value=1,
+    )
+    @patch(
+        "sglang.multimodal_gen.runtime.layers.attention.selector.get_global_server_args",
+        return_value=SimpleNamespace(attention_backend=None),
+    )
+    def test_qwen_image_top_level_modelopt_fp8_uses_full_prefixes(
+        self,
+        _mock_server_args,
+        _mock_ring_world_size,
+        _mock_tp_group,
+        _mock_group_size,
+        _mock_group_rank,
+        _mock_device,
+    ):
+        quant_config = ModelOptFp8Config(
+            is_checkpoint_fp8_serialized=True,
+            exclude_modules=["img_in", "txt_in", "proj_out"],
+        )
+        arch_config = QwenImageArchConfig(
+            in_channels=4,
+            out_channels=4,
+            num_layers=1,
+            attention_head_dim=8,
+            num_attention_heads=2,
+            joint_attention_dim=16,
+            axes_dims_rope=(2, 2, 4),
+        )
+
+        model = QwenImageTransformer2DModel(
+            config=QwenImageDitConfig(arch_config=arch_config),
+            hf_config={},
+            quant_config=quant_config,
+        )
+
+        self.assertEqual(model.img_in.prefix, "img_in")
+        self.assertEqual(model.txt_in.prefix, "txt_in")
+        self.assertEqual(model.proj_out.prefix, "proj_out")
+        self.assertIsInstance(model.img_in.quant_method, UnquantizedLinearMethod)
+        self.assertIsInstance(model.txt_in.quant_method, UnquantizedLinearMethod)
+        self.assertIsInstance(model.proj_out.quant_method, UnquantizedLinearMethod)
+        self.assertIsInstance(
+            model.transformer_blocks[0].attn.to_q.quant_method,
+            ModelOptFp8LinearMethod,
+        )
+
+    def test_qwen_image_default_fp8_fallbacks_cover_shared_t2i_and_edit_layers(self):
+        patterns = get_default_keep_bf16_patterns(
+            model_type="qwen-image", class_name=None
+        )
+        auto_patterns = get_default_keep_bf16_patterns(
+            model_type="auto", class_name="QwenImageTransformer2DModel"
+        )
+
+        self.assertEqual(patterns, auto_patterns)
+        self.assertTrue(should_keep_bf16("img_in.weight", patterns))
+        self.assertTrue(should_keep_bf16("txt_in.weight", patterns))
+        self.assertTrue(should_keep_bf16("proj_out.weight", patterns))
+        self.assertTrue(
+            should_keep_bf16(
+                "time_text_embed.timestep_embedder.linear_1.weight", patterns
+            )
+        )
+        self.assertTrue(
+            should_keep_bf16("transformer_blocks.0.img_mod.1.weight", patterns)
+        )
+        self.assertTrue(
+            should_keep_bf16("transformer_blocks.0.txt_mod.1.weight", patterns)
+        )
+        self.assertTrue(
+            should_keep_bf16("transformer_blocks.0.img_mlp.net.2.weight", patterns)
+        )
+        self.assertFalse(
+            should_keep_bf16("transformer_blocks.0.attn.to_q.weight", patterns)
+        )
+        self.assertFalse(
+            should_keep_bf16("transformer_blocks.0.img_mlp.net.0.proj.weight", patterns)
+        )
+        self.assertFalse(
+            should_keep_bf16("transformer_blocks.0.txt_mlp.net.2.weight", patterns)
+        )
+
+    def test_modelopt_fp8_builder_writes_bf16_fallback_weight(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            source_dir = f"{tmpdir}/source"
+            base_dir = f"{tmpdir}/base"
+            output_dir = f"{tmpdir}/output"
+            ckpt_path = f"{tmpdir}/transformer.pt"
+            os.makedirs(source_dir)
+            os.makedirs(base_dir)
+
+            config = {
+                "_class_name": "QwenImageTransformer2DModel",
+                "quantization_config": {
+                    "quant_method": "modelopt",
+                    "quant_algo": "FP8",
+                    "ignore": [],
+                },
+            }
+            for model_dir in (source_dir, base_dir):
+                with open(f"{model_dir}/config.json", "w", encoding="utf-8") as f:
+                    json.dump(config, f)
+
+            weight_name = "transformer_blocks.0.attn.to_q.weight"
+            base_weight = torch.full((2, 2), 0.125, dtype=torch.bfloat16)
+            source_weight = torch.full((2, 2), 8.0, dtype=torch.float32).to(
+                torch.float8_e4m3fn
+            )
+            save_file({weight_name: source_weight}, f"{source_dir}/model.safetensors")
+            save_file({weight_name: base_weight}, f"{base_dir}/model.safetensors")
+            torch.save(
+                {
+                    "model_state_dict": {
+                        "transformer_blocks.0.attn.to_q.weight_quantizer._amax": torch.tensor(
+                            448.0
+                        ),
+                        "transformer_blocks.0.attn.to_q.input_quantizer._amax": torch.tensor(
+                            448.0
+                        ),
+                    }
+                },
+                ckpt_path,
+            )
+
+            stats = build_modelopt_fp8_transformer(
+                modelopt_hf_dir=source_dir,
+                modelopt_backbone_ckpt=ckpt_path,
+                base_transformer_dir=base_dir,
+                output_dir=output_dir,
+                model_type="none",
+                keep_bf16_patterns=[r"^transformer_blocks\.0\.attn\.to_q$"],
+            )
+
+            self.assertEqual(stats["bf16_fallback_weights"], 1)
+            self.assertEqual(stats["quantized_weights"], 0)
+            with safe_open(
+                f"{output_dir}/model.safetensors", framework="pt", device="cpu"
+            ) as f:
+                keys = set(f.keys())
+                output_weight = f.get_tensor(weight_name)
+
+            self.assertEqual(output_weight.dtype, torch.bfloat16)
+            self.assertTrue(torch.equal(output_weight, base_weight))
+            self.assertNotIn("transformer_blocks.0.attn.to_q.weight_scale", keys)
+            self.assertNotIn("transformer_blocks.0.attn.to_q.input_scale", keys)
 
 
 if __name__ == "__main__":
