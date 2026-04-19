@@ -391,7 +391,8 @@ class QwenImageEditPipelineConfig(QwenImagePipelineConfig):
                 # expand init_latents for batch_size
                 additional_image_per_prompt = batch_size // latent_condition.shape[0]
                 image_latents = latent_condition.repeat(
-                    additional_image_per_prompt, 1, 1, 1
+                    additional_image_per_prompt,
+                    *([1] * (latent_condition.dim() - 1)),
                 )
             else:
                 raise ValueError(
