@@ -94,6 +94,17 @@ def _merge_modelopt_fp4_configs(
     inferred_config.checkpoint_uses_packed_qkv = getattr(
         inferred_config, "checkpoint_uses_packed_qkv", False
     ) or getattr(existing_config, "checkpoint_uses_packed_qkv", False)
+    existing_scale_layout = getattr(
+        existing_config, "checkpoint_weight_scale_layout", "linear"
+    )
+    inferred_scale_layout = getattr(
+        inferred_config, "checkpoint_weight_scale_layout", "linear"
+    )
+    inferred_config.checkpoint_weight_scale_layout = (
+        existing_scale_layout
+        if inferred_scale_layout == "linear" and existing_scale_layout != "linear"
+        else inferred_scale_layout
+    )
     if getattr(inferred_config, "group_size", None) is None:
         inferred_config.group_size = getattr(existing_config, "group_size", None)
 
