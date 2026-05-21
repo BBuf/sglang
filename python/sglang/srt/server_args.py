@@ -209,6 +209,11 @@ MOE_RUNNER_BACKEND_CHOICES = [
     "marlin",
 ]
 
+MISTRAL_LARGE3_MLA_MODEL_ARCHS = {
+    "MistralLarge3ForCausalLM",
+    "PixtralForConditionalGeneration",
+}
+
 MOE_A2A_BACKEND_CHOICES = [
     "none",
     "deepep",
@@ -239,6 +244,14 @@ FP4_GEMM_RUNNER_BACKEND_CHOICES = [
     "flashinfer_cutlass",
     "flashinfer_trtllm",
 ]
+
+
+def _is_compressed_tensors_nvfp4_quant(
+    quant_method: Optional[str], quant_cfg: Optional[Dict[str, Any]]
+) -> bool:
+    if quant_method != "compressed-tensors" or not isinstance(quant_cfg, dict):
+        return False
+    return quant_cfg.get("format") == "nvfp4-pack-quantized"
 
 RADIX_EVICTION_POLICY_CHOICES = ["lru", "lfu", "slru", "priority"]
 
@@ -1729,6 +1742,31 @@ class ServerArgs:
             f"Set DSA backends for {self.kv_cache_dtype} KV Cache: prefill={self.dsa_prefill_backend}, decode={self.dsa_decode_backend}."
         )
 
+    def _maybe_set_mistral_nvfp4_sm100_attention_backend(
+        self, model_arch: str, is_compressed_tensors_nvfp4: bool
+    ) -> bool:
+        if (
+            model_arch not in MISTRAL_LARGE3_MLA_MODEL_ARCHS
+            or not is_compressed_tensors_nvfp4
+            or not is_sm100_supported()
+            or not self.use_mla_backend()
+            or not self.is_attention_backend_not_set()
+        ):
+            return False
+
+        self.prefill_attention_backend = "flashinfer"
+        self.decode_attention_backend = "trtllm_mla"
+        self.flashinfer_mla_disable_ragged = True
+        logger.info(
+            "Use flashinfer prefill and trtllm_mla decode attention backends on sm100 "
+            f"for {model_arch} compressed-tensors NVFP4"
+        )
+        logger.info(
+            "Disable FlashInfer MLA ragged prefill on sm100 "
+            f"for {model_arch} compressed-tensors NVFP4"
+        )
+        return True
+
     def _handle_model_specific_adjustments(self):
         from sglang.srt.configs.model_config import (
             get_mimo_v2_fused_qkv_expected_tp_size,
@@ -1772,7 +1810,18 @@ class ServerArgs:
             "PixtralForConditionalGeneration",
             "GlmMoeDsaForCausalLM",
         ]:
-            # Set attention backend for DeepSeek
+            quant_method = get_quantization_config(hf_config)
+            quant_cfg = getattr(hf_config, "quantization_config", None) or {}
+            is_compressed_tensors_nvfp4 = _is_compressed_tensors_nvfp4_quant(
+                quant_method, quant_cfg
+            )
+            is_mistral_mla_compressed_tensors_nvfp4 = (
+                model_arch in MISTRAL_LARGE3_MLA_MODEL_ARCHS
+                and is_compressed_tensors_nvfp4
+                and self.use_mla_backend()
+            )
+
+            # Set attention backend for MLA model families.
             if is_deepseek_dsa(hf_config):  # DeepSeek 3.2/GLM 5
                 if model_arch == "GlmMoeDsaForCausalLM" and is_blackwell_supported():
                     envs.SGLANG_DSA_PREFILL_DENSE_ATTN_KV_LEN_THRESHOLD.set(0)
@@ -1871,20 +1920,16 @@ class ServerArgs:
                     logger.info("Piecewise CUDA graph is enabled, use MLA for prefill.")
 
                 if is_sm100_supported():
-                    if (
-                        self.attention_backend is None
-                        and self.prefill_attention_backend is None
-                        and self.decode_attention_backend is None
-                    ):
+                    if not self._maybe_set_mistral_nvfp4_sm100_attention_backend(
+                        model_arch, is_compressed_tensors_nvfp4
+                    ) and self.is_attention_backend_not_set():
                         self.attention_backend = "trtllm_mla"
                         logger.info(
-                            "Use trtllm_mla as attention backend on sm100 for DeepseekV3ForCausalLM"
+                            f"Use trtllm_mla as attention backend on sm100 for {model_arch}"
                         )
 
-            # Set moe backend for DeepSeek
+            # Set MoE backend for MLA model families.
             if is_sm100_supported():
-                quant_method = get_quantization_config(hf_config)
-                quant_cfg = getattr(hf_config, "quantization_config", None) or {}
                 config_groups = quant_cfg.get("config_groups", {})
                 group0 = config_groups.get("group_0", {})
                 weights_cfg = group0.get("weights", {})
@@ -1928,6 +1973,7 @@ class ServerArgs:
                         self.quantization
                         in ["fp8", "modelopt_fp8", "modelopt_fp4", "modelopt_mixed"]
                         or is_kimi_k2_k25_thinking_int4
+                        or is_mistral_mla_compressed_tensors_nvfp4
                         or self.quantization is None
                     )
                 ):
@@ -1936,9 +1982,14 @@ class ServerArgs:
                         logger.info(
                             "Use flashinfer_trtllm as MoE runner backend on Blackwell for Kimi K2 / K2.5 thinking int4"
                         )
+                    elif is_mistral_mla_compressed_tensors_nvfp4:
+                        logger.info(
+                            "Use flashinfer_trtllm as MoE runner backend on sm100 "
+                            f"for {model_arch} compressed-tensors NVFP4"
+                        )
                     else:
                         logger.info(
-                            "Use flashinfer_trtllm as MoE runner backend on sm100 for DeepseekV3ForCausalLM"
+                            f"Use flashinfer_trtllm as MoE runner backend on sm100 for {model_arch}"
                         )
             elif is_hip():
                 if not self.enable_dp_attention and self.nnodes == 1:

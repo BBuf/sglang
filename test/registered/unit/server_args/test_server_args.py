@@ -4,7 +4,12 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 from sglang.srt.arg_groups.speculative_hook import handle_speculative_decoding
-from sglang.srt.server_args import PortArgs, ServerArgs, prepare_server_args
+from sglang.srt.server_args import (
+    PortArgs,
+    ServerArgs,
+    _is_compressed_tensors_nvfp4_quant,
+    prepare_server_args,
+)
 from sglang.test.ci.ci_register import register_cpu_ci
 from sglang.test.test_utils import (
     DEFAULT_SMALL_MODEL_NAME_FOR_TEST_QWEN,
@@ -33,6 +38,84 @@ class TestPrepareServerArgs(CustomTestCase):
             json.loads(server_args.json_model_override_args),
             {"rope_scaling": {"factor": 2.0, "rope_type": "linear"}},
         )
+
+
+class TestMistralNvfp4BackendDefaults(unittest.TestCase):
+    def _make_server_args(
+        self,
+        attention_backend=None,
+        prefill_attention_backend=None,
+        decode_attention_backend=None,
+    ):
+        server_args = ServerArgs.__new__(ServerArgs)
+        server_args.attention_backend = attention_backend
+        server_args.prefill_attention_backend = prefill_attention_backend
+        server_args.decode_attention_backend = decode_attention_backend
+        return server_args
+
+    def test_detects_compressed_tensors_nvfp4_format(self):
+        self.assertTrue(
+            _is_compressed_tensors_nvfp4_quant(
+                "compressed-tensors", {"format": "nvfp4-pack-quantized"}
+            )
+        )
+        self.assertFalse(
+            _is_compressed_tensors_nvfp4_quant(
+                "compressed-tensors", {"format": "pack-quantized"}
+            )
+        )
+        self.assertFalse(
+            _is_compressed_tensors_nvfp4_quant(
+                "modelopt_fp4", {"format": "nvfp4-pack-quantized"}
+            )
+        )
+
+    @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
+    @patch.object(ServerArgs, "use_mla_backend", return_value=True)
+    def test_sets_flashinfer_prefill_and_trtllm_mla_decode_for_unset_pixtral_nvfp4(
+        self, _mock_use_mla, _mock_sm100
+    ):
+        server_args = self._make_server_args()
+
+        changed = server_args._maybe_set_mistral_nvfp4_sm100_attention_backend(
+            "PixtralForConditionalGeneration", True
+        )
+
+        self.assertTrue(changed)
+        self.assertIsNone(server_args.attention_backend)
+        self.assertEqual(server_args.prefill_attention_backend, "flashinfer")
+        self.assertEqual(server_args.decode_attention_backend, "trtllm_mla")
+        self.assertTrue(server_args.flashinfer_mla_disable_ragged)
+
+    @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
+    @patch.object(ServerArgs, "use_mla_backend", return_value=True)
+    def test_preserves_explicit_attention_backend(
+        self, _mock_use_mla, _mock_sm100
+    ):
+        server_args = self._make_server_args(attention_backend="flashinfer")
+
+        changed = server_args._maybe_set_mistral_nvfp4_sm100_attention_backend(
+            "PixtralForConditionalGeneration", True
+        )
+
+        self.assertFalse(changed)
+        self.assertEqual(server_args.attention_backend, "flashinfer")
+        self.assertIsNone(server_args.prefill_attention_backend)
+        self.assertIsNone(server_args.decode_attention_backend)
+
+    @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
+    @patch.object(ServerArgs, "use_mla_backend", return_value=False)
+    def test_skips_non_mla_pixtral_model(self, _mock_use_mla, _mock_sm100):
+        server_args = self._make_server_args()
+
+        changed = server_args._maybe_set_mistral_nvfp4_sm100_attention_backend(
+            "PixtralForConditionalGeneration", True
+        )
+
+        self.assertFalse(changed)
+        self.assertIsNone(server_args.attention_backend)
+        self.assertIsNone(server_args.prefill_attention_backend)
+        self.assertIsNone(server_args.decode_attention_backend)
 
 
 class TestLoadBalanceMethod(unittest.TestCase):
