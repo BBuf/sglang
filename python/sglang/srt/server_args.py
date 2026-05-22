@@ -3020,6 +3020,29 @@ class ServerArgs:
                 "defaulting --linear-attn-decode-backend to flashinfer."
             )
 
+        # Qwen3.5/Qwen3.6 GDN prefill is faster with FlashInfer on Hopper,
+        # while Triton remains the faster decode path there.
+        if (
+            self.linear_attn_prefill_backend is None
+            and self.linear_attn_backend == "triton"
+            and is_sm90_supported()
+            and is_flashinfer_available()
+        ):
+            model_architectures = self.get_model_config().hf_config.architectures or []
+            if any(
+                arch
+                in (
+                    "Qwen3_5ForConditionalGeneration",
+                    "Qwen3_5MoeForConditionalGeneration",
+                )
+                for arch in model_architectures
+            ):
+                self.linear_attn_prefill_backend = "flashinfer"
+                logger.info(
+                    "SM90 Qwen3.5/Qwen3.6 GDN model detected, defaulting "
+                    "--linear-attn-prefill-backend to flashinfer."
+                )
+
         # SM100+ FlashInfer GDN decode requires bf16 state; SM90 uses float32.
         decode = self.linear_attn_decode_backend or self.linear_attn_backend
         if (
