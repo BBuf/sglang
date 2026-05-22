@@ -38,6 +38,7 @@ from .common import (
 )
 from .mistral_utils import (
     _MISTRAL_TOKENIZER_REDIRECTS,
+    is_mistral_model,
     patch_mistral_common_tokenizer,
     retry_without_mistral_common_kwargs,
 )
@@ -47,6 +48,22 @@ _FAST_LLAMA_TOKENIZER = "hf-internal-testing/llama-tokenizer"
 
 # Class name used by transformers v5 when no tokenizer mapping exists for a model_type.
 _TOKENIZERS_BACKEND = "TokenizersBackend"
+
+# Native Mistral repositories carry either tekken.json or tokenizer.model.v*.
+# vLLM switches those repos to Mistral tokenizer mode, whose text encoding adds
+# BOS by default. HF's generic TokenizersBackend does not, so SGLang needs a
+# narrow compatibility fix when AutoTokenizer cannot resolve a model-specific
+# tokenizer class.
+_MISTRAL_NATIVE_TOKENIZER_FILES = (
+    "tekken.json",
+    "tokenizer.model.v1",
+    "tokenizer.model.v2",
+    "tokenizer.model.v3",
+    "tokenizer.model.v4",
+    "tokenizer.model.v5",
+    "tokenizer.model.v6",
+    "tokenizer.model.v7",
+)
 
 
 def _load_tokenizer_by_declared_class(tokenizer_name, *args, **kwargs):
@@ -401,6 +418,58 @@ def _fix_v5_add_bos_eos_token(tokenizer, model_name_or_path, revision=None):
         tokenizer.update_post_processor()
 
 
+def _has_mistral_native_tokenizer_files(model_name_or_path, revision=None):
+    model_path = Path(model_name_or_path)
+    if model_path.is_dir() and list(model_path.glob("tokenizer.model.v*")):
+        return True
+
+    for filename in _MISTRAL_NATIVE_TOKENIZER_FILES:
+        try:
+            _resolve_local_or_cached_file(model_name_or_path, filename, revision)
+            return True
+        except FileNotFoundError:
+            continue
+
+    return False
+
+
+def _fix_mistral_native_tokenizers_backend_bos(
+    tokenizer, model_name_or_path, revision=None
+):
+    """Make generic HF TokenizersBackend match native Mistral text encoding.
+
+    Native Mistral tokenizers add BOS for plain text prompts.  When transformers
+    falls back to the generic TokenizersBackend for those repos, the loaded
+    tokenizer has ``add_bos_token=False`` and SGLang silently serves prompts one
+    token off from vLLM's ``tokenizer_mode=mistral`` path.  This is visible on
+    accuracy evals such as GSM8K/MMLU.
+    """
+    if type(tokenizer).__name__ != _TOKENIZERS_BACKEND:
+        return
+    if not is_mistral_model(model_name_or_path):
+        return
+    if getattr(tokenizer, "bos_token_id", None) is None:
+        return
+    if getattr(tokenizer, "add_bos_token", None) is True:
+        return
+    if not _has_mistral_native_tokenizer_files(model_name_or_path, revision):
+        return
+
+    logger.info(
+        "Enabling add_bos_token=True for native Mistral tokenizer %s "
+        "loaded as TokenizersBackend",
+        model_name_or_path,
+    )
+    setattr(tokenizer, "_add_bos_token", True)
+    try:
+        tokenizer.add_bos_token = True
+    except AttributeError:
+        pass
+
+    if hasattr(tokenizer, "update_post_processor"):
+        tokenizer.update_post_processor()
+
+
 def _fix_special_tokens_pattern(tokenizer):
     """Fix https://github.com/huggingface/transformers/pull/42563 which defaults
     special_tokens_pattern to "cls_sep", inserting None into token IDs when
@@ -417,6 +486,7 @@ def _apply_post_load_fixes(tokenizer, tokenizer_name, revision):
     """Apply all post-load patches and return the final tokenizer."""
     _fix_v5_tokenizer_components(tokenizer, tokenizer_name, revision)
     _fix_v5_add_bos_eos_token(tokenizer, tokenizer_name, revision)
+    _fix_mistral_native_tokenizers_backend_bos(tokenizer, tokenizer_name, revision)
 
     if not isinstance(tokenizer, PreTrainedTokenizerFast):
         warnings.warn(

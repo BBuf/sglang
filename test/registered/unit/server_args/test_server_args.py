@@ -72,7 +72,7 @@ class TestMistralNvfp4BackendDefaults(unittest.TestCase):
 
     @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
     @patch.object(ServerArgs, "use_mla_backend", return_value=True)
-    def test_sets_flashinfer_prefill_and_trtllm_mla_decode_for_unset_pixtral_nvfp4(
+    def test_sets_fa4_prefill_and_trtllm_mla_decode_for_unset_pixtral_nvfp4(
         self, _mock_use_mla, _mock_sm100
     ):
         server_args = self._make_server_args()
@@ -83,7 +83,7 @@ class TestMistralNvfp4BackendDefaults(unittest.TestCase):
 
         self.assertTrue(changed)
         self.assertIsNone(server_args.attention_backend)
-        self.assertEqual(server_args.prefill_attention_backend, "flashinfer")
+        self.assertEqual(server_args.prefill_attention_backend, "fa4")
         self.assertEqual(server_args.decode_attention_backend, "trtllm_mla")
         self.assertTrue(server_args.flashinfer_mla_disable_ragged)
 

@@ -1754,11 +1754,11 @@ class ServerArgs:
         ):
             return False
 
-        self.prefill_attention_backend = "flashinfer"
+        self.prefill_attention_backend = "fa4"
         self.decode_attention_backend = "trtllm_mla"
         self.flashinfer_mla_disable_ragged = True
         logger.info(
-            "Use flashinfer prefill and trtllm_mla decode attention backends on sm100 "
+            "Use fa4 prefill and trtllm_mla decode attention backends on sm100 "
             f"for {model_arch} compressed-tensors NVFP4"
         )
         logger.info(

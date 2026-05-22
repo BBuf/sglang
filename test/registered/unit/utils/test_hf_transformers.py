@@ -7,6 +7,7 @@ context length, GGUF detection, etc.) that don't require actual model files.
 import tempfile
 import unittest
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from transformers import PretrainedConfig
 
@@ -20,7 +21,10 @@ from sglang.srt.utils.hf_transformers.common import (
     get_hf_text_config,
     get_rope_config,
 )
-from sglang.srt.utils.hf_transformers.tokenizer import _fix_special_tokens_pattern
+from sglang.srt.utils.hf_transformers.tokenizer import (
+    _fix_mistral_native_tokenizers_backend_bos,
+    _fix_special_tokens_pattern,
+)
 from sglang.srt.utils.hf_transformers_patches import normalize_rope_scaling_compat
 from sglang.test.ci.ci_register import register_cpu_ci
 
@@ -383,6 +387,91 @@ class TestGetHfTextConfig(unittest.TestCase):
         get_hf_text_config(cfg)
         self.assertIn("type", cfg.rope_scaling)
         self.assertEqual(cfg.rope_scaling["type"], "llama3")
+
+
+# ---------------------------------------------------------------------------
+# Mistral native tokenizer BOS fix
+# ---------------------------------------------------------------------------
+
+
+class TokenizersBackend:
+    def __init__(self, add_bos_token=False, bos_token_id=1):
+        self.add_bos_token = add_bos_token
+        self._add_bos_token = add_bos_token
+        self.bos_token_id = bos_token_id
+        self.update_post_processor_calls = 0
+
+    def update_post_processor(self):
+        self.update_post_processor_calls += 1
+
+
+class TestMistralNativeTokenizersBackendBos(unittest.TestCase):
+    def test_enables_bos_for_mistral_native_tokenizers_backend(self):
+        tok = TokenizersBackend(add_bos_token=False)
+
+        def resolve_file(_model_name, filename, _revision=None):
+            if filename == "tekken.json":
+                return "/tmp/tekken.json"
+            raise FileNotFoundError
+
+        with patch(
+            "sglang.srt.utils.hf_transformers.tokenizer._resolve_local_or_cached_file",
+            side_effect=resolve_file,
+        ):
+            _fix_mistral_native_tokenizers_backend_bos(
+                tok, "mistralai/Mistral-Small-4-119B-2603-NVFP4"
+            )
+
+        self.assertTrue(tok.add_bos_token)
+        self.assertTrue(tok._add_bos_token)
+        self.assertEqual(tok.update_post_processor_calls, 1)
+
+    def test_no_change_without_native_tokenizer_files(self):
+        tok = TokenizersBackend(add_bos_token=False)
+
+        with patch(
+            "sglang.srt.utils.hf_transformers.tokenizer._resolve_local_or_cached_file",
+            side_effect=FileNotFoundError,
+        ):
+            _fix_mistral_native_tokenizers_backend_bos(
+                tok, "mistralai/Mistral-Small-4-119B-2603-NVFP4"
+            )
+
+        self.assertFalse(tok.add_bos_token)
+        self.assertFalse(tok._add_bos_token)
+        self.assertEqual(tok.update_post_processor_calls, 0)
+
+    def test_no_change_for_non_mistral_model(self):
+        tok = TokenizersBackend(add_bos_token=False)
+
+        with patch(
+            "sglang.srt.utils.hf_transformers.tokenizer._resolve_local_or_cached_file"
+        ) as resolve_file:
+            _fix_mistral_native_tokenizers_backend_bos(tok, "Qwen/Qwen3-8B")
+
+        resolve_file.assert_not_called()
+        self.assertFalse(tok.add_bos_token)
+        self.assertFalse(tok._add_bos_token)
+        self.assertEqual(tok.update_post_processor_calls, 0)
+
+    def test_no_change_for_specific_tokenizer_class(self):
+        tok = SimpleNamespace(
+            add_bos_token=False,
+            _add_bos_token=False,
+            bos_token_id=1,
+            update_post_processor=lambda: None,
+        )
+
+        with patch(
+            "sglang.srt.utils.hf_transformers.tokenizer._resolve_local_or_cached_file"
+        ) as resolve_file:
+            _fix_mistral_native_tokenizers_backend_bos(
+                tok, "mistralai/Mistral-Small-4-119B-2603-NVFP4"
+            )
+
+        resolve_file.assert_not_called()
+        self.assertFalse(tok.add_bos_token)
+        self.assertFalse(tok._add_bos_token)
 
 
 # ---------------------------------------------------------------------------
