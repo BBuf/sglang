@@ -2254,6 +2254,17 @@ class ModelRunner(ModelRunnerKVCacheMixin):
                 HybridAttnBackend,
             )
 
+            long_prefill_backend = None
+            if (
+                self.prefill_attention_backend_str == "flashinfer"
+                and self.server_args.flashinfer_mla_disable_ragged
+                and torch.cuda.get_device_capability(self.device)[0] >= 10
+            ):
+                long_prefill_backend = self._get_attention_backend_from_str(
+                    "fa4",
+                    init_new_workspace=init_new_workspace,
+                )
+
             attn_backend = HybridAttnBackend(
                 self,
                 decode_backend=self._get_attention_backend_from_str(
@@ -2264,12 +2275,18 @@ class ModelRunner(ModelRunnerKVCacheMixin):
                     self.prefill_attention_backend_str,
                     init_new_workspace=init_new_workspace,
                 ),
+                long_prefill_backend=long_prefill_backend,
             )
             logger.info(
                 f"Using hybrid attention backend for decode and prefill: "
                 f"decode_backend={self.decode_attention_backend_str}, "
                 f"prefill_backend={self.prefill_attention_backend_str}."
             )
+            if long_prefill_backend is not None:
+                logger.info(
+                    "Using fa4 as the long-context prefill fallback for "
+                    "flashinfer paged MLA."
+                )
             logger.warning(
                 "Warning: Attention backend specified by --attention-backend or default backend might be overridden."
                 "The feature of hybrid attention backend is experimental and unstable. Please raise an issue if you encounter any problem."

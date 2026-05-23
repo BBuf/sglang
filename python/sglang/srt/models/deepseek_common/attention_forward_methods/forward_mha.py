@@ -41,6 +41,8 @@ def _resolve_attn_backend(forward_batch: ForwardBatch):
     backend = forward_batch.attn_backend
     if isinstance(backend, TboAttnBackend):
         backend = backend.primary
+    if hasattr(backend, "_select_backend"):
+        backend = backend._select_backend(forward_batch.forward_mode, forward_batch)
     return backend
 
 
@@ -334,8 +336,9 @@ class DeepseekMHAForwardMixin:
         # Only initialize the info once
         if has_extend_prefix and forward_batch.num_prefix_chunks is None:
             forward_batch.prepare_chunked_prefix_cache_info(q.device)
-            if hasattr(forward_batch.attn_backend, "init_mha_chunk_metadata"):
-                forward_batch.attn_backend.init_mha_chunk_metadata(forward_batch)
+            backend = _resolve_attn_backend(forward_batch)
+            if hasattr(backend, "init_mha_chunk_metadata"):
+                backend.init_mha_chunk_metadata(forward_batch)
 
         forward_batch.mha_return_lse = has_extend_prefix
         # Do mha for extended part without prefix
@@ -380,8 +383,9 @@ class DeepseekMHAForwardMixin:
         # Only initialize the info once
         if has_extend_prefix and forward_batch.num_prefix_chunks is None:
             forward_batch.num_prefix_chunks = 0
-            if hasattr(forward_batch.attn_backend, "init_mha_chunk_metadata"):
-                forward_batch.attn_backend.init_mha_chunk_metadata(forward_batch)
+            backend = _resolve_attn_backend(forward_batch)
+            if hasattr(backend, "init_mha_chunk_metadata"):
+                backend.init_mha_chunk_metadata(forward_batch)
         forward_batch.mha_return_lse = False
         # Do mha for extended part without prefix
         forward_batch.set_attn_attend_prefix_cache(False)

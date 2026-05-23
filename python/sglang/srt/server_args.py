@@ -1745,8 +1745,13 @@ class ServerArgs:
     def _maybe_set_mistral_nvfp4_sm100_attention_backend(
         self, model_arch: str, is_compressed_tensors_nvfp4: bool
     ) -> bool:
+        is_mistral_mla_model = (
+            model_arch in MISTRAL_LARGE3_MLA_MODEL_ARCHS
+            or self.load_format == "mistral"
+            or (self.load_format == "auto" and self._is_mistral_native_format())
+        )
         if (
-            model_arch not in MISTRAL_LARGE3_MLA_MODEL_ARCHS
+            not is_mistral_mla_model
             or not is_compressed_tensors_nvfp4
             or not is_sm100_supported()
             or not self.use_mla_backend()
@@ -1754,16 +1759,16 @@ class ServerArgs:
         ):
             return False
 
-        self.prefill_attention_backend = "fa4"
+        self.prefill_attention_backend = "flashinfer"
         self.decode_attention_backend = "trtllm_mla"
         self.flashinfer_mla_disable_ragged = True
         logger.info(
-            "Use fa4 prefill and trtllm_mla decode attention backends on sm100 "
+            "Use flashinfer prefill and trtllm_mla decode attention backends on sm100 "
             f"for {model_arch} compressed-tensors NVFP4"
         )
         logger.info(
-            "Disable FlashInfer MLA ragged prefill on sm100 "
-            f"for {model_arch} compressed-tensors NVFP4"
+            "Use FlashInfer MLA paged prefill for short uncached prompts and MHA "
+            f"for long or cached prefixes on sm100 for {model_arch} compressed-tensors NVFP4"
         )
         return True
 

@@ -208,7 +208,6 @@ class FlashInferMLAAttnBackend(AttentionBackend):
             not skip_prefill
             and get_global_server_args().disaggregation_mode != "decode"
             and not get_global_server_args().disable_chunked_prefix_cache
-            and not get_global_server_args().flashinfer_mla_disable_ragged
         )
         self.page_size = model_runner.page_size
 
@@ -581,6 +580,8 @@ class FlashInferMLAAttnBackend(AttentionBackend):
                     qall[:, :, : layer.v_head_dim],
                     qall[:, :, layer.v_head_dim :],
                 )
+            q = q.contiguous()
+            q_rope = q_rope.contiguous()
             o = q.new_empty(q.shape)
             o = prefill_wrapper_paged.run(
                 q,

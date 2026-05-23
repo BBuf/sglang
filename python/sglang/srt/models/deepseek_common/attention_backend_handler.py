@@ -8,6 +8,7 @@ from sglang.srt.server_args import get_global_server_args
 from sglang.srt.utils import use_intel_amx_backend
 
 MHA_ONE_SHOT_SUPPORTED_BACKENDS = ["fa3", "flashinfer", "flashmla"]
+PAGED_MLA_MAX_PREFILL_TOKENS = 4096
 
 
 class AttentionBackendRegistry:
@@ -61,6 +62,15 @@ def _get_sum_extend_prefix_lens(forward_batch):
     )
 
 
+def _get_max_seq_len(forward_batch):
+    seq_lens = forward_batch.seq_lens_cpu
+    if seq_lens is None:
+        return 0
+    if hasattr(seq_lens, "numel"):
+        return int(seq_lens.max().item()) if seq_lens.numel() else 0
+    return max(seq_lens) if seq_lens else 0
+
+
 def _support_mha_one_shot(attn, forward_batch, backend_name):
     attn_supported = backend_name in MHA_ONE_SHOT_SUPPORTED_BACKENDS
     sum_seq_lens = (
@@ -74,9 +84,27 @@ def _handle_attention_backend(attn, forward_batch, backend_name):
         return AttnForwardMethod.MLA
 
     sum_extend_prefix_lens = _get_sum_extend_prefix_lens(forward_batch)
-    disable_ragged = (
+    max_seq_len = _get_max_seq_len(forward_batch)
+    use_paged_mla_prefill = (
         backend_name in ["flashinfer", "flashmla"]
-    ) and attn.flashinfer_mla_disable_ragged
+        and attn.flashinfer_mla_disable_ragged
+        and sum_extend_prefix_lens == 0
+        and max_seq_len <= PAGED_MLA_MAX_PREFILL_TOKENS
+    )
+    use_chunked_mha_prefill = (
+        backend_name in ["flashinfer", "flashmla"]
+        and attn.flashinfer_mla_disable_ragged
+        and sum_extend_prefix_lens == 0
+        and max_seq_len > PAGED_MLA_MAX_PREFILL_TOKENS
+    )
+
+    if (
+        use_chunked_mha_prefill
+        and forward_batch.forward_mode.is_extend_without_speculative()
+    ):
+        return AttnForwardMethod.MHA_CHUNKED_KV
+
+    disable_ragged = use_paged_mla_prefill
 
     if (
         not disable_ragged

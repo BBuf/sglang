@@ -9,6 +9,8 @@ from sglang.srt.model_executor.forward_batch_info import ForwardBatch, ForwardMo
 from sglang.srt.model_executor.model_runner import ModelRunner
 from sglang.srt.speculative.spec_info import SpecInput
 
+PAGED_MLA_MAX_PREFILL_TOKENS = 4096
+
 
 class HybridAttnBackend(AttentionBackend):
     """Support different backends for prefill and decode."""
@@ -18,18 +20,54 @@ class HybridAttnBackend(AttentionBackend):
         model_runner: ModelRunner,
         prefill_backend: AttentionBackend,
         decode_backend: AttentionBackend,
+        long_prefill_backend: Optional[AttentionBackend] = None,
     ):
         self.model_runner = model_runner
         self.prefill_backend = prefill_backend
         self.decode_backend = decode_backend
+        self.long_prefill_backend = long_prefill_backend
         self.data_type = model_runner.kv_cache_dtype
 
-    def _select_backend(self, forward_mode: ForwardMode) -> AttentionBackend:
+    @staticmethod
+    def _get_max_seq_len(seq_lens_cpu) -> int:
+        if seq_lens_cpu is None:
+            return 0
+        if hasattr(seq_lens_cpu, "numel"):
+            return int(seq_lens_cpu.max().item()) if seq_lens_cpu.numel() else 0
+        return max(seq_lens_cpu) if seq_lens_cpu else 0
+
+    @staticmethod
+    def _get_sum_extend_prefix_lens(extend_prefix_lens_cpu) -> int:
+        if extend_prefix_lens_cpu is None:
+            return 0
+        if hasattr(extend_prefix_lens_cpu, "numel"):
+            return int(extend_prefix_lens_cpu.sum().item())
+        return sum(extend_prefix_lens_cpu)
+
+    def _should_use_long_prefill_backend(self, forward_batch: ForwardBatch) -> bool:
+        if self.long_prefill_backend is None or forward_batch is None:
+            return False
+        if not forward_batch.forward_mode.is_extend_without_speculative():
+            return False
+
+        return (
+            self.model_runner.server_args.flashinfer_mla_disable_ragged
+            and self.model_runner.server_args.prefill_attention_backend == "flashinfer"
+            and self._get_sum_extend_prefix_lens(forward_batch.extend_prefix_lens_cpu)
+            == 0
+            and self._get_max_seq_len(forward_batch.seq_lens_cpu)
+            > PAGED_MLA_MAX_PREFILL_TOKENS
+        )
+
+    def _select_backend(
+        self, forward_mode: ForwardMode, forward_batch: Optional[ForwardBatch] = None
+    ) -> AttentionBackend:
         """
         Select the appropriate attention backend based on the forward mode.
 
         Args:
             forward_mode: The current forward mode indicating the operation type
+            forward_batch: Optional batch metadata for length-dependent prefill routing
 
         Returns:
             The selected attention backend (prefill or decode)
@@ -48,10 +86,12 @@ class HybridAttnBackend(AttentionBackend):
                 else self.prefill_backend
             )
         else:
+            if self._should_use_long_prefill_backend(forward_batch):
+                return self.long_prefill_backend
             return self.prefill_backend
 
     def init_forward_metadata(self, forward_batch: ForwardBatch):
-        backend = self._select_backend(forward_batch.forward_mode)
+        backend = self._select_backend(forward_batch.forward_mode, forward_batch)
         backend.init_forward_metadata(forward_batch)
 
     def init_cuda_graph_state(self, max_bs: int, max_num_tokens: int):
@@ -126,7 +166,7 @@ class HybridAttnBackend(AttentionBackend):
         **kwargs,
     ):
         """Forward method that supports both regular attention (q, k, v) and linear attention (mixed_qkv, a, b)."""
-        backend = self._select_backend(forward_batch.forward_mode)
+        backend = self._select_backend(forward_batch.forward_mode, forward_batch)
         if mixed_qkv is not None:
             return backend.forward(
                 layer=layer,
@@ -163,7 +203,7 @@ class HybridAttnBackend(AttentionBackend):
         save_kv_cache: bool = True,
         **kwargs,
     ):
-        backend = self._select_backend(forward_batch.forward_mode)
+        backend = self._select_backend(forward_batch.forward_mode, forward_batch)
         return backend.forward_extend(
             q, k, v, layer, forward_batch, save_kv_cache, **kwargs
         )
@@ -171,7 +211,7 @@ class HybridAttnBackend(AttentionBackend):
     def get_indexer_metadata(
         self, layer_id: int, forward_batch: ForwardBatch
     ) -> Optional[BaseIndexerMetadata]:
-        backend = self._select_backend(forward_batch.forward_mode)
+        backend = self._select_backend(forward_batch.forward_mode, forward_batch)
         return backend.get_indexer_metadata(layer_id, forward_batch)
 
     def forward(
@@ -185,7 +225,7 @@ class HybridAttnBackend(AttentionBackend):
         **kwargs,
     ):
         """Delegate forward to the appropriate backend based on forward mode."""
-        backend = self._select_backend(forward_batch.forward_mode)
+        backend = self._select_backend(forward_batch.forward_mode, forward_batch)
         return backend.forward(
             q=q,
             k=k,

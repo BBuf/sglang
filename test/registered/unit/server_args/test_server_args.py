@@ -46,11 +46,13 @@ class TestMistralNvfp4BackendDefaults(unittest.TestCase):
         attention_backend=None,
         prefill_attention_backend=None,
         decode_attention_backend=None,
+        load_format="auto",
     ):
         server_args = ServerArgs.__new__(ServerArgs)
         server_args.attention_backend = attention_backend
         server_args.prefill_attention_backend = prefill_attention_backend
         server_args.decode_attention_backend = decode_attention_backend
+        server_args.load_format = load_format
         return server_args
 
     def test_detects_compressed_tensors_nvfp4_format(self):
@@ -72,7 +74,7 @@ class TestMistralNvfp4BackendDefaults(unittest.TestCase):
 
     @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
     @patch.object(ServerArgs, "use_mla_backend", return_value=True)
-    def test_sets_fa4_prefill_and_trtllm_mla_decode_for_unset_pixtral_nvfp4(
+    def test_sets_flashinfer_prefill_and_trtllm_mla_decode_for_unset_pixtral_nvfp4(
         self, _mock_use_mla, _mock_sm100
     ):
         server_args = self._make_server_args()
@@ -83,7 +85,24 @@ class TestMistralNvfp4BackendDefaults(unittest.TestCase):
 
         self.assertTrue(changed)
         self.assertIsNone(server_args.attention_backend)
-        self.assertEqual(server_args.prefill_attention_backend, "fa4")
+        self.assertEqual(server_args.prefill_attention_backend, "flashinfer")
+        self.assertEqual(server_args.decode_attention_backend, "trtllm_mla")
+        self.assertTrue(server_args.flashinfer_mla_disable_ragged)
+
+    @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
+    @patch.object(ServerArgs, "_is_mistral_native_format", return_value=True)
+    @patch.object(ServerArgs, "use_mla_backend", return_value=True)
+    def test_sets_flashinfer_prefill_for_native_mistral_arch_alias(
+        self, _mock_use_mla, _mock_mistral_native, _mock_sm100
+    ):
+        server_args = self._make_server_args()
+
+        changed = server_args._maybe_set_mistral_nvfp4_sm100_attention_backend(
+            "DeepseekV3ForCausalLM", True
+        )
+
+        self.assertTrue(changed)
+        self.assertEqual(server_args.prefill_attention_backend, "flashinfer")
         self.assertEqual(server_args.decode_attention_backend, "trtllm_mla")
         self.assertTrue(server_args.flashinfer_mla_disable_ragged)
 
