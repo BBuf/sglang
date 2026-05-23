@@ -253,6 +253,7 @@ def _is_compressed_tensors_nvfp4_quant(
         return False
     return quant_cfg.get("format") == "nvfp4-pack-quantized"
 
+
 RADIX_EVICTION_POLICY_CHOICES = ["lru", "lfu", "slru", "priority"]
 
 RL_ON_POLICY_TARGET_CHOICES = ["fsdp"]
@@ -1925,9 +1926,12 @@ class ServerArgs:
                     logger.info("Piecewise CUDA graph is enabled, use MLA for prefill.")
 
                 if is_sm100_supported():
-                    if not self._maybe_set_mistral_nvfp4_sm100_attention_backend(
-                        model_arch, is_compressed_tensors_nvfp4
-                    ) and self.is_attention_backend_not_set():
+                    if (
+                        not self._maybe_set_mistral_nvfp4_sm100_attention_backend(
+                            model_arch, is_compressed_tensors_nvfp4
+                        )
+                        and self.is_attention_backend_not_set()
+                    ):
                         self.attention_backend = "trtllm_mla"
                         logger.info(
                             f"Use trtllm_mla as attention backend on sm100 for {model_arch}"

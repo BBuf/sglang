@@ -9,6 +9,9 @@ from sglang.srt.models.deepseek_common.attention_backend_handler import (
 from sglang.srt.models.deepseek_common.attention_forward_methods.forward_methods import (
     AttnForwardMethod,
 )
+from sglang.test.ci.ci_register import register_cpu_ci
+
+register_cpu_ci(est_time=1, suite="base-a-test-cpu")
 
 
 class _FakeForwardMode:
@@ -35,7 +38,9 @@ class _FakeForwardBatch:
     def __init__(self, seq_lens_cpu, use_tensor=False, max_chunk_capacity=4096):
         self.forward_mode = _FakeForwardMode()
         self.seq_lens_cpu = (
-            torch.tensor(seq_lens_cpu, dtype=torch.int32) if use_tensor else seq_lens_cpu
+            torch.tensor(seq_lens_cpu, dtype=torch.int32)
+            if use_tensor
+            else seq_lens_cpu
         )
         self.extend_prefix_lens_cpu = [0] * len(seq_lens_cpu)
         self.max_chunk_capacity = max_chunk_capacity

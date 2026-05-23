@@ -108,9 +108,7 @@ class TestMistralNvfp4BackendDefaults(unittest.TestCase):
 
     @patch("sglang.srt.server_args.is_sm100_supported", return_value=True)
     @patch.object(ServerArgs, "use_mla_backend", return_value=True)
-    def test_preserves_explicit_attention_backend(
-        self, _mock_use_mla, _mock_sm100
-    ):
+    def test_preserves_explicit_attention_backend(self, _mock_use_mla, _mock_sm100):
         server_args = self._make_server_args(attention_backend="flashinfer")
 
         changed = server_args._maybe_set_mistral_nvfp4_sm100_attention_backend(
