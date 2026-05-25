@@ -536,54 +536,63 @@ class MambaRadixCache(KVCacheEventMixin, BasePrefixCache):
                 else len(token_ids)
             )
             if cache_len is None:
-                cache_len = 0
-            if cache_len != len(token_ids):
-                cache_end_idx = max(cache_len, req.cache_protected_len)
-                self.token_to_kv_pool_allocator.free(kv_indices[cache_end_idx:])
-                token_ids = token_ids[:cache_len]
-                kv_indices = kv_indices[:cache_len]
-
-            if self.page_size != 1:
-                page_aligned_len = len(kv_indices) // self.page_size * self.page_size
-                page_aligned_kv_indices = kv_indices[:page_aligned_len].to(
-                    dtype=torch.int64, copy=True
+                self.token_to_kv_pool_allocator.free(
+                    kv_indices[req.cache_protected_len :]
                 )
+                mamba_exist = True
+                mamba_ping_pong_track_buffer_to_keep = None
             else:
-                page_aligned_len = len(kv_indices)
-                page_aligned_kv_indices = kv_indices.to(dtype=torch.int64, copy=True)
+                if cache_len != len(token_ids):
+                    cache_end_idx = max(cache_len, req.cache_protected_len)
+                    self.token_to_kv_pool_allocator.free(kv_indices[cache_end_idx:])
+                    token_ids = token_ids[:cache_len]
+                    kv_indices = kv_indices[:cache_len]
 
-            assert (
-                cache_len == page_aligned_len
-            ), f"It is required {cache_len=}, {page_aligned_len=}, {kv_committed_len=}, {len(req.origin_input_ids)=}, {len(req.output_ids)=} ping @yizhang2077 if you see this"
+                if self.page_size != 1:
+                    page_aligned_len = (
+                        len(kv_indices) // self.page_size * self.page_size
+                    )
+                    page_aligned_kv_indices = kv_indices[:page_aligned_len].to(
+                        dtype=torch.int64, copy=True
+                    )
+                else:
+                    page_aligned_len = len(kv_indices)
+                    page_aligned_kv_indices = kv_indices.to(
+                        dtype=torch.int64, copy=True
+                    )
 
-            # Radix Cache takes one ref in memory pool
-            # insert the token_ids and kv_indices into the radix tree
-            if self.enable_mamba_extra_buffer:
-                mamba_ping_pong_track_buffer_to_keep = (
-                    self.req_to_token_pool.get_mamba_ping_pong_other_idx(
-                        req.mamba_next_track_idx
+                assert (
+                    cache_len == page_aligned_len
+                ), f"It is required {cache_len=}, {page_aligned_len=}, {kv_committed_len=}, {len(req.origin_input_ids)=}, {len(req.output_ids)=} ping @yizhang2077 if you see this"
+
+                # Radix Cache takes one ref in memory pool
+                # insert the token_ids and kv_indices into the radix tree
+                if self.enable_mamba_extra_buffer:
+                    mamba_ping_pong_track_buffer_to_keep = (
+                        self.req_to_token_pool.get_mamba_ping_pong_other_idx(
+                            req.mamba_next_track_idx
+                        )
+                    )
+                    mamba_value = (
+                        req.mamba_ping_pong_track_buffer[
+                            mamba_ping_pong_track_buffer_to_keep
+                        ]
+                        .unsqueeze(-1)
+                        .clone()
+                    )
+                else:
+                    mamba_value = req.mamba_pool_idx.unsqueeze(-1).clone()
+                    mamba_ping_pong_track_buffer_to_keep = None
+
+                result = self.insert(
+                    InsertParams(
+                        key=RadixKey(token_ids[:page_aligned_len], req.extra_key),
+                        value=page_aligned_kv_indices,
+                        mamba_value=mamba_value,
+                        prev_prefix_len=req.cache_protected_len,
                     )
                 )
-                mamba_value = (
-                    req.mamba_ping_pong_track_buffer[
-                        mamba_ping_pong_track_buffer_to_keep
-                    ]
-                    .unsqueeze(-1)
-                    .clone()
-                )
-            else:
-                mamba_value = req.mamba_pool_idx.unsqueeze(-1).clone()
-                mamba_ping_pong_track_buffer_to_keep = None
-
-            result = self.insert(
-                InsertParams(
-                    key=RadixKey(token_ids[:page_aligned_len], req.extra_key),
-                    value=page_aligned_kv_indices,
-                    mamba_value=mamba_value,
-                    prev_prefix_len=req.cache_protected_len,
-                )
-            )
-            mamba_exist = result.mamba_exist
+                mamba_exist = result.mamba_exist
         else:
             self.token_to_kv_pool_allocator.free(kv_indices[req.cache_protected_len :])
             mamba_exist = True

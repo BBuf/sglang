@@ -1404,6 +1404,34 @@ class _MambaRadixCacheV2TrackEntry(NamedTuple):
     track_seqlen: int
 
 
+def _is_gdn_model_config(model_config) -> bool:
+    if model_config is None:
+        return False
+
+    hf_config = getattr(model_config, "hf_config", None)
+    architectures = getattr(hf_config, "architectures", None) or []
+    return any(
+        arch
+        in (
+            "InternS2PreviewForCausalLM",
+            "JetForCausalLM",
+            "JetVLMForConditionalGeneration",
+            "Qwen3NextForCausalLM",
+            "Qwen3_5ForConditionalGeneration",
+            "Qwen3_5MoeForConditionalGeneration",
+        )
+        for arch in architectures
+    )
+
+
+def _should_skip_flashinfer_gdn_mamba_prefix_tracking(model_config) -> bool:
+    server_args = get_global_server_args()
+    prefill_backend = server_args.linear_attn_prefill_backend
+    if prefill_backend is None:
+        prefill_backend = server_args.linear_attn_backend
+    return _is_gdn_model_config(model_config) and prefill_backend == "flashinfer"
+
+
 def set_mamba_track_indices_from_reqs(batch):
     """Build mamba_track_indices from req objects (authoritative source)."""
     req_to_token_pool = batch.req_to_token_pool
@@ -2064,6 +2092,21 @@ class ScheduleBatch(ScheduleBatchDisaggregationDecodeMixin):
         mask = req.extend_input_len >= mamba_cache_chunk_size
         track_index = req.mamba_ping_pong_track_buffer[req.mamba_next_track_idx].item()
         mamba_track_seqlen = -1
+        if mask and _should_skip_flashinfer_gdn_mamba_prefix_tracking(
+            self.model_config
+        ):
+            # FlashInfer GDN prefill currently returns only the final recurrent
+            # state, while mamba radix-cache tracking also needs intermediate
+            # chunk-boundary states for prefix reuse. Avoid caching an
+            # incomplete state; the active request still uses the FlashInfer
+            # output and final state directly.
+            req.mamba_last_track_seqlen = None
+            return _MambaRadixCacheV2TrackEntry(
+                track_mask=False,
+                track_index=track_index,
+                track_seqlen=-1,
+            )
+
         if mask:
             # mamba_track_seqlen is used to calculate the indices to track in
             # hybrid_linear_attn_backend's _init_track_ssm_indices. Due to the

@@ -112,6 +112,13 @@ def _cutlass_eligible(node: fx.Node) -> bool:
     return True
 
 
+def _fp8_scaled_mm_schema_supports_out(op: torch._ops.OpOverload) -> bool:
+    schema = getattr(op, "_schema", None)
+    if schema is None:
+        return True
+    return any(arg.name == "out" for arg in schema.arguments)
+
+
 class ReplaceScaledMMWithCutlassPass(SGLangInductorPass):
     """Replace eligible aten::_scaled_mm.default nodes with sgl_kernel CUTLASS."""
 
@@ -120,6 +127,7 @@ class ReplaceScaledMMWithCutlassPass(SGLangInductorPass):
         self.dump_graph(graph, "before_replace_scaled_mm")
 
         cutlass_op: Optional[torch._ops.OpOverload] = None
+        cutlass_op_supports_out = False
         count = 0
 
         for node in graph.nodes:
@@ -132,19 +140,24 @@ class ReplaceScaledMMWithCutlassPass(SGLangInductorPass):
                 import sgl_kernel  # noqa: F401
 
                 cutlass_op = torch.ops.sgl_kernel.fp8_scaled_mm.default
+                cutlass_op_supports_out = _fp8_scaled_mm_schema_supports_out(
+                    cutlass_op
+                )
 
             with graph.inserting_before(node):
+                args = (
+                    _arg(node, 0, "self"),
+                    _arg(node, 1, "mat2"),
+                    _arg(node, 2, "scale_a"),
+                    _arg(node, 3, "scale_b"),
+                    _arg(node, 6, "out_dtype"),
+                    _arg(node, 4, "bias"),
+                )
+                if cutlass_op_supports_out:
+                    args = (*args, None)
                 replacement = graph.call_function(
                     cutlass_op,
-                    args=(
-                        _arg(node, 0, "self"),
-                        _arg(node, 1, "mat2"),
-                        _arg(node, 2, "scale_a"),
-                        _arg(node, 3, "scale_b"),
-                        _arg(node, 6, "out_dtype"),
-                        _arg(node, 4, "bias"),
-                        None,
-                    ),
+                    args=args,
                 )
                 replacement.meta.update(node.meta)
             node.replace_all_uses_with(replacement)

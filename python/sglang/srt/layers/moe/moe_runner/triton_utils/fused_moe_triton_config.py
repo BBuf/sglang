@@ -16,6 +16,38 @@ logger = logging.getLogger(__name__)
 _is_hip = is_hip()
 
 
+def _filter_invalid_block_quant_configs(
+    configs: Dict[int, Any],
+    block_k: Optional[int],
+    config_file_path: str,
+) -> Optional[Dict[int, Any]]:
+    if not block_k:
+        return configs
+
+    filtered_configs = {}
+    invalid_keys = []
+    for key, config in configs.items():
+        block_size_k = config.get("BLOCK_SIZE_K")
+        if block_size_k is None or (
+            block_size_k > 0 and block_k % block_size_k == 0
+        ):
+            filtered_configs[key] = config
+        else:
+            invalid_keys.append(key)
+
+    if invalid_keys:
+        logger.warning(
+            "Ignoring %d invalid block-quant MoE configs from %s. "
+            "BLOCK_SIZE_K must divide block_shape[1]=%s; invalid batch keys: %s",
+            len(invalid_keys),
+            config_file_path,
+            block_k,
+            sorted(invalid_keys),
+        )
+
+    return filtered_configs or None
+
+
 def get_config_file_name(
     E: int,
     N: int,
@@ -92,7 +124,11 @@ def get_moe_configs(
             # For the tuning method, refer to: https://github.com/sgl-project/sglang/tree/main/benchmark/kernels/fused_moe_triton
             logger.info(f"Using MoE kernel config from {config_file_path}.")
             # If a configuration has been found, return it
-            return {int(key): val for key, val in json.load(f).items()}
+            return _filter_invalid_block_quant_configs(
+                {int(key): val for key, val in json.load(f).items()},
+                block_k,
+                config_file_path,
+            )
 
     # Discover available triton config dirs on disk and search newest-first.
     configs_root = os.path.join(config_dir, "configs")
@@ -120,7 +156,11 @@ def get_moe_configs(
                     f"Config file not found at {config_file_path}. Fallback to triton version {try_triton_version} and use MoE kernel config from {try_config_file_path}. Performance might be sub-optimal!",
                 )
                 # If a configuration has been found, return it
-                return {int(key): val for key, val in json.load(f).items()}
+                return _filter_invalid_block_quant_configs(
+                    {int(key): val for key, val in json.load(f).items()},
+                    block_k,
+                    try_config_file_path,
+                )
 
     # If no optimized configuration is available, we will use the default configuration when down_moe is False
     # When down_moe is True, we will try to use the config for down_moe=False
@@ -181,7 +221,7 @@ def get_default_config(
                     "num_stages": 2 if _is_hip else 4,
                 }
         else:
-            # Block-wise quant: BLOCK_SIZE_K must be divisible by block_shape[1]
+            # Block-wise quant: each kernel K tile must stay within one scale group.
             config = {
                 "BLOCK_SIZE_M": 64,
                 "BLOCK_SIZE_N": block_shape[0],
@@ -244,9 +284,11 @@ def try_get_optimal_moe_config(
         if configs:
             # If an optimal configuration map has been found, look up the
             # optimal config
-            config = configs[min(configs.keys(), key=lambda x: abs(x - M))]
+            config_key = min(configs.keys(), key=lambda x: abs(x - M))
+            config = configs[config_key]
         else:
             # Else use the default config
+            config_key = None
             config = get_default_config(
                 M, E, N, w1_shape[2], top_k, dtype, is_marlin, block_shape
             )
@@ -260,10 +302,13 @@ def try_get_optimal_moe_config(
                 per_channel_quant=per_channel_quant,
                 down_moe=True,
             )
-            if down_configs:
-                down_config = down_configs[
-                    min(down_configs.keys(), key=lambda x: abs(x - M))
-                ]
+            if down_configs and config_key is not None:
+                down_config_key = (
+                    config_key
+                    if config_key in down_configs
+                    else min(down_configs.keys(), key=lambda x: abs(x - M))
+                )
+                down_config = down_configs[down_config_key]
                 down_config = dict(**down_config)
                 max_block_m = max(
                     [cfg["BLOCK_SIZE_M"] for cfg in down_configs.values()]

@@ -1,11 +1,15 @@
 import unittest
+from types import SimpleNamespace
 
 import torch
 
 from sglang.srt.configs.mamba_utils import Mamba2CacheParams, Mamba2StateShape
 from sglang.srt.disaggregation.kv_events import BlockRemoved, BlockStored
 from sglang.srt.environ import envs
-from sglang.srt.managers.schedule_batch import Req
+from sglang.srt.managers.schedule_batch import (
+    Req,
+    _should_skip_flashinfer_gdn_mamba_prefix_tracking,
+)
 from sglang.srt.mem_cache.allocator import TokenToKVPoolAllocator
 from sglang.srt.mem_cache.base_prefix_cache import (
     EvictParams,
@@ -142,6 +146,41 @@ class TestMamba(unittest.TestCase):
         req_to_token_pool.alloc([req])
         assert req_to_token_pool.available_size() == max_num_reqs - 1
         assert req_to_token_pool.mamba_pool.available_size() == mamba_cache_size - 1
+
+    def test_flashinfer_gdn_prefill_skips_mamba_prefix_tracking(self):
+        qwen35_config = SimpleNamespace(
+            hf_config=SimpleNamespace(
+                architectures=["Qwen3_5MoeForConditionalGeneration"]
+            )
+        )
+        mamba2_config = SimpleNamespace(
+            hf_config=SimpleNamespace(architectures=["NemotronHForCausalLM"])
+        )
+
+        set_global_server_args_for_scheduler(
+            ServerArgs(
+                model_path="dummy",
+                linear_attn_backend="triton",
+                linear_attn_prefill_backend="flashinfer",
+            )
+        )
+        self.assertTrue(
+            _should_skip_flashinfer_gdn_mamba_prefix_tracking(qwen35_config)
+        )
+        self.assertFalse(
+            _should_skip_flashinfer_gdn_mamba_prefix_tracking(mamba2_config)
+        )
+
+        set_global_server_args_for_scheduler(
+            ServerArgs(
+                model_path="dummy",
+                linear_attn_backend="triton",
+                linear_attn_prefill_backend="triton",
+            )
+        )
+        self.assertFalse(
+            _should_skip_flashinfer_gdn_mamba_prefix_tracking(qwen35_config)
+        )
 
     def test_mamba_radix_cache_1(self):
         tree, allocator, req_to_token_pool, make_dummy_req = (
