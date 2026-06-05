@@ -41,6 +41,11 @@ def _rms_norm_tiled_onepass(
 def _triton_one_pass_rms_norm_cuda(
     x: torch.Tensor, w: torch.Tensor, eps: float = 1e-6
 ) -> torch.Tensor:
+    from sglang.jit_kernel.diffusion.cuda_norm_infer import maybe_rms_onepass_cuda
+
+    _cuda_out = maybe_rms_onepass_cuda(x, w, eps)
+    if _cuda_out is not None:
+        return _cuda_out
     shape = x.shape
     x = x.contiguous()
     y = torch.empty_like(x)
