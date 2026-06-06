@@ -614,6 +614,14 @@ def norm_infer(
     is_rms_norm: bool = False,
     out: Optional[Tensor] = None,
 ):
+    from sglang.jit_kernel.diffusion.cuda_norm_infer import maybe_norm_infer_cuda
+
+    native_out = maybe_norm_infer_cuda(
+        x, weight, bias, eps, is_rms_norm=is_rms_norm, out=out
+    )
+    if native_out is not None:
+        return native_out
+
     M, N = x.shape
     x = x.contiguous()
     if weight is not None:

@@ -260,6 +260,16 @@ def fused_norm_tanh_mul_add(
     D must be a multiple of 256 and <= 8192 to enable LDG.128 vectorized loads per
     thread and avoid predicated loads (e.g., bounds checks such as `index < D`).
     """
+    from sglang.jit_kernel.diffusion.norm_tanh_modulation import (
+        native_fused_norm_tanh_mul_add,
+        native_supported,
+    )
+
+    if native_supported(x, weight, bias, scale, shift, None, None, None, norm_type):
+        return native_fused_norm_tanh_mul_add(
+            x, weight, bias, scale, shift, norm_type, eps
+        )
+
     stream = cuda.CUstream(torch.cuda.current_stream().cuda_stream)
     # Tensor Validation
     BSD = x.shape
@@ -331,6 +341,16 @@ def fused_norm_tanh_mul_add_norm_scale(
     D must be a multiple of 256 and <= 8192 to enable LDG.128 vectorized loads per
     thread and avoid predicated loads (e.g., bounds checks such as `index < D`).
     """
+    from sglang.jit_kernel.diffusion.norm_tanh_modulation import (
+        native_fused_norm_tanh_mul_add_norm_scale,
+        native_supported,
+    )
+
+    if native_supported(x, weight, bias, scale, shift, weight2, bias2, scale2, norm_type):
+        return native_fused_norm_tanh_mul_add_norm_scale(
+            x, weight, bias, scale, shift, weight2, bias2, scale2, norm_type, eps
+        )
+
     stream = cuda.CUstream(torch.cuda.current_stream().cuda_stream)
     # Tensor Validation
     BSD = x.shape
