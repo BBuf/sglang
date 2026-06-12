@@ -1,0 +1,46 @@
+{
+  "main": {
+    "image": "/tmp/pr28051_bench_b200/artifacts/profiler_main_target_kernels.png",
+    "rows": [
+      {
+        "avg_us": 16.727320138888835,
+        "calls": 1440,
+        "full_name": "void (anonymous namespace)::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "name": "void (anonymous namespace)::fused_qknorm_rope_warp<...>",
+        "total_ms": 24.08734099999992,
+        "total_us": 24087.34099999992
+      }
+    ],
+    "side": "main",
+    "target_avg_us": 16.727320138888835,
+    "target_calls": 1440,
+    "target_total_ms": 24.08734099999992,
+    "trace": "/tmp/pr28051_bench_b200/profiles/main/8ff07ea8-41cd-424f-9821-ea0de81b2dcb-5_steps-global-rank0.trace.json.gz"
+  },
+  "pr": {
+    "image": "/tmp/pr28051_bench_b200/artifacts/profiler_pr_target_kernels.png",
+    "rows": [
+      {
+        "avg_us": 25.111905555555552,
+        "calls": 720,
+        "full_name": "void (anonymous namespace)::fused_qknorm_rope_cta_token<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "name": "void (anonymous namespace)::fused_qknorm_rope_cta_token<...>",
+        "total_ms": 18.080571999999997,
+        "total_us": 18080.571999999996
+      },
+      {
+        "avg_us": 2.632980555555557,
+        "calls": 720,
+        "full_name": "void (anonymous namespace)::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "name": "void (anonymous namespace)::fused_qknorm_rope_warp<...>",
+        "total_ms": 1.895746000000001,
+        "total_us": 1895.746000000001
+      }
+    ],
+    "side": "pr",
+    "target_avg_us": 13.872443055555554,
+    "target_calls": 1440,
+    "target_total_ms": 19.976318,
+    "trace": "/tmp/pr28051_bench_b200/profiles/pr/55f86a51-23ab-4604-b807-74a26099f732-5_steps-global-rank0.trace.json.gz"
+  }
+}
