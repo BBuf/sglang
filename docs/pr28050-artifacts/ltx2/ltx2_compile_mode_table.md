@@ -5,3 +5,5 @@
 
 Mean speedup default vs max: denoise 8.72%, E2E 8.70%.
 Median speedup default vs max: denoise 8.67%, E2E 8.77%.
+
+Current PR head no-env default confirmation: commit `883c62860b9a94f57e63d2157698137bd8865b31`, no `SGLANG_TORCH_COMPILE_MODE` override, log shows `Compiling transformer with mode: default`; E2E 123.901 s, denoise 121.785 s, peak reserved 62.3 GB.
