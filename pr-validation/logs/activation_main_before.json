@@ -1,0 +1,9 @@
+{
+  "label": "activation_main_before",
+  "expect": "fail",
+  "worktree": "/mnt/local_disk/bbuf/pr_worktrees/sglang_main",
+  "status": "passed",
+  "pytest_log": null,
+  "exception": "RuntimeError('Runtime check failed at /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/csrc/elementwise/activation.cuh:168: hidden size must be divisible by vector size')",
+  "tail": "[LABEL] activation_main_before\n[EXPECT] fail\n[WORKTREE] /mnt/local_disk/bbuf/pr_worktrees/sglang_main\n[PYTHONPATH] /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python:\n[SGLANG] /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/__init__.py\n[CUDA] NVIDIA B300 SXM6 AC\nTraceback (most recent call last):\n  File \"/mnt/local_disk/bbuf/pr_validation/tools/validate_activation_fallback.py\", line 145, in main\n    run_repro()\n  File \"/mnt/local_disk/bbuf/pr_validation/tools/validate_activation_fallback.py\", line 46, in run_repro\n    out = run_activation(op_name, x, None)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/activation.py\", line 102, in run_activation\n    _run_activation_inplace(op_name, input, out)\n  File \"/usr/local/lib/python3.12/dist-packages/torch/_ops.py\", line 1269, in __call__\n    return self._op(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/activation.py\", line 65, in _run_activation_inplace\n    module.run_activation(input_2d, out_2d, op_name)\n  File \"python/tvm_ffi/cython/function.pxi\", line 929, in tvm_ffi.core.Function.__call__\nRuntimeError: Runtime check failed at /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/csrc/elementwise/activation.cuh:168: hidden size must be divisible by vector size"
+}

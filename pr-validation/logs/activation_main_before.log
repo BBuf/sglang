@@ -1,0 +1,21 @@
+[LABEL] activation_main_before
+[EXPECT] fail
+[WORKTREE] /mnt/local_disk/bbuf/pr_worktrees/sglang_main
+[PYTHONPATH] /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python:
+[SGLANG] /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/__init__.py
+[CUDA] NVIDIA B300 SXM6 AC
+Traceback (most recent call last):
+  File "/mnt/local_disk/bbuf/pr_validation/tools/validate_activation_fallback.py", line 145, in main
+    run_repro()
+  File "/mnt/local_disk/bbuf/pr_validation/tools/validate_activation_fallback.py", line 46, in run_repro
+    out = run_activation(op_name, x, None)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/activation.py", line 102, in run_activation
+    _run_activation_inplace(op_name, input, out)
+  File "/usr/local/lib/python3.12/dist-packages/torch/_ops.py", line 1269, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/activation.py", line 65, in _run_activation_inplace
+    module.run_activation(input_2d, out_2d, op_name)
+  File "python/tvm_ffi/cython/function.pxi", line 929, in tvm_ffi.core.Function.__call__
+RuntimeError: Runtime check failed at /mnt/local_disk/bbuf/pr_worktrees/sglang_main/python/sglang/jit_kernel/csrc/elementwise/activation.cuh:168: hidden size must be divisible by vector size

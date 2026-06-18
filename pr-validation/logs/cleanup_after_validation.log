@@ -1,0 +1,17 @@
+[BEFORE CLEANUP]
+232G	/root/.cache/huggingface/hub/models--internlm--Intern-S1-FP8
+5.1M	/root/.cache/huggingface/hub/models--internlm--Intern-S1
+[AFTER CLEANUP]
+396K	/root/.cache/huggingface/hub
+[GPU]
+0, 0, 0
+1, 0, 0
+2, 0, 0
+3, 0, 0
+4, 0, 0
+5, 0, 0
+6, 0, 0
+7, 0, 0
+[PROCESSES]
+575265 bash -lc set -euo pipefail mkdir -p /mnt/local_disk/bbuf/pr_validation/results {   echo "[BEFORE CLEANUP]"   du -sh /root/.cache/huggingface/hub/models--internlm--Intern-S1-FP8 /root/.cache/huggingface/hub/models--internlm--Intern-S1 2>/dev/null || true   rm -rf /root/.cache/huggingface/hub/models--internlm--Intern-S1-FP8 \          /root/.cache/huggingface/hub/models--internlm--Intern-S1 \          /root/.cache/huggingface/hub/.locks/models--internlm--Intern-S1-FP8 \          /root/.cache/huggingface/hub/.locks/models--internlm--Intern-S1   echo "[AFTER CLEANUP]"   du -sh /root/.cache/huggingface/hub 2>/dev/null || true   find /root/.cache/huggingface/hub -maxdepth 1 -name "models--internlm--Intern-S1*" -print 2>/dev/null || true   echo "[GPU]"   nvidia-smi --query-gpu=index,utilization.gpu,memory.used --format=csv,noheader,nounits   echo "[PROCESSES]"   pgrep -af "sglang.launch_server|sglang serve|validate_interns1_server" || true } | tee /mnt/local_disk/bbuf/pr_validation/results/cleanup_after_validation.log
+575277 bash -lc set -euo pipefail mkdir -p /mnt/local_disk/bbuf/pr_validation/results {   echo "[BEFORE CLEANUP]"   du -sh /root/.cache/huggingface/hub/models--internlm--Intern-S1-FP8 /root/.cache/huggingface/hub/models--internlm--Intern-S1 2>/dev/null || true   rm -rf /root/.cache/huggingface/hub/models--internlm--Intern-S1-FP8 \          /root/.cache/huggingface/hub/models--internlm--Intern-S1 \          /root/.cache/huggingface/hub/.locks/models--internlm--Intern-S1-FP8 \          /root/.cache/huggingface/hub/.locks/models--internlm--Intern-S1   echo "[AFTER CLEANUP]"   du -sh /root/.cache/huggingface/hub 2>/dev/null || true   find /root/.cache/huggingface/hub -maxdepth 1 -name "models--internlm--Intern-S1*" -print 2>/dev/null || true   echo "[GPU]"   nvidia-smi --query-gpu=index,utilization.gpu,memory.used --format=csv,noheader,nounits   echo "[PROCESSES]"   pgrep -af "sglang.launch_server|sglang serve|validate_interns1_server" || true } | tee /mnt/local_disk/bbuf/pr_validation/results/cleanup_after_validation.log
