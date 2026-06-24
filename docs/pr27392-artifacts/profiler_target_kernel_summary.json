@@ -1,42 +1,360 @@
 {
-  "main": [
-    {
-      "kernel": "kernel_cutlass_kernel_sglangjit_kerneldiffusioncutedslscale_residual_norm_scale_shiftScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_3072div3072div30721_tensorptrbf16__0",
-      "total_ms": 17.612251000000004,
-      "count": 1440,
-      "avg_us": 12.230729861111113
+  "model": "Qwen/Qwen-Image-2512",
+  "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+  "seed": 42,
+  "width": 1024,
+  "height": 1024,
+  "num_inference_steps": 50,
+  "profiled_timestep_window": 5,
+  "backend": "sglang",
+  "torch_compile": false,
+  "gpu": "NVIDIA B200, CUDA_VISIBLE_DEVICES=5",
+  "main_commit": "52b89c4948fa2e9200f984605ac3b5874d97c2d4",
+  "pr_commit": "7fde2912709051b02a0090794c95261724e10b4f",
+  "main": {
+    "trace_path": "/home/sglang-omni/bbuf/pr27392_verify/20260624_pr27392_latest_b200_gpu5_profile/profiles/main/7936ef4a-68f2-45a4-b4e7-8cf417b76561-5_steps-global-rank0.trace.json.gz",
+    "trace_file": "7936ef4a-68f2-45a4-b4e7-8cf417b76561-5_steps-global-rank0.trace.json.gz",
+    "cat_counts": {
+      "user_annotation": 6,
+      "cpu_op": 203892,
+      "python_function": 1252407,
+      "gpu_memcpy": 6,
+      "ac2g": 46201,
+      "cuda_runtime": 12229,
+      "kernel": 22374,
+      "cuda_driver": 11592,
+      "overhead": 5,
+      "gpu_user_annotation": 6,
+      "null": 62,
+      "Trace": 1
     },
-    {
-      "kernel": "kernel_cutlass_kernel_sglangjit_kerneldiffusioncutedslscale_residual_norm_scale_shiftScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_3072div3072div30721___tensorptrbf1_0",
-      "total_ms": 13.82445500000001,
-      "count": 1440,
-      "avg_us": 9.600315972222228
+    "target_norm_scale_shift": [
+      {
+        "name": "kernel_cutlass_kernel_sglangjit_kerneldiffusioncutedslscale_residual_norm_scale_shiftScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_3072div3072div30721_tensorptrbf16__0",
+        "total_ms": 17.778708000000087,
+        "count": 1440,
+        "avg_us": 12.34632500000006
+      },
+      {
+        "name": "kernel_cutlass_kernel_sglangjit_kerneldiffusioncutedslscale_residual_norm_scale_shiftScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_3072div3072div30721___tensorptrbf1_0",
+        "total_ms": 13.870724999999975,
+        "count": 1440,
+        "avg_us": 9.63244791666665
+      }
+    ],
+    "target_norm_scale_shift_total_ms": 31.649433000000062,
+    "target_norm_scale_shift_total_count": 2880,
+    "fuse_scale_shift_kernel_blc_opt": [
+      {
+        "name": "fuse_scale_shift_kernel_blc_opt",
+        "total_ms": 10.949475999999976,
+        "count": 1440,
+        "avg_us": 7.60380277777776
+      }
+    ],
+    "fused_qknorm_rope": [
+      {
+        "name": "void (anonymous namespace)::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "total_ms": 23.988690999999886,
+        "count": 1440,
+        "avg_us": 16.658813194444367
+      }
+    ],
+    "top_cuda_kernels": [
+      {
+        "name": "nvjet_sm100_tst_256x128_64x5_2x2_2cta_h_bz_bias_TNT",
+        "total_ms": 158.52896799999994,
+        "count": 2880,
+        "avg_us": 55.04478055555553
+      },
+      {
+        "name": "nvjet_sm100_tst_256x192_64x4_2x2_2cta_h_bz_bias_TNT",
+        "total_ms": 134.4553490000001,
+        "count": 720,
+        "avg_us": 186.74354027777792
+      },
+      {
+        "name": "nvjet_sm100_tst_128x256_64x6_2x1_2cta_v_bz_bias_TNT",
+        "total_ms": 133.00841999999992,
+        "count": 720,
+        "avg_us": 184.73391666666657
+      },
+      {
+        "name": "kernel_cutlass_kernel_flash_attncuteflash_fwd_sm100FlashAttentionForwardSm100_object_at__tensor0000o11101213_tensor0000o11101213_tensor0000o10111213_tensor0000o11101213_None_None_None_Non_0",
+        "total_ms": 126.22033299999994,
+        "count": 720,
+        "avg_us": 175.30601805555548
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<8, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+        "total_ms": 38.6975959999999,
+        "count": 1440,
+        "avg_us": 26.873330555555484
+      },
+      {
+        "name": "nvjet_sm100_tst_128x8_64x12_2x1_v_bz_bias_TNT",
+        "total_ms": 29.354278,
+        "count": 1440,
+        "avg_us": 20.38491527777778
+      },
+      {
+        "name": "void (anonymous namespace)::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "total_ms": 23.988690999999886,
+        "count": 1440,
+        "avg_us": 16.658813194444367
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "total_ms": 21.558331000000035,
+        "count": 2160,
+        "avg_us": 9.980708796296312
+      },
+      {
+        "name": "nvjet_sm100_tst_64x16_64x16_2x1_2cta_v_bz_bias_TNT",
+        "total_ms": 20.98992699999999,
+        "count": 1806,
+        "avg_us": 11.622329457364337
+      },
+      {
+        "name": "kernel_cutlass_kernel_sglangjit_kerneldiffusioncutedslscale_residual_norm_scale_shiftScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_3072div3072div30721_tensorptrbf16__0",
+        "total_ms": 17.778708000000087,
+        "count": 1440,
+        "avg_us": 12.34632500000006
+      },
+      {
+        "name": "kernel_cutlass_kernel_sglangjit_kerneldiffusioncutedslscale_residual_norm_scale_shiftScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_3072div3072div30721___tensorptrbf1_0",
+        "total_ms": 13.870724999999975,
+        "count": 1440,
+        "avg_us": 9.63244791666665
+      },
+      {
+        "name": "nvjet_sm100_tst_32x64_64x16_4x1_v_bz_bias_TNN",
+        "total_ms": 12.477760000000004,
+        "count": 1458,
+        "avg_us": 8.558134430727026
+      },
+      {
+        "name": "fuse_scale_shift_kernel_blc_opt",
+        "total_ms": 10.949475999999976,
+        "count": 1440,
+        "avg_us": 7.60380277777776
+      },
+      {
+        "name": "nvjet_sm100_tst_192x24_64x7_2x2_h_bz_bias_TNT",
+        "total_ms": 7.018099000000005,
+        "count": 360,
+        "avg_us": 19.494719444444456
+      },
+      {
+        "name": "nvjet_sm100_tst_192x16_64x8_2x2_2cta_h_bz_bias_TNT",
+        "total_ms": 6.777976000000001,
+        "count": 360,
+        "avg_us": 18.827711111111114
+      },
+      {
+        "name": "nvjet_sm100_tst_128x16_64x12_1x2_h_bz_splitK_bias_TNT",
+        "total_ms": 6.433668000000004,
+        "count": 360,
+        "avg_us": 17.871300000000012
+      },
+      {
+        "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+        "total_ms": 1.8666449999999823,
+        "count": 1440,
+        "avg_us": 1.2962812499999876
+      },
+      {
+        "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, true, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+        "total_ms": 1.4784020000000007,
+        "count": 360,
+        "avg_us": 4.106672222222224
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+        "total_ms": 0.321183,
+        "count": 18,
+        "avg_us": 17.8435
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+        "total_ms": 0.3035840000000001,
+        "count": 12,
+        "avg_us": 25.298666666666673
+      }
+    ]
+  },
+  "pr": {
+    "trace_path": "/home/sglang-omni/bbuf/pr27392_verify/20260624_pr27392_latest_b200_gpu5_profile/profiles/pr/5073c4d1-23cb-4fa9-b4dc-38590b1cf821-5_steps-global-rank0.trace.json.gz",
+    "trace_file": "5073c4d1-23cb-4fa9-b4dc-38590b1cf821-5_steps-global-rank0.trace.json.gz",
+    "cat_counts": {
+      "user_annotation": 6,
+      "cpu_op": 206772,
+      "python_function": 951294,
+      "gpu_memcpy": 6,
+      "ac2g": 46201,
+      "cuda_runtime": 12229,
+      "kernel": 22374,
+      "cuda_driver": 11592,
+      "overhead": 5,
+      "gpu_user_annotation": 6,
+      "null": 60,
+      "Trace": 1
     },
-    {
-      "kernel": "fuse_scale_shift_kernel_blc_opt",
-      "total_ms": 10.981714999999989,
-      "count": 1440,
-      "avg_us": 7.626190972222215
-    }
-  ],
-  "pr": [
-    {
-      "kernel": "void sglang_norm_scale_shift::norm_scale_shift_kernel<__nv_bfloat16, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, false, 2, 2, true, false, true, false, 32>(sglang_norm_scale_shift::NormScaleShiftParams)",
-      "total_ms": 14.100478999999995,
-      "count": 1440,
-      "avg_us": 9.791999305555551
-    },
-    {
-      "kernel": "void sglang_norm_scale_shift::norm_scale_shift_kernel<__nv_bfloat16, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, false, 2, 0, false, false, true, false, 32>(sglang_norm_scale_shift::NormScaleShiftParams)",
-      "total_ms": 11.038151999999984,
-      "count": 1440,
-      "avg_us": 7.665383333333322
-    },
-    {
-      "kernel": "fuse_scale_shift_kernel_blc_opt",
-      "total_ms": 10.996476999999956,
-      "count": 1440,
-      "avg_us": 7.63644236111108
-    }
-  ]
+    "target_norm_scale_shift": [
+      {
+        "name": "void sglang_norm_scale_shift::(anonymous namespace)::qwen_image_norm_scale_shift_kernel<true>(sglang_norm_scale_shift::(anonymous namespace)::QwenImageNormParams)",
+        "total_ms": 13.853417000000006,
+        "count": 1440,
+        "avg_us": 9.620428472222226
+      },
+      {
+        "name": "void sglang_norm_scale_shift::(anonymous namespace)::qwen_image_norm_scale_shift_kernel<false>(sglang_norm_scale_shift::(anonymous namespace)::QwenImageNormParams)",
+        "total_ms": 10.884086999999973,
+        "count": 1440,
+        "avg_us": 7.558393749999981
+      }
+    ],
+    "target_norm_scale_shift_total_ms": 24.73750399999998,
+    "target_norm_scale_shift_total_count": 2880,
+    "fuse_scale_shift_kernel_blc_opt": [
+      {
+        "name": "fuse_scale_shift_kernel_blc_opt",
+        "total_ms": 10.909186999999998,
+        "count": 1440,
+        "avg_us": 7.575824305555554
+      }
+    ],
+    "fused_qknorm_rope": [
+      {
+        "name": "void (anonymous namespace)::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "total_ms": 24.178438000000032,
+        "count": 1440,
+        "avg_us": 16.790581944444465
+      }
+    ],
+    "top_cuda_kernels": [
+      {
+        "name": "nvjet_sm100_tst_256x128_64x5_2x2_2cta_h_bz_bias_TNT",
+        "total_ms": 158.5715000000001,
+        "count": 2880,
+        "avg_us": 55.05954861111114
+      },
+      {
+        "name": "nvjet_sm100_tst_256x192_64x4_2x2_2cta_h_bz_bias_TNT",
+        "total_ms": 134.20629600000007,
+        "count": 720,
+        "avg_us": 186.39763333333343
+      },
+      {
+        "name": "nvjet_sm100_tst_128x256_64x6_2x1_2cta_v_bz_bias_TNT",
+        "total_ms": 132.85546700000006,
+        "count": 720,
+        "avg_us": 184.52148194444453
+      },
+      {
+        "name": "kernel_cutlass_kernel_flash_attncuteflash_fwd_sm100FlashAttentionForwardSm100_object_at__tensor0000o11101213_tensor0000o11101213_tensor0000o10111213_tensor0000o11101213_None_None_None_Non_0",
+        "total_ms": 126.22195499999997,
+        "count": 720,
+        "avg_us": 175.3082708333333
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<8, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+        "total_ms": 38.736545999999954,
+        "count": 1440,
+        "avg_us": 26.90037916666663
+      },
+      {
+        "name": "nvjet_sm100_tst_128x8_64x12_2x1_v_bz_bias_TNT",
+        "total_ms": 29.553447999999992,
+        "count": 1440,
+        "avg_us": 20.523227777777773
+      },
+      {
+        "name": "void (anonymous namespace)::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, long>((anonymous namespace)::QKNormRopeParams)",
+        "total_ms": 24.178438000000032,
+        "count": 1440,
+        "avg_us": 16.790581944444465
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "total_ms": 21.622990999999903,
+        "count": 2160,
+        "avg_us": 10.010643981481437
+      },
+      {
+        "name": "nvjet_sm100_tst_64x16_64x16_2x1_2cta_v_bz_bias_TNT",
+        "total_ms": 21.052161999999996,
+        "count": 1806,
+        "avg_us": 11.656789590254705
+      },
+      {
+        "name": "void sglang_norm_scale_shift::(anonymous namespace)::qwen_image_norm_scale_shift_kernel<true>(sglang_norm_scale_shift::(anonymous namespace)::QwenImageNormParams)",
+        "total_ms": 13.853417000000006,
+        "count": 1440,
+        "avg_us": 9.620428472222226
+      },
+      {
+        "name": "nvjet_sm100_tst_32x64_64x16_4x1_v_bz_bias_TNN",
+        "total_ms": 12.55469699999999,
+        "count": 1458,
+        "avg_us": 8.610903292181064
+      },
+      {
+        "name": "fuse_scale_shift_kernel_blc_opt",
+        "total_ms": 10.909186999999998,
+        "count": 1440,
+        "avg_us": 7.575824305555554
+      },
+      {
+        "name": "void sglang_norm_scale_shift::(anonymous namespace)::qwen_image_norm_scale_shift_kernel<false>(sglang_norm_scale_shift::(anonymous namespace)::QwenImageNormParams)",
+        "total_ms": 10.884086999999973,
+        "count": 1440,
+        "avg_us": 7.558393749999981
+      },
+      {
+        "name": "nvjet_sm100_tst_192x24_64x7_2x2_h_bz_bias_TNT",
+        "total_ms": 7.045618000000005,
+        "count": 360,
+        "avg_us": 19.571161111111124
+      },
+      {
+        "name": "nvjet_sm100_tst_192x16_64x8_2x2_2cta_h_bz_bias_TNT",
+        "total_ms": 6.775705,
+        "count": 360,
+        "avg_us": 18.821402777777777
+      },
+      {
+        "name": "nvjet_sm100_tst_128x16_64x12_1x2_h_bz_splitK_bias_TNT",
+        "total_ms": 6.421200999999998,
+        "count": 360,
+        "avg_us": 17.83666944444444
+      },
+      {
+        "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+        "total_ms": 1.8130489999999966,
+        "count": 1440,
+        "avg_us": 1.2590618055555531
+      },
+      {
+        "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, true, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+        "total_ms": 1.4524869999999996,
+        "count": 360,
+        "avg_us": 4.03468611111111
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+        "total_ms": 0.32067399999999996,
+        "count": 18,
+        "avg_us": 17.81522222222222
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+        "total_ms": 0.302305,
+        "count": 12,
+        "avg_us": 25.192083333333333
+      }
+    ]
+  },
+  "target_norm_scale_shift_speedup": 1.2794109300598835,
+  "target_norm_scale_shift_ms_saved_in_profile_window": 6.911929000000082
 }
