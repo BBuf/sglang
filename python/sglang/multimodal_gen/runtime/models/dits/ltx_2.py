@@ -168,6 +168,10 @@ _LTX2_FUSED_RMS_ADALN = None
 _LTX2_FUSED_RMS_ADALN_UNAVAILABLE = False
 _LTX2_FUSED_RMS_ADALN_RUNTIME_DISABLED = False
 
+_LTX2_FUSED_QKNORM_SPLIT_ROPE = None
+_LTX2_FUSED_QKNORM_SPLIT_ROPE_UNAVAILABLE = False
+_LTX2_FUSED_QKNORM_SPLIT_ROPE_RUNTIME_DISABLED = False
+
 
 def adaln_embedding_coefficient(cross_attention_adaln: bool) -> int:
     return ADALN_NUM_BASE_PARAMS + (
@@ -412,6 +416,116 @@ def _ltx2_try_fused_rms_adaln(
         return None
 
 
+def _ltx2_get_tp_world_size_or_one() -> int:
+    try:
+        return get_tp_world_size()
+    except AssertionError:
+        return 1
+
+
+def _ltx2_get_fused_qknorm_split_rope():
+    global _LTX2_FUSED_QKNORM_SPLIT_ROPE
+    global _LTX2_FUSED_QKNORM_SPLIT_ROPE_UNAVAILABLE
+    if _LTX2_FUSED_QKNORM_SPLIT_ROPE_UNAVAILABLE:
+        return None
+    if _LTX2_FUSED_QKNORM_SPLIT_ROPE is None:
+        try:
+            from sglang.jit_kernel.diffusion.triton.ltx2_qknorm import (
+                ltx2_qknorm_split_rope_pair,
+            )
+        except Exception:
+            _LTX2_FUSED_QKNORM_SPLIT_ROPE_UNAVAILABLE = True
+            return None
+        _LTX2_FUSED_QKNORM_SPLIT_ROPE = ltx2_qknorm_split_rope_pair
+    return _LTX2_FUSED_QKNORM_SPLIT_ROPE
+
+
+def _ltx2_try_fused_qknorm_split_rope(
+    q: torch.Tensor,
+    k: torch.Tensor,
+    q_norm: nn.Module,
+    k_norm: nn.Module,
+    eps: float,
+    pe: tuple[torch.Tensor, torch.Tensor],
+    k_pe: tuple[torch.Tensor, torch.Tensor] | None,
+) -> tuple[torch.Tensor, torch.Tensor] | None:
+    global _LTX2_FUSED_QKNORM_SPLIT_ROPE_RUNTIME_DISABLED
+    if (
+        _LTX2_FUSED_QKNORM_SPLIT_ROPE_RUNTIME_DISABLED
+        or _ltx2_get_tp_world_size_or_one() != 1
+        or not isinstance(q_norm, torch.nn.RMSNorm)
+        or not isinstance(k_norm, torch.nn.RMSNorm)
+        or q.ndim != 3
+        or k.ndim != 3
+        or q.shape[0] != k.shape[0]
+        or q.shape[-1] != k.shape[-1]
+        or q.dtype != torch.bfloat16
+        or k.dtype != torch.bfloat16
+        or not q.is_cuda
+        or not k.is_cuda
+        or not q.is_contiguous()
+        or not k.is_contiguous()
+    ):
+        return None
+
+    q_cos, q_sin = pe
+    k_cos, k_sin = pe if k_pe is None else k_pe
+    if (
+        q_cos.ndim != 4
+        or q_sin.shape != q_cos.shape
+        or k_cos.ndim != 4
+        or k_sin.shape != k_cos.shape
+        or q_cos.dtype != torch.bfloat16
+        or q_sin.dtype != torch.bfloat16
+        or k_cos.dtype != torch.bfloat16
+        or k_sin.dtype != torch.bfloat16
+        or not q_cos.is_cuda
+        or not q_sin.is_cuda
+        or not k_cos.is_cuda
+        or not k_sin.is_cuda
+    ):
+        return None
+
+    q_weight = q_norm.weight
+    k_weight = k_norm.weight
+    hidden = int(q.shape[-1])
+    if (
+        q_weight is None
+        or k_weight is None
+        or q_weight.device != q.device
+        or k_weight.device != k.device
+        or q_weight.dtype != q.dtype
+        or k_weight.dtype != k.dtype
+        or q_weight.numel() != hidden
+        or k_weight.numel() != hidden
+    ):
+        return None
+
+    ltx2_qknorm_split_rope_pair = _ltx2_get_fused_qknorm_split_rope()
+    if ltx2_qknorm_split_rope_pair is None:
+        return None
+
+    try:
+        return ltx2_qknorm_split_rope_pair(
+            q,
+            k,
+            q_weight,
+            k_weight,
+            q_cos,
+            q_sin,
+            k_cos,
+            k_sin,
+            eps,
+        )
+    except Exception as exc:
+        _LTX2_FUSED_QKNORM_SPLIT_ROPE_RUNTIME_DISABLED = True
+        logger.warning_once(
+            "Disabling LTX2 fused q/k norm + split-RoPE fast path after "
+            f"runtime failure: {exc}"
+        )
+        return None
+
+
 def _ltx2_rms_adaln(
     rms_norm_layer: RMSNormNoWeight,
     x: torch.Tensor,
@@ -423,6 +537,7 @@ def _ltx2_rms_adaln(
     if fused is not None:
         return fused
     return rms_norm_layer(x, eps) * (1 + scale) + shift
+
 
 def _ltx2_is_perturbed(
     perturbation_config: dict[str, object],
@@ -1041,12 +1156,22 @@ class LTX2Attention(nn.Module):
             q, _ = self.to_q(x)
             k, _ = self.to_k(context_)
 
-            if self.qk_norm:
+            applied_fused_qknorm_split_rope = False
+            if self.qk_norm and pe is not None:
+                assert self.q_norm is not None and self.k_norm is not None
+                fused_qk_rope = _ltx2_try_fused_qknorm_split_rope(
+                    q, k, self.q_norm, self.k_norm, self.norm_eps, pe, k_pe
+                )
+                if fused_qk_rope is not None:
+                    q, k = fused_qk_rope
+                    applied_fused_qknorm_split_rope = True
+
+            if self.qk_norm and not applied_fused_qknorm_split_rope:
                 assert self.q_norm is not None and self.k_norm is not None
                 q = self.q_norm(q)
                 k = self.k_norm(k)
 
-            if pe is not None:
+            if pe is not None and not applied_fused_qknorm_split_rope:
                 cos, sin = pe
                 k_cos, k_sin = pe if k_pe is None else k_pe
                 tp_size = get_tp_world_size()
