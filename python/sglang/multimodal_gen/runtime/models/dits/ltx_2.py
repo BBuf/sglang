@@ -159,6 +159,11 @@ def _ltx2_disable_te_nvfp4(exc: Exception) -> None:
 _LTX2_FUSED_ADA_VALUES_ALL_RUNTIME_DISABLED = False
 _LTX2_FUSED_ADA_VALUES_ALL_WARNING_EMITTED = False
 
+_LTX2_FUSED_DUAL_MODULATE_RUNTIME_DISABLED = False
+_LTX2_FUSED_DUAL_MODULATE_WARNING_EMITTED = False
+_LTX2_FUSED_CA_DUAL_MODULATE_RUNTIME_DISABLED = False
+_LTX2_FUSED_CA_DUAL_MODULATE_WARNING_EMITTED = False
+
 
 def adaln_embedding_coefficient(cross_attention_adaln: bool) -> int:
     return ADALN_NUM_BASE_PARAMS + (
@@ -208,6 +213,134 @@ def _ltx2_try_fused_ada_values9(
         return ltx2_ada_values9(scale_shift_table, timestep)
     except Exception as exc:
         _ltx2_disable_fused_ada_values_all(exc)
+        return None
+
+
+def _ltx2_disable_fused_dual_modulate(exc: Exception) -> None:
+    global _LTX2_FUSED_DUAL_MODULATE_RUNTIME_DISABLED
+    global _LTX2_FUSED_DUAL_MODULATE_WARNING_EMITTED
+    _LTX2_FUSED_DUAL_MODULATE_RUNTIME_DISABLED = True
+    if not _LTX2_FUSED_DUAL_MODULATE_WARNING_EMITTED:
+        logger.warning("Disabling LTX2 fused dual-modulate fast path: %s", exc)
+        _LTX2_FUSED_DUAL_MODULATE_WARNING_EMITTED = True
+
+
+def _ltx2_disable_fused_ca_dual_modulate(exc: Exception) -> None:
+    global _LTX2_FUSED_CA_DUAL_MODULATE_RUNTIME_DISABLED
+    global _LTX2_FUSED_CA_DUAL_MODULATE_WARNING_EMITTED
+    _LTX2_FUSED_CA_DUAL_MODULATE_RUNTIME_DISABLED = True
+    if not _LTX2_FUSED_CA_DUAL_MODULATE_WARNING_EMITTED:
+        logger.warning("Disabling LTX2 fused CA dual-modulate fast path: %s", exc)
+        _LTX2_FUSED_CA_DUAL_MODULATE_WARNING_EMITTED = True
+
+
+def _ltx2_mod_param_supported(
+    tensor: torch.Tensor,
+    batch_size: int,
+    seq_len: int,
+    hidden_size: int,
+    dtype: torch.dtype,
+) -> bool:
+    if not tensor.is_cuda or tensor.dtype != dtype or tensor.stride(-1) != 1:
+        return False
+    if tensor.ndim == 2:
+        return tensor.shape[0] in (1, batch_size) and tensor.shape[1] == hidden_size
+    if tensor.ndim == 3:
+        return (
+            tensor.shape[0] in (1, batch_size)
+            and tensor.shape[1] in (1, seq_len)
+            and tensor.shape[2] == hidden_size
+        )
+    return False
+
+
+def _ltx2_try_fused_rmsnorm_dual_modulate(
+    x: torch.Tensor,
+    scale0: torch.Tensor,
+    shift0: torch.Tensor,
+    scale1: torch.Tensor,
+    shift1: torch.Tensor,
+    eps: float,
+) -> tuple[torch.Tensor, torch.Tensor] | None:
+    if (
+        _LTX2_FUSED_DUAL_MODULATE_RUNTIME_DISABLED
+        or get_tp_world_size() != 1
+        or not x.is_cuda
+        or x.ndim != 3
+        or not x.is_contiguous()
+        or x.dtype != torch.bfloat16
+    ):
+        return None
+
+    batch_size, seq_len, hidden_size = x.shape
+    if hidden_size % 256 != 0 or hidden_size > 8192:
+        return None
+    for tensor in (scale0, shift0, scale1, shift1):
+        if not _ltx2_mod_param_supported(
+            tensor, batch_size, seq_len, hidden_size, x.dtype
+        ):
+            return None
+
+    try:
+        from sglang.jit_kernel.diffusion.triton.ltx2_dual_modulate import (
+            ltx2_rmsnorm_dual_modulate,
+        )
+
+        return ltx2_rmsnorm_dual_modulate(x, scale0, shift0, scale1, shift1, eps)
+    except Exception as exc:
+        _ltx2_disable_fused_dual_modulate(exc)
+        return None
+
+
+def _ltx2_try_fused_rmsnorm_ca_dual_modulate(
+    x: torch.Tensor,
+    temb_scale_shift: torch.Tensor,
+    scale_shift_table: torch.Tensor,
+    eps: float,
+) -> tuple[torch.Tensor, torch.Tensor] | None:
+    if (
+        _LTX2_FUSED_CA_DUAL_MODULATE_RUNTIME_DISABLED
+        or get_tp_world_size() != 1
+        or not x.is_cuda
+        or x.ndim != 3
+        or not x.is_contiguous()
+        or x.dtype != torch.bfloat16
+    ):
+        return None
+
+    batch_size, seq_len, hidden_size = x.shape
+    if hidden_size % 256 != 0 or hidden_size > 8192:
+        return None
+    if (
+        not temb_scale_shift.is_cuda
+        or temb_scale_shift.dtype != x.dtype
+        or temb_scale_shift.ndim != 3
+        or temb_scale_shift.shape[0] != batch_size
+        or temb_scale_shift.shape[1] != seq_len
+        or temb_scale_shift.shape[2] != 4 * hidden_size
+        or temb_scale_shift.stride(-1) != 1
+    ):
+        return None
+    if (
+        not scale_shift_table.is_cuda
+        or scale_shift_table.dtype not in (torch.bfloat16, torch.float32)
+        or scale_shift_table.ndim != 2
+        or scale_shift_table.shape[0] < 4
+        or scale_shift_table.shape[1] != hidden_size
+        or scale_shift_table.stride(-1) != 1
+    ):
+        return None
+
+    try:
+        from sglang.jit_kernel.diffusion.triton.ltx2_dual_modulate import (
+            ltx2_rmsnorm_ca_dual_modulate_from_temb,
+        )
+
+        return ltx2_rmsnorm_ca_dual_modulate_from_temb(
+            x, temb_scale_shift, scale_shift_table, eps
+        )
+    except Exception as exc:
+        _ltx2_disable_fused_ca_dual_modulate(exc)
         return None
 
 
@@ -1405,79 +1538,127 @@ class LTX2TransformerBlock(nn.Module):
             )
             audio_hidden_states = audio_hidden_states + attn_audio_hidden_states
         # 3. Audio-to-Video and Video-to-Audio Cross-Attention
-        norm_hidden_states = self.rms_norm(hidden_states, self.norm_eps)
-        norm_audio_hidden_states = self.rms_norm(audio_hidden_states, self.norm_eps)
+        video_dual_mod = _ltx2_try_fused_rmsnorm_ca_dual_modulate(
+            hidden_states,
+            temb_ca_scale_shift,
+            self.video_a2v_cross_attn_scale_shift_table[:4, :],
+            self.norm_eps,
+        )
+        audio_dual_mod = _ltx2_try_fused_rmsnorm_ca_dual_modulate(
+            audio_hidden_states,
+            temb_ca_audio_scale_shift,
+            self.audio_a2v_cross_attn_scale_shift_table[:4, :],
+            self.norm_eps,
+        )
 
-        # Compute combined ada params
-        video_per_layer_ca_scale_shift = self.video_a2v_cross_attn_scale_shift_table[
-            :4, :
-        ]
+        # Compute combined ada gates and, if needed, scale/shift params.
         video_per_layer_ca_gate = self.video_a2v_cross_attn_scale_shift_table[4:, :]
-
-        video_ca_scale_shift_table = (
-            video_per_layer_ca_scale_shift[None, None, :, :].to(
-                dtype=temb_ca_scale_shift.dtype, device=temb_ca_scale_shift.device
-            )
-            + temb_ca_scale_shift.reshape(
-                batch_size, temb_ca_scale_shift.shape[1], 4, -1
-            )
-        ).unbind(dim=2)
         video_ca_gate = (
             video_per_layer_ca_gate[None, None, :, :].to(
                 dtype=temb_ca_gate.dtype, device=temb_ca_gate.device
             )
             + temb_ca_gate.reshape(batch_size, temb_ca_gate.shape[1], 1, -1)
         ).unbind(dim=2)
-
-        (
-            video_a2v_ca_scale,
-            video_a2v_ca_shift,
-            video_v2a_ca_scale,
-            video_v2a_ca_shift,
-        ) = [t.squeeze(2) for t in video_ca_scale_shift_table]
         a2v_gate = video_ca_gate[0].squeeze(2)
 
-        audio_per_layer_ca_scale_shift = self.audio_a2v_cross_attn_scale_shift_table[
-            :4, :
-        ]
-        audio_per_layer_ca_gate = self.audio_a2v_cross_attn_scale_shift_table[4:, :]
+        if video_dual_mod is None:
+            video_per_layer_ca_scale_shift = (
+                self.video_a2v_cross_attn_scale_shift_table[:4, :]
+            )
+            video_ca_scale_shift_table = (
+                video_per_layer_ca_scale_shift[None, None, :, :].to(
+                    dtype=temb_ca_scale_shift.dtype,
+                    device=temb_ca_scale_shift.device,
+                )
+                + temb_ca_scale_shift.reshape(
+                    batch_size, temb_ca_scale_shift.shape[1], 4, -1
+                )
+            ).unbind(dim=2)
 
-        audio_ca_scale_shift_table = (
-            audio_per_layer_ca_scale_shift[None, None, :, :].to(
-                dtype=temb_ca_audio_scale_shift.dtype,
-                device=temb_ca_audio_scale_shift.device,
-            )
-            + temb_ca_audio_scale_shift.reshape(
-                batch_size, temb_ca_audio_scale_shift.shape[1], 4, -1
-            )
-        ).unbind(dim=2)
+            (
+                video_a2v_ca_scale,
+                video_a2v_ca_shift,
+                video_v2a_ca_scale,
+                video_v2a_ca_shift,
+            ) = [t.squeeze(2) for t in video_ca_scale_shift_table]
+
+        audio_per_layer_ca_gate = self.audio_a2v_cross_attn_scale_shift_table[4:, :]
         audio_ca_gate = (
             audio_per_layer_ca_gate[None, None, :, :].to(
                 dtype=temb_ca_audio_gate.dtype, device=temb_ca_audio_gate.device
             )
             + temb_ca_audio_gate.reshape(batch_size, temb_ca_audio_gate.shape[1], 1, -1)
         ).unbind(dim=2)
-
-        (
-            audio_a2v_ca_scale,
-            audio_a2v_ca_shift,
-            audio_v2a_ca_scale,
-            audio_v2a_ca_shift,
-        ) = [t.squeeze(2) for t in audio_ca_scale_shift_table]
         v2a_gate = audio_ca_gate[0].squeeze(2)
 
-        # A2V
-        mod_norm_hidden_states = (
-            norm_hidden_states * (1 + video_a2v_ca_scale) + video_a2v_ca_shift
-        )
-        mod_norm_audio_hidden_states = (
-            norm_audio_hidden_states * (1 + audio_a2v_ca_scale) + audio_a2v_ca_shift
-        )
+        if audio_dual_mod is None:
+            audio_per_layer_ca_scale_shift = (
+                self.audio_a2v_cross_attn_scale_shift_table[:4, :]
+            )
+            audio_ca_scale_shift_table = (
+                audio_per_layer_ca_scale_shift[None, None, :, :].to(
+                    dtype=temb_ca_audio_scale_shift.dtype,
+                    device=temb_ca_audio_scale_shift.device,
+                )
+                + temb_ca_audio_scale_shift.reshape(
+                    batch_size, temb_ca_audio_scale_shift.shape[1], 4, -1
+                )
+            ).unbind(dim=2)
+
+            (
+                audio_a2v_ca_scale,
+                audio_a2v_ca_shift,
+                audio_v2a_ca_scale,
+                audio_v2a_ca_shift,
+            ) = [t.squeeze(2) for t in audio_ca_scale_shift_table]
+
+        if video_dual_mod is None:
+            video_dual_mod = _ltx2_try_fused_rmsnorm_dual_modulate(
+                hidden_states,
+                video_a2v_ca_scale,
+                video_a2v_ca_shift,
+                video_v2a_ca_scale,
+                video_v2a_ca_shift,
+                self.norm_eps,
+            )
+        if video_dual_mod is None:
+            norm_hidden_states = self.rms_norm(hidden_states, self.norm_eps)
+            mod_norm_hidden_states_a2v = (
+                norm_hidden_states * (1 + video_a2v_ca_scale) + video_a2v_ca_shift
+            )
+            mod_norm_hidden_states_v2a = (
+                norm_hidden_states * (1 + video_v2a_ca_scale) + video_v2a_ca_shift
+            )
+        else:
+            mod_norm_hidden_states_a2v, mod_norm_hidden_states_v2a = video_dual_mod
+
+        if audio_dual_mod is None:
+            audio_dual_mod = _ltx2_try_fused_rmsnorm_dual_modulate(
+                audio_hidden_states,
+                audio_a2v_ca_scale,
+                audio_a2v_ca_shift,
+                audio_v2a_ca_scale,
+                audio_v2a_ca_shift,
+                self.norm_eps,
+            )
+        if audio_dual_mod is None:
+            norm_audio_hidden_states = self.rms_norm(audio_hidden_states, self.norm_eps)
+            mod_norm_audio_hidden_states_a2v = (
+                norm_audio_hidden_states * (1 + audio_a2v_ca_scale) + audio_a2v_ca_shift
+            )
+            mod_norm_audio_hidden_states_v2a = (
+                norm_audio_hidden_states * (1 + audio_v2a_ca_scale) + audio_v2a_ca_shift
+            )
+        else:
+            (
+                mod_norm_audio_hidden_states_a2v,
+                mod_norm_audio_hidden_states_v2a,
+            ) = audio_dual_mod
 
         if not skip_a2v_cross_attn:
             a2v_attn_hidden_states = self.audio_to_video_attn(
-                mod_norm_hidden_states,
-                context=mod_norm_audio_hidden_states,
+                mod_norm_hidden_states_a2v,
+                context=mod_norm_audio_hidden_states_a2v,
                 pe=ca_video_rotary_emb,
                 k_pe=ca_audio_rotary_emb,
                 mask=a2v_cross_attention_mask,
@@ -1491,18 +1672,10 @@ class LTX2TransformerBlock(nn.Module):
                 hidden_states, a2v_attn_hidden_states, a2v_gate
             )
 
-        # V2A
-        mod_norm_hidden_states = (
-            norm_hidden_states * (1 + video_v2a_ca_scale) + video_v2a_ca_shift
-        )
-        mod_norm_audio_hidden_states = (
-            norm_audio_hidden_states * (1 + audio_v2a_ca_scale) + audio_v2a_ca_shift
-        )
-
         if not skip_v2a_cross_attn:
             v2a_attn_hidden_states = self.video_to_audio_attn(
-                mod_norm_audio_hidden_states,
-                context=mod_norm_hidden_states,
+                mod_norm_audio_hidden_states_v2a,
+                context=mod_norm_hidden_states_v2a,
                 pe=ca_audio_rotary_emb,
                 k_pe=ca_video_rotary_emb,
                 mask=v2a_cross_attention_mask,
