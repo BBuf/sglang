@@ -81,6 +81,7 @@ def _ltx2_residual_gate_add(
 
     return fuse_scale_shift_kernel(update, gate, residual, scale_constant=0)
 
+
 _LTX2_TE_NVFP4_RECIPE = None
 _LTX2_TE_NVFP4_LINEAR_CLS = None
 _LTX2_TE_NVFP4_FP8_AUTOCAST = None
@@ -155,6 +156,7 @@ def _ltx2_disable_te_nvfp4(exc: Exception) -> None:
     if not _LTX2_TE_NVFP4_WARNING_EMITTED:
         logger.warning("Disabling LTX2 TE NVFP4 video FFN fast path: %s", exc)
         _LTX2_TE_NVFP4_WARNING_EMITTED = True
+
 
 _LTX2_FUSED_ADA_VALUES_ALL_RUNTIME_DISABLED = False
 _LTX2_FUSED_ADA_VALUES_ALL_WARNING_EMITTED = False
@@ -350,6 +352,7 @@ def _ltx2_try_fused_rmsnorm_ca_dual_modulate(
     except Exception as exc:
         _ltx2_disable_fused_ca_dual_modulate(exc)
         return None
+
 
 def _ltx2_get_fused_rms_adaln():
     global _LTX2_FUSED_RMS_ADALN, _LTX2_FUSED_RMS_ADALN_UNAVAILABLE
