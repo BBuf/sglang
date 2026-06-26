@@ -49,11 +49,111 @@ logger = init_logger(__name__)
 ADALN_NUM_BASE_PARAMS = 6
 ADALN_NUM_CROSS_ATTN_PARAMS = 3
 
+_LTX2_FUSED_FFN_PROJ_IN_GELU = None
+_LTX2_FUSED_FFN_PROJ_IN_GELU_UNAVAILABLE = False
+_LTX2_FUSED_FFN_PROJ_IN_GELU_RUNTIME_DISABLED = False
+
 
 def adaln_embedding_coefficient(cross_attention_adaln: bool) -> int:
     return ADALN_NUM_BASE_PARAMS + (
         ADALN_NUM_CROSS_ATTN_PARAMS if cross_attention_adaln else 0
     )
+
+
+def _ltx2_get_tp_world_size_or_one() -> int:
+    try:
+        return get_tp_world_size()
+    except AssertionError:
+        return 1
+
+
+def _ltx2_linear_base_for_fusion(layer: nn.Module) -> nn.Module | None:
+    base_layer = getattr(layer, "base_layer", layer)
+    if base_layer is not layer and not (
+        getattr(layer, "merged", False) or getattr(layer, "disable_lora", False)
+    ):
+        return None
+    return base_layer
+
+
+def _ltx2_get_fused_ffn_proj_in_gelu():
+    global _LTX2_FUSED_FFN_PROJ_IN_GELU
+    global _LTX2_FUSED_FFN_PROJ_IN_GELU_UNAVAILABLE
+    if _LTX2_FUSED_FFN_PROJ_IN_GELU_UNAVAILABLE:
+        return None
+    if _LTX2_FUSED_FFN_PROJ_IN_GELU is None:
+        try:
+            from sglang.jit_kernel.diffusion.triton.ltx2_gelu import (
+                ltx2_bias_gelu_tanh_inplace,
+            )
+        except Exception:
+            _LTX2_FUSED_FFN_PROJ_IN_GELU_UNAVAILABLE = True
+            return None
+        _LTX2_FUSED_FFN_PROJ_IN_GELU = ltx2_bias_gelu_tanh_inplace
+    return _LTX2_FUSED_FFN_PROJ_IN_GELU
+
+
+def _ltx2_try_fused_ffn_proj_in_gelu(
+    x: torch.Tensor,
+    proj_in: nn.Module,
+) -> torch.Tensor | None:
+    global _LTX2_FUSED_FFN_PROJ_IN_GELU_RUNTIME_DISABLED
+    if (
+        _LTX2_FUSED_FFN_PROJ_IN_GELU_RUNTIME_DISABLED
+        or torch.is_grad_enabled()
+        or _ltx2_get_tp_world_size_or_one() != 1
+        or not x.is_cuda
+        or x.dtype not in (torch.float16, torch.bfloat16)
+        or x.ndim < 2
+        or x.stride(-1) != 1
+    ):
+        return None
+
+    base = _ltx2_linear_base_for_fusion(proj_in)
+    if base is None:
+        return None
+    if getattr(base, "gather_output", False) or getattr(base, "skip_bias_add", False):
+        return None
+    if (
+        getattr(base, "quant_method", None).__class__.__name__
+        != "UnquantizedLinearMethod"
+    ):
+        return None
+
+    weight = getattr(base, "weight", None)
+    bias = getattr(base, "bias", None)
+    if weight is None or bias is None:
+        return None
+    if (
+        weight.device != x.device
+        or bias.device != x.device
+        or weight.dtype != x.dtype
+        or bias.dtype != x.dtype
+        or weight.ndim != 2
+        or bias.ndim != 1
+        or weight.shape[1] != x.shape[-1]
+        or weight.shape[0] != bias.shape[0]
+        or weight.stride(-1) != 1
+        or not bias.is_contiguous()
+    ):
+        return None
+
+    ltx2_bias_gelu_tanh_inplace = _ltx2_get_fused_ffn_proj_in_gelu()
+    if ltx2_bias_gelu_tanh_inplace is None:
+        return None
+
+    try:
+        y = F.linear(x, weight, bias=None)
+        if not y.is_contiguous():
+            return None
+        return ltx2_bias_gelu_tanh_inplace(y, bias)
+    except Exception as exc:
+        _LTX2_FUSED_FFN_PROJ_IN_GELU_RUNTIME_DISABLED = True
+        logger.warning_once(
+            "Disabling LTX2 fused FFN proj_in+GELU fast path after "
+            f"runtime failure: {exc}"
+        )
+        return None
 
 
 def _ltx2_is_perturbed(
@@ -810,8 +910,12 @@ class LTX2FeedForward(nn.Module):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x, _ = self.proj_in(x)
-        x = self.act(x)
+        fused_proj_in = _ltx2_try_fused_ffn_proj_in_gelu(x, self.proj_in)
+        if fused_proj_in is None:
+            x, _ = self.proj_in(x)
+            x = self.act(x)
+        else:
+            x = fused_proj_in
         x, _ = self.proj_out(x)
         return x
 
@@ -1010,7 +1114,6 @@ class LTX2TransformerBlock(nn.Module):
         v2a_cross_attn_perturbation_mask: Optional[torch.Tensor] = None,
         audio_replicated_for_sp: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-
         batch_size = hidden_states.size(0)
 
         # 1. Video and Audio Self-Attention
@@ -1641,7 +1744,6 @@ class LTX2VideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
         audio_replicated_for_sp: bool = False,
         **kwargs,
     ) -> tuple[torch.Tensor | None, torch.Tensor | None]:
-
         batch_size = hidden_states.size(0)
         audio_timestep = audio_timestep if audio_timestep is not None else timestep
 
