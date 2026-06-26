@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any, Optional, Tuple, Union
 
 import torch
@@ -48,6 +49,81 @@ logger = init_logger(__name__)
 
 ADALN_NUM_BASE_PARAMS = 6
 ADALN_NUM_CROSS_ATTN_PARAMS = 3
+
+_LTX2_TE_NVFP4_RECIPE = None
+_LTX2_TE_NVFP4_LINEAR_CLS = None
+_LTX2_TE_NVFP4_FP8_AUTOCAST = None
+_LTX2_TE_NVFP4_IMPORT_FAILED = False
+_LTX2_TE_NVFP4_RUNTIME_DISABLED = False
+_LTX2_TE_NVFP4_WARNING_EMITTED = False
+
+
+def _ltx2_env_flag(name: str) -> bool:
+    return os.environ.get(name, "0").lower() in ("1", "true", "yes", "on")
+
+
+def _ltx2_te_nvfp4_video_ffn_enabled() -> bool:
+    return _ltx2_env_flag("SGLANG_LTX2_TE_NVFP4_VIDEO_FFN")
+
+
+def _ltx2_linear_base_for_fusion(layer: nn.Module) -> nn.Module | None:
+    base_layer = getattr(layer, "base_layer", layer)
+    if base_layer is not layer and not (
+        getattr(layer, "merged", False) or getattr(layer, "disable_lora", False)
+    ):
+        return None
+    return base_layer
+
+
+def _ltx2_get_te_nvfp4_context():
+    global _LTX2_TE_NVFP4_RECIPE
+    global _LTX2_TE_NVFP4_LINEAR_CLS
+    global _LTX2_TE_NVFP4_FP8_AUTOCAST
+    global _LTX2_TE_NVFP4_IMPORT_FAILED
+    global _LTX2_TE_NVFP4_RUNTIME_DISABLED
+    global _LTX2_TE_NVFP4_WARNING_EMITTED
+
+    if _LTX2_TE_NVFP4_IMPORT_FAILED or _LTX2_TE_NVFP4_RUNTIME_DISABLED:
+        return None
+
+    try:
+        if (
+            _LTX2_TE_NVFP4_RECIPE is None
+            or _LTX2_TE_NVFP4_LINEAR_CLS is None
+            or _LTX2_TE_NVFP4_FP8_AUTOCAST is None
+        ):
+            import transformer_engine.pytorch as te
+            from transformer_engine.common.recipe import NVFP4BlockScaling
+            from transformer_engine.pytorch import fp8_autocast
+
+            _LTX2_TE_NVFP4_LINEAR_CLS = te.Linear
+            _LTX2_TE_NVFP4_FP8_AUTOCAST = fp8_autocast
+            _LTX2_TE_NVFP4_RECIPE = NVFP4BlockScaling(
+                disable_rht=True,
+                disable_stochastic_rounding=True,
+                disable_2d_quantization=True,
+            )
+    except Exception as exc:
+        _LTX2_TE_NVFP4_IMPORT_FAILED = True
+        if not _LTX2_TE_NVFP4_WARNING_EMITTED:
+            logger.warning("Disabling LTX2 TE NVFP4 video FFN fast path: %s", exc)
+            _LTX2_TE_NVFP4_WARNING_EMITTED = True
+        return None
+
+    return (
+        _LTX2_TE_NVFP4_LINEAR_CLS,
+        _LTX2_TE_NVFP4_FP8_AUTOCAST,
+        _LTX2_TE_NVFP4_RECIPE,
+    )
+
+
+def _ltx2_disable_te_nvfp4(exc: Exception) -> None:
+    global _LTX2_TE_NVFP4_RUNTIME_DISABLED
+    global _LTX2_TE_NVFP4_WARNING_EMITTED
+    _LTX2_TE_NVFP4_RUNTIME_DISABLED = True
+    if not _LTX2_TE_NVFP4_WARNING_EMITTED:
+        logger.warning("Disabling LTX2 TE NVFP4 video FFN fast path: %s", exc)
+        _LTX2_TE_NVFP4_WARNING_EMITTED = True
 
 
 def adaln_embedding_coefficient(cross_attention_adaln: bool) -> int:
@@ -791,6 +867,7 @@ class LTX2FeedForward(nn.Module):
         dim_out: int | None = None,
         mult: int = 4,
         quant_config: QuantizationConfig | None = None,
+        enable_te_nvfp4: bool = False,
     ) -> None:
         super().__init__()
         if dim_out is None:
@@ -808,10 +885,116 @@ class LTX2FeedForward(nn.Module):
             input_is_parallel=True,
             quant_config=quant_config,
         )
+        self._te_nvfp4_video_ffn = (
+            enable_te_nvfp4 and dim == 4096 and dim_out == 4096 and inner_dim == 16384
+        )
+        self._te_nvfp4_proj_in = None
+        self._te_nvfp4_proj_out = None
+
+    def _get_te_nvfp4_linear_context(
+        self, cache_attr: str, layer: nn.Module
+    ) -> tuple[nn.Module, object, object] | None:
+        if (
+            not _ltx2_te_nvfp4_video_ffn_enabled()
+            or not self._te_nvfp4_video_ffn
+            or get_tp_world_size() != 1
+        ):
+            return None
+
+        base = _ltx2_linear_base_for_fusion(layer)
+        if base is None:
+            return None
+        if (
+            getattr(base, "quant_method", None).__class__.__name__
+            != "UnquantizedLinearMethod"
+        ):
+            return None
+
+        weight = getattr(base, "weight", None)
+        bias = getattr(base, "bias", None)
+        if (
+            weight is None
+            or not weight.is_cuda
+            or weight.dtype not in (torch.float16, torch.bfloat16)
+            or getattr(base, "tp_size", 1) != 1
+            or getattr(base, "skip_bias_add", False)
+        ):
+            return None
+        if bias is not None and (
+            bias.device != weight.device or bias.dtype != weight.dtype
+        ):
+            return None
+
+        context = _ltx2_get_te_nvfp4_context()
+        if context is None:
+            return None
+        te_linear_cls, fp8_autocast, recipe = context
+
+        input_size = int(getattr(base, "input_size_per_partition", weight.shape[1]))
+        output_size = int(getattr(base, "output_size_per_partition", weight.shape[0]))
+        cached = getattr(self, cache_attr)
+        if (
+            cached is None
+            or getattr(cached, "weight", None) is not weight
+            or getattr(cached, "bias", None) is not bias
+        ):
+            te_layer = te_linear_cls(
+                input_size,
+                output_size,
+                bias=bias is not None,
+                params_dtype=weight.dtype,
+                device=weight.device,
+            )
+            te_layer.weight = weight
+            if bias is not None:
+                te_layer.bias = bias
+            te_layer.train(self.training)
+            setattr(self, cache_attr, te_layer)
+            cached = te_layer
+        else:
+            cached.train(self.training)
+        return cached, fp8_autocast, recipe
+
+    def _try_te_nvfp4_linear(
+        self, cache_attr: str, layer: nn.Module, x: torch.Tensor
+    ) -> torch.Tensor | None:
+        if not x.is_cuda or x.dtype not in (torch.float16, torch.bfloat16):
+            return None
+        context = self._get_te_nvfp4_linear_context(cache_attr, layer)
+        if context is None:
+            return None
+        te_layer, fp8_autocast, recipe = context
+        input_shape = tuple(x.shape)
+        if not input_shape or input_shape[-1] != int(te_layer.weight.shape[1]):
+            return None
+        x_2d = x.reshape(-1, input_shape[-1])
+        original_m = int(x_2d.shape[0])
+        pad_m_to = 16
+        if pad_m_to > 1:
+            pad_rows = (-original_m) % pad_m_to
+            if pad_rows:
+                x_2d = F.pad(x_2d, (0, 0, 0, pad_rows))
+        try:
+            with fp8_autocast(enabled=True, fp8_recipe=recipe):
+                out = te_layer(x_2d)
+        except Exception as exc:
+            _ltx2_disable_te_nvfp4(exc)
+            return None
+        if int(out.shape[0]) != original_m:
+            out = out[:original_m]
+        return out.reshape(*input_shape[:-1], int(out.shape[-1]))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x, _ = self.proj_in(x)
-        x = self.act(x)
+        te_proj_in = self._try_te_nvfp4_linear("_te_nvfp4_proj_in", self.proj_in, x)
+        if te_proj_in is not None:
+            x = self.act(te_proj_in)
+        else:
+            x, _ = self.proj_in(x)
+            x = self.act(x)
+
+        te_proj_out = self._try_te_nvfp4_linear("_te_nvfp4_proj_out", self.proj_out, x)
+        if te_proj_out is not None:
+            return te_proj_out
         x, _ = self.proj_out(x)
         return x
 
@@ -933,9 +1116,16 @@ class LTX2TransformerBlock(nn.Module):
         )
 
         # 4. Feedforward layers
-        self.ff = LTX2FeedForward(dim, dim_out=dim, quant_config=quant_config)
+        self.ff = LTX2FeedForward(
+            dim,
+            dim_out=dim,
+            quant_config=quant_config,
+            enable_te_nvfp4=True,
+        )
         self.audio_ff = LTX2FeedForward(
-            audio_dim, dim_out=audio_dim, quant_config=quant_config
+            audio_dim,
+            dim_out=audio_dim,
+            quant_config=quant_config,
         )
 
         # 5. Modulation Parameters
@@ -1010,7 +1200,6 @@ class LTX2TransformerBlock(nn.Module):
         v2a_cross_attn_perturbation_mask: Optional[torch.Tensor] = None,
         audio_replicated_for_sp: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor]:
-
         batch_size = hidden_states.size(0)
 
         # 1. Video and Audio Self-Attention
@@ -1641,7 +1830,6 @@ class LTX2VideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
         audio_replicated_for_sp: bool = False,
         **kwargs,
     ) -> tuple[torch.Tensor | None, torch.Tensor | None]:
-
         batch_size = hidden_states.size(0)
         audio_timestep = audio_timestep if audio_timestep is not None else timestep
 
