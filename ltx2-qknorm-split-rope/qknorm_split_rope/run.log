@@ -1,0 +1,234 @@
+[06-26 07:23:54] Auto memory policy for LTX23PipelineConfig selected layerwise offload components: text_encoder, image_encoder, vae
+[06-26 07:23:54] Disabling component offload for LTX23PipelineConfig because minimum available memory on selected GPUs is 177.74 GiB: dit_cpu_offload=False
+[06-26 07:23:54] Automatically set torch_sdpa backend for component text_encoder to preserve LTX2 official attention semantics
+[06-26 07:23:54] server_args: {"model_path": "Lightricks/LTX-2.3", "model_id": null, "backend": "sglang", "attention_backend": null, "attention_backend_config": {}, "component_attention_backends": {"text_encoder": "torch_sdpa"}, "cache_dit_config": null, "nccl_port": null, "trust_remote_code": false, "revision": null, "num_gpus": 1, "performance_mode": "auto", "base_gpu_id": 0, "gpu_ids": null, "tp_size": 1, "sp_degree": 1, "ulysses_degree": 1, "ring_degree": 1, "dp_size": 1, "dp_degree": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "hsdp_replicate_dim": 1, "hsdp_shard_dim": 1, "dist_timeout": 3600, "pipeline_class_name": "LTX2TwoStageHQPipeline", "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "transformer_weights_path": null, "component_transformer_weights_paths": {}, "quantization": null, "quantization_ignored_layers": null, "lora_target_modules": null, "dit_cpu_offload": false, "dit_layerwise_offload": false, "layerwise_offload_components": ["text_encoder", "image_encoder", "vae"], "dit_offload_prefetch_size": 0.0, "text_encoder_cpu_offload": false, "image_encoder_cpu_offload": false, "vae_cpu_offload": false, "use_fsdp_inference": false, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": "original", "comfyui_mode": false, "enable_torch_compile": false, "enable_layerwise_nvtx_marker": false, "warmup_mode": "request", "warmup": true, "server_warmup": false, "warmup_resolutions": null, "warmup_steps": 1, "disable_autocast": false, "master_port": 30005, "host": "127.0.0.1", "port": 30000, "webui": false, "webui_port": 12312, "scheduler_port": 5609, "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "strict_ports": false, "output_path": "outputs/", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_downstream_wait_timeout": 1800, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_instance_id": 0, "disagg_max_slots_per_instance": 8, "disagg_transfer_redundancy": 1.25, "disagg_role_device": "auto", "disagg_transfer_backend": "auto", "disagg_transfer_pool_size": 268435456, "disagg_transfer_pin_memory": "auto", "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "decoder_tp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "pool_control_endpoint": null, "pool_control_advertised_endpoint": null, "log_level": "info", "uvicorn_access_log_exclude_prefixes": [], "enable_trace": false, "otlp_traces_endpoint": "localhost:4317"}
+[06-26 07:23:54] Local mode: True
+[06-26 07:23:54] Starting server...
+[06-26 07:24:03] Scheduler bind at endpoint: tcp://127.0.0.1:5609
+[06-26 07:24:03] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/root/.cache/sgl_diffusion/torch_compile_cache/inductor TRITON_CACHE_DIR=/root/.cache/sgl_diffusion/torch_compile_cache/triton
+[06-26 07:24:03] Initializing distributed environment with world_size=1, device=cuda:0, timeout=3600
+[06-26 07:24:03] Setting distributed timeout to 3600 seconds
+[06-26 07:24:05] Requested pipeline_class_name: LTX2TwoStageHQPipeline
+[06-26 07:24:05] Available pipelines in registry: ['ComfyUIFluxPipeline', 'ComfyUIQwenImagePipeline', 'ComfyUIQwenImageEditPipeline', 'ComfyUIZImagePipeline', 'Cosmos3OmniDiffusersPipeline', 'DiffusersPipeline', 'ErnieImagePipeline', 'FluxPipeline', 'Flux2Pipeline', 'Flux2KleinPipeline', 'Flux2NvfpPipeline', 'GlmImagePipeline', 'HeliosPipeline', 'HeliosPyramidPipeline', 'Hunyuan3D2Pipeline', 'HunyuanVideoPipeline', 'Ideogram4Pipeline', 'Ideogram4Nvfp4Pipeline', 'JoyImageEditPipeline', 'Krea2Pipeline', 'LingBotWorldCausalDMDPipeline', 'LTX2Pipeline', 'LTX2TwoStagePipeline', 'LTX2TwoStageHQPipeline', 'MOVA', 'MOVAPipeline', 'QwenImagePipeline', 'QwenImageEditPipeline', 'QwenImageEditPlusPipeline', 'QwenImageLayeredPipeline', 'SanaPipeline', 'SanaWMPipeline', 'SanaWMTwoStagePipeline', 'SanaWMRealtimePipeline', 'StableDiffusion3Pipeline', 'WanCausalDMDPipeline', 'WanDMDPipeline', 'WanImageToVideoDmdPipeline', 'WanImageToVideoPipeline', 'WanPipeline', 'ZImagePipeline']
+[06-26 07:24:05] ✓ Using explicitly specified pipeline: LTX2TwoStageHQPipeline (class: LTX2TwoStageHQPipeline)
+[06-26 07:24:05] Loading pipeline modules...
+[06-26 07:24:05] Downloading overlay metadata for Lightricks/LTX-2.3 from MickJ/LTX-2.3-overlay
+[06-26 07:24:05] Checking for cached model in HF Hub cache for Lightricks/LTX-2.3...
+[06-26 07:24:05] Model path: /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493
+[06-26 07:24:05] Diffusers version: 0.37.0.dev0
+[06-26 07:24:05] Loading pipeline modules from config: {'_class_name': 'LTX2Pipeline', '_diffusers_version': '0.37.0.dev0', 'audio_vae': ['diffusers', 'AutoencoderKLLTX2Audio'], 'connectors': ['ltx2', 'LTX2TextConnectors'], 'scheduler': ['diffusers', 'FlowMatchEulerDiscreteScheduler'], 'text_encoder': ['transformers', 'Gemma3ForConditionalGeneration'], 'tokenizer': ['transformers', 'GemmaTokenizerFast'], 'transformer': ['diffusers', 'LTX2VideoTransformer3DModel'], 'vae': ['diffusers', 'AutoencoderKLLTX2Video'], 'vocoder': ['ltx2', 'LTX2Vocoder']}
+[06-26 07:24:05] Loading required components: ['transformer', 'text_encoder', 'tokenizer', 'scheduler', 'vae', 'audio_vae', 'vocoder', 'connectors']
+[06-26 07:24:05] Memory-aware component load order: ['text_encoder', 'transformer', 'connectors', 'vae', 'vocoder', 'audio_vae', 'tokenizer', 'scheduler']
+Loading required modules:   0%|          | 0/8 [00:00<?, ?it/s][06-26 07:24:05] Using torch_sdpa backend for component: text_encoder
+[06-26 07:24:05] Loading text_encoder from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/text_encoder. avail mem: 171.94 GB
+[06-26 07:24:05] Loading text_encoder on CPU first because it is selected for layerwise offload
+[06-26 07:24:13] [RunAI Streamer] Overall time to stream 45.4 GiB of all files to cpu: 7.07s, 6.4 GiB/s
+[06-26 07:24:27] LayerwiseOffloadManager initialized with num prefetched layer: 1, total num layers: 48
+[06-26 07:24:27] Enabled layerwise offload for Gemma3ForConditionalGeneration on modules: ['language_model.layers']
+[06-26 07:24:27] Enabled layerwise offload for pipeline components: ['text_encoder']
+[06-26 07:24:27] Configured layerwise offload for text_encoder immediately after startup CPU staging
+[06-26 07:24:27] Loaded text_encoder: Gemma3ForConditionalGeneration (sgl-diffusion version). model size: 3.2 GB, consumed GPU mem: 3.27 GB, avail GPU mem: 168.67 GB
+[06-26 07:24:27] Attention backends for text_encoder: torch_sdpa
+Loading required modules:  12%|█▎        | 1/8 [00:21<02:30, 21.51s/it][06-26 07:24:27] Loading transformer from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/transformer. avail mem: 168.67 GB
+[06-26 07:24:27] Loading LTX2VideoTransformer3DModel from 1 safetensors file(s) , param_dtype: torch.bfloat16
+[06-26 07:24:30] [RunAI Streamer] Overall time to stream 35.4 GiB of all files to cpu: 3.52s, 10.0 GiB/s
+[06-26 07:24:38] Loaded transformer: LTX2VideoTransformer3DModel (sgl-diffusion version). model size: 35.37 GB, consumed GPU mem: 35.41 GB, avail GPU mem: 133.26 GB
+[06-26 07:24:38] Attention backends for transformer: fa, torch_sdpa (component constraint)
+Loading required modules:  25%|██▌       | 2/8 [00:32<01:32, 15.45s/it][06-26 07:24:38] Loading connectors from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/connectors. avail mem: 133.26 GB
+[06-26 07:24:40] Loaded connectors: LTX2TextConnectors (sgl-diffusion version). model size: 5.91 GB, consumed GPU mem: 5.87 GB, avail GPU mem: 127.39 GB
+[06-26 07:24:40] Attention backends for connectors: fa
+Loading required modules:  38%|███▊      | 3/8 [00:34<00:46,  9.23s/it][06-26 07:24:40] Loading vae from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/vae. avail mem: 127.39 GB
+[06-26 07:24:40] VAE: converted 88 Conv3d weights to channels_last_3d
+[06-26 07:24:40] Loaded vae: AutoencoderKLLTX2Video (sgl-diffusion version). model size: 2.05 GB, consumed GPU mem: 2.07 GB, avail GPU mem: 125.33 GB
+Loading required modules:  50%|█████     | 4/8 [00:35<00:23,  5.83s/it][06-26 07:24:40] Loading vocoder from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/vocoder. avail mem: 125.33 GB
+[06-26 07:24:40] Loaded vocoder: LTX2Vocoder (sgl-diffusion version). model size: 0.24 GB, consumed GPU mem: 0.23 GB, avail GPU mem: 125.10 GB
+Loading required modules:  62%|██████▎   | 5/8 [00:35<00:11,  3.81s/it][06-26 07:24:40] Loading audio_vae from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/audio_vae. avail mem: 125.10 GB
+[06-26 07:24:40] Loaded audio_vae: AutoencoderKLLTX2Audio (sgl-diffusion version). model size: 0.1 GB, consumed GPU mem: 0.10 GB, avail GPU mem: 125.00 GB
+[06-26 07:24:40] Loading tokenizer from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/tokenizer. avail mem: 125.00 GB
+[06-26 07:24:42] Loaded tokenizer: GemmaTokenizer (sgl-diffusion version). model size: NA GB, consumed GPU mem: 0.00 GB, avail GPU mem: 125.00 GB
+Loading required modules:  88%|████████▊ | 7/8 [00:36<00:02,  2.17s/it][06-26 07:24:42] Loading scheduler from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/scheduler. avail mem: 125.00 GB
+[06-26 07:24:42] Loaded scheduler: FlowMatchEulerDiscreteScheduler (sgl-diffusion version). model size: NA GB, consumed GPU mem: 0.00 GB, avail GPU mem: 125.00 GB
+Loading required modules: 100%|██████████| 8/8 [00:36<00:00,  4.57s/it]
+[06-26 07:24:42] Auto-resolved LTX2 two-stage components: spatial_upsampler=/root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-spatial-upscaler-x2-1.1.safetensors, distilled_lora=/root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-22b-distilled-lora-384.safetensors
+[06-26 07:24:42] Loading spatial_upsampler from /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-spatial-upscaler-x2-1.1.safetensors. avail mem: 125.00 GB
+[06-26 07:24:42] Using config from safetensors metadata
+[06-26 07:24:42] Loading LatentUpsampler with config: {'in_channels': 128, 'mid_channels': 1024, 'num_blocks_per_stage': 4, 'dims': 3, 'spatial_upsample': True, 'temporal_upsample': False, 'spatial_scale': 2.0, 'rational_resampler': False}
+[06-26 07:24:42] Loaded LatentUpsampler to cuda:0
+[06-26 07:24:42] Loaded spatial_upsampler: LatentUpsampler (sgl-diffusion version). model size: 0.93 GB, consumed GPU mem: 0.92 GB, avail GPU mem: 124.08 GB
+[06-26 07:24:42] Creating pipeline stages...
+[93m[06-26 07:24:42] Multiple transformer attention backends detected: ['fa', 'torch_sdpa']. Using fa for denoising metadata.[0;0m
+[06-26 07:24:42] Using fa attention backend
+[93m[06-26 07:24:42] Multiple transformer attention backends detected: ['fa', 'torch_sdpa']. Using fa for denoising metadata.[0;0m
+[06-26 07:24:59] Converted 1660 layers to LoRA layers
+[06-26 07:24:59] [LoRAFormatAdapter] normalize_lora_state_dict called, #keys=3320
+[06-26 07:24:59] [LoRAFormatAdapter] before convert, sample keys (<=20): diffusion_model.adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_2.lora_B.weight, diffusion_model.adaln_single.linear.lora_A.weight, diffusion_model.adaln_single.linear.lora_B.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_2.lora_B.weight, diffusion_model.audio_adaln_single.linear.lora_A.weight, diffusion_model.audio_adaln_single.linear.lora_B.weight, diffusion_model.audio_patchify_proj.lora_A.weight, diffusion_model.audio_patchify_proj.lora_B.weight, diffusion_model.audio_proj_out.lora_A.weight, diffusion_model.audio_proj_out.lora_B.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_2.lora_B.weight
+[06-26 07:24:59] [LoRAFormatAdapter] detected format: LoRAFormat.STANDARD
+[06-26 07:24:59] [LoRAFormatAdapter] diffusers.lora_conversion_utils converted keys, sample keys (<=20): diffusion_model.adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_2.lora_B.weight, diffusion_model.adaln_single.linear.lora_A.weight, diffusion_model.adaln_single.linear.lora_B.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_2.lora_B.weight, diffusion_model.audio_adaln_single.linear.lora_A.weight, diffusion_model.audio_adaln_single.linear.lora_B.weight, diffusion_model.audio_patchify_proj.lora_A.weight, diffusion_model.audio_patchify_proj.lora_B.weight, diffusion_model.audio_proj_out.lora_A.weight, diffusion_model.audio_proj_out.lora_B.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_2.lora_B.weight
+[06-26 07:24:59] [LoRAFormatAdapter] after convert, sample keys (<=20): diffusion_model.adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.adaln_single.emb.timestep_embedder.linear_2.lora_B.weight, diffusion_model.adaln_single.linear.lora_A.weight, diffusion_model.adaln_single.linear.lora_B.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.audio_adaln_single.emb.timestep_embedder.linear_2.lora_B.weight, diffusion_model.audio_adaln_single.linear.lora_A.weight, diffusion_model.audio_adaln_single.linear.lora_B.weight, diffusion_model.audio_patchify_proj.lora_A.weight, diffusion_model.audio_patchify_proj.lora_B.weight, diffusion_model.audio_proj_out.lora_A.weight, diffusion_model.audio_proj_out.lora_B.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_1.lora_A.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_1.lora_B.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_2.lora_A.weight, diffusion_model.audio_prompt_adaln_single.emb.timestep_embedder.linear_2.lora_B.weight
+[06-26 07:25:00] Rank 0: loaded LoRA adapter /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-22b-distilled-lora-384.safetensors
+[06-26 07:25:00] Rank 0: LoRA adapter(s) /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-22b-distilled-lora-384.safetensors applied to 1660 layers (targets: transformer, strengths: 0.25, merge_mode=merge)
+[06-26 07:25:25] Merged LTX-2 stage-1 distilled LoRA (strength=0.2500) into the DiT base; stage-2 uses a dynamic delta to avoid per-request merge/unmerge.
+[06-26 07:25:25] Pipeline instantiated
+[06-26 07:25:25] LayerwiseOffloadManager initialized with num prefetched layer: 1, total num layers: 4
+[06-26 07:25:25] LayerwiseOffloadManager initialized with num prefetched layer: 1, total num layers: 9
+[06-26 07:25:25] Enabled layerwise offload for AutoencoderKLLTX2Video on modules: ['encoder.down_blocks', 'decoder.up_blocks']
+[06-26 07:25:25] Enabled layerwise offload for pipeline components: ['text_encoder', 'vae']
+[06-26 07:25:25] Worker 0: Initialized device, model, and distributed environment.
+[06-26 07:25:25] Worker 0: Scheduler loop started.
+[06-26 07:25:25] Adjusting number of frames from 121 to 121 based on model
+[06-26 07:25:25] Processing 1 grouped request(s)
+Warmup requests:   0%|          | 0/1 [00:00<?, ?req/s][93m[06-26 07:25:25] LoRA adapter is set, but not effective. Please make sure the LoRA weights are merged[0;0m
+[06-26 07:25:26] Downloading overlay metadata for Lightricks/LTX-2.3 from MickJ/LTX-2.3-overlay
+[06-26 07:25:27] Halved resolution: 1088x1920 -> 544x960
+[06-26 07:25:27] LoRA weights deactivated for transformer
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/usr/local/lib/python3.12/dist-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+[06-26 07:25:47] Upsampled video latents: [1, 128, 16, 34, 60]
+[06-26 07:25:47] Packed video latents for Stage 2: [1, 32640, 128] (resolution 1088x1920)
+[06-26 07:25:47] Re-packed audio latents for Stage 2: [1, 126, 128]
+[06-26 07:25:47] Rank 0: LoRA adapter(s) /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-22b-distilled-lora-384.safetensors applied to 1660 layers (targets: transformer, strengths: 0.25, merge_mode=dynamic)
+Warmup requests: 100%|██████████| 1/1 [00:40<00:00, 40.24s/req, warmup req (1920x1088x121f, 1/15 steps), last=40.24s]Warmup requests: 100%|██████████| 1/1 [00:40<00:00, 40.24s/req, warmup req (1920x1088x121f, 1/15 steps), last=40.24s]
+[06-26 07:26:05] The server is fired up and ready to roll!
+[06-26 07:26:05] Sampling params:
+                       width: 1920
+                      height: 1088
+                  num_frames: 121
+                         fps: 24
+                      prompt: <redacted, len=33>
+                  neg_prompt: <redacted, len=1078>
+                        seed: 42
+                 infer_steps: 15
+      num_outputs_per_prompt: 1
+              guidance_scale: 3.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: None
+                 save_output: True
+            output_file_path: /tmp/ltx23_qknorm_split_rope_e2e/qknorm_split_rope/qknorm_split_rope.mp4
+        
+[06-26 07:26:05] Running pipeline stages: ['InputValidationStage', 'TextEncodingStage', 'LTX2TextConnectorStage', 'LTX2HalveResolutionStage', 'LTX2LoRASwitchStage', 'LTX2SigmaPreparationStage', 'TimestepPreparationStage', 'LTX2AVLatentPreparationStage', 'LTX2ImageEncodingStage', 'LTX2AVDenoisingStage', 'LTX2UpsampleStage', 'ltx2_lora_switch_stage2', 'ltx2_image_encoding_stage2', 'LTX2RefinementStage', 'LTX2AVDecodingStage']
+[06-26 07:26:05] [InputValidationStage] started...
+[06-26 07:26:05] [InputValidationStage] finished in 0.0000 seconds
+[06-26 07:26:05] [TextEncodingStage] started...
+[06-26 07:26:06] [TextEncodingStage] finished in 0.3918 seconds
+[06-26 07:26:06] [LTX2TextConnectorStage] started...
+[06-26 07:26:06] [LTX2TextConnectorStage] finished in 0.0231 seconds
+[06-26 07:26:06] [LTX2HalveResolutionStage] started...
+[06-26 07:26:06] Halved resolution: 1088x1920 -> 544x960
+[06-26 07:26:06] [LTX2HalveResolutionStage] finished in 0.0001 seconds
+[06-26 07:26:06] [LTX2LoRASwitchStage] started...
+[06-26 07:26:06] LoRA weights deactivated for transformer
+[06-26 07:26:06] [LTX2LoRASwitchStage] finished in 0.0036 seconds
+[06-26 07:26:06] [LTX2SigmaPreparationStage] started...
+[06-26 07:26:06] [LTX2SigmaPreparationStage] finished in 0.0003 seconds
+[06-26 07:26:06] [TimestepPreparationStage] started...
+[06-26 07:26:06] [TimestepPreparationStage] finished in 0.0003 seconds
+[06-26 07:26:06] [LTX2AVLatentPreparationStage] started...
+[06-26 07:26:06] [LTX2AVLatentPreparationStage] finished in 0.0001 seconds
+[06-26 07:26:06] [LTX2ImageEncodingStage] started...
+[06-26 07:26:06] [LTX2ImageEncodingStage] finished in 0.0000 seconds
+[06-26 07:26:06] [LTX2AVDenoisingStage] started...
+  0%|          | 0/15 [00:00<?, ?it/s]  7%|▋         | 1/15 [00:02<00:28,  2.03s/it] 13%|█▎        | 2/15 [00:04<00:26,  2.03s/it] 20%|██        | 3/15 [00:06<00:24,  2.03s/it] 27%|██▋       | 4/15 [00:08<00:22,  2.04s/it] 33%|███▎      | 5/15 [00:10<00:20,  2.04s/it] 40%|████      | 6/15 [00:12<00:18,  2.04s/it] 47%|████▋     | 7/15 [00:14<00:16,  2.04s/it] 53%|█████▎    | 8/15 [00:16<00:14,  2.04s/it] 60%|██████    | 9/15 [00:18<00:12,  2.04s/it] 67%|██████▋   | 10/15 [00:20<00:10,  2.04s/it] 73%|███████▎  | 11/15 [00:22<00:08,  2.04s/it] 80%|████████  | 12/15 [00:24<00:06,  2.04s/it] 87%|████████▋ | 13/15 [00:26<00:04,  2.03s/it] 93%|█████████▎| 14/15 [00:28<00:02,  2.03s/it]100%|██████████| 15/15 [00:29<00:00,  1.72s/it]100%|██████████| 15/15 [00:29<00:00,  1.97s/it]
+[06-26 07:26:35] [LTX2AVDenoisingStage] average time per step: 1.9658 seconds
+[06-26 07:26:35] [LTX2AVDenoisingStage] finished in 29.4938 seconds
+[06-26 07:26:35] [LTX2UpsampleStage] started...
+[06-26 07:26:35] Upsampled video latents: [1, 128, 16, 34, 60]
+[06-26 07:26:35] Packed video latents for Stage 2: [1, 32640, 128] (resolution 1088x1920)
+[06-26 07:26:35] Re-packed audio latents for Stage 2: [1, 126, 128]
+[06-26 07:26:35] [LTX2UpsampleStage] finished in 0.0031 seconds
+[06-26 07:26:35] [ltx2_lora_switch_stage2] started...
+[06-26 07:26:35] Rank 0: LoRA adapter(s) /root/.cache/sgl_diffusion/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493/ltx-2.3-22b-distilled-lora-384.safetensors applied to 1660 layers (targets: transformer, strengths: 0.25, merge_mode=dynamic)
+[06-26 07:26:35] [ltx2_lora_switch_stage2] finished in 0.0036 seconds
+[06-26 07:26:35] [ltx2_image_encoding_stage2] started...
+[06-26 07:26:35] [ltx2_image_encoding_stage2] finished in 0.0000 seconds
+[06-26 07:26:35] [LTX2RefinementStage] started...
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [00:04<00:08,  4.23s/it] 67%|██████▋   | 2/3 [00:08<00:04,  4.22s/it]100%|██████████| 3/3 [00:12<00:00,  4.22s/it]100%|██████████| 3/3 [00:12<00:00,  4.22s/it]
+[06-26 07:26:48] [LTX2RefinementStage] average time per step: 4.2196 seconds
+[06-26 07:26:48] [LTX2RefinementStage] finished in 12.6619 seconds
+[06-26 07:26:48] [LTX2AVDecodingStage] started...
+[06-26 07:26:52] [LTX2AVDecodingStage] finished in 3.7114 seconds
+[06-26 07:27:00] Output saved to [1;36m/tmp/ltx23_qknorm_split_rope_e2e/qknorm_split_rope/qknorm_split_rope.mp4[0;0m
+[06-26 07:27:00] Metrics dumped to: [1;36m/tmp/ltx23_qknorm_split_rope_e2e/qknorm_split_rope/perf.json[0;0m
+[06-26 07:27:00] Pixel data generated successfully in [92m94.59[0;0m seconds
+[06-26 07:27:00] Warmed-up request processed in [92m46.32[0;0m seconds (with warmup excluded)
+[06-26 07:27:00] Memory usage - Max peak: 67902.00 MB, Avg peak: 67902.00 MB
+[06-26 07:27:00] Metrics dumped to: [1;36m/tmp/ltx23_qknorm_split_rope_e2e/qknorm_split_rope/perf.json[0;0m
+[93m[06-26 07:27:00] Generator was garbage collected without being shut down. Forcing local server and client cleanup.[0;0m
+[93m[06-26 07:27:00] Local worker sglang-diffusionWorker-0 did not terminate gracefully, forcing.[0;0m
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
