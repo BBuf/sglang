@@ -156,11 +156,59 @@ def _ltx2_disable_te_nvfp4(exc: Exception) -> None:
         logger.warning("Disabling LTX2 TE NVFP4 video FFN fast path: %s", exc)
         _LTX2_TE_NVFP4_WARNING_EMITTED = True
 
+_LTX2_FUSED_ADA_VALUES_ALL_RUNTIME_DISABLED = False
+_LTX2_FUSED_ADA_VALUES_ALL_WARNING_EMITTED = False
+
 
 def adaln_embedding_coefficient(cross_attention_adaln: bool) -> int:
     return ADALN_NUM_BASE_PARAMS + (
         ADALN_NUM_CROSS_ATTN_PARAMS if cross_attention_adaln else 0
     )
+
+
+def _ltx2_disable_fused_ada_values_all(exc: Exception) -> None:
+    global _LTX2_FUSED_ADA_VALUES_ALL_RUNTIME_DISABLED
+    global _LTX2_FUSED_ADA_VALUES_ALL_WARNING_EMITTED
+    _LTX2_FUSED_ADA_VALUES_ALL_RUNTIME_DISABLED = True
+    if not _LTX2_FUSED_ADA_VALUES_ALL_WARNING_EMITTED:
+        logger.warning("Disabling LTX2 fused Ada values fast path: %s", exc)
+        _LTX2_FUSED_ADA_VALUES_ALL_WARNING_EMITTED = True
+
+
+def _ltx2_try_fused_ada_values9(
+    scale_shift_table: torch.Tensor,
+    batch_size: int,
+    timestep: torch.Tensor,
+) -> tuple[torch.Tensor, ...] | None:
+    if (
+        _LTX2_FUSED_ADA_VALUES_ALL_RUNTIME_DISABLED
+        or get_tp_world_size() != 1
+        or not timestep.is_cuda
+        or timestep.dtype != torch.bfloat16
+        or timestep.ndim != 3
+        or int(timestep.shape[0]) != int(batch_size)
+        or not timestep.is_contiguous()
+        or not scale_shift_table.is_cuda
+        or scale_shift_table.dtype not in (torch.bfloat16, torch.float32)
+        or scale_shift_table.ndim != 2
+        or int(scale_shift_table.shape[0]) != 9
+        or scale_shift_table.stride(-1) != 1
+    ):
+        return None
+
+    hidden = int(scale_shift_table.shape[1])
+    if hidden % 256 != 0 or hidden > 8192 or timestep.shape[-1] != 9 * hidden:
+        return None
+
+    try:
+        from sglang.jit_kernel.diffusion.triton.ltx2_ada_values import (
+            ltx2_ada_values9,
+        )
+
+        return ltx2_ada_values9(scale_shift_table, timestep)
+    except Exception as exc:
+        _ltx2_disable_fused_ada_values_all(exc)
+        return None
 
 
 def _ltx2_is_perturbed(
@@ -1232,11 +1280,20 @@ class LTX2TransformerBlock(nn.Module):
         audio_replicated_for_sp: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         batch_size = hidden_states.size(0)
+        video_ada_values = _ltx2_try_fused_ada_values9(
+            self.scale_shift_table, batch_size, temb
+        )
+        audio_ada_values = _ltx2_try_fused_ada_values9(
+            self.audio_scale_shift_table, batch_size, temb_audio
+        )
 
         # 1. Video and Audio Self-Attention
-        vshift_msa, vscale_msa, vgate_msa = self.get_ada_values(
-            self.scale_shift_table, batch_size, temb, slice(0, 3)
-        )
+        if video_ada_values is None:
+            vshift_msa, vscale_msa, vgate_msa = self.get_ada_values(
+                self.scale_shift_table, batch_size, temb, slice(0, 3)
+            )
+        else:
+            vshift_msa, vscale_msa, vgate_msa = video_ada_values[0:3]
         norm_hidden_states = (
             self.rms_norm(hidden_states, self.norm_eps) * (1 + vscale_msa) + vshift_msa
         )
@@ -1252,9 +1309,12 @@ class LTX2TransformerBlock(nn.Module):
             hidden_states, attn_hidden_states, vgate_msa
         )
 
-        ashift_msa, ascale_msa, agate_msa = self.get_ada_values(
-            self.audio_scale_shift_table, batch_size, temb_audio, slice(0, 3)
-        )
+        if audio_ada_values is None:
+            ashift_msa, ascale_msa, agate_msa = self.get_ada_values(
+                self.audio_scale_shift_table, batch_size, temb_audio, slice(0, 3)
+            )
+        else:
+            ashift_msa, ascale_msa, agate_msa = audio_ada_values[0:3]
         norm_audio_hidden_states = (
             self.rms_norm(audio_hidden_states, self.norm_eps) * (1 + ascale_msa)
             + ashift_msa
@@ -1277,9 +1337,12 @@ class LTX2TransformerBlock(nn.Module):
                 raise ValueError(
                     "cross_attention_adaln requires prompt modulation tensors."
                 )
-            vshift_q, vscale_q, vgate_q = self.get_ada_values(
-                self.scale_shift_table, batch_size, temb, slice(6, 9)
-            )
+            if video_ada_values is None:
+                vshift_q, vscale_q, vgate_q = self.get_ada_values(
+                    self.scale_shift_table, batch_size, temb, slice(6, 9)
+                )
+            else:
+                vshift_q, vscale_q, vgate_q = video_ada_values[6:9]
             v_prompt_shift, v_prompt_scale = self.get_ada_values(
                 self.prompt_scale_shift_table, batch_size, temb_prompt, slice(None)
             )
@@ -1298,9 +1361,12 @@ class LTX2TransformerBlock(nn.Module):
                 hidden_states, attn_hidden_states, vgate_q
             )
 
-            ashift_q, ascale_q, agate_q = self.get_ada_values(
-                self.audio_scale_shift_table, batch_size, temb_audio, slice(6, 9)
-            )
+            if audio_ada_values is None:
+                ashift_q, ascale_q, agate_q = self.get_ada_values(
+                    self.audio_scale_shift_table, batch_size, temb_audio, slice(6, 9)
+                )
+            else:
+                ashift_q, ascale_q, agate_q = audio_ada_values[6:9]
             a_prompt_shift, a_prompt_scale = self.get_ada_values(
                 self.audio_prompt_scale_shift_table,
                 batch_size,
@@ -1450,18 +1516,24 @@ class LTX2TransformerBlock(nn.Module):
                 audio_hidden_states, v2a_attn_hidden_states, v2a_gate
             )
         # 4. Feedforward
-        vshift_mlp, vscale_mlp, vgate_mlp = self.get_ada_values(
-            self.scale_shift_table, batch_size, temb, slice(3, 6)
-        )
+        if video_ada_values is None:
+            vshift_mlp, vscale_mlp, vgate_mlp = self.get_ada_values(
+                self.scale_shift_table, batch_size, temb, slice(3, 6)
+            )
+        else:
+            vshift_mlp, vscale_mlp, vgate_mlp = video_ada_values[3:6]
         norm_hidden_states = (
             self.rms_norm(hidden_states, self.norm_eps) * (1 + vscale_mlp) + vshift_mlp
         )
         ff_output = self.ff(norm_hidden_states)
         hidden_states = _ltx2_residual_gate_add(hidden_states, ff_output, vgate_mlp)
 
-        ashift_mlp, ascale_mlp, agate_mlp = self.get_ada_values(
-            self.audio_scale_shift_table, batch_size, temb_audio, slice(3, 6)
-        )
+        if audio_ada_values is None:
+            ashift_mlp, ascale_mlp, agate_mlp = self.get_ada_values(
+                self.audio_scale_shift_table, batch_size, temb_audio, slice(3, 6)
+            )
+        else:
+            ashift_mlp, ascale_mlp, agate_mlp = audio_ada_values[3:6]
         norm_audio_hidden_states = (
             self.rms_norm(audio_hidden_states, self.norm_eps) * (1 + ascale_mlp)
             + ashift_mlp
