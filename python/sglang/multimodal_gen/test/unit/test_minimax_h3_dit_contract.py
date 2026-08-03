@@ -20,11 +20,15 @@ from sglang.multimodal_gen.runtime.layers.quantization.fp8 import (
     Fp8Config,
     Fp8LinearMethod,
 )
+from sglang.multimodal_gen.runtime.layers.quantization.modelopt_quant import (
+    ModelOptFp4Config,
+)
 from sglang.multimodal_gen.runtime.layers.usp import _usp_input_all_to_all_packed_qkv
 from sglang.multimodal_gen.runtime.loader.utils import get_param_names_mapping
 from sglang.multimodal_gen.runtime.models.dits.minimax_h3 import (
     MINIMAX_H3_FP32_BUFFER_NAMES,
     MINIMAX_H3_FP32_PARAM_NAMES,
+    MiniMaxH3Attention,
     MiniMaxH3DiTModel,
     _copy_grouped_qkv_tp_shard,
     _reorder_grouped_qkv_to_qkv,
@@ -97,6 +101,52 @@ def test_native_weight_names_and_grouped_qkv_reorder():
             assert torch.equal(
                 param.view(torch.int16), expected_shard.view(torch.int16)
             )
+
+
+def test_nvfp4_grouped_qkv_reorders_weight_and_block_scales():
+    _ensure_single_process_parallel_runtime()
+    arch = MiniMaxH3DiTArchConfig(
+        hidden_size=16,
+        num_attention_heads=2,
+        attention_head_dim=8,
+        rope_inv_freq_len=2,
+    )
+    attention = MiniMaxH3Attention(
+        arch,
+        ModelOptFp4Config(
+            is_checkpoint_nvfp4_serialized=True,
+            group_size=16,
+        ),
+        prefix="blocks.0.attn",
+    )
+
+    grouped_weight = torch.arange(48 * 8, dtype=torch.int64).reshape(48, 8).to(
+        torch.uint8
+    )
+    grouped_scale = torch.arange(48, dtype=torch.float32).reshape(48, 1).to(
+        torch.float8_e4m3fn
+    )
+    attention.qkv_proj.weight.weight_loader(
+        attention.qkv_proj.weight, grouped_weight
+    )
+    attention.qkv_proj.weight_scale.weight_loader(
+        attention.qkv_proj.weight_scale, grouped_scale
+    )
+
+    expected_weight = _reorder_grouped_qkv_to_qkv(
+        grouped_weight,
+        num_query_groups=2,
+        heads_per_group=1,
+        head_dim=8,
+    )
+    expected_scale = _reorder_grouped_qkv_to_qkv(
+        grouped_scale,
+        num_query_groups=2,
+        heads_per_group=1,
+        head_dim=8,
+    )
+    assert torch.equal(attention.qkv_proj.weight, expected_weight)
+    assert torch.equal(attention.qkv_proj.weight_scale, expected_scale)
 
 
 def test_tp_and_ulysses_admission_uses_tp_local_shapes():

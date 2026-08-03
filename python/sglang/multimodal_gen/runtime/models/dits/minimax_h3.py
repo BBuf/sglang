@@ -579,35 +579,44 @@ class MiniMaxH3Attention(nn.Module):
         )
 
     def _install_qkv_weight_loader(self, arch: MiniMaxH3DiTArchConfig) -> None:
-        weight = self.qkv_proj.weight
-        base_loader = weight.weight_loader
+        def _make_grouped_qkv_loader(base_loader):
+            def _weight_loader(
+                param: torch.Tensor, loaded_weight: torch.Tensor
+            ) -> None:
+                # The grouped checkpoint layout is
+                # [num_query_groups, q_per_group + k + v] before splitting.
+                # MiniMax H3 uses MHA, so checkpoint rows are per-head [q, k, v],
+                # while SGLang stores [q_all, k_all, v_all]. The same row
+                # permutation must be applied to row-wise quantization metadata
+                # (for example NVFP4 weight_scale), not just to the packed weight.
+                if _copy_grouped_qkv_tp_shard(
+                    param,
+                    loaded_weight,
+                    num_query_groups=arch.num_attention_heads,
+                    head_dim=arch.attention_head_dim,
+                    tp_rank=self.qkv_proj.tp_rank,
+                    tp_size=self.tp_size,
+                ):
+                    return
+                reordered = _reorder_grouped_qkv_to_qkv(
+                    loaded_weight,
+                    num_query_groups=arch.num_attention_heads,
+                    heads_per_group=1,
+                    head_dim=arch.attention_head_dim,
+                )
+                base_loader(param, reordered)
 
-        def _weight_loader(param: torch.Tensor, loaded_weight: torch.Tensor) -> None:
-            # The grouped checkpoint layout is
-            # [num_query_groups, q_per_group + k + v] before splitting.
-            # MiniMax H3 uses MHA, so checkpoint rows are per-head [q, k, v],
-            # while SGLang stores [q_all, k_all, v_all].
-            if _copy_grouped_qkv_tp_shard(
-                param,
-                loaded_weight,
-                num_query_groups=arch.num_attention_heads,
-                head_dim=arch.attention_head_dim,
-                tp_rank=self.qkv_proj.tp_rank,
-                tp_size=self.tp_size,
-            ):
-                return
-            reordered = _reorder_grouped_qkv_to_qkv(
-                loaded_weight,
-                num_query_groups=arch.num_attention_heads,
-                heads_per_group=1,
-                head_dim=arch.attention_head_dim,
-            )
-            base_loader(param, reordered)
+            return _weight_loader
 
-        if hasattr(weight, "_weight_loader"):
-            weight._weight_loader = _weight_loader
-        else:
-            weight.weight_loader = _weight_loader
+        for param in self.qkv_proj.parameters(recurse=False):
+            if getattr(param, "output_dim", None) != 0:
+                continue
+            base_loader = param.weight_loader
+            grouped_qkv_loader = _make_grouped_qkv_loader(base_loader)
+            if hasattr(param, "_weight_loader"):
+                param._weight_loader = grouped_qkv_loader
+            else:
+                param.weight_loader = grouped_qkv_loader
 
     def forward(
         self,
