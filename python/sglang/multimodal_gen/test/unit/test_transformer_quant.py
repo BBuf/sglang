@@ -86,6 +86,7 @@ from sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer import (
     _matches_any_pattern,
     _modelopt_input_amax_map,
     _modelopt_nvfp4_modules,
+    _modelopt_weight_double_scale_map,
     _quantize_nvfp4_weight,
     _updated_quant_config,
 )
@@ -655,10 +656,30 @@ class TestTransformerQuantHelpers(unittest.TestCase):
         state = {
             "blocks.1.mlp.fc1.input_quantizer._amax": torch.tensor(12.0),
             "blocks.1.mlp.fc1.weight_quantizer._amax": torch.tensor(4.0),
+            "blocks.1.mlp.fc1.weight_quantizer._double_scale": torch.tensor(0.25),
         }
         actual = _modelopt_input_amax_map(state)
         self.assertEqual(set(actual), {"blocks.1.mlp.fc1"})
-        torch.testing.assert_close(actual["blocks.1.mlp.fc1"], torch.tensor([12.0]))
+        torch.testing.assert_close(actual["blocks.1.mlp.fc1"], torch.tensor(12.0))
+        double_scales = _modelopt_weight_double_scale_map(state)
+        self.assertEqual(set(double_scales), {"blocks.1.mlp.fc1"})
+        torch.testing.assert_close(
+            double_scales["blocks.1.mlp.fc1"], torch.tensor(0.25)
+        )
+
+    def test_nvfp4_offline_weight_quantization_is_chunk_invariant(self):
+        generator = torch.Generator().manual_seed(17)
+        weight = torch.randn(5, 32, dtype=torch.bfloat16, generator=generator)
+        full = _quantize_nvfp4_weight(weight, chunk_rows=128)
+        rowwise = _quantize_nvfp4_weight(weight, chunk_rows=1)
+        for expected, actual in zip(full, rowwise, strict=True):
+            self.assertTrue(torch.equal(expected, actual))
+
+    def test_nvfp4_offline_weight_quantization_uses_supplied_double_scale(self):
+        weight = torch.arange(32, dtype=torch.bfloat16).reshape(2, 16) - 16
+        supplied = torch.tensor(0.125)
+        _, _, actual = _quantize_nvfp4_weight(weight, double_scale=supplied)
+        torch.testing.assert_close(actual, supplied)
 
     def test_modelopt_fp8_hf_config_uses_general_modelopt_fp8(self):
         config = get_quant_config(

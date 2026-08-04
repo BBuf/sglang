@@ -185,6 +185,10 @@ def test_modelopt_amax_capture_writes_only_aggregated_scalars(tmp_path, monkeypa
             "blocks.1.attn.qkv_proj": torch.tensor(12.0),
             "blocks.1.mlp.fc1": torch.tensor(7.5),
         }
+        _modelopt_weight_amax_by_module = {
+            "blocks.1.attn.qkv_proj": torch.tensor(6.0),
+            "blocks.1.mlp.fc1": torch.tensor(3.0),
+        }
 
     capture_state = _CaptureState()
     monkeypatch.setenv(
@@ -198,17 +202,25 @@ def test_modelopt_amax_capture_writes_only_aggregated_scalars(tmp_path, monkeypa
         weights_only=True,
     )
     assert payload["metadata"] == {
-        "capture": "minimax-h3-input-amax",
+        "capture": "minimax-h3-modelopt-scales",
         "forward_count": 1,
         "world_size": 1,
     }
     assert set(payload["model_state_dict"]) == {
         "blocks.1.attn.qkv_proj.input_quantizer._amax",
+        "blocks.1.attn.qkv_proj.weight_quantizer._double_scale",
         "blocks.1.mlp.fc1.input_quantizer._amax",
+        "blocks.1.mlp.fc1.weight_quantizer._double_scale",
     }
     torch.testing.assert_close(
         payload["model_state_dict"]["blocks.1.attn.qkv_proj.input_quantizer._amax"],
-        torch.tensor([12.0]),
+        torch.tensor(12.0),
+    )
+    torch.testing.assert_close(
+        payload["model_state_dict"][
+            "blocks.1.attn.qkv_proj.weight_quantizer._double_scale"
+        ],
+        torch.tensor(1.0 / 448.0),
     )
 
 

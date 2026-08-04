@@ -62,6 +62,7 @@ from sglang.srt.model_executor.runner_backend_utils.breakable_cuda_graph import 
 _ARCH_DEFAULTS = MiniMaxH3DiTArchConfig()
 _BF16_DTYPE = torch.bfloat16
 _FP32_DTYPE = torch.float32
+_MODELOPT_NVFP4_DOUBLE_SCALE_DENOMINATOR = 6.0 * 448.0
 
 _MINIMAX_H3_FP32_PARAM_NAMES_IN_MODEL_ORDER = (
     "video_patch_proj.weight",
@@ -1052,11 +1053,15 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
             RowParallelLinear,
         )
         self._modelopt_amax_by_module: dict[str, torch.Tensor] = {}
+        self._modelopt_weight_amax_by_module: dict[str, torch.Tensor] = {}
         self._modelopt_amax_capture_handles = []
 
         for module_name, module in self.named_modules():
             if not module_name or not isinstance(module, linear_types):
                 continue
+            self._modelopt_weight_amax_by_module[module_name] = (
+                module.weight.detach().abs().amax().to(torch.float32).cpu()
+            )
 
             def capture_input_amax(
                 _module: nn.Module,
@@ -1086,22 +1091,50 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
 
         module_names = sorted(captured)
         values = torch.stack([captured[name] for name in module_names])
+        weight_amax_by_module = getattr(self, "_modelopt_weight_amax_by_module", {})
+        has_weight_amax = all(name in weight_amax_by_module for name in module_names)
+        if has_weight_amax:
+            weight_amax = torch.stack(
+                [weight_amax_by_module[name] for name in module_names]
+            ).to(device=values.device)
+            reduced_values = torch.cat((values, weight_amax))
+        else:
+            reduced_values = values
         if torch.distributed.is_initialized():
             rank = torch.distributed.get_rank()
             world_size = torch.distributed.get_world_size()
             if world_size > 1:
-                torch.distributed.all_reduce(values, op=torch.distributed.ReduceOp.MAX)
+                torch.distributed.all_reduce(
+                    reduced_values, op=torch.distributed.ReduceOp.MAX
+                )
         else:
             rank = 0
             world_size = 1
+        values = reduced_values[: len(module_names)]
+        weight_double_scales = (
+            reduced_values[len(module_names) :]
+            / _MODELOPT_NVFP4_DOUBLE_SCALE_DENOMINATOR
+            if has_weight_amax
+            else None
+        )
         if rank != 0:
             return
 
         values = values.detach().cpu()
         state = {
-            f"{name}.input_quantizer._amax": values[index : index + 1]
+            f"{name}.input_quantizer._amax": values[index].reshape(())
             for index, name in enumerate(module_names)
         }
+        if weight_double_scales is not None:
+            weight_double_scales = weight_double_scales.detach().cpu()
+            state.update(
+                {
+                    f"{name}.weight_quantizer._double_scale": weight_double_scales[
+                        index
+                    ].reshape(())
+                    for index, name in enumerate(module_names)
+                }
+            )
         os.makedirs(capture_dir, exist_ok=True)
         output_path = os.path.join(capture_dir, "calibration-state.pt")
         temporary_path = f"{output_path}.tmp"
@@ -1110,7 +1143,7 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
             {
                 "model_state_dict": state,
                 "metadata": {
-                    "capture": "minimax-h3-input-amax",
+                    "capture": "minimax-h3-modelopt-scales",
                     "forward_count": forward_count,
                     "world_size": world_size,
                 },

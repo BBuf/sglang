@@ -18,8 +18,9 @@ MiniMax H3 example::
         --pattern-preset minimax-h3-nvfp4 \
         --output-dir /tmp/minimax-h3-nvfp4/transformer
 
-On a memory-constrained Blackwell machine, capture input maxima during a normal
-BF16 generation and quantize the original checkpoint one shard at a time::
+On a memory-constrained Blackwell machine, capture input maxima and exact weight
+double scales during a normal BF16 generation, then quantize the original
+checkpoint one shard at a time::
 
     python -m sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer \
         --base-transformer-dir /path/to/MiniMax-H3/FL2VA/transformer \
@@ -310,7 +311,18 @@ def _modelopt_input_amax_map(
 ) -> dict[str, torch.Tensor]:
     suffix = ".input_quantizer._amax"
     return {
-        name[: -len(suffix)]: value.detach().to(torch.float32).reshape(1).cpu()
+        name[: -len(suffix)]: value.detach().to(torch.float32).reshape(()).cpu()
+        for name, value in state.items()
+        if name.endswith(suffix)
+    }
+
+
+def _modelopt_weight_double_scale_map(
+    state: Mapping[str, torch.Tensor],
+) -> dict[str, torch.Tensor]:
+    suffix = ".weight_quantizer._double_scale"
+    return {
+        name[: -len(suffix)]: value.detach().to(torch.float32).reshape(()).cpu()
         for name, value in state.items()
         if name.endswith(suffix)
     }
@@ -318,6 +330,9 @@ def _modelopt_input_amax_map(
 
 def _quantize_nvfp4_weight(
     weight: torch.Tensor,
+    *,
+    chunk_rows: int = 1024,
+    double_scale: torch.Tensor | None = None,
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """Match ModelOpt's dynamic NVFP4 weight compression path."""
     if weight.ndim < 2 or weight.shape[-1] % 16:
@@ -325,36 +340,63 @@ def _quantize_nvfp4_weight(
             "NVFP4 weights must have at least two dimensions and an input "
             f"dimension divisible by 16, got {tuple(weight.shape)}"
         )
+    if chunk_rows <= 0:
+        raise ValueError(f"NVFP4 chunk_rows must be positive, got {chunk_rows}")
 
     weight = weight.contiguous()
-    double_scale = weight.detach().abs().amax().to(torch.float32) / (
-        _E2M1_MAX * _E4M3_MAX
+    input_dim = weight.shape[-1]
+    matrix = weight.reshape(-1, input_dim)
+    packed_weight = torch.empty(
+        (matrix.shape[0], input_dim // 2), dtype=torch.uint8, device=weight.device
     )
+    all_block_scales = torch.empty(
+        (matrix.shape[0], input_dim // 16),
+        dtype=torch.float8_e4m3fn,
+        device=weight.device,
+    )
+
+    if double_scale is None:
+        global_amax = torch.zeros((), dtype=torch.float32, device=weight.device)
+        for start in range(0, matrix.shape[0], chunk_rows):
+            current = matrix[start : start + chunk_rows].detach().abs().amax()
+            global_amax = torch.maximum(global_amax, current.to(torch.float32))
+        double_scale = global_amax / (_E2M1_MAX * _E4M3_MAX)
+    else:
+        double_scale = (
+            double_scale.detach()
+            .to(device=weight.device, dtype=torch.float32)
+            .reshape(())
+        )
     if not torch.isfinite(double_scale) or double_scale <= 0:
         raise ValueError("NVFP4 weight must have a finite, positive absolute maximum")
 
-    blocked = weight.reshape(*weight.shape[:-1], -1, 16)
-    block_amax = blocked.detach().abs().amax(dim=-1).to(torch.float32)
-    block_scale = block_amax / (_E2M1_MAX * double_scale)
-    block_scale = torch.where(
-        block_scale == 0, torch.ones_like(block_scale), block_scale
-    )
-    block_scale = block_scale.clamp(min=2**-9, max=_E4M3_MAX).to(torch.float8_e4m3fn)
-
-    scaled = blocked / (block_scale.to(torch.float32) * double_scale).unsqueeze(-1)
-    scaled = scaled.reshape(weight.shape)
-    absolute = scaled.abs()
-    bounds = torch.tensor(_E2M1_BOUNDS, dtype=absolute.dtype, device=absolute.device)
-    ordinal = torch.searchsorted(bounds, absolute, out_int32=True).to(torch.uint8)
+    bounds = torch.tensor(_E2M1_BOUNDS, dtype=torch.float32, device=weight.device)
     odd_bounds = bounds[[1, 3, 5]]
-    tie_adjustment = torch.any(absolute.unsqueeze(-1) == odd_bounds, dim=-1).to(
-        torch.uint8
-    )
-    q_weight = ((scaled < 0).to(torch.uint8) << 3) + ordinal + tie_adjustment
-    packed_weight = (q_weight[..., 1::2] << 4) | q_weight[..., 0::2]
+    for start in range(0, matrix.shape[0], chunk_rows):
+        stop = min(start + chunk_rows, matrix.shape[0])
+        blocked = matrix[start:stop].reshape(stop - start, -1, 16)
+        block_amax = blocked.detach().abs().amax(dim=-1).to(torch.float32)
+        block_scale = block_amax / (_E2M1_MAX * double_scale)
+        block_scale = torch.where(
+            block_scale == 0, torch.ones_like(block_scale), block_scale
+        )
+        block_scale = block_scale.clamp(min=2**-9, max=_E4M3_MAX).to(
+            torch.float8_e4m3fn
+        )
+        scaled = blocked / (block_scale.to(torch.float32) * double_scale).unsqueeze(-1)
+        scaled = scaled.reshape(stop - start, input_dim)
+        absolute = scaled.abs()
+        ordinal = torch.searchsorted(bounds, absolute, out_int32=True).to(torch.uint8)
+        tie_adjustment = torch.any(absolute.unsqueeze(-1) == odd_bounds, dim=-1).to(
+            torch.uint8
+        )
+        q_weight = ((scaled < 0).to(torch.uint8) << 3) + ordinal + tie_adjustment
+        packed_weight[start:stop] = (q_weight[..., 1::2] << 4) | q_weight[..., 0::2]
+        all_block_scales[start:stop] = block_scale
+
     return (
-        packed_weight.contiguous(),
-        block_scale.contiguous(),
+        packed_weight.reshape(*weight.shape[:-1], input_dim // 2).contiguous(),
+        all_block_scales.reshape(*weight.shape[:-1], input_dim // 16).contiguous(),
         double_scale.to(torch.float32).contiguous(),
     )
 
@@ -527,10 +569,12 @@ def _build_offline_modelopt_nvfp4_transformer(
     patterns: Sequence[str],
     swap_weight_nibbles: bool,
     quant_device: str,
+    quant_chunk_rows: int,
 ) -> dict[str, int | bool]:
     source_config = _load_config(base_dir)
     state = _load_modelopt_backbone_state(calibration_ckpt)
     input_amax_by_module = _modelopt_input_amax_map(state)
+    weight_double_scale_by_module = _modelopt_weight_double_scale_map(state)
     if not input_amax_by_module:
         raise ValueError(
             "ModelOpt calibration checkpoint contains no input_quantizer._amax tensors"
@@ -589,7 +633,9 @@ def _build_offline_modelopt_nvfp4_transformer(
             if module_name not in effective_modules:
                 continue
             packed_weight, block_scale, double_scale = _quantize_nvfp4_weight(
-                shard_tensors[name].to(device=device)
+                shard_tensors[name].to(device=device),
+                chunk_rows=quant_chunk_rows,
+                double_scale=weight_double_scale_by_module.get(module_name),
             )
             input_scale = input_amax_by_module[module_name].to(torch.float32) / (
                 _E2M1_MAX * _E4M3_MAX
@@ -640,6 +686,7 @@ def build_modelopt_nvfp4_transformer(
     swap_weight_nibbles: bool | None = None,
     allow_unquantized_source: bool = False,
     offline_quant_device: str = "cpu",
+    offline_quant_chunk_rows: int = 1024,
     overwrite: bool = False,
 ) -> dict[str, int | bool]:
     base_dir = _resolve_transformer_dir(base_transformer_dir)
@@ -674,6 +721,7 @@ def build_modelopt_nvfp4_transformer(
                 patterns=patterns,
                 swap_weight_nibbles=resolved_swap_weight_nibbles,
                 quant_device=offline_quant_device,
+                quant_chunk_rows=offline_quant_chunk_rows,
             )
         return _build_direct_modelopt_nvfp4_transformer(
             base_dir=base_dir,
@@ -816,8 +864,9 @@ def _parse_args() -> argparse.Namespace:
         "--allow-unquantized-source",
         action="store_true",
         help=(
-            "Treat --modelopt-backbone-ckpt as an input-amax-only calibration "
-            "state and quantize original BF16 weights one shard at a time."
+            "Treat --modelopt-backbone-ckpt as a scalar calibration state "
+            "(input amax and optional exact weight double scale) and quantize "
+            "original BF16 weights one shard at a time."
         ),
     )
     parser.add_argument(
@@ -825,6 +874,12 @@ def _parse_args() -> argparse.Namespace:
         choices=("cpu", "cuda"),
         default="cpu",
         help="Device used for --allow-unquantized-source weight packing.",
+    )
+    parser.add_argument(
+        "--offline-quant-chunk-rows",
+        type=int,
+        default=1024,
+        help="Maximum rows quantized at once to bound FP4 packing memory.",
     )
     parser.add_argument(
         "--output-dir",
@@ -875,6 +930,7 @@ def main() -> None:
         swap_weight_nibbles=args.swap_weight_nibbles,
         allow_unquantized_source=args.allow_unquantized_source,
         offline_quant_device=args.offline_quant_device,
+        offline_quant_chunk_rows=args.offline_quant_chunk_rows,
         overwrite=args.overwrite,
     )
     print(json.dumps(stats, indent=2, sort_keys=True))
