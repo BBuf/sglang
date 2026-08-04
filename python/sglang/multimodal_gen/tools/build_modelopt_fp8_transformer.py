@@ -17,6 +17,16 @@ Example:
         --modelopt-backbone-ckpt /tmp/modelopt_flux2_fp8/ckpt/backbone.pt \
         --base-transformer-dir /path/to/FLUX.2-dev/transformer \
         --output-dir /tmp/modelopt_flux2_fp8/sglang_transformer
+
+MiniMax H3 uses its original BF16 transformer as the tensor source because it
+does not have a Diffusers ModelMixin export::
+
+    python -m sglang.multimodal_gen.tools.build_modelopt_fp8_transformer \
+        --modelopt-hf-dir /path/to/MiniMax-H3/FL2VA/transformer \
+        --modelopt-backbone-ckpt /tmp/minimax-h3-fp8/backbone.pt \
+        --base-transformer-dir /path/to/MiniMax-H3/FL2VA/transformer \
+        --model-type minimax-h3 --allow-unquantized-source \
+        --output-dir /tmp/minimax-h3-fp8/transformer
 """
 
 from __future__ import annotations
@@ -206,6 +216,17 @@ DEFAULT_QWEN_IMAGE_KEEP_BF16_PATTERNS = [
     r"^proj_out$",
     r"^transformer_blocks\.\d+\.img_mlp\.net\.2$",
     r"^transformer_blocks\.\d+\.(img_mod|txt_mod)$",
+]
+DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS = [
+    r"^video_patch_proj$",
+    r"^audio_patch_proj$",
+    r"^time_embedder\.",
+    r"^final_layer\.(video_out|audio_out)$",
+    r"^condition_proj$",
+    r"^token_refiner\.",
+    r"^blocks\.(0|49)\.attn\.",
+    r"^blocks\.\d+\.adaln_proj\.",
+    r"^final_layer\.adaln_proj\.linear$",
 ]
 
 
@@ -423,6 +444,8 @@ def get_default_keep_bf16_patterns(
         return list(DEFAULT_HUNYUANVIDEO_KEEP_BF16_PATTERNS)
     if model_type == "qwen-image":
         return list(DEFAULT_QWEN_IMAGE_KEEP_BF16_PATTERNS)
+    if model_type == "minimax-h3":
+        return list(DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS)
     if model_type == "none":
         return []
     if class_name == "FluxTransformer2DModel":
@@ -433,6 +456,8 @@ def get_default_keep_bf16_patterns(
         return list(DEFAULT_HUNYUANVIDEO_KEEP_BF16_PATTERNS)
     if class_name == "QwenImageTransformer2DModel":
         return list(DEFAULT_QWEN_IMAGE_KEEP_BF16_PATTERNS)
+    if class_name == "MiniMaxH3DiTModel":
+        return list(DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS)
     return []
 
 
@@ -552,6 +577,7 @@ def build_modelopt_fp8_transformer(
     model_type: str = "auto",
     keep_bf16_patterns: Sequence[str] | None = None,
     maxbound: float = FP8_E4M3_MAXBOUND,
+    allow_unquantized_source: bool = False,
     overwrite: bool = False,
 ) -> dict[str, int]:
     source_dir = _resolve_transformer_dir(modelopt_hf_dir)
@@ -563,9 +589,17 @@ def build_modelopt_fp8_transformer(
     config = _load_config(source_dir)
     quant_config = config.get("quantization_config")
     if not isinstance(quant_config, dict):
-        raise ValueError(
-            "Expected a flat quantization_config dict in the ModelOpt export."
-        )
+        if not allow_unquantized_source:
+            raise ValueError(
+                "Expected a flat quantization_config dict in the ModelOpt export. "
+                "Use --allow-unquantized-source only when the source is the original "
+                "BF16 transformer and scales come from --modelopt-backbone-ckpt."
+            )
+        quant_config = {
+            "quant_method": "modelopt",
+            "quant_algo": "FP8",
+            "ignore": [],
+        }
     if quant_config.get("quant_method") != "modelopt":
         raise ValueError(
             "This tool only supports ModelOpt diffusers FP8 exports "
@@ -829,6 +863,7 @@ def _parse_args() -> argparse.Namespace:
             "flux2",
             "ltx2",
             "hunyuan-video",
+            "minimax-h3",
             "qwen-image",
             "none",
         ],
@@ -857,6 +892,14 @@ def _parse_args() -> argparse.Namespace:
         help="FP8 maxbound used to turn ModelOpt amax into a scale. E4M3 uses 448.",
     )
     parser.add_argument(
+        "--allow-unquantized-source",
+        action="store_true",
+        help=(
+            "Allow --modelopt-hf-dir to be the original BF16 transformer and "
+            "synthesize its ModelOpt FP8 config from backbone.pt scales."
+        ),
+    )
+    parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Replace --output-dir if it already exists.",
@@ -874,6 +917,7 @@ def main() -> None:
         model_type=args.model_type,
         keep_bf16_patterns=args.keep_bf16_pattern,
         maxbound=args.maxbound,
+        allow_unquantized_source=args.allow_unquantized_source,
         overwrite=args.overwrite,
     )
     print(json.dumps(stats, indent=2, sort_keys=True))

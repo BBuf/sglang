@@ -120,15 +120,13 @@ def test_nvfp4_grouped_qkv_reorders_weight_and_block_scales():
         prefix="blocks.0.attn",
     )
 
-    grouped_weight = torch.arange(48 * 8, dtype=torch.int64).reshape(48, 8).to(
-        torch.uint8
+    grouped_weight = (
+        torch.arange(48 * 8, dtype=torch.int64).reshape(48, 8).to(torch.uint8)
     )
-    grouped_scale = torch.arange(48, dtype=torch.float32).reshape(48, 1).to(
-        torch.float8_e4m3fn
+    grouped_scale = (
+        torch.arange(48, dtype=torch.float32).reshape(48, 1).to(torch.float8_e4m3fn)
     )
-    attention.qkv_proj.weight.weight_loader(
-        attention.qkv_proj.weight, grouped_weight
-    )
+    attention.qkv_proj.weight.weight_loader(attention.qkv_proj.weight, grouped_weight)
     attention.qkv_proj.weight_scale.weight_loader(
         attention.qkv_proj.weight_scale, grouped_scale
     )
@@ -147,6 +145,38 @@ def test_nvfp4_grouped_qkv_reorders_weight_and_block_scales():
     )
     assert torch.equal(attention.qkv_proj.weight, expected_weight)
     assert torch.equal(attention.qkv_proj.weight_scale, expected_scale)
+
+
+def test_modelopt_calibration_capture_is_opt_in_and_rank_zero_only(
+    tmp_path, monkeypatch
+):
+    class _CaptureState:
+        pass
+
+    capture_state = _CaptureState()
+    monkeypatch.setenv(
+        "SGLANG_MINIMAX_H3_MODELOPT_CAPTURE_DIR", str(tmp_path / "captures")
+    )
+    monkeypatch.setenv("SGLANG_MINIMAX_H3_MODELOPT_CAPTURE_MAX_SAMPLES", "1")
+    kwargs = {"x": torch.tensor([1.0]), "nested": {"value": torch.tensor([2.0])}}
+
+    with (
+        patch("torch.distributed.is_initialized", return_value=True),
+        patch("torch.distributed.get_rank", return_value=1),
+    ):
+        MiniMaxH3DiTModel._capture_modelopt_calibration_kwargs(capture_state, kwargs)
+    assert not (tmp_path / "captures").exists()
+
+    MiniMaxH3DiTModel._capture_modelopt_calibration_kwargs(capture_state, kwargs)
+    MiniMaxH3DiTModel._capture_modelopt_calibration_kwargs(capture_state, kwargs)
+
+    capture_files = sorted((tmp_path / "captures").glob("*.pt"))
+    assert [path.name for path in capture_files] == ["sample-000.pt"]
+    captured = torch.load(capture_files[0], map_location="cpu", weights_only=True)
+    torch.testing.assert_close(captured["kwargs"]["x"], kwargs["x"])
+    torch.testing.assert_close(
+        captured["kwargs"]["nested"]["value"], kwargs["nested"]["value"]
+    )
 
 
 def test_tp_and_ulysses_admission_uses_tp_local_shapes():

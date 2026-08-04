@@ -2,6 +2,8 @@
 This unittest is introduced in #22360, preventing duplicate transformer safetensors variants being loaded together
 """
 
+# ruff: noqa: E402
+
 import json
 import os
 import sys
@@ -73,8 +75,20 @@ from sglang.multimodal_gen.runtime.utils.quantization_utils import (
     build_nvfp4_config_from_safetensors_list,
     get_quant_config,
 )
+from sglang.multimodal_gen.tools.build_modelopt_fp8_transformer import (
+    DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS,
+    should_keep_bf16,
+)
 from sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer import (
+    DEFAULT_MINIMAX_H3_NVFP4_FALLBACK_PATTERNS,
+    _h3_qkv_runtime_rows_to_checkpoint_rows,
+    _matches_any_pattern,
+    _modelopt_nvfp4_modules,
     _updated_quant_config,
+)
+from sglang.multimodal_gen.tools.calibrate_minimax_h3_modelopt import (
+    REQUIRED_UNQUANTIZED_LAYER_PATTERNS,
+    _disable_sensitive_layers,
 )
 
 
@@ -496,6 +510,100 @@ class TestTransformerQuantHelpers(unittest.TestCase):
         self.assertEqual(
             updated["quantization_config"]["ignore"],
             ["single_transformer_blocks.*.proj_mlp*"],
+        )
+
+    def test_native_nvfp4_builder_extracts_compressed_modelopt_state(self):
+        state = {
+            "blocks.1.mlp.fc2.weight": torch.arange(16, dtype=torch.uint8).reshape(
+                2, 8
+            ),
+            "blocks.1.mlp.fc2.weight_quantizer._scale": torch.ones(
+                2, 1, dtype=torch.float8_e4m3fn
+            ),
+            "blocks.1.mlp.fc2.weight_quantizer._double_scale": torch.tensor(0.25),
+            "blocks.1.mlp.fc2.input_quantizer._amax": torch.tensor(1344.0),
+        }
+
+        modules = _modelopt_nvfp4_modules(state)
+
+        self.assertEqual(set(modules), {"blocks.1.mlp.fc2"})
+        tensors = modules["blocks.1.mlp.fc2"]
+        self.assertEqual(tensors["weight"].dtype, torch.uint8)
+        self.assertEqual(tensors["weight_scale"].dtype, torch.float8_e4m3fn)
+        self.assertEqual(tensors["weight_scale_2"].dtype, torch.float32)
+        torch.testing.assert_close(tensors["input_scale"], torch.tensor(0.5))
+
+    def test_native_nvfp4_builder_restores_h3_grouped_qkv_rows(self):
+        runtime_rows = torch.tensor(
+            [0, 1, 6, 7, 2, 3, 8, 9, 4, 5, 10, 11], dtype=torch.uint8
+        ).reshape(12, 1)
+
+        checkpoint_rows = _h3_qkv_runtime_rows_to_checkpoint_rows(
+            runtime_rows, num_heads=2, head_dim=2
+        )
+
+        expected = torch.arange(12, dtype=torch.uint8).reshape(12, 1)
+        self.assertTrue(torch.equal(checkpoint_rows, expected))
+
+    def test_h3_modelopt_keeps_runtime_fp32_boundaries_unquantized(self):
+        for module_name in REQUIRED_UNQUANTIZED_LAYER_PATTERNS:
+            representative_name = (
+                f"{module_name}.proj_in"
+                if module_name == "time_embedder"
+                else module_name
+            )
+            self.assertTrue(
+                should_keep_bf16(
+                    f"{representative_name}.weight",
+                    DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS,
+                ),
+                representative_name,
+            )
+            self.assertTrue(
+                _matches_any_pattern(
+                    representative_name,
+                    DEFAULT_MINIMAX_H3_NVFP4_FALLBACK_PATTERNS,
+                ),
+                representative_name,
+            )
+
+    def test_h3_modelopt_keeps_every_block_adaln_unquantized(self):
+        for block_index in (0, 1, 24, 48, 49):
+            module_name = f"blocks.{block_index}.adaln_proj.linear"
+            self.assertTrue(
+                should_keep_bf16(
+                    f"{module_name}.weight",
+                    DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS,
+                ),
+                module_name,
+            )
+            self.assertTrue(
+                _matches_any_pattern(
+                    module_name,
+                    DEFAULT_MINIMAX_H3_NVFP4_FALLBACK_PATTERNS,
+                ),
+                module_name,
+            )
+
+    def test_h3_modelopt_sensitive_layers_support_both_config_schemas(self):
+        legacy_config = {"quant_cfg": {"*weight_quantizer": {"num_bits": 8}}}
+        _disable_sensitive_layers(legacy_config, ["time_embedder"])
+        self.assertEqual(
+            legacy_config["quant_cfg"]["*time_embedder*"], {"enable": False}
+        )
+
+        current_config = {
+            "quant_cfg": [
+                {"quantizer_name": "*weight_quantizer", "cfg": {"num_bits": 8}}
+            ]
+        }
+        _disable_sensitive_layers(current_config, ["time_embedder"])
+        self.assertIn(
+            {
+                "quantizer_name": "*time_embedder*weight_quantizer",
+                "enable": False,
+            },
+            current_config["quant_cfg"],
         )
 
     def test_modelopt_fp8_hf_config_uses_general_modelopt_fp8(self):

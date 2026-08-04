@@ -8,6 +8,7 @@ contract accepts packed inference keyword arguments and returns packed logits.
 from __future__ import annotations
 
 import math
+import os
 from typing import Any
 
 import torch
@@ -1019,6 +1020,27 @@ class MiniMaxH3FinalLayer(nn.Module):
 
 
 class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
+    def _capture_modelopt_calibration_kwargs(self, kwargs: dict[str, Any]) -> None:
+        capture_dir = os.environ.get("SGLANG_MINIMAX_H3_MODELOPT_CAPTURE_DIR")
+        if not capture_dir:
+            return
+        if torch.distributed.is_initialized() and torch.distributed.get_rank() != 0:
+            return
+
+        capture_index = int(getattr(self, "_modelopt_capture_index", 0))
+        capture_max = int(
+            os.environ.get("SGLANG_MINIMAX_H3_MODELOPT_CAPTURE_MAX_SAMPLES", "8")
+        )
+        if capture_index >= capture_max:
+            return
+
+        os.makedirs(capture_dir, exist_ok=True)
+        output_path = os.path.join(capture_dir, f"sample-{capture_index:03d}.pt")
+        temporary_path = f"{output_path}.tmp"
+        torch.save({"kwargs": kwargs}, temporary_path)
+        os.replace(temporary_path, output_path)
+        self._modelopt_capture_index = capture_index + 1
+
     _fsdp_shard_conditions = _ARCH_DEFAULTS._fsdp_shard_conditions
     # parameters mix fp32 (patch projections, timestep embedder, and output
     # heads) with bf16 blocks; FSDP must gather in each parameter's own dtype
@@ -1467,6 +1489,7 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
                 f"{unexpected}; supported kwargs: "
                 f"{sorted(_FORWARD_SUPPORTED_KWARGS)}"
             )
+        self._capture_modelopt_calibration_kwargs(kwargs)
 
         x = _required_kwarg(kwargs, "x")
         audio_x = _required_kwarg(kwargs, "audio_x")

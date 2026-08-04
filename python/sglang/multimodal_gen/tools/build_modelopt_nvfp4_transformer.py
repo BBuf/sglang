@@ -4,10 +4,19 @@ This tool keeps the ModelOpt-exported NVFP4 tensors for most transformer
 modules, but can replace a validated subset of numerically sensitive modules
 with their original BF16 tensors from the base transformer checkpoint.
 
-It is primarily intended for FLUX.1-dev style ModelOpt NVFP4 exports where:
+It supports both FLUX.1-style ModelOpt HF exports and compressed native
+MiniMax H3 ``mto.save`` checkpoints.  In both paths:
 - the base pipeline should remain separate from the quantized transformer
 - fallback BF16 modules are model-family specific
 - the serialized FP4 weight byte order may already match the runtime kernel
+
+MiniMax H3 example::
+
+    python -m sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer \
+        --base-transformer-dir /path/to/MiniMax-H3/FL2VA/transformer \
+        --modelopt-backbone-ckpt /tmp/minimax-h3-nvfp4/backbone.pt \
+        --pattern-preset minimax-h3-nvfp4 \
+        --output-dir /tmp/minimax-h3-nvfp4/transformer
 """
 
 from __future__ import annotations
@@ -21,6 +30,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
+import torch
 from safetensors import safe_open
 from safetensors.torch import load_file, save_file
 
@@ -39,6 +49,19 @@ DEFAULT_FLUX1_NVFP4_FALLBACK_PATTERNS = [
     "single_transformer_blocks.*.norm.linear*",
     "single_transformer_blocks.*.proj_mlp*",
 ]
+DEFAULT_MINIMAX_H3_NVFP4_FALLBACK_PATTERNS = [
+    "video_patch_proj",
+    "audio_patch_proj",
+    "time_embedder.*",
+    "final_layer.video_out",
+    "final_layer.audio_out",
+    "condition_proj",
+    "token_refiner.*",
+    "blocks.0.attn.*",
+    "blocks.*.adaln_proj.*",
+    "blocks.49.attn.*",
+    "final_layer.adaln_proj.*",
+]
 
 _TENSOR_MODULE_SUFFIXES = (
     ".weight_scale_2",
@@ -53,10 +76,21 @@ def _resolve_transformer_dir(path: str) -> str:
     candidate = Path(path).expanduser().resolve()
     if (candidate / "config.json").is_file():
         return str(candidate)
-    transformer_dir = candidate / "transformer"
-    if (transformer_dir / "config.json").is_file():
-        return str(transformer_dir)
+    for relative in ("FL2VA/transformer", "transformer"):
+        transformer_dir = candidate / relative
+        if (transformer_dir / "config.json").is_file():
+            return str(transformer_dir)
     raise FileNotFoundError(f"Could not resolve a transformer directory from: {path}")
+
+
+def _resolve_backbone_ckpt(path: str) -> str:
+    candidate = Path(path).expanduser().resolve()
+    if candidate.is_file():
+        return str(candidate)
+    backbone_path = candidate / "backbone.pt"
+    if backbone_path.is_file():
+        return str(backbone_path)
+    raise FileNotFoundError(f"Could not resolve backbone.pt from: {path}")
 
 
 def _find_index_file(model_dir: str) -> str | None:
@@ -165,6 +199,8 @@ def _preset_patterns(pattern_preset: str) -> list[str]:
         return []
     if pattern_preset == "flux1-nvfp4":
         return list(DEFAULT_FLUX1_NVFP4_FALLBACK_PATTERNS)
+    if pattern_preset == "minimax-h3-nvfp4":
+        return list(DEFAULT_MINIMAX_H3_NVFP4_FALLBACK_PATTERNS)
     raise ValueError(f"Unsupported pattern preset: {pattern_preset}")
 
 
@@ -200,17 +236,232 @@ def _updated_quant_config(
     return output_config
 
 
+def _load_modelopt_backbone_state(path: str) -> dict[str, torch.Tensor]:
+    checkpoint = torch.load(
+        _resolve_backbone_ckpt(path), map_location="cpu", weights_only=False
+    )
+    state = checkpoint.get("model_state_dict")
+    if not isinstance(state, dict):
+        raise ValueError("ModelOpt backbone checkpoint has no model_state_dict")
+    return state
+
+
+def _modelopt_nvfp4_modules(
+    state: Mapping[str, torch.Tensor],
+) -> dict[str, dict[str, torch.Tensor]]:
+    modules: dict[str, dict[str, torch.Tensor]] = {}
+    scale_suffix = ".weight_quantizer._scale"
+    for name, block_scale in state.items():
+        if not name.endswith(scale_suffix):
+            continue
+        module_name = name[: -len(scale_suffix)]
+        keys = {
+            "weight": f"{module_name}.weight",
+            "weight_scale_2": f"{module_name}.weight_quantizer._double_scale",
+            "input_amax": f"{module_name}.input_quantizer._amax",
+        }
+        missing = [key for key in keys.values() if key not in state]
+        if missing:
+            raise ValueError(
+                f"Incomplete compressed ModelOpt NVFP4 state for {module_name}: "
+                f"missing {missing}"
+            )
+        packed_weight = state[keys["weight"]]
+        if packed_weight.dtype != torch.uint8:
+            raise ValueError(
+                f"Expected packed uint8 NVFP4 weight for {module_name}, "
+                f"got {packed_weight.dtype}"
+            )
+        modules[module_name] = {
+            "weight": packed_weight.contiguous(),
+            "weight_scale": block_scale.contiguous(),
+            "weight_scale_2": state[keys["weight_scale_2"]]
+            .to(torch.float32)
+            .contiguous(),
+            # ModelOpt NVFP4 uses an E2M1 maximum of 6 and normalizes the
+            # activation scale into E4M3's 448 range.
+            "input_scale": (
+                state[keys["input_amax"]].to(torch.float32) / (6.0 * 448.0)
+            ).contiguous(),
+        }
+    if not modules:
+        raise ValueError(
+            "No compressed NVFP4 modules found in ModelOpt backbone checkpoint"
+        )
+    return modules
+
+
+def _h3_qkv_runtime_rows_to_checkpoint_rows(
+    tensor: torch.Tensor, *, num_heads: int, head_dim: int
+) -> torch.Tensor:
+    """Undo H3's load-time [head,qkv] -> [q_all,k_all,v_all] permutation."""
+    inner_dim = num_heads * head_dim
+    if tensor.shape[0] != 3 * inner_dim:
+        raise ValueError(
+            f"MiniMax H3 qkv tensor has {tensor.shape[0]} rows; "
+            f"expected {3 * inner_dim}"
+        )
+    rest = tensor.shape[1:]
+    q, k, v = tensor.split(inner_dim, dim=0)
+    return (
+        torch.stack(
+            (
+                q.reshape(num_heads, head_dim, *rest),
+                k.reshape(num_heads, head_dim, *rest),
+                v.reshape(num_heads, head_dim, *rest),
+            ),
+            dim=1,
+        )
+        .reshape(3 * inner_dim, *rest)
+        .contiguous()
+    )
+
+
+def _maybe_restore_h3_qkv_checkpoint_layout(
+    module_name: str,
+    tensors: Mapping[str, torch.Tensor],
+    source_config: Mapping[str, object],
+) -> dict[str, torch.Tensor]:
+    if source_config.get(
+        "_class_name"
+    ) != "MiniMaxH3DiTModel" or not module_name.endswith(".attn.qkv_proj"):
+        return dict(tensors)
+    num_heads = int(source_config["num_attention_heads"])
+    head_dim = int(source_config["attention_head_dim"])
+    restored = dict(tensors)
+    for key in ("weight", "weight_scale"):
+        restored[key] = _h3_qkv_runtime_rows_to_checkpoint_rows(
+            restored[key], num_heads=num_heads, head_dim=head_dim
+        )
+    return restored
+
+
+def _direct_nvfp4_output_config(
+    source_config: Mapping[str, object],
+    *,
+    fallback_patterns: Sequence[str],
+    auto_ignored_modules: Sequence[str],
+    swap_weight_nibbles: bool,
+) -> dict[str, object]:
+    output_config = json.loads(json.dumps(source_config))
+    output_config["quantization_config"] = {
+        "quant_method": "modelopt",
+        "quant_algo": "NVFP4",
+        "quant_type": "NVFP4",
+        "group_size": 16,
+        "ignore": sorted({*fallback_patterns, *auto_ignored_modules}),
+        "swap_weight_nibbles": swap_weight_nibbles,
+        "checkpoint_weight_scale_layout": "linear",
+    }
+    return output_config
+
+
+def _build_direct_modelopt_nvfp4_transformer(
+    *,
+    base_dir: str,
+    backbone_ckpt: str,
+    output_path: Path,
+    patterns: Sequence[str],
+    swap_weight_nibbles: bool,
+) -> dict[str, int | bool]:
+    source_config = _load_config(base_dir)
+    state = _load_modelopt_backbone_state(backbone_ckpt)
+    quantized_modules = _modelopt_nvfp4_modules(state)
+    base_weight_map, index_filename = _load_weight_map(base_dir)
+    if index_filename is None:
+        raise ValueError("Direct ModelOpt NVFP4 export requires an indexed checkpoint")
+
+    all_weight_modules = {
+        name[: -len(".weight")] for name in base_weight_map if name.endswith(".weight")
+    }
+    fallback_modules = {
+        module_name
+        for module_name in all_weight_modules
+        if _matches_any_pattern(module_name, patterns)
+    }
+    effective_modules = {
+        name: tensors
+        for name, tensors in quantized_modules.items()
+        if name not in fallback_modules
+    }
+    auto_ignored_modules = sorted(all_weight_modules - set(effective_modules))
+    output_config = _direct_nvfp4_output_config(
+        source_config,
+        fallback_patterns=patterns,
+        auto_ignored_modules=auto_ignored_modules,
+        swap_weight_nibbles=swap_weight_nibbles,
+    )
+    quant_config = output_config["quantization_config"]
+    serialized_quant_config = json.dumps(quant_config, sort_keys=True)
+
+    _copy_non_shard_files(base_dir, str(output_path))
+    _write_config(output_path, output_config)
+    names_by_file: dict[str, list[str]] = defaultdict(list)
+    for name, filename in base_weight_map.items():
+        names_by_file[filename].append(name)
+
+    updated_weight_map: dict[str, str] = {}
+    total_size = 0
+    added_scale_count = 0
+    for filename, names in sorted(names_by_file.items()):
+        shard_path = os.path.join(base_dir, filename)
+        shard_tensors = load_file(shard_path, device="cpu")
+        with safe_open(shard_path, framework="pt", device="cpu") as f:
+            metadata = dict(f.metadata() or {})
+        metadata.setdefault("format", "pt")
+        metadata["quantization_config"] = serialized_quant_config
+        metadata["_quantization_metadata"] = serialized_quant_config
+
+        for name in names:
+            if not name.endswith(".weight"):
+                continue
+            module_name = name[: -len(".weight")]
+            tensors = effective_modules.get(module_name)
+            if tensors is None:
+                continue
+            tensors = _maybe_restore_h3_qkv_checkpoint_layout(
+                module_name, tensors, source_config
+            )
+            shard_tensors[name] = tensors["weight"]
+            for suffix in ("weight_scale", "weight_scale_2", "input_scale"):
+                scale_name = f"{module_name}.{suffix}"
+                shard_tensors[scale_name] = tensors[suffix]
+                added_scale_count += 1
+
+        save_file(shard_tensors, os.path.join(output_path, filename), metadata=metadata)
+        for name, tensor in shard_tensors.items():
+            updated_weight_map[name] = filename
+            total_size += tensor.element_size() * tensor.numel()
+
+    with open(output_path / index_filename, "w", encoding="utf-8") as f:
+        json.dump(
+            {"metadata": {"total_size": total_size}, "weight_map": updated_weight_map},
+            f,
+            indent=2,
+            sort_keys=True,
+        )
+        f.write("\n")
+    return {
+        "quantized_modules": len(effective_modules),
+        "fallback_modules": len(fallback_modules),
+        "auto_ignored_modules": len(auto_ignored_modules),
+        "added_scale_tensors": added_scale_count,
+        "output_shards": len(names_by_file),
+        "swap_weight_nibbles": swap_weight_nibbles,
+    }
+
+
 def build_modelopt_nvfp4_transformer(
     *,
     base_transformer_dir: str,
-    modelopt_hf_dir: str,
+    modelopt_hf_dir: str | None,
+    modelopt_backbone_ckpt: str | None = None,
     output_dir: str,
     pattern_preset: str = "none",
     keep_bf16_patterns: Sequence[str] | None = None,
     swap_weight_nibbles: bool | None = None,
     overwrite: bool = False,
 ) -> dict[str, int | bool]:
-    source_dir = _resolve_transformer_dir(modelopt_hf_dir)
     base_dir = _resolve_transformer_dir(base_transformer_dir)
 
     patterns = _preset_patterns(pattern_preset)
@@ -220,14 +471,6 @@ def build_modelopt_nvfp4_transformer(
     resolved_swap_weight_nibbles = (
         swap_weight_nibbles if swap_weight_nibbles is not None else False
     )
-    output_config = _updated_quant_config(
-        _load_config(source_dir),
-        fallback_patterns=patterns,
-        swap_weight_nibbles=resolved_swap_weight_nibbles,
-    )
-    quant_config = output_config["quantization_config"]
-    serialized_quant_config = json.dumps(quant_config, sort_keys=True)
-
     output_path = Path(output_dir).expanduser().resolve()
     if output_path.exists():
         if not overwrite:
@@ -237,6 +480,32 @@ def build_modelopt_nvfp4_transformer(
             )
         shutil.rmtree(output_path)
     output_path.mkdir(parents=True, exist_ok=True)
+
+    if modelopt_backbone_ckpt is not None:
+        if modelopt_hf_dir is not None:
+            raise ValueError(
+                "Use either --modelopt-hf-dir or --modelopt-backbone-ckpt, not both."
+            )
+        return _build_direct_modelopt_nvfp4_transformer(
+            base_dir=base_dir,
+            backbone_ckpt=modelopt_backbone_ckpt,
+            output_path=output_path,
+            patterns=patterns,
+            swap_weight_nibbles=resolved_swap_weight_nibbles,
+        )
+
+    if modelopt_hf_dir is None:
+        raise ValueError(
+            "Either --modelopt-hf-dir or --modelopt-backbone-ckpt is required."
+        )
+    source_dir = _resolve_transformer_dir(modelopt_hf_dir)
+    output_config = _updated_quant_config(
+        _load_config(source_dir),
+        fallback_patterns=patterns,
+        swap_weight_nibbles=resolved_swap_weight_nibbles,
+    )
+    quant_config = output_config["quantization_config"]
+    serialized_quant_config = json.dumps(quant_config, sort_keys=True)
 
     _copy_non_shard_files(source_dir, str(output_path))
     _write_config(output_path, output_config)
@@ -342,8 +611,17 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--modelopt-hf-dir",
-        required=True,
+        default=None,
         help="ModelOpt --hf-ckpt-dir output, or its transformer subdirectory.",
+    )
+    parser.add_argument(
+        "--modelopt-backbone-ckpt",
+        default=None,
+        help=(
+            "Compressed ModelOpt mto.save checkpoint. This native H3 path uses "
+            "the original BF16 transformer as the source and does not require an "
+            "HF export."
+        ),
     )
     parser.add_argument(
         "--output-dir",
@@ -352,7 +630,7 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--pattern-preset",
-        choices=["none", "flux1-nvfp4"],
+        choices=["none", "flux1-nvfp4", "minimax-h3-nvfp4"],
         default="none",
         help="Optional model-family BF16 fallback preset.",
     )
@@ -387,6 +665,7 @@ def main() -> None:
     stats = build_modelopt_nvfp4_transformer(
         base_transformer_dir=args.base_transformer_dir,
         modelopt_hf_dir=args.modelopt_hf_dir,
+        modelopt_backbone_ckpt=args.modelopt_backbone_ckpt,
         output_dir=args.output_dir,
         pattern_preset=args.pattern_preset,
         keep_bf16_patterns=args.keep_bf16_pattern,
