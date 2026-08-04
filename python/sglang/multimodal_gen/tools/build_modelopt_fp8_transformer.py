@@ -26,6 +26,7 @@ does not have a Diffusers ModelMixin export::
         --modelopt-backbone-ckpt /tmp/minimax-h3-fp8/backbone.pt \
         --base-transformer-dir /path/to/MiniMax-H3/FL2VA/transformer \
         --model-type minimax-h3 --allow-unquantized-source \
+        --offline-quant-device cuda \
         --output-dir /tmp/minimax-h3-fp8/transformer
 """
 
@@ -498,6 +499,7 @@ def build_fp8_scale_map(
     model_state_dict: Mapping[str, torch.Tensor],
     *,
     maxbound: float = FP8_E4M3_MAXBOUND,
+    allow_input_only: bool = False,
 ) -> dict[str, dict[str, torch.Tensor]]:
     scale_map: dict[str, dict[str, torch.Tensor]] = {}
     for key, value in model_state_dict.items():
@@ -515,7 +517,8 @@ def build_fp8_scale_map(
     return {
         weight_name: scale_tensors
         for weight_name, scale_tensors in scale_map.items()
-        if {"weight_scale", "input_scale"} <= set(scale_tensors)
+        if "input_scale" in scale_tensors
+        and (allow_input_only or "weight_scale" in scale_tensors)
     }
 
 
@@ -578,6 +581,7 @@ def build_modelopt_fp8_transformer(
     keep_bf16_patterns: Sequence[str] | None = None,
     maxbound: float = FP8_E4M3_MAXBOUND,
     allow_unquantized_source: bool = False,
+    offline_quant_device: str = "cpu",
     overwrite: bool = False,
 ) -> dict[str, int]:
     source_dir = _resolve_transformer_dir(modelopt_hf_dir)
@@ -605,6 +609,13 @@ def build_modelopt_fp8_transformer(
             "This tool only supports ModelOpt diffusers FP8 exports "
             "(quant_method=modelopt)."
         )
+    quant_device = torch.device(offline_quant_device)
+    if (
+        allow_unquantized_source
+        and quant_device.type == "cuda"
+        and not torch.cuda.is_available()
+    ):
+        raise RuntimeError("--offline-quant-device cuda requires an available CUDA GPU")
 
     source_weight_map_all, index_filename = _load_weight_map(source_dir)
     source_metadata = _load_first_shard_metadata(source_dir, source_weight_map_all)
@@ -664,7 +675,11 @@ def build_modelopt_fp8_transformer(
     backbone_state = torch.load(backbone_ckpt_path, map_location="cpu")[
         "model_state_dict"
     ]
-    fp8_scale_map = build_fp8_scale_map(backbone_state, maxbound=maxbound)
+    fp8_scale_map = build_fp8_scale_map(
+        backbone_state,
+        maxbound=maxbound,
+        allow_input_only=allow_unquantized_source,
+    )
     quant_algo = str(quant_config.get("quant_algo", "")).upper()
     if quant_algo and "FP8" not in quant_algo:
         raise ValueError(
@@ -778,9 +793,26 @@ def build_modelopt_fp8_transformer(
                 and name not in fallback_tensors
                 and name not in fallback_weight_names_set
             ):
-                scale_tensors = fp8_scale_map[scale_key]
+                scale_tensors = dict(fp8_scale_map[scale_key])
+                weight_for_quant = shard_tensors[name]
+                if allow_unquantized_source:
+                    weight_for_quant = weight_for_quant.to(device=quant_device)
+                if "weight_scale" not in scale_tensors:
+                    if not allow_unquantized_source:
+                        raise ValueError(
+                            f"ModelOpt state is missing a weight scale for {scale_key}"
+                        )
+                    scale_tensors["weight_scale"] = (
+                        weight_for_quant.detach()
+                        .abs()
+                        .amax()
+                        .to(torch.float32)
+                        .reshape(1)
+                        .cpu()
+                        / maxbound
+                    )
                 shard_tensors[name] = quantize_fp8_weight(
-                    shard_tensors[name], scale_tensors["weight_scale"]
+                    weight_for_quant, scale_tensors["weight_scale"]
                 )
                 shard_tensors[name[:-7] + ".weight_scale"] = scale_tensors[
                     "weight_scale"
@@ -796,6 +828,8 @@ def build_modelopt_fp8_transformer(
 
         del shard_tensors
         gc.collect()
+        if allow_unquantized_source and quant_device.type == "cuda":
+            torch.cuda.empty_cache()
 
     with open(output_path / index_filename, "w", encoding="utf-8") as f:
         json.dump(
@@ -900,6 +934,12 @@ def _parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--offline-quant-device",
+        choices=("cpu", "cuda"),
+        default="cpu",
+        help="Device used to quantize BF16 weights with --allow-unquantized-source.",
+    )
+    parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Replace --output-dir if it already exists.",
@@ -918,6 +958,7 @@ def main() -> None:
         keep_bf16_patterns=args.keep_bf16_pattern,
         maxbound=args.maxbound,
         allow_unquantized_source=args.allow_unquantized_source,
+        offline_quant_device=args.offline_quant_device,
         overwrite=args.overwrite,
     )
     print(json.dumps(stats, indent=2, sort_keys=True))

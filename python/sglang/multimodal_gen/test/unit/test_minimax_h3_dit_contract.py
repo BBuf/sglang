@@ -179,6 +179,39 @@ def test_modelopt_calibration_capture_is_opt_in_and_rank_zero_only(
     )
 
 
+def test_modelopt_amax_capture_writes_only_aggregated_scalars(tmp_path, monkeypatch):
+    class _CaptureState:
+        _modelopt_amax_by_module = {
+            "blocks.1.attn.qkv_proj": torch.tensor(12.0),
+            "blocks.1.mlp.fc1": torch.tensor(7.5),
+        }
+
+    capture_state = _CaptureState()
+    monkeypatch.setenv(
+        "SGLANG_MINIMAX_H3_MODELOPT_AMAX_CAPTURE_DIR", str(tmp_path / "amax")
+    )
+    MiniMaxH3DiTModel._flush_modelopt_amax_capture(capture_state)
+
+    payload = torch.load(
+        tmp_path / "amax" / "calibration-state.pt",
+        map_location="cpu",
+        weights_only=True,
+    )
+    assert payload["metadata"] == {
+        "capture": "minimax-h3-input-amax",
+        "forward_count": 1,
+        "world_size": 1,
+    }
+    assert set(payload["model_state_dict"]) == {
+        "blocks.1.attn.qkv_proj.input_quantizer._amax",
+        "blocks.1.mlp.fc1.input_quantizer._amax",
+    }
+    torch.testing.assert_close(
+        payload["model_state_dict"]["blocks.1.attn.qkv_proj.input_quantizer._amax"],
+        torch.tensor([12.0]),
+    )
+
+
 def test_tp_and_ulysses_admission_uses_tp_local_shapes():
     arch = MiniMaxH3DiTArchConfig()
     model = MiniMaxH3DiTModel.__new__(MiniMaxH3DiTModel)

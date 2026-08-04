@@ -1041,6 +1041,85 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
         os.replace(temporary_path, output_path)
         self._modelopt_capture_index = capture_index + 1
 
+    def _install_modelopt_amax_capture_hooks(self) -> None:
+        capture_dir = os.environ.get("SGLANG_MINIMAX_H3_MODELOPT_AMAX_CAPTURE_DIR")
+        if not capture_dir or getattr(self, "_modelopt_amax_capture_ready", False):
+            return
+
+        linear_types = (
+            ColumnParallelLinear,
+            MergedColumnParallelLinear,
+            RowParallelLinear,
+        )
+        self._modelopt_amax_by_module: dict[str, torch.Tensor] = {}
+        self._modelopt_amax_capture_handles = []
+
+        for module_name, module in self.named_modules():
+            if not module_name or not isinstance(module, linear_types):
+                continue
+
+            def capture_input_amax(
+                _module: nn.Module,
+                inputs: tuple[Any, ...],
+                *,
+                name: str = module_name,
+            ) -> None:
+                if not inputs or not isinstance(inputs[0], torch.Tensor):
+                    return
+                current = inputs[0].detach().abs().amax().to(torch.float32)
+                previous = self._modelopt_amax_by_module.get(name)
+                self._modelopt_amax_by_module[name] = (
+                    current if previous is None else torch.maximum(previous, current)
+                )
+
+            self._modelopt_amax_capture_handles.append(
+                module.register_forward_pre_hook(capture_input_amax)
+            )
+
+        self._modelopt_amax_capture_ready = True
+
+    def _flush_modelopt_amax_capture(self) -> None:
+        capture_dir = os.environ.get("SGLANG_MINIMAX_H3_MODELOPT_AMAX_CAPTURE_DIR")
+        captured = getattr(self, "_modelopt_amax_by_module", None)
+        if not capture_dir or not captured:
+            return
+
+        module_names = sorted(captured)
+        values = torch.stack([captured[name] for name in module_names])
+        if torch.distributed.is_initialized():
+            rank = torch.distributed.get_rank()
+            world_size = torch.distributed.get_world_size()
+            if world_size > 1:
+                torch.distributed.all_reduce(values, op=torch.distributed.ReduceOp.MAX)
+        else:
+            rank = 0
+            world_size = 1
+        if rank != 0:
+            return
+
+        values = values.detach().cpu()
+        state = {
+            f"{name}.input_quantizer._amax": values[index : index + 1]
+            for index, name in enumerate(module_names)
+        }
+        os.makedirs(capture_dir, exist_ok=True)
+        output_path = os.path.join(capture_dir, "calibration-state.pt")
+        temporary_path = f"{output_path}.tmp"
+        forward_count = int(getattr(self, "_modelopt_amax_forward_count", 0)) + 1
+        torch.save(
+            {
+                "model_state_dict": state,
+                "metadata": {
+                    "capture": "minimax-h3-input-amax",
+                    "forward_count": forward_count,
+                    "world_size": world_size,
+                },
+            },
+            temporary_path,
+        )
+        os.replace(temporary_path, output_path)
+        self._modelopt_amax_forward_count = forward_count
+
     _fsdp_shard_conditions = _ARCH_DEFAULTS._fsdp_shard_conditions
     # parameters mix fp32 (patch projections, timestep embedder, and output
     # heads) with bf16 blocks; FSDP must gather in each parameter's own dtype
@@ -1490,6 +1569,7 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
                 f"{sorted(_FORWARD_SUPPORTED_KWARGS)}"
             )
         self._capture_modelopt_calibration_kwargs(kwargs)
+        self._install_modelopt_amax_capture_hooks()
 
         x = _required_kwarg(kwargs, "x")
         audio_x = _required_kwarg(kwargs, "audio_x")
@@ -1711,6 +1791,7 @@ class MiniMaxH3DiTModel(BaseDiT, LayerwiseOffloadableModuleMixin):
             update_audio_mask = kwargs.get("update_audio_mask")
             if update_audio_mask is not None:
                 audio_logits = audio_logits * update_audio_mask.view(-1).unsqueeze(-1)
+        self._flush_modelopt_amax_capture()
         return video_logits, audio_logits
 
 

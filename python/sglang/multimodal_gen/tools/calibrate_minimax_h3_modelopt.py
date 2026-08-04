@@ -23,6 +23,17 @@ Example with kwargs captured from a representative native H3 denoising run::
         --format fp8 \
         --output-checkpoint /tmp/minimax-h3-fp8/backbone.pt
 
+For memory-constrained machines, a normal distributed generation can capture
+only per-linear input maxima without persisting latent or prompt tensors::
+
+    SGLANG_MINIMAX_H3_MODELOPT_AMAX_CAPTURE_DIR=/tmp/h3-amax \
+        sglang generate ...
+
+The resulting ``calibration-state.pt`` can be passed to the FP8 builder, or to
+the NVFP4 builder with ``--allow-unquantized-source``.  Both builders derive
+weight scales from the original BF16 checkpoint exactly as ModelOpt's default
+max calibration does.
+
 The default quality profile leaves all AdaLN projections, the text refiner,
 the first/last attention blocks, and fixed-FP32 input/output boundaries
 unquantized.  Pass ``--sensitive-layer-pattern`` to replace that profile.

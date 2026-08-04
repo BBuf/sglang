@@ -17,11 +17,22 @@ MiniMax H3 example::
         --modelopt-backbone-ckpt /tmp/minimax-h3-nvfp4/backbone.pt \
         --pattern-preset minimax-h3-nvfp4 \
         --output-dir /tmp/minimax-h3-nvfp4/transformer
+
+On a memory-constrained Blackwell machine, capture input maxima during a normal
+BF16 generation and quantize the original checkpoint one shard at a time::
+
+    python -m sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer \
+        --base-transformer-dir /path/to/MiniMax-H3/FL2VA/transformer \
+        --modelopt-backbone-ckpt /tmp/h3-amax/calibration-state.pt \
+        --allow-unquantized-source --offline-quant-device cuda \
+        --pattern-preset minimax-h3-nvfp4 \
+        --output-dir /tmp/minimax-h3-nvfp4/transformer
 """
 
 from __future__ import annotations
 
 import argparse
+import gc
 import json
 import os
 import re
@@ -70,6 +81,9 @@ _TENSOR_MODULE_SUFFIXES = (
     ".weight",
     ".bias",
 )
+_E2M1_MAX = 6.0
+_E4M3_MAX = 448.0
+_E2M1_BOUNDS = (0.25, 0.75, 1.25, 1.75, 2.5, 3.5, 5.0)
 
 
 def _resolve_transformer_dir(path: str) -> str:
@@ -291,6 +305,60 @@ def _modelopt_nvfp4_modules(
     return modules
 
 
+def _modelopt_input_amax_map(
+    state: Mapping[str, torch.Tensor],
+) -> dict[str, torch.Tensor]:
+    suffix = ".input_quantizer._amax"
+    return {
+        name[: -len(suffix)]: value.detach().to(torch.float32).reshape(1).cpu()
+        for name, value in state.items()
+        if name.endswith(suffix)
+    }
+
+
+def _quantize_nvfp4_weight(
+    weight: torch.Tensor,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Match ModelOpt's dynamic NVFP4 weight compression path."""
+    if weight.ndim < 2 or weight.shape[-1] % 16:
+        raise ValueError(
+            "NVFP4 weights must have at least two dimensions and an input "
+            f"dimension divisible by 16, got {tuple(weight.shape)}"
+        )
+
+    weight = weight.contiguous()
+    double_scale = weight.detach().abs().amax().to(torch.float32) / (
+        _E2M1_MAX * _E4M3_MAX
+    )
+    if not torch.isfinite(double_scale) or double_scale <= 0:
+        raise ValueError("NVFP4 weight must have a finite, positive absolute maximum")
+
+    blocked = weight.reshape(*weight.shape[:-1], -1, 16)
+    block_amax = blocked.detach().abs().amax(dim=-1).to(torch.float32)
+    block_scale = block_amax / (_E2M1_MAX * double_scale)
+    block_scale = torch.where(
+        block_scale == 0, torch.ones_like(block_scale), block_scale
+    )
+    block_scale = block_scale.clamp(min=2**-9, max=_E4M3_MAX).to(torch.float8_e4m3fn)
+
+    scaled = blocked / (block_scale.to(torch.float32) * double_scale).unsqueeze(-1)
+    scaled = scaled.reshape(weight.shape)
+    absolute = scaled.abs()
+    bounds = torch.tensor(_E2M1_BOUNDS, dtype=absolute.dtype, device=absolute.device)
+    ordinal = torch.searchsorted(bounds, absolute, out_int32=True).to(torch.uint8)
+    odd_bounds = bounds[[1, 3, 5]]
+    tie_adjustment = torch.any(absolute.unsqueeze(-1) == odd_bounds, dim=-1).to(
+        torch.uint8
+    )
+    q_weight = ((scaled < 0).to(torch.uint8) << 3) + ordinal + tie_adjustment
+    packed_weight = (q_weight[..., 1::2] << 4) | q_weight[..., 0::2]
+    return (
+        packed_weight.contiguous(),
+        block_scale.contiguous(),
+        double_scale.to(torch.float32).contiguous(),
+    )
+
+
 def _h3_qkv_runtime_rows_to_checkpoint_rows(
     tensor: torch.Tensor, *, num_heads: int, head_dim: int
 ) -> torch.Tensor:
@@ -451,6 +519,116 @@ def _build_direct_modelopt_nvfp4_transformer(
     }
 
 
+def _build_offline_modelopt_nvfp4_transformer(
+    *,
+    base_dir: str,
+    calibration_ckpt: str,
+    output_path: Path,
+    patterns: Sequence[str],
+    swap_weight_nibbles: bool,
+    quant_device: str,
+) -> dict[str, int | bool]:
+    source_config = _load_config(base_dir)
+    state = _load_modelopt_backbone_state(calibration_ckpt)
+    input_amax_by_module = _modelopt_input_amax_map(state)
+    if not input_amax_by_module:
+        raise ValueError(
+            "ModelOpt calibration checkpoint contains no input_quantizer._amax tensors"
+        )
+
+    base_weight_map, index_filename = _load_weight_map(base_dir)
+    if index_filename is None:
+        raise ValueError("Offline ModelOpt NVFP4 export requires an indexed checkpoint")
+    all_weight_modules = {
+        name[: -len(".weight")] for name in base_weight_map if name.endswith(".weight")
+    }
+    fallback_modules = {
+        module_name
+        for module_name in all_weight_modules
+        if _matches_any_pattern(module_name, patterns)
+    }
+    effective_modules = (
+        set(input_amax_by_module) & all_weight_modules
+    ) - fallback_modules
+    auto_ignored_modules = sorted(all_weight_modules - effective_modules)
+    output_config = _direct_nvfp4_output_config(
+        source_config,
+        fallback_patterns=patterns,
+        auto_ignored_modules=auto_ignored_modules,
+        swap_weight_nibbles=swap_weight_nibbles,
+    )
+    quant_config = output_config["quantization_config"]
+    serialized_quant_config = json.dumps(quant_config, sort_keys=True)
+
+    device = torch.device(quant_device)
+    if device.type == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("--offline-quant-device cuda requires an available CUDA GPU")
+
+    _copy_non_shard_files(base_dir, str(output_path))
+    _write_config(output_path, output_config)
+    names_by_file: dict[str, list[str]] = defaultdict(list)
+    for name, filename in base_weight_map.items():
+        names_by_file[filename].append(name)
+
+    updated_weight_map: dict[str, str] = {}
+    total_size = 0
+    added_scale_count = 0
+    for filename, names in sorted(names_by_file.items()):
+        shard_path = os.path.join(base_dir, filename)
+        shard_tensors = load_file(shard_path, device="cpu")
+        with safe_open(shard_path, framework="pt", device="cpu") as f:
+            metadata = dict(f.metadata() or {})
+        metadata.setdefault("format", "pt")
+        metadata["quantization_config"] = serialized_quant_config
+        metadata["_quantization_metadata"] = serialized_quant_config
+
+        for name in names:
+            if not name.endswith(".weight"):
+                continue
+            module_name = name[: -len(".weight")]
+            if module_name not in effective_modules:
+                continue
+            packed_weight, block_scale, double_scale = _quantize_nvfp4_weight(
+                shard_tensors[name].to(device=device)
+            )
+            input_scale = input_amax_by_module[module_name].to(torch.float32) / (
+                _E2M1_MAX * _E4M3_MAX
+            )
+            if not torch.isfinite(input_scale).all() or not (input_scale > 0).all():
+                raise ValueError(f"Invalid calibrated input amax for {module_name}")
+            shard_tensors[name] = packed_weight.cpu()
+            shard_tensors[f"{module_name}.weight_scale"] = block_scale.cpu()
+            shard_tensors[f"{module_name}.weight_scale_2"] = double_scale.cpu()
+            shard_tensors[f"{module_name}.input_scale"] = input_scale.cpu().contiguous()
+            added_scale_count += 3
+
+        save_file(shard_tensors, os.path.join(output_path, filename), metadata=metadata)
+        for name, tensor in shard_tensors.items():
+            updated_weight_map[name] = filename
+            total_size += tensor.element_size() * tensor.numel()
+        del shard_tensors
+        gc.collect()
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
+
+    with open(output_path / index_filename, "w", encoding="utf-8") as f:
+        json.dump(
+            {"metadata": {"total_size": total_size}, "weight_map": updated_weight_map},
+            f,
+            indent=2,
+            sort_keys=True,
+        )
+        f.write("\n")
+    return {
+        "quantized_modules": len(effective_modules),
+        "fallback_modules": len(fallback_modules),
+        "auto_ignored_modules": len(auto_ignored_modules),
+        "added_scale_tensors": added_scale_count,
+        "output_shards": len(names_by_file),
+        "swap_weight_nibbles": swap_weight_nibbles,
+    }
+
+
 def build_modelopt_nvfp4_transformer(
     *,
     base_transformer_dir: str,
@@ -460,6 +638,8 @@ def build_modelopt_nvfp4_transformer(
     pattern_preset: str = "none",
     keep_bf16_patterns: Sequence[str] | None = None,
     swap_weight_nibbles: bool | None = None,
+    allow_unquantized_source: bool = False,
+    offline_quant_device: str = "cpu",
     overwrite: bool = False,
 ) -> dict[str, int | bool]:
     base_dir = _resolve_transformer_dir(base_transformer_dir)
@@ -485,6 +665,15 @@ def build_modelopt_nvfp4_transformer(
         if modelopt_hf_dir is not None:
             raise ValueError(
                 "Use either --modelopt-hf-dir or --modelopt-backbone-ckpt, not both."
+            )
+        if allow_unquantized_source:
+            return _build_offline_modelopt_nvfp4_transformer(
+                base_dir=base_dir,
+                calibration_ckpt=modelopt_backbone_ckpt,
+                output_path=output_path,
+                patterns=patterns,
+                swap_weight_nibbles=resolved_swap_weight_nibbles,
+                quant_device=offline_quant_device,
             )
         return _build_direct_modelopt_nvfp4_transformer(
             base_dir=base_dir,
@@ -624,6 +813,20 @@ def _parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--allow-unquantized-source",
+        action="store_true",
+        help=(
+            "Treat --modelopt-backbone-ckpt as an input-amax-only calibration "
+            "state and quantize original BF16 weights one shard at a time."
+        ),
+    )
+    parser.add_argument(
+        "--offline-quant-device",
+        choices=("cpu", "cuda"),
+        default="cpu",
+        help="Device used for --allow-unquantized-source weight packing.",
+    )
+    parser.add_argument(
         "--output-dir",
         required=True,
         help="Directory to write the mixed transformer checkpoint.",
@@ -670,6 +873,8 @@ def main() -> None:
         pattern_preset=args.pattern_preset,
         keep_bf16_patterns=args.keep_bf16_pattern,
         swap_weight_nibbles=args.swap_weight_nibbles,
+        allow_unquantized_source=args.allow_unquantized_source,
+        offline_quant_device=args.offline_quant_device,
         overwrite=args.overwrite,
     )
     print(json.dumps(stats, indent=2, sort_keys=True))

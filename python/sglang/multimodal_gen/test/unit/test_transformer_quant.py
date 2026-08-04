@@ -77,13 +77,16 @@ from sglang.multimodal_gen.runtime.utils.quantization_utils import (
 )
 from sglang.multimodal_gen.tools.build_modelopt_fp8_transformer import (
     DEFAULT_MINIMAX_H3_KEEP_BF16_PATTERNS,
+    build_fp8_scale_map,
     should_keep_bf16,
 )
 from sglang.multimodal_gen.tools.build_modelopt_nvfp4_transformer import (
     DEFAULT_MINIMAX_H3_NVFP4_FALLBACK_PATTERNS,
     _h3_qkv_runtime_rows_to_checkpoint_rows,
     _matches_any_pattern,
+    _modelopt_input_amax_map,
     _modelopt_nvfp4_modules,
+    _quantize_nvfp4_weight,
     _updated_quant_config,
 )
 from sglang.multimodal_gen.tools.calibrate_minimax_h3_modelopt import (
@@ -605,6 +608,57 @@ class TestTransformerQuantHelpers(unittest.TestCase):
             },
             current_config["quant_cfg"],
         )
+
+    def test_fp8_scale_map_accepts_input_only_calibration_state(self):
+        state = {"blocks.1.mlp.fc1.input_quantizer._amax": torch.tensor([896.0])}
+        self.assertEqual(build_fp8_scale_map(state), {})
+        scale_map = build_fp8_scale_map(state, allow_input_only=True)
+        self.assertEqual(set(scale_map), {"blocks.1.mlp.fc1.weight"})
+        torch.testing.assert_close(
+            scale_map["blocks.1.mlp.fc1.weight"]["input_scale"],
+            torch.tensor([2.0]),
+        )
+
+    def test_nvfp4_offline_weight_quantization_matches_e2m1_packing(self):
+        weight = torch.tensor(
+            [
+                -6.0,
+                -4.0,
+                -3.0,
+                -2.0,
+                -1.5,
+                -1.0,
+                -0.5,
+                0.0,
+                0.0,
+                0.5,
+                1.0,
+                1.5,
+                2.0,
+                3.0,
+                4.0,
+                6.0,
+            ],
+            dtype=torch.bfloat16,
+        ).reshape(1, 16)
+        packed, block_scale, double_scale = _quantize_nvfp4_weight(weight)
+        self.assertEqual(packed.dtype, torch.uint8)
+        self.assertEqual(block_scale.dtype, torch.float8_e4m3fn)
+        self.assertEqual(double_scale.dtype, torch.float32)
+        self.assertEqual(
+            packed.tolist(), [[0xEF, 0xCD, 0xAB, 0x09, 0x10, 0x32, 0x54, 0x76]]
+        )
+        torch.testing.assert_close(block_scale.float(), torch.tensor([[448.0]]))
+        torch.testing.assert_close(double_scale, torch.tensor(1.0 / 448.0))
+
+    def test_nvfp4_input_amax_map_ignores_weight_calibration(self):
+        state = {
+            "blocks.1.mlp.fc1.input_quantizer._amax": torch.tensor(12.0),
+            "blocks.1.mlp.fc1.weight_quantizer._amax": torch.tensor(4.0),
+        }
+        actual = _modelopt_input_amax_map(state)
+        self.assertEqual(set(actual), {"blocks.1.mlp.fc1"})
+        torch.testing.assert_close(actual["blocks.1.mlp.fc1"], torch.tensor([12.0]))
 
     def test_modelopt_fp8_hf_config_uses_general_modelopt_fp8(self):
         config = get_quant_config(
