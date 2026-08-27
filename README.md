@@ -49,7 +49,8 @@ lanes, while edit/layered/FireRed lanes are neutral or slightly slower.
 | FLUX.2-dev TP2 | Hugging Face 403 gated repository |
 | Ideogram 4 FP8 TP2 | Hugging Face 403 gated repository |
 | Ideogram 4 Fast / Instant | public wrapper resolves to gated Ideogram weights (403) |
-| Krea-2 Turbo / Raw | Hugging Face 403 gated repository |
+| Krea-2 registry root | Registry placeholder returns Hugging Face 404; no checkpoint exists at that ID |
+| Krea-2 Turbo / Raw | Hugging Face 403 gated repositories |
 | MiniMax-H3 TP2+Ulysses2 | checked-in preset needs 4 GPUs; assignment had 2 |
 | Cosmos3-Super T2V CFG2+TP2 | preset needs 4 GPUs; assignment had 2 |
 | Cosmos3-Super distilled T2I TP4 | preset needs 4 GPUs; assignment had 2 |
@@ -74,5 +75,5 @@ without proving that the changed branch executed.
 - `images/`: Base/PR contact sheets; video sheets use first and middle frames.
 - `results/`: per-run medians, commits, topology, output hashes, and comparison
   metrics for every successful model.
-- `cleanup-ledger-early.jsonl` and `cleanup-ledger-late.jsonl`: 28 cleanup
+- `cleanup-ledger-early.jsonl` and `cleanup-ledger-late.jsonl`: 29 cleanup
   records; every record reports zero post-cleanup bytes and weight files.
