@@ -1135,13 +1135,8 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
             # bakes the SAME address execute() provides at replay
             # (fb.input_embeds = buffers.input_embeds). Without this the
             # capture reads a fresh embed alloc and the replayed pcg subgraph
-            # reads a stale/moved address -> illegal memory access. Gate on the
-            # configured decode backend (self.backend is unset during the
-            # compile pass that also calls this).
-            from sglang.srt.model_executor.cuda_graph_config import Backend as _GB
-
-            if get_exec().graph.cuda_graph_config.decode.backend == _GB.TC_PIECEWISE:
-                forward_batch.input_embeds = self.buffers.input_embeds[:num_tokens]
+            # reads a stale/moved address -> illegal memory access.
+            forward_batch.input_embeds = self.buffers.input_embeds[:num_tokens]
             pp_kwargs = mr._pp_kwargs(pp_proxy_tensors)
             mr.model.forward(
                 forward_batch.input_ids,
@@ -1352,6 +1347,10 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 # decode attention routes through the unified_attention split-op
                 # (matching the cached Dynamo FX graph). No-op for other backends.
                 if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
+                    # Same stable-input_embeds wiring as _run_dummy_decode_forward
+                    # and execute(): the captured subgraphs bake the address, so
+                    # capture and replay must both use the static buffer.
+                    forward_batch.input_embeds = self.buffers.input_embeds[:num_tokens]
                     with torch.no_grad(), self._decode_forward_context(forward_batch, num_tokens):
                         out = forward(
                             forward_batch.input_ids,
