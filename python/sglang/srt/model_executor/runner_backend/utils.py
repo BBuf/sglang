@@ -92,13 +92,11 @@ def resolve_decode_backend(
             debug_eager=get_exec().graph.debug_cuda_graph,
         )
     if backend_name == Backend.TC_PIECEWISE:
-        global _TC_PIECEWISE_DECODE_FALLBACK_LOGGED
-        if not _TC_PIECEWISE_DECODE_FALLBACK_LOGGED:
-            logger.warning(
-                "cuda_graph_config decode='tc_piecewise' is not yet implemented; "
-                "falling back to 'full'."
-            )
-            _TC_PIECEWISE_DECODE_FALLBACK_LOGGED = True
+        from sglang.srt.model_executor.runner_backend.tc_piecewise_decode_cuda_graph_backend import (
+            TcPiecewiseDecodeCudaGraphBackend,
+        )
+
+        return TcPiecewiseDecodeCudaGraphBackend(cuda_graph_runner)
     return FullCudaGraphBackend(
         cuda_graph_runner, enable_memory_saver=enable_memory_saver
     )

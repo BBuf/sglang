@@ -1029,6 +1029,35 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
 
         return forward_batch, attn_backend, pp_proxy_tensors
 
+    def _run_dummy_decode_forward(self, bs: int) -> None:
+        """Build a dummy decode ForwardBatch at this bs, init attn metadata,
+        and run the outer model.forward once. Used by
+        TcPiecewiseDecodeCudaGraphBackend for the JIT-activate forward (single
+        shape, before torch.compile install) and the compile-loop pass (every
+        decode bs bucket, inside enable_torch_compile_warmup)."""
+        num_tokens = bs * self.captured_req_width
+        forward_batch, attn_backend, pp_proxy_tensors = self.capture_prepare(
+            bs, num_tokens=num_tokens
+        )
+        with forward_context(ForwardContext(attn_backend=attn_backend)):
+            attn_backend.init_forward_metadata_out_graph(forward_batch, in_capture=True)
+            attn_backend.init_forward_metadata_in_graph(forward_batch)
+            forward_batch.dp_local_start_pos = forward_batch.dp_local_num_tokens = None
+            set_dp_buffer_len(
+                forward_batch.global_dp_buffer_len,
+                num_tokens,
+                forward_batch.dp_padding_mode.is_max_len(),
+                forward_batch.global_num_tokens_cpu,
+            )
+            set_is_extend_in_batch(False)
+            pp_kwargs = self.model_runner._pp_kwargs(pp_proxy_tensors)
+            self.model_runner.model.forward(
+                forward_batch.input_ids,
+                forward_batch.positions,
+                forward_batch,
+                **pp_kwargs,
+            )
+
     def capture(self) -> None:
         # Warm up + autotune kernels once before capture (run-once across the
         # decode + prefill runners; see BaseRunner.warmup).
