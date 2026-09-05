@@ -197,7 +197,13 @@ def build_replay_fb_view(
         ),
         num_padding=bs - raw_bs,
         encoder_lens=buffers.encoder_lens[:bs] if is_encoder_decoder else None,
-        out_cache_loc=getattr(forward_batch, "out_cache_loc", None),
+        # Use the padded static buffer so the KV-write batch dim matches the
+        # captured graph bucket (raw runtime out_cache_loc is raw_bs-sized).
+        out_cache_loc=(
+            buffers.out_cache_loc[:num_tokens]
+            if getattr(buffers, "out_cache_loc", None) is not None
+            else getattr(forward_batch, "out_cache_loc", None)
+        ),
         out_cache_loc_dsv4=getattr(forward_batch, "out_cache_loc_dsv4", None),
         # The mamba-track registry slot (VIRTUAL ids) is the v2p translate SOURCE
         # for the backend, which copies the result into its own static buffer and
@@ -1067,13 +1073,24 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
 
     @contextlib.contextmanager
     def _decode_forward_context(
-        self, forward_batch, num_tokens: int, raw_num_tokens: Optional[int] = None
+        self,
+        forward_batch,
+        num_tokens: int,
+        raw_num_tokens: Optional[int] = None,
+        real_num_tokens: Optional[int] = None,
     ) -> Iterator[None]:
         """Decode analogue of prefill's ``_prefill_forward_context``: wraps a
         forward in the ForwardContext + TcPiecewiseForwardContext that the
         unified_attention split-op reads. Must be active identically during the
         compile-warmup pass and CUDA-graph capture so both Dynamo traces match."""
         self._ensure_decode_piecewise_layers()
+        # When a smaller runtime batch is padded up to a larger bucket
+        # (e.g. bs=1 -> bs=2), the attention custom-op narrows q/k/v,
+        # out_cache_loc, and positions to the REAL token count; mirror that on
+        # the replay view (capture/warmup omit real_num_tokens, so it stays at
+        # the padded bucket and narrowing is a no-op there).
+        if real_num_tokens is not None:
+            forward_batch.global_num_token_non_padded_cpu = real_num_tokens
         mr = self.model_runner
         with set_tc_piecewise_forward_context(
             forward_batch,
@@ -1195,11 +1212,16 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
             self.model_runner.gpu_id,
             empty_cache=False,
         )
-        # Reverse so cuda graphs share memory better.
+        # Reverse so cuda graphs share memory better. For the tc_piecewise
+        # decode backend, bs==1 is served via the bs==2 bucket (a size-1 trace
+        # would specialize into a static graph), so skip capturing it.
+        capture_bs_list = list(reversed(self.capture_bs))
+        if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
+            capture_bs_list = [b for b in capture_bs_list if b != 1]
         capture_range = (
-            tqdm.tqdm(list(reversed(self.capture_bs)))
+            tqdm.tqdm(capture_bs_list)
             if get_parallel().tp_rank == 0
-            else reversed(self.capture_bs)
+            else capture_bs_list
         )
         lora_variants = (
             [("lora", True), ("nolora", False)]
@@ -1459,6 +1481,10 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 bs = self._pad_to_bucket(max_batch_size, self.capture_bs)
             else:
                 bs = self._pad_to_bucket(raw_bs, self.capture_bs)
+            if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend) and bs == 1:
+                # bs==1 has no piecewise graph (see _capture_one_stream); serve
+                # it through the bs==2 bucket so it uses the dynamic graph.
+                bs = 2
             padded_num_tokens = bs * self.captured_req_width
             graph_size_key = self._capture_graph_size(
                 bs=bs, num_tokens=padded_num_tokens
@@ -1536,6 +1562,22 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
         else:
             attn_backend.init_forward_metadata_out_graph(fb_view)
             if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
+                # init_forward_metadata_out_graph derives the SWA write-loc
+                # buffer from fb_view.out_cache_loc (runtime raw-length when
+                # raw_bs < bs, e.g. bs=1 padded to 2). Re-fill it from the
+                # padded static buffer so the padded slot's write loc is
+                # resolved (slot 0) and the metadata slice length below matches
+                # the captured graph's token count.
+                if getattr(attn_backend, "use_sliding_window_kv_pool", False):
+                    _swa_buf = getattr(attn_backend, "cuda_graph_swa_out_cache_loc", None)
+                    if _swa_buf is not None:
+                        _n = bs * self.captured_req_width
+                        _swa_buf[_n:].zero_()
+                        _swa_buf[:_n].copy_(
+                            attn_backend.kv_index_translator.sliding_window_write_loc_for(
+                                buffers.out_cache_loc[:_n]
+                            )
+                        )
                 # The out-of-graph replay init only refreshes the per-bs decode
                 # wrappers' indices; it never rebinds forward_metadata (that
                 # happens only under in_capture=True). Point the backend's
@@ -1549,7 +1591,11 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 attn_backend.forward_metadata = _FI_DecodeMetadata(
                     attn_backend.decode_cuda_graph_metadata[bs],
                     swa_out_cache_loc=(
-                        attn_backend.cuda_graph_swa_out_cache_loc[:bs]
+                        # Narrow to the REAL (unpadded) token count: the
+                        # attention custom-op narrows q/k/v and out_cache_loc to
+                        # real tokens, so the KV-write swa_loc must match or the
+                        # captured kernel writes past the slice.
+                        attn_backend.cuda_graph_swa_out_cache_loc[:raw_num_token]
                         if getattr(attn_backend, "use_sliding_window_kv_pool", False)
                         and getattr(attn_backend, "cuda_graph_swa_out_cache_loc", None)
                         is not None
@@ -1634,6 +1680,13 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                     fb.global_num_tokens_for_logprob_gpu = (
                         self.buffers.global_num_tokens_for_logprob_gpu
                     )
+                # The FX graph's attention custom-op writes KV via
+                # forward_batch.out_cache_loc / positions. Use the padded static
+                # buffers (filled by load_batch) so the batch-size dim matches the
+                # captured graph bucket (raw runtime tensors are raw_bs-sized and
+                # trip a shape check when raw_bs < bs, e.g. bs=1 padded to 2).
+                fb.out_cache_loc = self.buffers.out_cache_loc[:num_tokens]
+                fb.positions = self.buffers.positions[:num_tokens]
                 # Mirror capture/compile: the FX graph's unified_attention
                 # split-op reads TcPiecewiseForwardContext.forward_batch's
                 # attention metadata. Point it at the static decode batch so the
@@ -1643,6 +1696,7 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                     self._replay_fb_view,
                     self.bs * self.captured_req_width,
                     raw_num_tokens=self.raw_num_token,
+                    real_num_tokens=self.raw_num_token,
                 ):
                     # Feed the static-buffer-shaped input_ids/positions (len =
                     # bs bucket) so the compiled graph sees the dynamic batch dim

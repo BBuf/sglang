@@ -95,6 +95,10 @@ class TcPiecewiseDecodeCudaGraphBackend(BaseCudaGraphBackend):
         bs = decode.bs
         compiler = decode.tc_compiler
         assert bs is not None, "cuda_graph_config[decode].bs is not set"
+        # bs==1 is routed to the bs==2 bucket at capture/replay (size-1
+        # specialization would otherwise produce a graph that can only serve
+        # bs==1), so it is not a separate piecewise capture size.
+        bs = [b for b in bs if b != 1]
         assert compiler in _VALID_COMPILERS, (
             f"By now, only {_VALID_COMPILERS} are supported for the "
             "tc_piecewise decode compiler."
@@ -153,14 +157,24 @@ class TcPiecewiseDecodeCudaGraphBackend(BaseCudaGraphBackend):
                 )
                 with enable_torch_compile_warmup():
                     if is_hip():
-                        cuda_graph_runner._run_dummy_decode_forward(capture_bs[-1])
+                        hip_warmup_bs = (
+                            capture_bs[-1] if capture_bs[-1] != 1 else capture_bs[-2]
+                        )
+                        cuda_graph_runner._run_dummy_decode_forward(hip_warmup_bs)
                     else:
                         compile_range = (
                             tqdm.tqdm(list(reversed(capture_bs)))
                             if get_parallel().tp_rank == 0
                             else reversed(capture_bs)
                         )
+                        # Skip bs==1: torch's automatic-dynamic always
+                        # specializes a size-1 dim, so a bs==1 warmup trace
+                        # produces a static graph that would (a) starve bs>=2
+                        # (guard-recompile at serving) and (b) shadow the
+                        # dynamic graph. bs==1 is served via the bs==2 bucket.
                         for bs in compile_range:
+                            if bs == 1:
+                                continue
                             if get_parallel().tp_rank == 0:
                                 compile_range.set_description(
                                     f"Compiling decode ({bs=})"
