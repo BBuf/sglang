@@ -1131,6 +1131,17 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 forward_batch.global_num_tokens_cpu,
             )
             set_is_extend_in_batch(False)
+            # Point input_embeds at the stable static buffer so the capture
+            # bakes the SAME address execute() provides at replay
+            # (fb.input_embeds = buffers.input_embeds). Without this the
+            # capture reads a fresh embed alloc and the replayed pcg subgraph
+            # reads a stale/moved address -> illegal memory access. Gate on the
+            # configured decode backend (self.backend is unset during the
+            # compile pass that also calls this).
+            from sglang.srt.model_executor.cuda_graph_config import Backend as _GB
+
+            if get_exec().graph.cuda_graph_config.decode.backend == _GB.TC_PIECEWISE:
+                forward_batch.input_embeds = self.buffers.input_embeds[:num_tokens]
             pp_kwargs = mr._pp_kwargs(pp_proxy_tensors)
             mr.model.forward(
                 forward_batch.input_ids,
@@ -1212,12 +1223,8 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
             self.model_runner.gpu_id,
             empty_cache=False,
         )
-        # Reverse so cuda graphs share memory better. For the tc_piecewise
-        # decode backend, bs==1 is served via the bs==2 bucket (a size-1 trace
-        # would specialize into a static graph), so skip capturing it.
+        # Reverse so cuda graphs share memory better.
         capture_bs_list = list(reversed(self.capture_bs))
-        if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
-            capture_bs_list = [b for b in capture_bs_list if b != 1]
         capture_range = (
             tqdm.tqdm(capture_bs_list)
             if get_parallel().tp_rank == 0
@@ -1481,10 +1488,6 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 bs = self._pad_to_bucket(max_batch_size, self.capture_bs)
             else:
                 bs = self._pad_to_bucket(raw_bs, self.capture_bs)
-            if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend) and bs == 1:
-                # bs==1 has no piecewise graph (see _capture_one_stream); serve
-                # it through the bs==2 bucket so it uses the dynamic graph.
-                bs = 2
             padded_num_tokens = bs * self.captured_req_width
             graph_size_key = self._capture_graph_size(
                 bs=bs, num_tokens=padded_num_tokens
@@ -1687,6 +1690,12 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 # trip a shape check when raw_bs < bs, e.g. bs=1 padded to 2).
                 fb.out_cache_loc = self.buffers.out_cache_loc[:num_tokens]
                 fb.positions = self.buffers.positions[:num_tokens]
+                # general_mm_embed_routine computes input_embeds OUTSIDE the
+                # compiled language_model and, when forward_batch.input_embeds
+                # is set, copies into that stable buffer ("for CUDA graph
+                # address stability"). The captured pcg subgraphs bake the
+                # input_embeds ADDRESS, so it must be the stable static buffer.
+                fb.input_embeds = self.buffers.input_embeds[:num_tokens]
                 # Mirror capture/compile: the FX graph's unified_attention
                 # split-op reads TcPiecewiseForwardContext.forward_batch's
                 # attention metadata. Point it at the static decode batch so the
