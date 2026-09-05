@@ -121,6 +121,11 @@ class TcPiecewiseDecodeCudaGraphBackend(BaseCudaGraphBackend):
             dynamic_arg_dims=dynamic_arg_dims,
             compile_config=compile_config,
             graph_pool=graph_pool,
+            # Decode pads every request to a fixed bs bucket, so a single
+            # general-shape graph must serve all buckets; force a hard dynamic
+            # batch dim (vLLM-style) or each bucket specializes into its own
+            # static graph and the captured per-bs CUDA graphs are never reused.
+            hard_dynamic=True,
         )
 
     def _run_compile_pass(self, cuda_graph_runner: BaseCudaGraphRunner) -> None:
@@ -200,11 +205,13 @@ class TcPiecewiseDecodeCudaGraphBackend(BaseCudaGraphBackend):
         self,
         shape_key: ShapeKey,
         static_forward_batch: ForwardBatch,
+        input_ids=None,
+        positions=None,
         **kwargs,
     ) -> Any:
         return self._compiled_fn(
-            static_forward_batch.input_ids,
-            static_forward_batch.positions,
+            static_forward_batch.input_ids if input_ids is None else input_ids,
+            static_forward_batch.positions if positions is None else positions,
             static_forward_batch,
             **kwargs,
         )

@@ -75,6 +75,20 @@ class _MaybeIntermediateTensors:
         self.obj = obj
 
 
+def _hard_mark_dynamic_on_value(val, dims):
+    """Hard ``torch._dynamo.mark_dynamic`` (vLLM's approach): force the batch
+    dim dynamic so Dynamo traces ONE general-shape graph and the per-bs piecewise
+    CUDA graphs are reused at serving, instead of specializing each bs into a
+    fresh static graph with no captured cudagraphs."""
+    if isinstance(val, torch.Tensor):
+        torch._dynamo.mark_dynamic(val, _normalize_dims(dims, val.ndim))
+    else:
+        mit = _MaybeIntermediateTensors(val)
+        if mit.is_intermediate:
+            for t in mit.obj.tensors.values():
+                torch._dynamo.mark_dynamic(t, _normalize_dims(dims, t.ndim))
+
+
 def _mark_dynamic_on_value(val, dims):
     if isinstance(val, torch.Tensor):
         torch._dynamo.maybe_mark_dynamic(val, _normalize_dims(dims, val.ndim))
@@ -126,7 +140,7 @@ def _infer_dynamic_arg_dims_from_annotations(forward_fn):
     return dyn
 
 
-def _mark_dynamic_forward_batch(forward_batch) -> None:
+def _mark_dynamic_forward_batch(forward_batch, hard: bool = False) -> None:
     """Mark runtime-sized ForwardBatch tensors before the first PCG trace.
 
     ``ForwardBatch`` is deliberately not annotated as a Tensor, so the
@@ -144,7 +158,10 @@ def _mark_dynamic_forward_batch(forward_batch) -> None:
         if not isinstance(value, torch.Tensor) or value.ndim == 0:
             continue
         dims = _runtime_dynamic_dim_for_argument(name)
-        _mark_dynamic_on_value(value, dims)
+        if hard:
+            _hard_mark_dynamic_on_value(value, dims)
+        else:
+            _mark_dynamic_on_value(value, dims)
 
 
 def install_torch_compiled(
@@ -155,6 +172,7 @@ def install_torch_compiled(
     compile_config: CompilationConfig = None,
     fullgraph: bool = True,
     graph_pool: Any = None,
+    hard_dynamic: bool = False,
 ):
     unbound_fwd = module.__class__.forward
     if not callable(unbound_fwd):
@@ -203,12 +221,17 @@ def install_torch_compiled(
         sig = inspect.signature(unbound_fwd)
         ba = sig.bind(self, *args, **kwargs)
         ba.apply_defaults()
+        mark_fn = (
+            _hard_mark_dynamic_on_value if hard_dynamic else _mark_dynamic_on_value
+        )
         for name, dims in (dyn_map or {}).items():
             if name in ba.arguments:
                 val = ba.arguments[name]
                 if val is not None:
-                    _mark_dynamic_on_value(val, dims)
-        _mark_dynamic_forward_batch(ba.arguments.get("forward_batch"))
+                    mark_fn(val, dims)
+        _mark_dynamic_forward_batch(
+            ba.arguments.get("forward_batch"), hard=hard_dynamic
+        )
 
         # Avoid cross-instance cache reuse
         torch._dynamo.eval_frame.remove_from_cache(unbound_fwd.__code__)

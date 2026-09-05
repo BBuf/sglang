@@ -30,7 +30,7 @@ import inspect
 import logging
 import os
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, Callable, Optional, Union
+from typing import TYPE_CHECKING, Callable, Iterator, Optional, Union
 
 import torch
 import tqdm
@@ -83,7 +83,13 @@ from sglang.srt.model_executor.runner.shape_key import ShapeKey
 from sglang.srt.model_executor.runner_backend.breakable_cuda_graph_backend import (
     BreakableCudaGraphBackend,
 )
+from sglang.srt.model_executor.runner_backend.tc_piecewise_decode_cuda_graph_backend import (
+    TcPiecewiseDecodeCudaGraphBackend,
+)
 from sglang.srt.model_executor.runner_backend.utils import resolve_decode_backend
+from sglang.srt.model_executor.runner_backend_utils.tc_piecewise_cuda_graph import (
+    set_tc_piecewise_forward_context,
+)
 from sglang.srt.model_executor.runner_backend_utils import (
     CUDA_GRAPH_CAPTURE_FAILED_MSG,
 )
@@ -203,6 +209,15 @@ def build_replay_fb_view(
             else buffers.mamba_track_indices[:bs]
         ),
         spec_info=forward_batch.spec_info,
+        # Read by _unified_attention_with_output_impl during tc_piecewise decode
+        # FX replay. Padded to the bucket (num_tokens) so narrowing is a no-op,
+        # matching capture; both point at the static buffers.
+        global_num_token_non_padded_cpu=num_tokens,
+        # Match capture's ForwardBatch field types so Dynamo does not guard-recompile
+        # the replay into a fresh (CUDA-graph-less) graph: capture supplies tensors
+        # for these; the runtime batch leaves them None.
+        next_token_logits_buffer=getattr(buffers, "next_token_logits_buffer", None),
+        global_num_tokens_gpu=getattr(buffers, "global_num_tokens_gpu", None),
     )
 
 
@@ -1029,6 +1044,51 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
 
         return forward_batch, attn_backend, pp_proxy_tensors
 
+    def _ensure_decode_piecewise_layers(self) -> None:
+        """attention/moe layer metadata is normally computed during prefill-graph
+        setup, which runs after decode init; compute it once here if not yet set."""
+        mr = self.model_runner
+        if getattr(mr, "attention_layers", None) is not None:
+            return
+        from sglang.srt.model_executor.model_runner_components.layer_setup import (
+            compute_attention_and_moe_layers,
+        )
+
+        layer_model = getattr(mr.model, "language_model", mr.model)
+        while not hasattr(layer_model, "layers") and hasattr(layer_model, "model"):
+            layer_model = layer_model.model
+        (
+            mr.attention_layers,
+            mr.moe_layers,
+            mr.moe_fusions,
+            mr.dsa_indexers,
+            mr.mha_companion_layers,
+        ) = compute_attention_and_moe_layers(layer_model)
+
+    @contextlib.contextmanager
+    def _decode_forward_context(
+        self, forward_batch, num_tokens: int, raw_num_tokens: Optional[int] = None
+    ) -> Iterator[None]:
+        """Decode analogue of prefill's ``_prefill_forward_context``: wraps a
+        forward in the ForwardContext + TcPiecewiseForwardContext that the
+        unified_attention split-op reads. Must be active identically during the
+        compile-warmup pass and CUDA-graph capture so both Dynamo traces match."""
+        self._ensure_decode_piecewise_layers()
+        mr = self.model_runner
+        with set_tc_piecewise_forward_context(
+            forward_batch,
+            mr.attention_layers,
+            getattr(mr.model, "quant_config", None),
+            mr.moe_layers,
+            mr.moe_fusions,
+            dsa_indexers=getattr(mr, "dsa_indexers", None),
+            mha_companion_layers=mr.mha_companion_layers,
+            num_tokens=num_tokens,
+            raw_num_tokens=raw_num_tokens if raw_num_tokens is not None else num_tokens,
+        ):
+            yield
+
+    @torch.no_grad()
     def _run_dummy_decode_forward(self, bs: int) -> None:
         """Build a dummy decode ForwardBatch at this bs, init attn metadata,
         and run the outer model.forward once. Used by
@@ -1039,7 +1099,11 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
         forward_batch, attn_backend, pp_proxy_tensors = self.capture_prepare(
             bs, num_tokens=num_tokens
         )
-        with forward_context(ForwardContext(attn_backend=attn_backend)):
+        mr = self.model_runner
+        with (
+            forward_context(ForwardContext(attn_backend=attn_backend)),
+            self._decode_forward_context(forward_batch, num_tokens),
+        ):
             attn_backend.init_forward_metadata_out_graph(forward_batch, in_capture=True)
             attn_backend.init_forward_metadata_in_graph(forward_batch)
             forward_batch.dp_local_start_pos = forward_batch.dp_local_num_tokens = None
@@ -1050,8 +1114,8 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 forward_batch.global_num_tokens_cpu,
             )
             set_is_extend_in_batch(False)
-            pp_kwargs = self.model_runner._pp_kwargs(pp_proxy_tensors)
-            self.model_runner.model.forward(
+            pp_kwargs = mr._pp_kwargs(pp_proxy_tensors)
+            mr.model.forward(
                 forward_batch.input_ids,
                 forward_batch.positions,
                 forward_batch,
@@ -1254,12 +1318,25 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
                 ):
                     kwargs["input_embeds"] = self.buffers.input_embeds[:num_tokens]
 
-                out = forward(
-                    forward_batch.input_ids,
-                    forward_batch.positions,
-                    forward_batch,
-                    **kwargs,
-                )
+                # Mirror the compile-warmup pass: the piecewise decode backend
+                # needs the TcPiecewiseForwardContext active during capture so
+                # decode attention routes through the unified_attention split-op
+                # (matching the cached Dynamo FX graph). No-op for other backends.
+                if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
+                    with torch.no_grad(), self._decode_forward_context(forward_batch, num_tokens):
+                        out = forward(
+                            forward_batch.input_ids,
+                            forward_batch.positions,
+                            forward_batch,
+                            **kwargs,
+                        )
+                else:
+                    out = forward(
+                        forward_batch.input_ids,
+                        forward_batch.positions,
+                        forward_batch,
+                        **kwargs,
+                    )
                 for capture_hook in self.model_runner.capture_tail_hooks:
                     capture_hook(self, out, forward_batch, num_tokens)
                 return out
@@ -1458,6 +1535,32 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
             )
         else:
             attn_backend.init_forward_metadata_out_graph(fb_view)
+            if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
+                # The out-of-graph replay init only refreshes the per-bs decode
+                # wrappers' indices; it never rebinds forward_metadata (that
+                # happens only under in_capture=True). Point the backend's
+                # forward_metadata at this bucket's DecodeMetadata so the FX
+                # graph's unified_attention split-op reads decode wrappers, not
+                # whatever PrefillMetadata the eager path last staged.
+                from sglang.srt.layers.attention.flashinfer_backend import (
+                    DecodeMetadata as _FI_DecodeMetadata,
+                )
+
+                attn_backend.forward_metadata = _FI_DecodeMetadata(
+                    attn_backend.decode_cuda_graph_metadata[bs],
+                    swa_out_cache_loc=(
+                        attn_backend.cuda_graph_swa_out_cache_loc[:bs]
+                        if getattr(attn_backend, "use_sliding_window_kv_pool", False)
+                        and getattr(attn_backend, "cuda_graph_swa_out_cache_loc", None)
+                        is not None
+                        else None
+                    ),
+                )
+
+        # Keep the replay view (capture forward_mode + padded buffers) so the
+        # tc_piecewise decode backend can point its TcPiecewiseForwardContext at
+        # it during FX-graph replay (see execute()).
+        self._replay_fb_view = fb_view
 
         self.raw_bs = raw_bs
         self.raw_num_token = raw_num_token
@@ -1510,7 +1613,49 @@ class DecodeCudaGraphRunner(BaseCudaGraphRunner):
             if shared_read_ends is SharedReadEnds.PRE_REPLAY:
                 self._publish_read_done(in_graph=False)
 
-            output = self.backend.replay(self._replay_graph_key, forward_batch)
+            if isinstance(self.backend, TcPiecewiseDecodeCudaGraphBackend):
+                # The compiled Dynamo graph guards on the runtime forward_batch's
+                # field types. Capture populated these from the static buffers, but
+                # the serving batch leaves them None, which guard-recompiles the
+                # replay into a fresh graph with no captured CUDA graphs. Populate
+                # them from the buffers (mirror of prefill's replay aliasing).
+                fb = forward_batch
+                num_tokens = self.bs * self.captured_req_width
+                # Slice to this bs bucket's token count so the tensor's leading
+                # shape matches the capture-time buffer (capture used
+                # buffers.next_token_logits_buffer[:num_tokens]); a full-size
+                # buffer trips a size guard and recompiles.
+                fb.next_token_logits_buffer = self.buffers.next_token_logits_buffer[
+                    :num_tokens
+                ]
+                if getattr(fb, "global_num_tokens_gpu", None) is None:
+                    fb.global_num_tokens_gpu = self.buffers.global_num_tokens_gpu
+                if getattr(fb, "global_num_tokens_for_logprob_gpu", None) is None:
+                    fb.global_num_tokens_for_logprob_gpu = (
+                        self.buffers.global_num_tokens_for_logprob_gpu
+                    )
+                # Mirror capture/compile: the FX graph's unified_attention
+                # split-op reads TcPiecewiseForwardContext.forward_batch's
+                # attention metadata. Point it at the static decode batch so the
+                # replay reads the captured DecodeMetadata, not whatever
+                # PrefillMetadata the backend last staged eagerly.
+                with torch.no_grad(), self._decode_forward_context(
+                    self._replay_fb_view,
+                    self.bs * self.captured_req_width,
+                    raw_num_tokens=self.raw_num_token,
+                ):
+                    # Feed the static-buffer-shaped input_ids/positions (len =
+                    # bs bucket) so the compiled graph sees the dynamic batch dim
+                    # it was traced with; the runtime batch's raw-length tensors
+                    # would specialize the dim and recompile into an eager graph.
+                    output = self.backend.replay(
+                        self._replay_graph_key,
+                        forward_batch,
+                        input_ids=self._replay_fb_view.input_ids,
+                        positions=self._replay_fb_view.positions,
+                    )
+            else:
+                output = self.backend.replay(self._replay_graph_key, forward_batch)
 
             if shared_read_ends is SharedReadEnds.IN_REPLAY:
                 self._publish_read_done(in_graph=True)
