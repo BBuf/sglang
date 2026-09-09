@@ -1,0 +1,281 @@
+{
+  "scope": "Final-head BF16 lossless correctness only, six-step requests, compare eager/BCG within each TP topology. Includes repeated request after prompt/seed changes and deliberate uncaptured-shape fallback.",
+  "all_12_pairs_byte_exact": true,
+  "serving_recaptures": 0,
+  "warmed_shapes": [
+    "1024x1024",
+    "512x512",
+    "768x512"
+  ],
+  "fallback_shape": "640x512",
+  "rows": [
+    {
+      "mode": "tp1-eager",
+      "source_commit": "3d51468a54b8fad047b1d679c0968ac2919613e7",
+      "captures": 0,
+      "requests": [
+        {
+          "name": "city",
+          "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+          "width": 1024,
+          "height": 1024,
+          "seed": 42,
+          "steps": 6,
+          "sha256": "ef141eab2b34d3a3bb4e5d3eb837a89ca74dbe7bef7eee571bd5b6bf074263cb",
+          "output": "tp1-eager-city.png"
+        },
+        {
+          "name": "cube",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "97e474779bd506079775ea665a7222c011840cc35fbfb682a0b3eae9a37998d1",
+          "output": "tp1-eager-cube.png"
+        },
+        {
+          "name": "butterfly",
+          "prompt": "A blue butterfly flying above green grass, watercolor illustration",
+          "width": 512,
+          "height": 512,
+          "seed": 123,
+          "steps": 6,
+          "sha256": "a540fa58e96b1d0c25426403d5a53d3ef4c4df7c56914b2d8b1503e6521782bc",
+          "output": "tp1-eager-butterfly.png"
+        },
+        {
+          "name": "cube-repeat",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "97e474779bd506079775ea665a7222c011840cc35fbfb682a0b3eae9a37998d1",
+          "output": "tp1-eager-cube-repeat.png"
+        },
+        {
+          "name": "landscape",
+          "prompt": "An alpine lake surrounded by snowy mountains, morning light, oil painting",
+          "width": 768,
+          "height": 512,
+          "seed": 9,
+          "steps": 6,
+          "sha256": "6e4d996aa2efc2d1d8a2c0dd9c761075fb147b3c3dbde842045dc793ea8784ee",
+          "output": "tp1-eager-landscape.png"
+        },
+        {
+          "name": "unwarmed",
+          "prompt": "A yellow ceramic teapot on a wooden table",
+          "width": 640,
+          "height": 512,
+          "seed": 19,
+          "steps": 6,
+          "sha256": "1935cdb71d58c7853ce93b67aa46d6695316b6fc30aecf1713a2e47a1cd5a859",
+          "output": "tp1-eager-unwarmed.png"
+        }
+      ]
+    },
+    {
+      "mode": "tp1-bcg",
+      "source_commit": "3d51468a54b8fad047b1d679c0968ac2919613e7",
+      "captures": 3,
+      "requests": [
+        {
+          "name": "city",
+          "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+          "width": 1024,
+          "height": 1024,
+          "seed": 42,
+          "steps": 6,
+          "sha256": "ef141eab2b34d3a3bb4e5d3eb837a89ca74dbe7bef7eee571bd5b6bf074263cb",
+          "output": "tp1-bcg-city.png"
+        },
+        {
+          "name": "cube",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "97e474779bd506079775ea665a7222c011840cc35fbfb682a0b3eae9a37998d1",
+          "output": "tp1-bcg-cube.png"
+        },
+        {
+          "name": "butterfly",
+          "prompt": "A blue butterfly flying above green grass, watercolor illustration",
+          "width": 512,
+          "height": 512,
+          "seed": 123,
+          "steps": 6,
+          "sha256": "a540fa58e96b1d0c25426403d5a53d3ef4c4df7c56914b2d8b1503e6521782bc",
+          "output": "tp1-bcg-butterfly.png"
+        },
+        {
+          "name": "cube-repeat",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "97e474779bd506079775ea665a7222c011840cc35fbfb682a0b3eae9a37998d1",
+          "output": "tp1-bcg-cube-repeat.png"
+        },
+        {
+          "name": "landscape",
+          "prompt": "An alpine lake surrounded by snowy mountains, morning light, oil painting",
+          "width": 768,
+          "height": 512,
+          "seed": 9,
+          "steps": 6,
+          "sha256": "6e4d996aa2efc2d1d8a2c0dd9c761075fb147b3c3dbde842045dc793ea8784ee",
+          "output": "tp1-bcg-landscape.png"
+        },
+        {
+          "name": "unwarmed",
+          "prompt": "A yellow ceramic teapot on a wooden table",
+          "width": 640,
+          "height": 512,
+          "seed": 19,
+          "steps": 6,
+          "sha256": "1935cdb71d58c7853ce93b67aa46d6695316b6fc30aecf1713a2e47a1cd5a859",
+          "output": "tp1-bcg-unwarmed.png"
+        }
+      ]
+    },
+    {
+      "mode": "tp2-eager",
+      "source_commit": "3d51468a54b8fad047b1d679c0968ac2919613e7",
+      "captures": 0,
+      "requests": [
+        {
+          "name": "city",
+          "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+          "width": 1024,
+          "height": 1024,
+          "seed": 42,
+          "steps": 6,
+          "sha256": "7412fb9986e975a69fff38cfb3fda640a74c2015e947e74c6697b7da3214f200",
+          "output": "tp2-eager-city.png"
+        },
+        {
+          "name": "cube",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "3ba3771f939ad00339305e96f9da2277172c12bcd5f89140abee603c7cd20483",
+          "output": "tp2-eager-cube.png"
+        },
+        {
+          "name": "butterfly",
+          "prompt": "A blue butterfly flying above green grass, watercolor illustration",
+          "width": 512,
+          "height": 512,
+          "seed": 123,
+          "steps": 6,
+          "sha256": "ae2d515e971952313fcde40cddbaaf6e3c9c81fbb9f2ced957a4475578c080fa",
+          "output": "tp2-eager-butterfly.png"
+        },
+        {
+          "name": "cube-repeat",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "3ba3771f939ad00339305e96f9da2277172c12bcd5f89140abee603c7cd20483",
+          "output": "tp2-eager-cube-repeat.png"
+        },
+        {
+          "name": "landscape",
+          "prompt": "An alpine lake surrounded by snowy mountains, morning light, oil painting",
+          "width": 768,
+          "height": 512,
+          "seed": 9,
+          "steps": 6,
+          "sha256": "c7f284ba54fab0f47f5fced3834f2e3a16239e1c4e99e308d3d674be0ac645ff",
+          "output": "tp2-eager-landscape.png"
+        },
+        {
+          "name": "unwarmed",
+          "prompt": "A yellow ceramic teapot on a wooden table",
+          "width": 640,
+          "height": 512,
+          "seed": 19,
+          "steps": 6,
+          "sha256": "78de1231c91915d35c1e7f18f13f95fdf64d0c45aa6017134740d13cf9fbcfce",
+          "output": "tp2-eager-unwarmed.png"
+        }
+      ]
+    },
+    {
+      "mode": "tp2-bcg",
+      "source_commit": "3d51468a54b8fad047b1d679c0968ac2919613e7",
+      "captures": 6,
+      "requests": [
+        {
+          "name": "city",
+          "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+          "width": 1024,
+          "height": 1024,
+          "seed": 42,
+          "steps": 6,
+          "sha256": "7412fb9986e975a69fff38cfb3fda640a74c2015e947e74c6697b7da3214f200",
+          "output": "tp2-bcg-city.png"
+        },
+        {
+          "name": "cube",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "3ba3771f939ad00339305e96f9da2277172c12bcd5f89140abee603c7cd20483",
+          "output": "tp2-bcg-cube.png"
+        },
+        {
+          "name": "butterfly",
+          "prompt": "A blue butterfly flying above green grass, watercolor illustration",
+          "width": 512,
+          "height": 512,
+          "seed": 123,
+          "steps": 6,
+          "sha256": "ae2d515e971952313fcde40cddbaaf6e3c9c81fbb9f2ced957a4475578c080fa",
+          "output": "tp2-bcg-butterfly.png"
+        },
+        {
+          "name": "cube-repeat",
+          "prompt": "A red cube on a white table, centered product photo",
+          "width": 512,
+          "height": 512,
+          "seed": 7,
+          "steps": 6,
+          "sha256": "3ba3771f939ad00339305e96f9da2277172c12bcd5f89140abee603c7cd20483",
+          "output": "tp2-bcg-cube-repeat.png"
+        },
+        {
+          "name": "landscape",
+          "prompt": "An alpine lake surrounded by snowy mountains, morning light, oil painting",
+          "width": 768,
+          "height": 512,
+          "seed": 9,
+          "steps": 6,
+          "sha256": "c7f284ba54fab0f47f5fced3834f2e3a16239e1c4e99e308d3d674be0ac645ff",
+          "output": "tp2-bcg-landscape.png"
+        },
+        {
+          "name": "unwarmed",
+          "prompt": "A yellow ceramic teapot on a wooden table",
+          "width": 640,
+          "height": 512,
+          "seed": 19,
+          "steps": 6,
+          "sha256": "78de1231c91915d35c1e7f18f13f95fdf64d0c45aa6017134740d13cf9fbcfce",
+          "output": "tp2-bcg-unwarmed.png"
+        }
+      ]
+    }
+  ]
+}

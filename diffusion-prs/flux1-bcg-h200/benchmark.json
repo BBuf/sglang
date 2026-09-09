@@ -1,0 +1,395 @@
+{
+  "scope": "Two A/B/B/A rounds, same GPU3,6 and checkpoint, native BF16 lossless, no torch.compile. All eight formal samples retained.",
+  "model": "black-forest-labs/FLUX.1-dev",
+  "checkpoint": "3de623fc3c33e44ffbe2bad470d0f45bccf2eb21",
+  "final_commit": "3d51468a54b8fad047b1d679c0968ac2919613e7",
+  "measured_candidate": "5e91bc39e7a421be979448661b1b5d93db35cb48",
+  "runtime_mapping": "Final head changes only tests/docs relative to measured candidate; runtime/server_args/server_args.py is byte-identical.",
+  "environment": {
+    "gpus": "2 NVIDIA H200, TP2",
+    "torch": "2.13.0+cu130",
+    "triton": "3.7.1",
+    "driver": "595.71.05",
+    "nccl_actual": "2.28.9",
+    "resolution": "1024x1024",
+    "steps": 50,
+    "seed": 42,
+    "guidance_scale": 3.5,
+    "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+    "component_residency": "dit=resident, others=auto"
+  },
+  "timing_definition": "Engine E2E from the unprofiled perf dump, including text encoding, denoise, decode; excludes startup, checkpoint download, warmup, and final PNG writing. Not profiler export wall time.",
+  "retained_outlier": "r2-2-b text encoding371.106ms versus98-102ms typical; retained in the aggregate. No attributed cause or exclusion.",
+  "summary": {
+    "engine_e2e_s": {
+      "eager": 4.315577494096942,
+      "bcg": 4.177754072588868,
+      "reduction_percent": 3.1936263848023914
+    },
+    "denoise_s": {
+      "eager": 4.119539942010306,
+      "bcg": 3.9113563153659925,
+      "reduction_percent": 5.053564950816359
+    },
+    "peak_reserved_gib": {
+      "eager": 19.47265625,
+      "bcg": 20.70703125,
+      "reduction_percent": -6.33901705115346
+    }
+  },
+  "rows": [
+    {
+      "cell": "r1-1-a",
+      "source_commit": "482e9f257bb9d9ac57c2245c93768a96ec70edbe",
+      "side": "a",
+      "engine_e2e_s": 4.315030758269131,
+      "denoise_s": 4.119471968151629,
+      "peak_reserved_gib": 19.47265625,
+      "output": "lossless-r1-1-a.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.0570821575820446
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 99.02264690026641
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.25928765535354614
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.5645742639899254
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 4119.471968151629
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 90.75146075338125
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.06348500028252602
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.005098059773445129
+        }
+      ]
+    },
+    {
+      "cell": "r1-2-b",
+      "source_commit": "5e91bc39e7a421be979448661b1b5d93db35cb48",
+      "side": "b",
+      "engine_e2e_s": 4.104417082853615,
+      "denoise_s": 3.905989069957286,
+      "peak_reserved_gib": 20.70703125,
+      "output": "lossless-r1-2-b.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.06721401587128639
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 101.8739864230156
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.25351904332637787
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.5640406161546707
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 3905.989069957286
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 90.41502000764012
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.04408974200487137
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.005718320608139038
+        }
+      ]
+    },
+    {
+      "cell": "r1-3-b",
+      "source_commit": "5e91bc39e7a421be979448661b1b5d93db35cb48",
+      "side": "b",
+      "engine_e2e_s": 4.105607620906085,
+      "denoise_s": 3.907831354998052,
+      "peak_reserved_gib": 20.70703125,
+      "output": "lossless-r1-3-b.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.053907278925180435
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 100.70913098752499
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.26744091883301735
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.6317929364740849
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 3907.831354998052
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 90.47394199296832
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.045971013605594635
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.005236826837062836
+        }
+      ]
+    },
+    {
+      "cell": "r1-4-a",
+      "source_commit": "482e9f257bb9d9ac57c2245c93768a96ec70edbe",
+      "side": "a",
+      "engine_e2e_s": 4.306321962270886,
+      "denoise_s": 4.10566820204258,
+      "peak_reserved_gib": 19.47265625,
+      "output": "lossless-r1-4-a.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.06452109664678574
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 105.77289899811149
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.23106113076210022
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.5681957118213177
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 4105.66820204258
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 89.10499000921845
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.0634179450571537
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.006450805813074112
+        }
+      ]
+    },
+    {
+      "cell": "r2-1-a",
+      "source_commit": "482e9f257bb9d9ac57c2245c93768a96ec70edbe",
+      "side": "a",
+      "engine_e2e_s": 4.33755365293473,
+      "denoise_s": 4.1444730018265545,
+      "peak_reserved_gib": 19.47265625,
+      "output": "lossless-r2-1-a.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.05234126001596451
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 98.1455952860415
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.19353395327925682
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.4765409976243973
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 4144.4730018265545
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 89.43555597215891
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.057672616094350815
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.006875023245811462
+        }
+      ]
+    },
+    {
+      "cell": "r2-2-b",
+      "source_commit": "5e91bc39e7a421be979448661b1b5d93db35cb48",
+      "side": "b",
+      "engine_e2e_s": 4.385314859915525,
+      "denoise_s": 3.9173479126766324,
+      "peak_reserved_gib": 20.70703125,
+      "output": "lossless-r2-2-b.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.07529091089963913
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 371.1063787341118
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.2425229176878929
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.5390667356550694
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 3917.3479126766324
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 90.3989989310503
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.05014892667531967
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.006487127393484116
+        }
+      ]
+    },
+    {
+      "cell": "r2-3-b",
+      "source_commit": "5e91bc39e7a421be979448661b1b5d93db35cb48",
+      "side": "b",
+      "engine_e2e_s": 4.115676726680249,
+      "denoise_s": 3.9142569238319993,
+      "peak_reserved_gib": 20.70703125,
+      "output": "lossless-r2-3-b.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.06393902003765106
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 102.25512180477381
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.3294060006737709
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.7532108575105667
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 3914.2569238319993
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 91.3291061297059
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.051119364798069
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.00603310763835907
+        }
+      ]
+    },
+    {
+      "cell": "r2-4-a",
+      "source_commit": "482e9f257bb9d9ac57c2245c93768a96ec70edbe",
+      "side": "a",
+      "engine_e2e_s": 4.303403602913022,
+      "denoise_s": 4.10854659602046,
+      "peak_reserved_gib": 19.47265625,
+      "output": "lossless-r2-4-a.png",
+      "output_sha256": "a713777ad67b4e82915aef972612f243d6f4cbd8db9aebdfdff976b4c7d2c7d3",
+      "stages": [
+        {
+          "name": "InputValidationStage",
+          "duration_ms": 0.05875434726476669
+        },
+        {
+          "name": "TextEncodingStage",
+          "duration_ms": 99.06524326652288
+        },
+        {
+          "name": "LatentPreparationStage",
+          "duration_ms": 0.22419309243559837
+        },
+        {
+          "name": "TimestepPreparationStage",
+          "duration_ms": 0.5490779876708984
+        },
+        {
+          "name": "DenoisingStage",
+          "duration_ms": 4108.54659602046
+        },
+        {
+          "name": "DecodingStage",
+          "duration_ms": 90.2732159011066
+        },
+        {
+          "name": "Scheduler.return_result.spill_arrays",
+          "duration_ms": 0.05684792995452881
+        },
+        {
+          "name": "SchedulerClient.materialize_file_refs",
+          "duration_ms": 0.0055800192058086395
+        }
+      ]
+    }
+  ],
+  "high_bcg": "Actually rejected by existing request-gated DiT fusion compatibility check; no high+BCG performance claim."
+}
