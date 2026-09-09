@@ -1,0 +1,7 @@
+### NCU Report Digest: paired-V Qwen epilogue @143661991c
+
+All12H200exacttests (includingheads1/3tail) and6productionmicrocasespassed. Parent6c1(v002) comparedwithsame8152/1365/H24D128BF16harness. ParentNCU121.76us→131.84us; separateTorchmicro119.520→132.224us confirmsregression. Instructions74,847,672→84,215,232(+12.51%),occupancy89.878→84.307%,registers31→32;excesssectorsremain0. VSTGisnow128bitasintendedbutitslongscoreboardPCsamples4,165vs3,739parent (countsnotnormalizedrates). Totaldataunchanged;widercopydidnotpayforthework-mappingoverhead.
+
+Sourceinference: v3 selectskind andheads_per_token insideeveryworkiteration. ThedenominatorchangesbetweenQ/K andV,forcingextraindex/divisionsequenceinsidepersistentloop. SASSandcountersevidencefitmoreintegerinstructionsandreducedoccupancy,while0excesssectorsrejectsareintroducedcoalescingproblem. Variableclockwarningremains; theindependentmicroconfirmsdirection. NoacceptedE2Eclaimandnov3fullmodelrun.
+
+NextConcreteEdit: mapQ/K/Vto grid.y soeachblock'skind andheads_per_token areloopinvariants; iteratejusttoken-headindiceswithinthatkind. KeepVpaircopy,mathandlayoutguardsunchanged. Validate12exacttests,productionmicro,matchingNCU;expectinstructioncountandkernel durationtodecreasewithoutnewtail/occupancyregression.

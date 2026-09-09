@@ -1,0 +1,297 @@
+{
+  "source_commit": "60def09d35c8912db76144e7ca6691dca554bc94",
+  "note": "Production facade on SM90. Actual workload shapes8152/1365 and8152/1358 from original profile. CUDA event timings include host launch gaps. Reference copies to restore its in-place inputs are excluded from timing. Packed reference contiguous-copy costs are also excluded (conservative).",
+  "device": "NVIDIA H200",
+  "capability": [
+    9,
+    0
+  ],
+  "torch": "2.11.0+cu130",
+  "rows": [
+    {
+      "profiles": {},
+      "img_tokens": 17,
+      "txt_tokens": 7,
+      "heads": 4,
+      "packed": false,
+      "exact": [
+        true,
+        true,
+        true
+      ],
+      "max_abs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mismatches": [
+        0,
+        0,
+        0
+      ],
+      "times": {
+        "a1": {
+          "cuda_median_ms": 0.11719999834895134,
+          "wall_median_ms": 0.127746956422925
+        },
+        "b1": {
+          "cuda_median_ms": 0.07265600189566612,
+          "wall_median_ms": 0.0830693170428276
+        },
+        "b2": {
+          "cuda_median_ms": 0.07079999893903732,
+          "wall_median_ms": 0.08097058162093163
+        },
+        "a2": {
+          "cuda_median_ms": 0.11312000080943108,
+          "wall_median_ms": 0.12350454926490784
+        }
+      }
+    },
+    {
+      "profiles": {},
+      "img_tokens": 17,
+      "txt_tokens": 7,
+      "heads": 4,
+      "packed": true,
+      "exact": [
+        true,
+        true,
+        true
+      ],
+      "max_abs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mismatches": [
+        0,
+        0,
+        0
+      ],
+      "times": {
+        "a1": {
+          "cuda_median_ms": 0.11244799941778183,
+          "wall_median_ms": 0.12288428843021393
+        },
+        "b1": {
+          "cuda_median_ms": 0.06950400024652481,
+          "wall_median_ms": 0.07953774183988571
+        },
+        "b2": {
+          "cuda_median_ms": 0.06831999868154526,
+          "wall_median_ms": 0.07868697866797447
+        },
+        "a2": {
+          "cuda_median_ms": 0.11560000106692314,
+          "wall_median_ms": 0.12610293924808502
+        }
+      }
+    },
+    {
+      "profiles": {
+        "reference": {
+          "kernel_count": 7,
+          "cumulative_kernel_ms": 0.17961700000000003,
+          "kernels": [
+            {
+              "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+              "duration_us": 0.8
+            },
+            {
+              "name": "void sglang::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, float, false, false, false, long>(std::conditional<false, sglang::QKNormRopePackKVParams, sglang::QKNormRopeParams>::type)",
+              "duration_us": 73.441
+            },
+            {
+              "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+              "duration_us": 0.736
+            },
+            {
+              "name": "void sglang::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, float, false, false, false, long>(std::conditional<false, sglang::QKNormRopePackKVParams, sglang::QKNormRopeParams>::type)",
+              "duration_us": 13.696
+            },
+            {
+              "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+              "duration_us": 29.76
+            },
+            {
+              "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+              "duration_us": 29.888
+            },
+            {
+              "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+              "duration_us": 31.296
+            }
+          ]
+        },
+        "candidate": {
+          "kernel_count": 1,
+          "cumulative_kernel_ms": 0.109023,
+          "kernels": [
+            {
+              "name": "sglang::qwen_qkv_epilogue::qwen_qkv_epilogue_kernel(sglang::qwen_qkv_epilogue::Params)",
+              "duration_us": 109.023
+            }
+          ]
+        }
+      },
+      "img_tokens": 8152,
+      "txt_tokens": 1365,
+      "heads": 24,
+      "packed": false,
+      "exact": [
+        true,
+        true,
+        true
+      ],
+      "max_abs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mismatches": [
+        0,
+        0,
+        0
+      ],
+      "times": {
+        "a1": {
+          "cuda_median_ms": 0.22521600127220154,
+          "wall_median_ms": 0.236201798543334
+        },
+        "b1": {
+          "cuda_median_ms": 0.1690720021724701,
+          "wall_median_ms": 0.17999415285885334
+        },
+        "b2": {
+          "cuda_median_ms": 0.16752000153064728,
+          "wall_median_ms": 0.17844443209469318
+        },
+        "a2": {
+          "cuda_median_ms": 0.22633600234985352,
+          "wall_median_ms": 0.23740832693874836
+        }
+      }
+    },
+    {
+      "profiles": {},
+      "img_tokens": 8152,
+      "txt_tokens": 1358,
+      "heads": 24,
+      "packed": false,
+      "exact": [
+        true,
+        true,
+        true
+      ],
+      "max_abs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mismatches": [
+        0,
+        0,
+        0
+      ],
+      "times": {
+        "a1": {
+          "cuda_median_ms": 0.23244799673557281,
+          "wall_median_ms": 0.2462428528815508
+        },
+        "b1": {
+          "cuda_median_ms": 0.17417599260807037,
+          "wall_median_ms": 0.18654856830835342
+        },
+        "b2": {
+          "cuda_median_ms": 0.17398399859666824,
+          "wall_median_ms": 0.185719458386302
+        },
+        "a2": {
+          "cuda_median_ms": 0.23385600000619888,
+          "wall_median_ms": 0.2475399523973465
+        }
+      }
+    },
+    {
+      "profiles": {},
+      "img_tokens": 8152,
+      "txt_tokens": 1365,
+      "heads": 24,
+      "packed": true,
+      "exact": [
+        true,
+        true,
+        true
+      ],
+      "max_abs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mismatches": [
+        0,
+        0,
+        0
+      ],
+      "times": {
+        "a1": {
+          "cuda_median_ms": 0.23148800432682037,
+          "wall_median_ms": 0.2434880007058382
+        },
+        "b1": {
+          "cuda_median_ms": 0.17534399777650833,
+          "wall_median_ms": 0.18778606317937374
+        },
+        "b2": {
+          "cuda_median_ms": 0.17390400171279907,
+          "wall_median_ms": 0.18574041314423084
+        },
+        "a2": {
+          "cuda_median_ms": 0.2353919968008995,
+          "wall_median_ms": 0.24721981026232243
+        }
+      }
+    },
+    {
+      "profiles": {},
+      "img_tokens": 16384,
+      "txt_tokens": 512,
+      "heads": 24,
+      "packed": false,
+      "exact": [
+        true,
+        true,
+        true
+      ],
+      "max_abs": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mismatches": [
+        0,
+        0,
+        0
+      ],
+      "times": {
+        "a1": {
+          "cuda_median_ms": 0.3744320124387741,
+          "wall_median_ms": 0.3881431184709072
+        },
+        "b1": {
+          "cuda_median_ms": 0.2614559978246689,
+          "wall_median_ms": 0.2737781032919884
+        },
+        "b2": {
+          "cuda_median_ms": 0.2613440006971359,
+          "wall_median_ms": 0.2738235052675009
+        },
+        "a2": {
+          "cuda_median_ms": 0.37359999120235443,
+          "wall_median_ms": 0.38645765744149685
+        }
+      }
+    }
+  ]
+}

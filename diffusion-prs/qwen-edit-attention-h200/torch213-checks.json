@@ -1,0 +1,24 @@
+{
+  "commit": "60def09d35c8912db76144e7ca6691dca554bc94",
+  "gpu_entry": "GPU-4ac09667-48f7-6a03-b930-8338f78d441e, 1, 0",
+  "host": "ion9-h200",
+  "python": "/data/goals/sglang-h200-diffusion-20260907/envs/qwen-torch213/bin/python",
+  "rows": [
+    {
+      "name": "tests",
+      "command": [
+        "/data/goals/sglang-h200-diffusion-20260907/envs/qwen-torch213/bin/python",
+        "-m",
+        "pytest",
+        "test/registered/kernels/ops/diffusion/test_qwen_qkv_epilogue.py",
+        "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+        "-k",
+        "packed_sdpa or qwen_qkv_epilogue",
+        "-q"
+      ],
+      "returncode": 0,
+      "log": "/data/goals/sglang-h200-diffusion-20260907/resume-logs/qwen-torch213-final-tests.log"
+    }
+  ],
+  "finished_at": 1788908372.6874778
+}

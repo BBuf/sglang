@@ -1,0 +1,41 @@
+{
+  "commit": "60def09d35c8912db76144e7ca6691dca554bc94",
+  "gpu_entry": "GPU-fc4fb3d7-1e6c-1686-cede-63f5d6b137e4, 4, 0",
+  "rows": [
+    {
+      "name": "tests",
+      "returncode": 0,
+      "command": [
+        "/usr/bin/python",
+        "-m",
+        "pytest",
+        "test/registered/kernels/ops/diffusion/test_qwen_qkv_epilogue.py",
+        "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+        "-k",
+        "packed_sdpa or qwen_qkv_epilogue",
+        "-q"
+      ],
+      "log": "/data/goals/sglang-h200-diffusion-20260907/resume-logs/qwen-edit-attention-final-tests.log"
+    },
+    {
+      "name": "sdpa-micro",
+      "returncode": 0,
+      "command": [
+        "/usr/bin/python",
+        "/data/goals/sglang-h200-diffusion-20260907/history/bench_native_varlen_final.py"
+      ],
+      "log": "/data/goals/sglang-h200-diffusion-20260907/resume-logs/qwen-edit-attention-final-sdpa-micro.log"
+    },
+    {
+      "name": "qkv-micro",
+      "returncode": 0,
+      "command": [
+        "/usr/bin/python",
+        "/data/goals/sglang-h200-diffusion-20260907/history/bench_qwen_qkv_hopper_production.py",
+        "--tag",
+        "production-final"
+      ],
+      "log": "/data/goals/sglang-h200-diffusion-20260907/resume-logs/qwen-edit-attention-final-qkv-micro.log"
+    }
+  ]
+}

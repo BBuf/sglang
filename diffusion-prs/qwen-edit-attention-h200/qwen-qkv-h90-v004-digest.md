@@ -1,0 +1,9 @@
+### NCU Report Digest: hoisted QKV work-kind @e594c84660
+
+SameH200/SM90,8152image+1365text,H24D128BF16,sourceandcommandinmeta.json. All12exacttestsand6productionmicrocasespassed. NCUclock/cachecontrolnone withvariableclockwarning;PMrawtimelineisnotusedasE2Eevidence. CUDAlineinfo/PTXstillunavailable,SASSavailable.
+
+V3→v4:NCU131.840→112.544us (-14.64%),instructions84,215,232→63,691,368 (-24.37%),occupancy84.307→93.204%,32registersunchanged,excesssectors0. Comparedwithoriginalparent38ee:121.248→112.544us(-7.18%). IndependentTorchkerneltrace132.224→109.440us confirmsthedirection;canonical7kernelreference179.136us. Movingkindto grid.y removesper-iterationwork-type/head-count selectionandletsinvariantindex arithmeticmoveoutofloop. Sourceandcounterchainfitlowerinstructioncost;notanewroundingapproximation.
+
+EagerCUDAeventtimesareCPU-launch-gap-inclusiveandvaryacrossruns (evenreference changed),soonlymatchedwithin-runABBAanddirectGPUkernelmetricsareused. Incurrentmicroactualshape:reference188.878us→candidate113.264us;thisisnotfullmodelE2E. Parent38ee fullmodelgainonly0.733%;v4fullmodelperformanceunmeasureduntilcombinedrun.
+
+NextConcreteEdit: inSDPAImpl.forward_varlen, usePyTorch'spublicpackedvarlen_attn onthevalidatedHopperFlashinferencepath toremoveper-windowdispatch inQwenvisionencoding. KeepolderTorch/noAPI,otherarchitectures,cuDNN,grad/dropoutandcompilerpathsontheoriginalsegmentloop. ValidateexactBF16/FP16ragged+causalcases andthenfullmodel50stepABBAwiththecurrentQKVkernel;noacceptedperformanceclaimuntilthatpasses.
