@@ -1,0 +1,41 @@
+...F................................................................. [ 47%]
+................................. [ 70%]
+...........................................                          [100%]
+=================================== FAILURES ===================================
+________________ test_edge_relu2_all_finite_bfloat16_encodings _________________
+
+    @torch.inference_mode()
+    def test_edge_relu2_all_finite_bfloat16_encodings():
+        values = torch.arange(65536, dtype=torch.int32).to(torch.int16).view(torch.bfloat16)
+        values = values[torch.isfinite(values)].cuda().reshape(1, -1)
+        expected = F.relu(values)
+        expected = expected * expected
+        with patch.object(cosmos3, "relu2", wraps=relu2) as fused:
+            actual = _activation_only_mlp()(values)
+        fused.assert_called_once()
+>       assert torch.equal(actual.view(torch.int16), expected.view(torch.int16))
+E       AssertionError: assert False
+E        +  where False = <built-in method equal of type object at 0x761ae77f4f20>(tensor([[0, 0, 0,  ..., 0, 0, 0]], device='cuda:0', dtype=torch.int16), tensor([[0, 0, 0,  ..., 0, 0, 0]], device='cuda:0', dtype=torch.int16))
+E        +    where <built-in method equal of type object at 0x761ae77f4f20> = torch.equal
+E        +    and   tensor([[0, 0, 0,  ..., 0, 0, 0]], device='cuda:0', dtype=torch.int16) = <built-in method view of Tensor object at 0x761826609680>(torch.int16)
+E        +      where <built-in method view of Tensor object at 0x761826609680> = tensor([[0., 0., 0.,  ..., 0., 0., 0.]], device='cuda:0', dtype=torch.bfloat16).view
+E        +      and   torch.int16 = torch.int16
+E        +    and   tensor([[0, 0, 0,  ..., 0, 0, 0]], device='cuda:0', dtype=torch.int16) = <built-in method view of Tensor object at 0x76188786b0c0>(torch.int16)
+E        +      where <built-in method view of Tensor object at 0x76188786b0c0> = tensor([[0., 0., 0.,  ..., 0., 0., 0.]], device='cuda:0', dtype=torch.bfloat16).view
+E        +      and   torch.int16 = torch.int16
+
+test/registered/kernels/ops/diffusion/test_cosmos3_edge_fusions.py:91: AssertionError
+=============================== warnings summary ===============================
+../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test/registered/kernels/ops/diffusion/test_cosmos3_edge_fusions.py::test_edge_relu2_all_finite_bfloat16_encodings
+1 failed, 144 passed, 15 warnings, 46 subtests passed in 11.84s

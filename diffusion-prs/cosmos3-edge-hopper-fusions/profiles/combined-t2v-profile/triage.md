@@ -1,0 +1,30 @@
+Diagnostic cumulative GPU times. The automated nvjet-to-FP8 suggestion is rejected: these GEMMs are BF16.
+
+Triage View
+Mode: single-trace
+Framework: SGLang
+Input traces: /campaign/artifacts/cosmos3-edge/combined-t2v-profile/traces/denoise-step2.trace.json.gz
+
+Kernel Table
+| Kernel | Category | GPU time | Share | Launches | Python location (site share) | CPU op |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > > | gemm | 45.86 ms | 38.0% | 56 | python/sglang/kernels/ops/attention/flash_attention_v3.py:19 _call_fa3_kernel | sgl_kernel::fwd |
+| nvjet_sm90_tst_256x152_64x4_1x2_h_bz_coopA_TNT | gemm | 23.81 ms | 19.7% | 56 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| nvjet_sm90_tst_128x256_64x4_2x1_v_bz_coopA_TNN | gemm | 22.75 ms | 18.9% | 56 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| nvjet_sm90_tst_256x144_64x4_2x1_v_bz_coopA_TNT | gemm | 10.79 ms | 8.9% | 56 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| nvjet_sm90_tst_128x200_64x5_2x1_v_bz_coopA_TNT | gemm | 5.51 ms | 4.6% | 56 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| void sglang::act_kernel<__nv_bfloat16, (sglang::ActivationKind)3, true> | other | 3.90 ms | 3.2% | 56 | python/sglang/kernels/ops/activation/activation.py:144 run_unary_activation | sglang::_run_unary_activation_inplace |
+| void sglang::fused_qknorm_rope_warp<128l, 128l, true, true, __nv_bfloat16, float, false, true, false, long, false> | rope | 3.71 ms | 3.1% | 56 | python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py:282 _apply_qwen3_qk_norm_rope_pack_kv | sglang::fused_qknorm_rope_pack_kv |
+| kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64204820481_tensorptrbf16gmemalign128oi64204820481_tensorptrbf16gme_0 | gemm | 3.46 ms | 2.9% | 110 | python/sglang/multimodal_gen/runtime/layers/layernorm.py:123 forward_cuda | cudaLaunchKernelExC |
+
+Overlap Opportunity Table
+| Priority | Verdict | Kernel | Python scope | Formal signal | Dep risk | Recommendation |
+| --- | --- | --- | --- | --- | --- | --- |
+| - | - | No rows cleared the 1.0% reporting bar. Use mapping/formal mode for overlap attribution. | - | - | - | - |
+
+Fuse Opportunity Table
+| Pattern | Confidence | Related GPU time | Share | Evidence kernels | Current kernel Python location | Candidate fused Python path | Rationale |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| PR #22392 CUTLASS FP8 scaled MM replacing nvjet | Confirmed | 63.16 ms | 52.3% | nvjet_sm90_tst_256x152_64x4_1x2_h_bz_coopA_TNT (19.7%)<br>nvjet_sm90_tst_128x256_64x4_2x1_v_bz_coopA_TNN (18.9%)<br>nvjet_sm90_tst_256x144_64x4_2x1_v_bz_coopA_TNT (8.9%) | apply_unquantized_linear @ python/sglang/multimodal_gen/runtime/layers/linear.py:134 | PR #22392<br>sgl-kernel/python/sgl_kernel/gemm.py<br>python/sglang/srt/layers/quantization/fp8_utils.py | Matches an open upstream path (52.3% related GPU time). Open SGLang PR replaces nvjet FP8 GEMM with CUTLASS to remove memset bubbles and extra copies. |
+| Fused QK RMSNorm + RoPE | Confirmed | 3.71 ms | 3.1% | void sglang::fused_qknorm_rope_warp<128l, 128l, true, true, __nv_bfloat16, float, false, true, false, long, false> (3.1%) | _apply_qwen3_qk_norm_rope_pack_kv @ python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py:282 | python/sglang/jit_kernel/fused_qknorm_rope.py<br>python/sglang/srt/models/qwen3_moe.py | `Fused QK RMSNorm + RoPE` is present in this trace (3.1% related GPU time). SGLang has a fused QK-norm plus RoPE kernel family. |
+| Fused residual add + RMSNorm | Confirmed | 3.46 ms | 2.9% | kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64204820481_tensorptrbf16gmemalign128oi64204820481_tensorptrbf16gme_0 (2.9%) | forward_cuda @ python/sglang/multimodal_gen/runtime/layers/layernorm.py:123 | python/sglang/srt/layers/layernorm.py<br>python/sglang/srt/layers/quantization/modelslim/modelslim.py | `Fused residual add + RMSNorm` is present in this trace (2.9% related GPU time). Residual add plus RMSNorm already has fused implementations across several backends. |

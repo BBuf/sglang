@@ -1,0 +1,1 @@
+Intermediate 95d033bcb839 used the default fast-math ReLU2 wrapper. Its finite-domain test found 511 BF16 subnormal mismatches. The driver stopped before combined native benchmarks. Final 18f1417a8b18 uses fast_math=False and passes the complete finite-domain test.
