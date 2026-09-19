@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /opt/sglang/bin/python
+cachedir: .pytest_cache
+rootdir: /campaign/candidate-longcat-gelu-cat/test
+configfile: pytest.ini
+plugins: anyio-4.15.1, jaxtyping-0.3.11, ai-dynamo-1.5.0.dev20260908, typeguard-2.13.3
+collecting ... collected 6 items
+
+test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py::test_all_finite_bf16_values PASSED [ 16%]
+test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py::test_shapes_and_unchanged_inputs[2-17-8-24] PASSED [ 33%]
+test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py::test_shapes_and_unchanged_inputs[1-859-1536-6144] PASSED [ 50%]
+test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py::test_shapes_and_unchanged_inputs[1-9233-3072-12288] PASSED [ 66%]
+test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py::test_changed_inputs_in_graph_replay PASSED [ 83%]
+test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py::test_unsupported_inputs PASSED [100%]
+
+=============================== warnings summary ===============================
+../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1345
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1345: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; anyio
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 6 passed, 2 warnings in 6.47s =========================

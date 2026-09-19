@@ -1,0 +1,114 @@
+===== Stall hotspots for fused =====
+Total distinct (file, line) entries: 16
+
+Rank      Total File                            Line  Breakdown (stall: count)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+   0       6303 gelu_tanh_cat.cuh                 38  long_scoreboard: 5966, not_selected: 215, math_pipe_throttle: 83, wait: 14, dispatch_stall: 14, selected: 11
+   1       5000 gelu_tanh_cat.cuh                 45  not_selected: 1801, wait: 1003, selected: 892, short_scoreboard: 579, math_pipe_throttle: 400, dispatch_stall: 196, mio_throttle: 95, branch_resolving: 19, no_instructions: 15
+   2       1682 vec.cuh                           93  long_scoreboard: 1465, branch_resolving: 72, wait: 62, not_selected: 49, dispatch_stall: 24, selected: 7, math_pipe_throttle: 3
+   3       1021 gelu_tanh_cat.cuh                 29  not_selected: 387, wait: 299, math_pipe_throttle: 184, selected: 54, dispatch_stall: 52, no_instructions: 26, branch_resolving: 17, short_scoreboard: 2
+   4        423 gelu_tanh_cat.cuh                 44  not_selected: 161, wait: 134, selected: 107, dispatch_stall: 19, no_instructions: 2
+   5        245 gelu_tanh_cat.cuh                 32  wait: 107, not_selected: 90, math_pipe_throttle: 27, selected: 19, dispatch_stall: 2
+   6        224 gelu_tanh_cat.cuh                 43  selected: 91, wait: 76, not_selected: 48, dispatch_stall: 9
+   7        212 vec.cuh                           89  wait: 100, selected: 51, not_selected: 44, math_pipe_throttle: 14, dispatch_stall: 3
+   8        186 cuda_bf16.hpp                    585  not_selected: 86, selected: 42, math_pipe_throttle: 29, wait: 15, dispatch_stall: 14
+   9        185 gelu_tanh_cat.cuh                 28  wait: 105, not_selected: 42, selected: 31, short_scoreboard: 4, dispatch_stall: 2, no_instructions: 1
+  10        176 gelu_tanh_cat.cuh                 30  wait: 72, not_selected: 56, math_pipe_throttle: 27, selected: 16, dispatch_stall: 5
+  11         89 gelu_tanh_cat.cuh                 35  wait: 54, not_selected: 17, selected: 9, math_pipe_throttle: 8, dispatch_stall: 1
+  12         65 gelu_tanh_cat.cuh                 50  wait: 42, selected: 10, branch_resolving: 9, drain: 4
+  13         35 gelu_tanh_cat.cuh                 33  wait: 18, selected: 6, branch_resolving: 5, no_instructions: 4, not_selected: 1, mio_throttle: 1
+  14         17 gelu_tanh_cat.cuh                 18  no_instructions: 17
+  15          1 gelu_tanh_cat.cuh                 27  selected: 1
+
+
+===== Per-stall-type top lines =====
+
+--- long_scoreboard ---
+      5966  gelu_tanh_cat.cuh:38
+      1465  vec.cuh:93
+
+--- short_scoreboard ---
+       579  gelu_tanh_cat.cuh:45
+         4  gelu_tanh_cat.cuh:28
+         2  gelu_tanh_cat.cuh:29
+
+--- wait ---
+      1003  gelu_tanh_cat.cuh:45
+       299  gelu_tanh_cat.cuh:29
+       134  gelu_tanh_cat.cuh:44
+       107  gelu_tanh_cat.cuh:32
+       105  gelu_tanh_cat.cuh:28
+       100  vec.cuh:89
+        76  gelu_tanh_cat.cuh:43
+        72  gelu_tanh_cat.cuh:30
+        62  vec.cuh:93
+        54  gelu_tanh_cat.cuh:35
+
+--- math_pipe_throttle ---
+       400  gelu_tanh_cat.cuh:45
+       184  gelu_tanh_cat.cuh:29
+        83  gelu_tanh_cat.cuh:38
+        29  cuda_bf16.hpp:585
+        27  gelu_tanh_cat.cuh:30
+        27  gelu_tanh_cat.cuh:32
+        14  vec.cuh:89
+         8  gelu_tanh_cat.cuh:35
+         3  vec.cuh:93
+
+--- mio_throttle ---
+        95  gelu_tanh_cat.cuh:45
+         1  gelu_tanh_cat.cuh:33
+
+--- not_selected ---
+      1801  gelu_tanh_cat.cuh:45
+       387  gelu_tanh_cat.cuh:29
+       215  gelu_tanh_cat.cuh:38
+       161  gelu_tanh_cat.cuh:44
+        90  gelu_tanh_cat.cuh:32
+        86  cuda_bf16.hpp:585
+        56  gelu_tanh_cat.cuh:30
+        49  vec.cuh:93
+        48  gelu_tanh_cat.cuh:43
+        44  vec.cuh:89
+
+--- dispatch_stall ---
+       196  gelu_tanh_cat.cuh:45
+        52  gelu_tanh_cat.cuh:29
+        24  vec.cuh:93
+        19  gelu_tanh_cat.cuh:44
+        14  gelu_tanh_cat.cuh:38
+        14  cuda_bf16.hpp:585
+         9  gelu_tanh_cat.cuh:43
+         5  gelu_tanh_cat.cuh:30
+         3  vec.cuh:89
+         2  gelu_tanh_cat.cuh:28
+
+--- drain ---
+         4  gelu_tanh_cat.cuh:50
+
+--- no_instructions ---
+        26  gelu_tanh_cat.cuh:29
+        17  gelu_tanh_cat.cuh:18
+        15  gelu_tanh_cat.cuh:45
+         4  gelu_tanh_cat.cuh:33
+         2  gelu_tanh_cat.cuh:44
+         1  gelu_tanh_cat.cuh:28
+
+--- selected ---
+       892  gelu_tanh_cat.cuh:45
+       107  gelu_tanh_cat.cuh:44
+        91  gelu_tanh_cat.cuh:43
+        54  gelu_tanh_cat.cuh:29
+        51  vec.cuh:89
+        42  cuda_bf16.hpp:585
+        31  gelu_tanh_cat.cuh:28
+        19  gelu_tanh_cat.cuh:32
+        16  gelu_tanh_cat.cuh:30
+        11  gelu_tanh_cat.cuh:38
+
+--- branch_resolving ---
+        72  vec.cuh:93
+        19  gelu_tanh_cat.cuh:45
+        17  gelu_tanh_cat.cuh:29
+         9  gelu_tanh_cat.cuh:50
+         5  gelu_tanh_cat.cuh:33
