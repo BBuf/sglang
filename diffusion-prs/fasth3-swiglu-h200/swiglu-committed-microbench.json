@@ -1,0 +1,58 @@
+{
+  "torch": "2.13.0+cu130",
+  "triton": "3.7.1",
+  "gpu": "NVIDIA H200",
+  "baseline": "993d1fccbaafe3e79d91567d2fc1d665cc94fa50",
+  "candidate": "8ec2a429aeb1999303165925859b47a30a7aaf37",
+  "timing": "triton.testing.do_bench mean milliseconds, warmup100ms rep300ms per ABBA cell",
+  "rows": [
+    {
+      "shape": [
+        1,
+        28672
+      ],
+      "exact": true,
+      "input_preserved": true,
+      "mean_ms": {
+        "a1": 0.0079010160792607,
+        "b1": 0.005662097542992952,
+        "b2": 0.005783573608085818,
+        "a2": 0.007888350368070968
+      },
+      "baseline_mean_ms": 0.007894683223665835,
+      "candidate_mean_ms": 0.005722835575539385
+    },
+    {
+      "shape": [
+        1024,
+        28672
+      ],
+      "exact": true,
+      "input_preserved": true,
+      "mean_ms": {
+        "a1": 0.08813609879550631,
+        "b1": 0.02963944101070504,
+        "b2": 0.02957252893175749,
+        "a2": 0.08811772908445795
+      },
+      "baseline_mean_ms": 0.08812691393998212,
+      "candidate_mean_ms": 0.029605984971231264
+    },
+    {
+      "shape": [
+        36704,
+        28672
+      ],
+      "exact": true,
+      "input_preserved": true,
+      "mean_ms": {
+        "a1": 2.7175632538618864,
+        "b1": 0.8060239305523386,
+        "b2": 0.886615264861063,
+        "a2": 2.726786919314452
+      },
+      "baseline_mean_ms": 2.722175086588169,
+      "candidate_mean_ms": 0.8463195977067008
+    }
+  ]
+}

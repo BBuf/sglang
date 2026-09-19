@@ -1,0 +1,236 @@
+/campaign/candidate-fasth3-swiglu/.cache/diffusion_skill_write_test/probe.txt
+
+================================================================
+[FP8-SWIGLU-R1-B2] fasth3-t2va-vsa
+  CUDA_VISIBLE_DEVICES=0,1
+  sglang \
+  generate \
+  --backend=sglang \
+  --model-path=FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree \
+  --prompt=A curious raccoon peers through a vibrant field of yellow sunflowers, its eyes wide with interest. \
+  --seed=1000 \
+  --config=/campaign/artifacts/fasth3/fp8-swiglu-r1-b2/generated_configs/fasth3-t2va-vsa.json \
+  --num-gpus=2 \
+  --ulysses-degree=2 \
+  --ring-degree=1 \
+  --component-attention-backends=transformer=video_sparse_attn_h3 \
+  --attention-backend-config={"VSA_sparsity":0.9} \
+  --enable-torch-compile=false \
+  --performance-mode=speed \
+  --warmup-steps=2 \
+  --warmup-resolutions=1344x768 \
+  --warmup-num-frames=240 \
+  --quantization=fp8 \
+  --quality=lossless \
+  --save-output \
+  --warmup-mode \
+  request \
+  --perf-dump-path \
+  /campaign/artifacts/fasth3/fp8-swiglu-r1-b2/fasth3-t2va-vsa_fp8-swiglu-r1-b2.json \
+  --output-path \
+  /campaign/artifacts/fasth3/fp8-swiglu-r1-b2 \
+  --output-file-name \
+  fasth3-t2va-vsa-fp8-swiglu-r1-b2
+
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-19 19:56:16] Applying performance_mode=speed
+[09-19 19:56:16] Proposed encoder parallel folding (mode=world) for ServerArgs (tp=1 sp=2 cfg=1 replica=2); the loader keeps it for encoders wide enough to benefit.
+[09-19 19:56:16] Using video_sparse_attn_h3 attention backend
+[09-19 19:56:16] server_args: {"model_path": "FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree", "model_subfolder": null, "model_variant": null, "model_id": null, "served_model_name": "FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree", "backend": "sglang", "attention_backend": null, "enable_attention_backend_autotune": false, "attention_backend_config": {"VSA_sparsity": 0.9}, "component_attention_backends": {"transformer": "video_sparse_attn_h3"}, "cache_dit_config": null, "nccl_port": null, "enable_nccl_nvls": false, "trust_remote_code": false, "revision": null, "num_gpus": 2, "performance_mode": "speed", "base_gpu_id": 0, "gpu_ids": null, "nnodes": 1, "node_rank": 0, "dist_init_addr": null, "tp_size": 1, "sp_degree": 2, "ulysses_degree": 2, "ring_degree": 1, "kv_gather_degree": 1, "sp_split_auto": false, "dp_size": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "encoder_parallel": "auto", "hsdp_replicate_dim": 1, "hsdp_shard_dim": 2, "dist_timeout": 3600, "scheduler_rpc_timeout": null, "pipeline_class_name": null, "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_alpha": null, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "component_weights_paths": {}, "component_direct_gpu_weight_loading": {}, "component_quantizations": {}, "component_precisions": {}, "component_quantization_ignored_layers": {}, "load_diffusion_decoder": false, "transformer_weights_path": null, "minimax_h3_adaln_cache_path": null, "minimax_h3_adaln_online": false, "minimax_h3_adaln_plan_width": 4, "minimax_h3_adaln_host_cache_gb": 8.0, "quantization": "fp8", "quantization_ignored_layers": null, "lora_target_modules": null, "component_residency": null, "cpu_offload_components": null, "dit_cpu_offload": false, "direct_gpu_weight_loading": false, "dit_layerwise_offload": false, "layerwise_offload_components": null, "dit_offload_prefetch_size": 0.0, "dit_layerwise_resident_layers": 0.0, "dit_layerwise_residency_policy": "leading", "layerwise_prefetch_size": {}, "layerwise_resident_layers": {}, "layerwise_residency_policy": {}, "offload_during_compile": true, "text_encoder_cpu_offload": false, "image_encoder_cpu_offload": false, "vae_cpu_offload": false, "use_fsdp_inference": false, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": null, "comfyui_mode": false, "enable_torch_compile": false, "regional_compile": false, "enable_breakable_cuda_graph": false, "bcg_text_buckets": null, "enable_layerwise_nvtx_marker": false, "warmup_mode": "request", "warmup_resolutions": ["1344x768"], "warmup_num_frames": 240, "warmup_steps": 2, "warmup_sampling_params": null, "disable_autocast": false, "master_port": 30005, "host": "127.0.0.1", "port": 30000, "enable_metrics": false, "webui": false, "webui_port": 12312, "scheduler_port": 5645, "scheduler_ports": [5645], "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "strict_ports": false, "output_path": "/campaign/artifacts/fasth3/fp8-swiglu-r1-b2", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_downstream_wait_timeout": 1800, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_instance_id": 0, "disagg_max_slots_per_instance": 8, "disagg_transfer_redundancy": 1.25, "disagg_role_device": "auto", "disagg_transfer_backend": "auto", "disagg_transfer_pool_size": 268435456, "disagg_transfer_pin_memory": "auto", "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "pool_control_endpoint": null, "pool_control_advertised_endpoint": null, "log_level": "info", "log_requests": false, "log_requests_level": 2, "log_requests_format": "text", "log_requests_target": null, "uvicorn_access_log_exclude_prefixes": [], "enable_cache_report": false, "enable_trace": false, "otlp_traces_endpoint": "localhost:4317", "otlp_service_name": null, "srt_encoder_url": null, "srt_encoder_connect_timeout": 3.05, "srt_encoder_timeout": 100, "pe_server_url": null}
+[09-19 19:56:16] Local mode: True
+[09-19 19:56:16] Starting server...
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-19 19:56:29] Scheduler (dp replica 0) bind at endpoint: tcp://127.0.0.1:5645
+[09-19 19:56:30] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/campaign/model-caches/fasth3-cycle/sglang/torch_compile_cache/inductor TRITON_CACHE_DIR=/campaign/model-caches/fasth3-cycle/sglang/torch_compile_cache/triton
+[09-19 19:56:30] Initializing distributed environment with world_size=2, device=cuda:0, timeout=3600
+[09-19 19:56:30] Setting distributed timeout to 3600 seconds
+[09-19 19:56:31] Found nccl from library libnccl.so.2
+[09-19 19:56:31] sglang-diffusion is using nccl==2.30.7
+[09-19 19:56:32] Found nccl from library libnccl.so.2
+[09-19 19:56:32] sglang-diffusion is using nccl==2.30.7
+[09-19 19:56:33] Found nccl from library libnccl.so.2
+[09-19 19:56:33] sglang-diffusion is using nccl==2.30.7
+[09-19 19:56:34] No pipeline_class_name specified, using model_index.json
+[09-19 19:56:35] Using pipeline from model_index.json: FastH3Pipeline
+[09-19 19:56:35] Loading pipeline modules...
+[09-19 19:56:35] Downloading overlay metadata for FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree from kevin-mi/FastH3-4step-Preview-overlay
+
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1641.29it/s]
+
+Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1307.25it/s]
+[09-19 19:56:35] Checking for cached model in Hugging Face Hub cache for FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree...
+[09-19 19:56:35] Model path: /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab
+[09-19 19:56:35] Diffusers version: 0.36.0.dev0
+[09-19 19:56:35] Loading pipeline modules from config: {'_class_name': 'FastH3Pipeline', '_diffusers_version': '0.36.0.dev0', 'text_encoder': ['transformers', 'MiniMaxH3Qwen3VLHFEncoder'], 'tokenizer': ['transformers', 'Qwen2TokenizerFast'], 'video_vae': ['diffusers', 'MiniMaxH3VideoVAE'], 'audio_vae': ['diffusers', 'MiniMaxH3AudioVAE'], 'scheduler': None, 'transformer': ['diffusers', 'MiniMaxH3DiTModel'], 'processor': ['transformers', 'Qwen3VLProcessor'], '_minimax_h3': {'schema_version': 1, 'partition': 'fl2va', 'tasks': ['t2va'], 'task_aliases': {}, 'sigma_shift_scales': {'video': 12.0, 'audio': 3.0}}}
+[09-19 19:56:35] Loading required components: ['processor', 'text_encoder', 'tokenizer', 'video_vae', 'audio_vae', 'transformer']
+
+Loading required modules:   0%|          | 0/6 [00:00<?, ?it/s][09-19 19:56:35] Memory-aware component load order: ['transformer', 'text_encoder', 'video_vae', 'audio_vae', 'processor', 'tokenizer']
+
+Loading required modules:   0%|          | 0/6 [00:00<?, ?it/s][09-19 19:56:35] Using video_sparse_attn_h3 backend for component: transformer
+[09-19 19:56:35] Loading transformer from /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab/transformer. avail mem: 135.98 GB
+[09-19 19:56:35] Loading MiniMaxH3Transformer3DModel from 15 safetensors file(s) , param_dtype: None
+
+
+Loading safetensors checkpoint shards: 0%|          | 0/15[A
+
+Loading safetensors checkpoint shards: 7%|▋         | 1/15[A
+
+Loading safetensors checkpoint shards: 13%|█▎        | 2/15[A
+
+Loading safetensors checkpoint shards: 20%|██        | 3/15[A
+
+Loading safetensors checkpoint shards: 27%|██▋       | 4/15[A
+
+Loading safetensors checkpoint shards: 33%|███▎      | 5/15[A
+
+Loading safetensors checkpoint shards: 40%|████      | 6/15[A
+
+Loading safetensors checkpoint shards: 47%|████▋     | 7/15[A
+
+Loading safetensors checkpoint shards: 53%|█████▎    | 8/15[A
+
+Loading safetensors checkpoint shards: 60%|██████    | 9/15[A
+
+Loading safetensors checkpoint shards: 67%|██████▋   | 10/15[A
+
+Loading safetensors checkpoint shards: 73%|███████▎  | 11/15[A
+
+Loading safetensors checkpoint shards: 80%|████████  | 12/15[A
+
+Loading safetensors checkpoint shards: 87%|████████▋ | 13/15[A
+Loading safetensors checkpoint shards: 100%|██████████| 15/15
+
+Loading required modules:  17%|█▋        | 1/6 [00:14<01:14, 14.92s/it][09-19 19:56:50] Attention backends for transformer: video_sparse_attn_h3 (deferred first-use selection)
+[09-19 19:56:50] Loaded transformer: MiniMaxH3DiTModel (sgl-diffusion version). model size: 34.52 GB, vram: 34.52 GB. avail GPU mem: 94.58 GB
+
+Loading required modules:  17%|█▋        | 1/6 [00:15<01:15, 15.13s/it][09-19 19:56:50] Loading text_encoder from /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab/text_encoder. avail mem: 94.58 GB
+[09-19 19:56:50] Cannot use FlashAttention backend for head size 72.
+
+
+Loading safetensors checkpoint shards: 0%|          | 0/12[A
+
+Loading safetensors checkpoint shards: 8%|▊         | 1/12[A
+
+Loading safetensors checkpoint shards: 17%|█▋        | 2/12[A
+
+Loading safetensors checkpoint shards: 25%|██▌       | 3/12[A
+
+Loading safetensors checkpoint shards: 33%|███▎      | 4/12[A
+
+Loading safetensors checkpoint shards: 42%|████▏     | 5/12[A
+
+Loading safetensors checkpoint shards: 50%|█████     | 6/12[A
+
+Loading safetensors checkpoint shards: 58%|█████▊    | 7/12[A
+
+Loading safetensors checkpoint shards: 67%|██████▋   | 8/12[A
+
+Loading safetensors checkpoint shards: 75%|███████▌  | 9/12[A
+
+Loading safetensors checkpoint shards: 83%|████████▎ | 10/12[A
+Loading required modules:  33%|███▎      | 2/6 [00:27<00:53, 13.32s/it]
+
+Loading safetensors checkpoint shards: 92%|█████████▏| 11/12[A
+
+Loading safetensors checkpoint shards: 100%|██████████| 12/12[A
+Loading safetensors checkpoint shards: 100%|██████████| 12/12
+[09-19 19:57:02] Attention backends for text_encoder: torch_sdpa, fa
+[09-19 19:57:03] Loaded text_encoder: MiniMaxH3Qwen3VLEncoder (sgl-diffusion version). model size: 24.84 GB, vram: 24.84 GB. avail GPU mem: 75.83 GB
+
+Loading required modules:  33%|███▎      | 2/6 [00:27<00:54, 13.53s/it][09-19 19:57:03] Loading video_vae from /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab/video_vae. avail mem: 75.83 GB
+
+Loading required modules:  50%|█████     | 3/6 [00:30<00:26,  8.69s/it][09-19 19:57:05] VAE: video_vae holds 144 decoder weights in torch.float16 from load (file-backed)
+[09-19 19:57:06] Attention backends for video_vae: torch_sdpa
+[09-19 19:57:06] Loaded video_vae: MiniMaxH3VideoVAE (sgl-diffusion version). model size: 5.2 GB, vram: 5.20 GB. avail GPU mem: 70.93 GB
+
+Loading required modules:  50%|█████     | 3/6 [00:30<00:26,  8.79s/it][09-19 19:57:06] Loading audio_vae from /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab/audio_vae. avail mem: 70.93 GB
+[09-19 19:57:06] Attention backends for audio_vae: torch_sdpa
+[09-19 19:57:06] Loaded audio_vae: MiniMaxH3AudioVAE (sgl-diffusion version). model size: 0.56 GB, vram: 0.56 GB. avail GPU mem: 70.63 GB
+
+Loading required modules:  67%|██████▋   | 4/6 [00:31<00:10,  5.47s/it][09-19 19:57:06] Loading processor from /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab/processor. avail mem: 70.63 GB
+
+Loading required modules:  67%|██████▋   | 4/6 [00:31<00:11,  5.59s/it][09-19 19:57:06] Loaded processor: Qwen3VLProcessor (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 70.63 GB
+
+Loading required modules:  83%|████████▎ | 5/6 [00:31<00:03,  3.61s/it][09-19 19:57:06] Loading tokenizer from /campaign/model-caches/fasth3-cycle/sglang/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-118fce89f66857ab/tokenizer. avail mem: 70.63 GB
+
+Loading required modules:  83%|████████▎ | 5/6 [00:31<00:03,  3.68s/it][09-19 19:57:07] Loaded tokenizer: Qwen2Tokenizer (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 70.63 GB
+
+Loading required modules: 100%|██████████| 6/6 [00:31<00:00,  2.47s/it]
+Loading required modules: 100%|██████████| 6/6 [00:31<00:00,  5.27s/it]
+[09-19 19:57:07] Creating pipeline stages...
+[09-19 19:57:07] Using fa attention backend
+[09-19 19:57:07] Pipeline instantiated
+[09-19 19:57:07] Worker 0: Initialized device, model, and distributed environment.
+[09-19 19:57:07] Worker 0: Scheduler loop started.
+
+Loading required modules: 100%|██████████| 6/6 [00:31<00:00,  2.52s/it]
+Loading required modules: 100%|██████████| 6/6 [00:31<00:00,  5.28s/it]
+
+Warmup requests:   0%|          | 0/1 [00:00<?, ?req/s][09-19 19:57:07] Using video_sparse_attn_h3 attention backend
+
+Warmup requests: 100%|██████████| 1/1 [00:11<00:00, 11.30s/req, server warmup req (1344x768x243f, 2/5 steps), last=11.30s]
+Warmup requests: 100%|██████████| 1/1 [00:11<00:00, 11.30s/req, server warmup req (1344x768x243f, 2/5 steps), last=11.30s]
+[09-19 19:57:18] Adjusting number of frames from 1 to 1 based on model
+[09-19 19:57:18] Adjusting number of frames from 1 to 5 based on number of GPUs (2)
+[09-19 19:57:18] Processing 1 grouped request(s)
+[09-19 19:57:18] Sampling params:
+                       width: 1344
+                      height: 768
+                  num_frames: 243
+                         fps: 24
+                      prompt: <redacted, len=98>
+                  neg_prompt: None
+                        seed: 1000
+                 infer_steps: 5
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: None
+                 save_output: True
+            output_file_path: /campaign/artifacts/fasth3/fp8-swiglu-r1-b2/fasth3-t2va-vsa-fp8-swiglu-r1-b2.mp4
+        
+[09-19 19:57:18] Running pipeline stages: ['InputValidationStage', 'MiniMaxH3PartitionAdmissionStage', 'MiniMaxH3TextEncodingStage', 'MiniMaxH3VisualEncodingStage', 'MiniMaxH3AudioEncodingStage', 'MiniMaxH3LatentPreparationStage', 'MiniMaxH3TimestepPreparationStage', 'MiniMaxH3DenoisingStage', 'MiniMaxH3DecodingStage']
+[09-19 19:57:18] [InputValidationStage] started...
+[09-19 19:57:18] [InputValidationStage] finished in 0.0000 seconds
+[09-19 19:57:18] [MiniMaxH3PartitionAdmissionStage] started...
+[09-19 19:57:18] [MiniMaxH3PartitionAdmissionStage] finished in 0.0000 seconds
+[09-19 19:57:18] [MiniMaxH3TextEncodingStage] started...
+[09-19 19:57:18] [MiniMaxH3TextEncodingStage] finished in 0.0680 seconds
+[09-19 19:57:18] [MiniMaxH3VisualEncodingStage] started...
+[09-19 19:57:18] [MiniMaxH3VisualEncodingStage] finished in 0.0000 seconds
+[09-19 19:57:18] [MiniMaxH3AudioEncodingStage] started...
+[09-19 19:57:18] [MiniMaxH3AudioEncodingStage] finished in 0.0000 seconds
+[09-19 19:57:18] [MiniMaxH3LatentPreparationStage] started...
+[09-19 19:57:18] [MiniMaxH3LatentPreparationStage] finished in 0.0420 seconds
+[09-19 19:57:18] [MiniMaxH3TimestepPreparationStage] started...
+[09-19 19:57:18] [MiniMaxH3TimestepPreparationStage] finished in 0.0002 seconds
+[09-19 19:57:18] [MiniMaxH3DenoisingStage] started...
+
+minimax_h3 denoise:   0%|          | 0/4 [00:00<?, ?it/s]
+minimax_h3 denoise:  25%|██▌       | 1/4 [00:02<00:07,  2.40s/it]
+minimax_h3 denoise:  50%|█████     | 2/4 [00:05<00:05,  2.89s/it]
+minimax_h3 denoise:  75%|███████▌  | 3/4 [00:08<00:03,  3.05s/it]
+minimax_h3 denoise: 100%|██████████| 4/4 [00:12<00:00,  3.13s/it]
+minimax_h3 denoise: 100%|██████████| 4/4 [00:12<00:00,  3.24s/it]
+[09-19 19:57:31] [MiniMaxH3DenoisingStage] finished in 12.9580 seconds
+[09-19 19:57:31] [MiniMaxH3DecodingStage] started...
+[09-19 19:57:36] [MiniMaxH3DecodingStage] finished in 4.9901 seconds
+[09-19 19:57:37] Output saved to [1;36m/campaign/artifacts/fasth3/fp8-swiglu-r1-b2/fasth3-t2va-vsa-fp8-swiglu-r1-b2.mp4[0;0m
+[09-19 19:57:37] Metrics dumped to: [1;36m/campaign/artifacts/fasth3/fp8-swiglu-r1-b2/fasth3-t2va-vsa_fp8-swiglu-r1-b2.json[0;0m
+[09-19 19:57:37] Pixel data generated successfully in [92m19.34[0;0m seconds
+[09-19 19:57:37] Warmed-up request processed in [92m18.07[0;0m seconds (with warmup excluded)
+[09-19 19:57:37] Memory usage - Max peak: 86544.00 MB, Avg peak: 86544.00 MB
+[09-19 19:57:37] Metrics dumped to: [1;36m/campaign/artifacts/fasth3/fp8-swiglu-r1-b2/fasth3-t2va-vsa_fp8-swiglu-r1-b2.json[0;0m
+[93m[09-19 19:57:37] Generator was garbage collected without being shut down. Forcing local server and client cleanup.[0;0m
+[93m[09-19 19:57:37] Local worker sglang-diffusionWorker-0 did not terminate gracefully, forcing.[0;0m
+[93m[09-19 19:57:37] Local worker sglang-diffusionWorker-1 did not terminate gracefully, forcing.[0;0m
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 2 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
