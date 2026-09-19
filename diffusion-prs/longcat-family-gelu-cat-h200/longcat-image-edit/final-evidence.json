@@ -1,0 +1,129 @@
+{
+  "additional_pr_qualified": false,
+  "existing_pr": 40384,
+  "rows": [
+    {
+      "label": "gelu-cat-r1-a1",
+      "arm": "a1",
+      "worker_s": 16.43064882903127,
+      "client_s": 16.66,
+      "denoise_s": 16.018093905993737,
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "peak_gib": 32.8046875
+    },
+    {
+      "label": "gelu-cat-r1-b1",
+      "arm": "b1",
+      "worker_s": 16.142955744988285,
+      "client_s": 16.29,
+      "denoise_s": 15.809013016987592,
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "peak_gib": 31.328125
+    },
+    {
+      "label": "gelu-cat-r1-b2-retry1",
+      "arm": "b2",
+      "worker_s": 16.148866966017522,
+      "client_s": 19.22,
+      "denoise_s": 15.81538725597784,
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "peak_gib": 31.328125
+    },
+    {
+      "label": "gelu-cat-r1-a2",
+      "arm": "a2",
+      "worker_s": 16.39919974002987,
+      "client_s": 16.55,
+      "denoise_s": 16.043535034987144,
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "peak_gib": 32.8046875
+    }
+  ],
+  "means": {
+    "worker_s": {
+      "baseline": 16.41492428453057,
+      "candidate": 16.145911355502903,
+      "reduction_pct": 1.6388313729913766
+    },
+    "client_s": {
+      "baseline": 16.605,
+      "candidate": 17.755,
+      "reduction_pct": -6.925624811803664
+    },
+    "denoise_s": {
+      "baseline": 16.03081447049044,
+      "candidate": 15.812200136482716,
+      "reduction_pct": 1.363713206276268
+    }
+  },
+  "profile": {
+    "baseline": {
+      "path": "/campaign/artifacts/longcat-image-edit/baseline-profile/traces/ffcc0130-41f2-41cb-914d-0b0f5fcf3cd3-3_steps-global-rank0.trace.json.gz",
+      "model_calls": 8,
+      "crossing_kernels": 0,
+      "window_ms": 335.4045205078125,
+      "kernel_count": 1395,
+      "gelu_cat_kernels": 80,
+      "gelu_cat_gpu_ms": 12.224138
+    },
+    "candidate": {
+      "path": "/campaign/artifacts/longcat-image-edit/candidate-profile/traces/7a99bc5a-13e6-489b-a3fb-b44a92b092d1-3_steps-global-rank0.trace.json.gz",
+      "model_calls": 8,
+      "crossing_kernels": 0,
+      "window_ms": 326.298640625,
+      "kernel_count": 1355,
+      "gelu_cat_kernels": 40,
+      "gelu_cat_gpu_ms": 6.952103
+    }
+  },
+  "images": [
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/baseline-profile/longcat-image-edit-baseline-profile.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/bcg-applicability/longcat-image-edit-bcg-applicability.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/candidate-profile/longcat-image-edit-candidate-profile.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/gelu-cat-r1-a1/longcat-image-edit-gelu-cat-r1-a1.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/gelu-cat-r1-a2/longcat-image-edit-gelu-cat-r1-a2.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/gelu-cat-r1-b1/longcat-image-edit-gelu-cat-r1-b1.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image-edit/gelu-cat-r1-b2-retry1/longcat-image-edit-gelu-cat-r1-b2-retry1.png",
+      "sha256": "34c9c9ef854a64203d71188161f77929cb1564f63a87b9d73d522d59cf8eeb72",
+      "pixel_exact": true
+    }
+  ],
+  "bcg": {
+    "model": "longcat-image-edit",
+    "label": "bcg-applicability",
+    "quality": "lossless",
+    "breakable_cuda_graph": true,
+    "bcg_capture_detected": false,
+    "bcg_invalid_signals": [
+      "[diffusion bcg] disabled"
+    ],
+    "error": true,
+    "elapsed_s": 61.76512575149536
+  },
+  "note": "Shared kernel regression validation. Worker mean improves1.64%, but candidate saved-client outlier19.22s prevents an eager saved-request E2E claim. Initial B2 was rejected before admission for lingering CUDA context; the unique retry is retained. No duplicate PR is counted."
+}

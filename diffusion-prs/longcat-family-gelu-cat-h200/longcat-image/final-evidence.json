@@ -1,0 +1,204 @@
+{
+  "additional_pr_qualified": false,
+  "existing_pr": 40384,
+  "rows": [
+    {
+      "label": "gelu-cat-eager-r1-a1",
+      "mode": "eager",
+      "arm": "a1",
+      "worker_s": 7.044867783959489,
+      "client_s": 7.24,
+      "denoise_s": 6.922867845976725,
+      "peak_gib": 31.00390625
+    },
+    {
+      "label": "gelu-cat-eager-r1-b1",
+      "mode": "eager",
+      "arm": "b1",
+      "worker_s": 6.934100104030222,
+      "client_s": 7.12,
+      "denoise_s": 6.808736151026096,
+      "peak_gib": 31.13671875
+    },
+    {
+      "label": "gelu-cat-eager-r1-b2",
+      "mode": "eager",
+      "arm": "b2",
+      "worker_s": 6.9245759440236725,
+      "client_s": 7.11,
+      "denoise_s": 6.804089704004582,
+      "peak_gib": 31.13671875
+    },
+    {
+      "label": "gelu-cat-eager-r1-a2",
+      "mode": "eager",
+      "arm": "a2",
+      "worker_s": 7.046744199004024,
+      "client_s": 7.3,
+      "denoise_s": 6.924902083002962,
+      "peak_gib": 31.00390625
+    },
+    {
+      "label": "gelu-cat-bcg-r1-a1",
+      "mode": "bcg",
+      "arm": "a1",
+      "worker_s": 7.072941079968587,
+      "client_s": 7.26,
+      "denoise_s": 6.9490974769578315,
+      "peak_gib": 32.33203125
+    },
+    {
+      "label": "gelu-cat-bcg-r1-b1",
+      "mode": "bcg",
+      "arm": "b1",
+      "worker_s": 6.973585113999434,
+      "client_s": 7.46,
+      "denoise_s": 6.8477924590115435,
+      "peak_gib": 32.22265625
+    },
+    {
+      "label": "gelu-cat-bcg-r1-b2",
+      "mode": "bcg",
+      "arm": "b2",
+      "worker_s": 6.97924359299941,
+      "client_s": 7.17,
+      "denoise_s": 6.855475254007615,
+      "peak_gib": 32.22265625
+    },
+    {
+      "label": "gelu-cat-bcg-r1-a2",
+      "mode": "bcg",
+      "arm": "a2",
+      "worker_s": 7.082683670974802,
+      "client_s": 7.28,
+      "denoise_s": 6.960130819992628,
+      "peak_gib": 32.33203125
+    }
+  ],
+  "means": {
+    "eager": {
+      "worker_s": {
+        "baseline": 7.045805991481757,
+        "candidate": 6.929338024026947,
+        "reduction_pct": 1.6530112750140613
+      },
+      "client_s": {
+        "baseline": 7.27,
+        "candidate": 7.115,
+        "reduction_pct": 2.132049518569455
+      },
+      "denoise_s": {
+        "baseline": 6.923884964489844,
+        "candidate": 6.806412927515339,
+        "reduction_pct": 1.6966202872661391
+      }
+    },
+    "bcg": {
+      "worker_s": {
+        "baseline": 7.077812375471694,
+        "candidate": 6.976414353499422,
+        "reduction_pct": 1.4326181112637217
+      },
+      "client_s": {
+        "baseline": 7.27,
+        "candidate": 7.3149999999999995,
+        "reduction_pct": -0.6189821182943595
+      },
+      "denoise_s": {
+        "baseline": 6.95461414847523,
+        "candidate": 6.851633856509579,
+        "reduction_pct": 1.480747741961046
+      }
+    }
+  },
+  "profiles": {
+    "baseline-profile": {
+      "path": "/campaign/artifacts/longcat-image/baseline-profile/traces/fe8ef5e3-fe3a-4841-abba-bd47bace7d6e-3_steps-global-rank0.trace.json.gz",
+      "model_calls": 8,
+      "graph_launches": 0,
+      "window_ms": 138.9913212890625,
+      "crossing_kernels": 0,
+      "kernel_count": 1400,
+      "fused_calls": 0,
+      "fused_gpu_ms": 0.0
+    },
+    "candidate-profile": {
+      "path": "/campaign/artifacts/longcat-image/candidate-profile/traces/b750a68e-ad2d-45e0-b493-951fc1fce401-3_steps-global-rank0.trace.json.gz",
+      "model_calls": 8,
+      "graph_launches": 0,
+      "window_ms": 136.7728154296875,
+      "crossing_kernels": 0,
+      "kernel_count": 1360,
+      "fused_calls": 40,
+      "fused_gpu_ms": 3.131012
+    },
+    "candidate-bcg-profile": {
+      "path": "/campaign/artifacts/longcat-image/candidate-bcg-profile/traces/7c1ac12e-bd63-4c05-8dc4-af1bc85e5d9b-3_steps-global-rank0.trace.json.gz",
+      "model_calls": 0,
+      "graph_launches": 248,
+      "window_ms": 134.5189697265625,
+      "crossing_kernels": 0,
+      "kernel_count": 1360,
+      "fused_calls": 40,
+      "fused_gpu_ms": 3.204932
+    }
+  },
+  "images": [
+    {
+      "path": "/campaign/artifacts/longcat-image/baseline-profile/longcat-image-baseline-profile.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/candidate-bcg-profile/longcat-image-candidate-bcg-profile.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/candidate-profile/longcat-image-candidate-profile.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-bcg-r1-a1/longcat-image-gelu-cat-bcg-r1-a1.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-bcg-r1-a2/longcat-image-gelu-cat-bcg-r1-a2.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-bcg-r1-b1/longcat-image-gelu-cat-bcg-r1-b1.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-bcg-r1-b2/longcat-image-gelu-cat-bcg-r1-b2.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-eager-r1-a1/longcat-image-gelu-cat-eager-r1-a1.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-eager-r1-a2/longcat-image-gelu-cat-eager-r1-a2.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-eager-r1-b1/longcat-image-gelu-cat-eager-r1-b1.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    },
+    {
+      "path": "/campaign/artifacts/longcat-image/gelu-cat-eager-r1-b2/longcat-image-gelu-cat-eager-r1-b2.png",
+      "sha256": "0443d562b6da18257dbc587617b6ec0bcfac5b078c8bce18243fdb3ce50f7475",
+      "pixel_exact": true
+    }
+  ],
+  "note": "Shared-kernel family validation; both BCG arms replay real graphs. One ABBA per mode, no additional PR counted."
+}

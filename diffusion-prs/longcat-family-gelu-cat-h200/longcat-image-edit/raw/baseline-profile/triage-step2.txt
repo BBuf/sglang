@@ -1,0 +1,28 @@
+Triage View
+Mode: single-trace
+Framework: SGLang
+Input traces: /Users/bbuf/工作目录/Common/diffusion-h200-eight-pr-20260920/artifacts/longcat-image-edit/baseline-profile/traces/denoise-step2.trace.json.gz
+
+Kernel Table
+| Kernel | Category | GPU time | Share | Launches | Python location (site share) | CPU op |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > > | gemm | 104.50 ms | 31.7% | 60 | python/sglang/kernels/ops/attention/flash_attention_v3.py:19 _call_fa3_kernel | sgl_kernel::fwd |
+| nvjet_sm90_tst_192x208_64x4_2x1_v_bz_coopB_bias_TNT | gemm | 96.76 ms | 29.3% | 160 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::addmm |
+| nvjet_sm90_tst_192x192_64x4_2x1_v_bz_coopB_bias_TNN | gemm | 83.71 ms | 25.4% | 160 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::addmm |
+| void at::native::vectorized_elementwise_kernel<8, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> > | activation | 9.59 ms | 2.9% | 80 | python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:637 forward (site share 68%)<br>python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:301 forward (site share 32%) | aten::gelu<br>aten::gelu |
+| void sglang::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, float, true, false, true, long, false> | rope | 7.53 ms | 2.3% | 80 | python/sglang/multimodal_gen/runtime/layers/layernorm.py:1062 apply_qk_norm_rope | sglang::fused_inplace_qknorm_rope |
+| void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 3, 128, 1, 16, 8> | memory | 5.74 ms | 1.7% | 40 | python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:637 forward | aten::cat |
+| _layernorm_modulate_kernel | norm | 5.02 ms | 1.5% | 120 | python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:69 _longcat_norm_modulate | sglang::triton_fused_layernorm_modulate |
+| nvjet_sm90_tst_192x112_64x5_1x2_h_bz_coopB_bias_TNT | gemm | 4.65 ms | 1.4% | 102 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::addmm |
+| void sglang::residual_gate_add::(anonymous namespace)::residual_gate_add_broadcast_kernel<__nv_bfloat16, 8> | communication | 3.37 ms | 1.0% | 120 | python/sglang/kernels/kda_kernels/residual_gate_add_jit.py:155 residual_gate_add_cuda | sglang::diffusion_residual_gate_add |
+
+Overlap Opportunity Table
+| Priority | Verdict | Kernel | Python scope | Formal signal | Dep risk | Recommendation |
+| --- | --- | --- | --- | --- | --- | --- |
+| - | - | No rows cleared the 1.0% reporting bar. Use mapping/formal mode for overlap attribution. | - | - | - | - |
+
+Fuse Opportunity Table
+| Pattern | Confidence | Related GPU time | Share | Evidence kernels | Current kernel Python location | Candidate fused Python path | Rationale |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| PR #22392 CUTLASS FP8 scaled MM replacing nvjet | Confirmed | 190.05 ms | 57.6% | nvjet_sm90_tst_192x208_64x4_2x1_v_bz_coopB_bias_TNT (29.3%)<br>nvjet_sm90_tst_192x192_64x4_2x1_v_bz_coopB_bias_TNN (25.4%)<br>nvjet_sm90_tst_192x112_64x5_1x2_h_bz_coopB_bias_TNT (1.4%) | apply_unquantized_linear @ python/sglang/multimodal_gen/runtime/layers/linear.py:134<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:113<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:132<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py:917 | PR #22392<br>sgl-kernel/python/sgl_kernel/gemm.py<br>python/sglang/srt/layers/quantization/fp8_utils.py | Matches an open upstream path (57.6% related GPU time). Open SGLang PR replaces nvjet FP8 GEMM with CUTLASS to remove memset bubbles and extra copies. |
+| Fused QK RMSNorm + RoPE | Confirmed | 7.53 ms | 2.3% | void sglang::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, float, true, false, true, long, false> (2.3%) | apply_qk_norm_rope @ python/sglang/multimodal_gen/runtime/layers/layernorm.py:1062 | python/sglang/jit_kernel/fused_qknorm_rope.py<br>python/sglang/srt/models/qwen3_moe.py | `Fused QK RMSNorm + RoPE` is present in this trace (2.3% related GPU time). SGLang has a fused QK-norm plus RoPE kernel family. |
