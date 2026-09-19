@@ -1,0 +1,40 @@
+Diagnostic cumulative GPU times. Automated FP8 suggestions for native BF16 GEMMs are not adopted.
+
+Triage View
+Mode: single-trace
+Framework: SGLang
+Input traces: /campaign/artifacts/sana-video/baseline-bcg-profile/traces/denoise-step2.trace.json.gz
+
+Kernel Table
+| Kernel | Category | GPU time | Share | Launches | Python location (site share) | CPU op |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| nvjet_sm90_tst_192x208_64x4_2x1_v_bz_coopB_TNT | gemm | 99.34 ms | 14.1% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| sm90_xmma_fprop_implicit_gemm_bf16bf16_bf16f32_f32_nhwckrsc_nhwc_tilesize128x128x64_warpgroupsize1x1x1_g1_execute_segment_k_off_kernel__5x_cudnn | gemm | 60.55 ms | 8.6% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| nvjet_sm90_tst_192x208_64x4_1x2_h_bz_coopB_TNT | gemm | 50.76 ms | 7.2% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TNT | gemm | 49.84 ms | 7.1% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass::arch::Sm80, true, 64, 128, 128, true, true>::Params) | attention | 46.00 ms | 6.6% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}> | memory | 45.45 ms | 6.5% | 124 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void cutlass::Kernel2<cutlass_80_simt_sgemm_64x64_8x5_nt_align1> | gemm | 42.21 ms | 6.0% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}> | elementwise | 38.13 ms | 5.4% | 124 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TTT | gemm | 35.59 ms | 5.1% | 80 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| conv2d_c1_k1_nhwc_specialized | other | 34.87 ms | 5.0% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void sglang::residual_gate_add::(anonymous namespace)::residual_gate_add_transposed_kernel<__nv_bfloat16> | other | 27.64 ms | 3.9% | 80 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| sm80_xmma_gemm_f32f32_f32f32_f32_tn_n_tilesize128x128x8_stage3_warpsize2x2x1_ffma_aligna4_alignc4_execute_kernel__5x_cublas | gemm | 21.05 ms | 3.0% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| _bias_silu_kernel | activation | 20.91 ms | 3.0% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| nvjet_sm90_tst_192x176_64x4_2x1_v_bz_coopB_bias_TNT | gemm | 17.74 ms | 2.5% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> > | memory | 17.64 ms | 2.5% | 84 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| _bias_glu_kernel | other | 16.01 ms | 2.3% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}> | elementwise | 14.14 ms | 2.0% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| _layernorm_modulate_kernel | norm | 13.88 ms | 2.0% | 82 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1}> | memory | 10.90 ms | 1.6% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+| void sglang::interleaved_rope_fp64::(anonymous namespace)::interleaved_rope_fp64_kernel<__nv_bfloat16> | rope | 10.20 ms | 1.5% | 40 | python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 replay | cudaGraphLaunch |
+
+Overlap Opportunity Table
+| Priority | Verdict | Kernel | Python scope | Formal signal | Dep risk | Recommendation |
+| --- | --- | --- | --- | --- | --- | --- |
+| - | - | No rows cleared the 1.0% reporting bar. Use mapping/formal mode for overlap attribution. | - | - | - | - |
+
+Fuse Opportunity Table
+| Pattern | Confidence | Related GPU time | Share | Evidence kernels | Current kernel Python location | Candidate fused Python path | Rationale |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| PR #22392 CUTLASS FP8 scaled MM replacing nvjet | Confirmed | 256.47 ms | 36.5% | nvjet_sm90_tst_192x208_64x4_2x1_v_bz_coopB_TNT (14.1%)<br>nvjet_sm90_tst_192x208_64x4_1x2_h_bz_coopB_TNT (7.2%)<br>nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TNT (7.1%) | replay @ python/sglang/srt/model_executor/runner_backend_utils/breakable_cuda_graph/breakable_cuda_graph.py:284 | PR #22392<br>sgl-kernel/python/sgl_kernel/gemm.py<br>python/sglang/srt/layers/quantization/fp8_utils.py | Matches an open upstream path (36.5% related GPU time). Open SGLang PR replaces nvjet FP8 GEMM with CUTLASS to remove memset bubbles and extra copies. |
