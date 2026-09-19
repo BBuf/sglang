@@ -1,0 +1,377 @@
+{
+  "rows": [
+    {
+      "group": "r1",
+      "arm": "a1",
+      "label": "rope-r1-a1",
+      "engine_e2e_s": 20.352704796008766,
+      "generation_stage_s": 20.319421930005774,
+      "client_e2e_s": 22.43,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "e8d68ce11f1bc1e880112da35606e8b1fd93db99"
+    },
+    {
+      "group": "r1",
+      "arm": "b1",
+      "label": "rope-r1-b1",
+      "engine_e2e_s": 19.333793873956893,
+      "generation_stage_s": 19.297774492995813,
+      "client_e2e_s": 19.86,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "853522eff16a7294d9a4d2de21658dc260a9d2b6"
+    },
+    {
+      "group": "r1",
+      "arm": "b2",
+      "label": "rope-r1-b2",
+      "engine_e2e_s": 19.42229605198372,
+      "generation_stage_s": 19.386412552034017,
+      "client_e2e_s": 19.87,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "853522eff16a7294d9a4d2de21658dc260a9d2b6"
+    },
+    {
+      "group": "r1",
+      "arm": "a2",
+      "label": "rope-r1-a2",
+      "engine_e2e_s": 20.360226310032886,
+      "generation_stage_s": 20.326585892995354,
+      "client_e2e_s": 20.81,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "e8d68ce11f1bc1e880112da35606e8b1fd93db99"
+    },
+    {
+      "group": "r2",
+      "arm": "a1",
+      "label": "rope-r2-a1",
+      "engine_e2e_s": 20.358655709016602,
+      "generation_stage_s": 20.32519363099709,
+      "client_e2e_s": 20.83,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "e8d68ce11f1bc1e880112da35606e8b1fd93db99"
+    },
+    {
+      "group": "r2",
+      "arm": "b1",
+      "label": "rope-r2-b1",
+      "engine_e2e_s": 19.33308723999653,
+      "generation_stage_s": 19.29680420702789,
+      "client_e2e_s": 19.78,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "853522eff16a7294d9a4d2de21658dc260a9d2b6"
+    },
+    {
+      "group": "r2",
+      "arm": "b2",
+      "label": "rope-r2-b2",
+      "engine_e2e_s": 19.37431208702037,
+      "generation_stage_s": 19.33795671502594,
+      "client_e2e_s": 19.82,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "853522eff16a7294d9a4d2de21658dc260a9d2b6"
+    },
+    {
+      "group": "r2",
+      "arm": "a2",
+      "label": "rope-r2-a2",
+      "engine_e2e_s": 20.457218867028132,
+      "generation_stage_s": 20.424381704011466,
+      "client_e2e_s": 20.91,
+      "client_precision_s": 0.01,
+      "peak_gib": 35.68359375,
+      "source": "e8d68ce11f1bc1e880112da35606e8b1fd93db99"
+    }
+  ],
+  "groups": {
+    "r1": {
+      "engine_e2e_s": {
+        "baseline_mean": 20.356465553020826,
+        "candidate_mean": 19.378044962970307,
+        "reduction_pct": 4.806436498035993
+      },
+      "client_e2e_s": {
+        "baseline_mean": 21.619999999999997,
+        "candidate_mean": 19.865000000000002,
+        "reduction_pct": 8.11748381128583
+      },
+      "generation_stage_s": {
+        "baseline_mean": 20.323003911500564,
+        "candidate_mean": 19.342093522514915,
+        "reduction_pct": 4.826601388540608
+      }
+    },
+    "r2": {
+      "engine_e2e_s": {
+        "baseline_mean": 20.407937288022367,
+        "candidate_mean": 19.35369966350845,
+        "reduction_pct": 5.165821560676099
+      },
+      "client_e2e_s": {
+        "baseline_mean": 20.869999999999997,
+        "candidate_mean": 19.8,
+        "reduction_pct": 5.126976521322457
+      },
+      "generation_stage_s": {
+        "baseline_mean": 20.37478766750428,
+        "candidate_mean": 19.317380461026914,
+        "reduction_pct": 5.189782704650325
+      }
+    }
+  },
+  "primary_group": "r2",
+  "r1_client_note": "A1 has higher non-worker overhead; r2 repeats after CPU trace analysis and GPU microbench jobs complete.",
+  "definitions": {
+    "engine_e2e": "Worker request duration through output conversion, before SAVE_OUTPUTS; excludes model loading, warmup, and PNG/file transport.",
+    "client_e2e": "Native log_generation_timer around scheduler request, result processing and output save; rounded to 0.01s in original log.",
+    "generation_stage": "SenseNovaU1GenerationStage, including prefixes, denoising and pixel denormalization; not an isolated denoise timer."
+  },
+  "image_comparison": {
+    "png_byte_identical": true,
+    "decoded_pixels_identical": true,
+    "max_abs_pixel_difference": 0,
+    "ssim": 1.0,
+    "psnr_db": "infinity",
+    "images": [
+      {
+        "label": "rope-r1-a1",
+        "file": "sensenova-u1-rope-r1-a1.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r1-b1",
+        "file": "sensenova-u1-rope-r1-b1.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r1-b2",
+        "file": "sensenova-u1-rope-r1-b2.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r1-a2",
+        "file": "sensenova-u1-rope-r1-a2.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r2-a1",
+        "file": "sensenova-u1-rope-r2-a1.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r2-b1",
+        "file": "sensenova-u1-rope-r2-b1.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r2-b2",
+        "file": "sensenova-u1-rope-r2-b2.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r2-a2",
+        "file": "sensenova-u1-rope-r2-a2.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "profile-controls-profile",
+        "file": "sensenova-u1-profile-controls-profile.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      },
+      {
+        "label": "rope-r1-profile",
+        "file": "sensenova-u1-rope-r1-profile.png",
+        "mode": "RGB",
+        "size": [
+          2048,
+          2048
+        ],
+        "png_sha256": "db4ed33a284477a5d9f5f6ac7d53f959799c2c1844150fcf753164f431c5aafc",
+        "decoded_sha256": "83395b3ecff13816a19d5fd119381cc0258d3f358e4593e1ae664ef36f59112f"
+      }
+    ]
+  },
+  "profile": {
+    "baseline": {
+      "source": "/campaign/artifacts/sensenova-u1/profile-controls-profile/traces/40ae0478-5103-473b-a570-87c535c86e5e-full_stages-global-rank0.trace.json.gz",
+      "slice": "/campaign/artifacts/sensenova-u1/profile-controls-profile/traces/denoise-step2.trace.json.gz",
+      "source_event_count": 7874458,
+      "slice_event_count": 154447,
+      "start_us": 6875968585645.927,
+      "end_us": 6875969002884.714,
+      "window_ms": 417.238787109375,
+      "boundary_rule": "First completed cudaStreamSynchronize in Qwen3Model forwards 6 and 8; two prefixes precede 50 pairs of CFG forwards",
+      "left_boundary": {
+        "ph": "X",
+        "cat": "cuda_runtime",
+        "name": "cudaStreamSynchronize",
+        "pid": 26334,
+        "tid": 26334,
+        "ts": 6875968585637.675,
+        "dur": 8.252,
+        "args": {
+          "External id": 133875,
+          "cbid": 131,
+          "correlation": 455074
+        }
+      },
+      "right_boundary": {
+        "ph": "X",
+        "cat": "cuda_runtime",
+        "name": "cudaStreamSynchronize",
+        "pid": 26334,
+        "tid": 26334,
+        "ts": 6875969002876.09,
+        "dur": 8.624,
+        "args": {
+          "External id": 177549,
+          "cbid": 131,
+          "correlation": 603866
+        }
+      },
+      "crossing_kernel_count": 0,
+      "rope_calls": 252,
+      "rope_kernel_count": 2520,
+      "rope_gpu_ms": 28.999470999999993,
+      "rope_kernels": [
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+          "count": 1008,
+          "total_ms": 11.440726999999995
+        },
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<2u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 504,
+          "total_ms": 8.643462999999992
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+          "count": 504,
+          "total_ms": 6.241486000000009
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "count": 504,
+          "total_ms": 2.673794999999997
+        }
+      ]
+    },
+    "candidate": {
+      "source": "/campaign/artifacts/sensenova-u1/rope-r1-profile/traces/fbc3de7e-df00-46ca-b49c-e692b76beb03-full_stages-global-rank0.trace.json.gz",
+      "slice": "/campaign/artifacts/sensenova-u1/rope-r1-profile/traces/denoise-step2.trace.json.gz",
+      "source_event_count": 9287665,
+      "slice_event_count": 182452,
+      "start_us": 6876923173783.329,
+      "end_us": 6876923615263.616,
+      "window_ms": 441.480287109375,
+      "boundary_rule": "First completed cudaStreamSynchronize in Qwen3Model forwards 6 and 8; two prefixes precede 50 pairs of CFG forwards",
+      "left_boundary": {
+        "ph": "X",
+        "cat": "cuda_runtime",
+        "name": "cudaStreamSynchronize",
+        "pid": 27729,
+        "tid": 27729,
+        "ts": 6876923173765.582,
+        "dur": 17.747,
+        "args": {
+          "External id": 135555,
+          "cbid": 131,
+          "correlation": 412238
+        }
+      },
+      "right_boundary": {
+        "ph": "X",
+        "cat": "cuda_runtime",
+        "name": "cudaStreamSynchronize",
+        "pid": 27729,
+        "tid": 27729,
+        "ts": 6876923615255.985,
+        "dur": 7.631,
+        "args": {
+          "External id": 179901,
+          "cbid": 131,
+          "correlation": 543894
+        }
+      },
+      "crossing_kernel_count": 0,
+      "rope_calls": 252,
+      "rope_kernel_count": 840,
+      "rope_gpu_ms": 5.6672959999999915,
+      "rope_kernels": [
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "count": 336,
+          "total_ms": 2.8611169999999975
+        },
+        {
+          "name": "_rope_rotate_half_kernel",
+          "count": 504,
+          "total_ms": 2.806178999999994
+        }
+      ]
+    }
+  },
+  "bcg": "Native pipeline disabled; eager fallback rejected",
+  "qualified": true,
+  "submitted_pr": null
+}

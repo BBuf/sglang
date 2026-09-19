@@ -1,0 +1,54 @@
+{
+  "source": "/campaign/artifacts/sensenova-u1/rope-r1-profile/traces/fbc3de7e-df00-46ca-b49c-e692b76beb03-full_stages-global-rank0.trace.json.gz",
+  "slice": "/campaign/artifacts/sensenova-u1/rope-r1-profile/traces/denoise-step2.trace.json.gz",
+  "source_event_count": 9287665,
+  "slice_event_count": 182452,
+  "start_us": 6876923173783.329,
+  "end_us": 6876923615263.616,
+  "window_ms": 441.480287109375,
+  "boundary_rule": "First completed cudaStreamSynchronize in Qwen3Model forwards 6 and 8; two prefixes precede 50 pairs of CFG forwards",
+  "left_boundary": {
+    "ph": "X",
+    "cat": "cuda_runtime",
+    "name": "cudaStreamSynchronize",
+    "pid": 27729,
+    "tid": 27729,
+    "ts": 6876923173765.582,
+    "dur": 17.747,
+    "args": {
+      "External id": 135555,
+      "cbid": 131,
+      "correlation": 412238
+    }
+  },
+  "right_boundary": {
+    "ph": "X",
+    "cat": "cuda_runtime",
+    "name": "cudaStreamSynchronize",
+    "pid": 27729,
+    "tid": 27729,
+    "ts": 6876923615255.985,
+    "dur": 7.631,
+    "args": {
+      "External id": 179901,
+      "cbid": 131,
+      "correlation": 543894
+    }
+  },
+  "crossing_kernel_count": 0,
+  "rope_calls": 252,
+  "rope_kernel_count": 840,
+  "rope_gpu_ms": 5.6672959999999915,
+  "rope_kernels": [
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+      "count": 336,
+      "total_ms": 2.8611169999999975
+    },
+    {
+      "name": "_rope_rotate_half_kernel",
+      "count": 504,
+      "total_ms": 2.806178999999994
+    }
+  ]
+}

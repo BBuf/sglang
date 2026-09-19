@@ -1,0 +1,64 @@
+{
+  "source": "/campaign/artifacts/sensenova-u1/profile-controls-profile/traces/40ae0478-5103-473b-a570-87c535c86e5e-full_stages-global-rank0.trace.json.gz",
+  "slice": "/campaign/artifacts/sensenova-u1/profile-controls-profile/traces/denoise-step2.trace.json.gz",
+  "source_event_count": 7874458,
+  "slice_event_count": 154447,
+  "start_us": 6875968585645.927,
+  "end_us": 6875969002884.714,
+  "window_ms": 417.238787109375,
+  "boundary_rule": "First completed cudaStreamSynchronize in Qwen3Model forwards 6 and 8; two prefixes precede 50 pairs of CFG forwards",
+  "left_boundary": {
+    "ph": "X",
+    "cat": "cuda_runtime",
+    "name": "cudaStreamSynchronize",
+    "pid": 26334,
+    "tid": 26334,
+    "ts": 6875968585637.675,
+    "dur": 8.252,
+    "args": {
+      "External id": 133875,
+      "cbid": 131,
+      "correlation": 455074
+    }
+  },
+  "right_boundary": {
+    "ph": "X",
+    "cat": "cuda_runtime",
+    "name": "cudaStreamSynchronize",
+    "pid": 26334,
+    "tid": 26334,
+    "ts": 6875969002876.09,
+    "dur": 8.624,
+    "args": {
+      "External id": 177549,
+      "cbid": 131,
+      "correlation": 603866
+    }
+  },
+  "crossing_kernel_count": 0,
+  "rope_calls": 252,
+  "rope_kernel_count": 2520,
+  "rope_gpu_ms": 28.999470999999993,
+  "rope_kernels": [
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      "count": 1008,
+      "total_ms": 11.440726999999995
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<2u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+      "count": 504,
+      "total_ms": 8.643462999999992
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+      "count": 504,
+      "total_ms": 6.241486000000009
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::neg_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+      "count": 504,
+      "total_ms": 2.673794999999997
+    }
+  ]
+}
