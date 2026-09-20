@@ -1,0 +1,45 @@
+diff --git a/python/sglang/multimodal_gen/runtime/models/sensenova_u1/neo_unify/modeling_qwen3.py b/python/sglang/multimodal_gen/runtime/models/sensenova_u1/neo_unify/modeling_qwen3.py
+index af7c09de3f..289fd181c1 100644
+--- a/python/sglang/multimodal_gen/runtime/models/sensenova_u1/neo_unify/modeling_qwen3.py
++++ b/python/sglang/multimodal_gen/runtime/models/sensenova_u1/neo_unify/modeling_qwen3.py
+@@ -29,7 +29,6 @@ from transformers.processing_utils import Unpack
+ from transformers.utils import TransformersKwargs, can_return_tuple
+ from transformers.utils.deprecation import deprecate_kwarg
+ 
+-from sglang.multimodal_gen.runtime.platforms import current_platform
+ from sglang.srt.layers.layernorm import RMSNorm
+ 
+ from .transformers_compat import (
+@@ -347,7 +346,6 @@ def make_qwen3_rms_norm(hidden_size: int, eps: float) -> RMSNorm:
+         hidden_size,
+         eps=eps,
+         cast_x_before_out_mul=True,
+-        force_native=not current_platform.is_npu(),
+     )
+ 
+ 
+diff --git a/python/sglang/multimodal_gen/test/unit/test_sensenova_u1.py b/python/sglang/multimodal_gen/test/unit/test_sensenova_u1.py
+index 793ca6d8fb..917da42be8 100644
+--- a/python/sglang/multimodal_gen/test/unit/test_sensenova_u1.py
++++ b/python/sglang/multimodal_gen/test/unit/test_sensenova_u1.py
+@@ -380,18 +380,12 @@ def test_sensenova_u1_npu_fia_checks_operator_availability(monkeypatch, availabl
+     assert npu_fia_available() is available
+ 
+ 
+-@pytest.mark.parametrize(
+-    ("is_npu", "uses_native"),
+-    [(False, True), (True, False)],
+-)
+-def test_sensenova_u1_shared_rmsnorm_dispatch(monkeypatch, is_npu, uses_native):
+-    monkeypatch.setattr(current_platform, "is_npu", lambda: is_npu)
+-
++def test_sensenova_u1_shared_rmsnorm_uses_framework_dispatch():
+     norm = make_qwen3_rms_norm(64, eps=1e-6)
+ 
+     assert isinstance(norm, RMSNorm)
+     assert norm.cast_x_before_out_mul
+-    assert (norm._forward_method == norm.forward_native) is uses_native
++    assert norm._forward_method != norm.forward_native
+ 
+ 
+ @torch.no_grad()

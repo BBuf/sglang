@@ -1,0 +1,128 @@
+[
+  {
+    "number": 40378,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-fasth3-swiglu",
+    "before": "8ec2a429aeb1999303165925859b47a30a7aaf37",
+    "after": "0d20d0ce2d12cb824a8e3e360d89b95d91c56c38",
+    "returncode": 0,
+    "patch_files": [
+      "python/sglang/multimodal_gen/runtime/models/dits/minimax_h3.py",
+      "test/registered/kernels/ops/diffusion/test_minimax_h3_swiglu.py"
+    ],
+    "patch_file_delta": "pr-40378-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  },
+  {
+    "number": 40384,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-longcat-gelu-cat",
+    "before": "10410a20b6d2716c1489a3132dc79c775dc297bb",
+    "after": "15d83b34e132bed6867f62ec36bc75af46211aab",
+    "returncode": 0,
+    "patch_files": [
+      "python/sglang/kernels/jit/csrc/diffusion/gelu_tanh_cat.cuh",
+      "python/sglang/kernels/ops/diffusion/__init__.py",
+      "python/sglang/kernels/ops/diffusion/activation/gelu_tanh_cat_jit.py",
+      "python/sglang/multimodal_gen/configs/sample/longcat_image.py",
+      "python/sglang/multimodal_gen/runtime/breakable_cuda_graph/model_padders/longcat_image.py",
+      "python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py",
+      "python/sglang/multimodal_gen/runtime/server_args/server_args.py",
+      "python/sglang/multimodal_gen/test/unit/test_diffusion_bcg_padding.py",
+      "python/sglang/multimodal_gen/test/unit/test_longcat_image_edit_config.py",
+      "test/registered/kernels/benchmark/diffusion/bench_gelu_tanh_cat.py",
+      "test/registered/kernels/ops/diffusion/test_gelu_tanh_cat.py",
+      "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+    ],
+    "patch_file_delta": "pr-40384-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  },
+  {
+    "number": 40386,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-cosmos3-edge",
+    "before": "1430010b7b20f9d56d6d6d4caeebee1980e28c73",
+    "after": "25ff8a99305c14fce39b73f4b5219eb6ef07bc7a",
+    "returncode": 0,
+    "patch_files": [
+      "python/sglang/kernels/ops/activation/activation.py",
+      "python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py",
+      "python/sglang/multimodal_gen/test/unit/test_cosmos3.py",
+      "test/registered/kernels/benchmark/diffusion/bench_cosmos3_edge_fusions.py",
+      "test/registered/kernels/ops/diffusion/test_cosmos3_edge_fusions.py"
+    ],
+    "patch_file_delta": "pr-40386-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  },
+  {
+    "number": 40388,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-sana-video",
+    "before": "64e1e8a92a1942f058b9d6c175f5342198b34709",
+    "after": "47706b7a833d22efb452d49e15bc4ccbf182fe7d",
+    "returncode": 0,
+    "patch_files": [
+      "docs/docs/sglang-diffusion/fused_kernels.mdx",
+      "python/sglang/multimodal_gen/runtime/models/dits/sana.py",
+      "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+      "test/registered/kernels/benchmark/diffusion/bench_sana_video_eager_conv.py",
+      "test/registered/kernels/ops/diffusion/test_sana_video_eager_conv.py"
+    ],
+    "patch_file_delta": "pr-40388-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  },
+  {
+    "number": 40405,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-longlive2-wan-norm",
+    "before": "be05e7e6c24252db11458621f2d06f3969be08d1",
+    "after": "5fa8ec4ae7efb10ee6e7dc936370023cdca0b444",
+    "returncode": 0,
+    "patch_files": [
+      "docs/docs/sglang-diffusion/fused_kernels.mdx",
+      "python/sglang/kernels/jit/csrc/elementwise/wan_norm_silu_post.cuh",
+      "python/sglang/kernels/ops/diffusion/__init__.py",
+      "python/sglang/kernels/ops/diffusion/norm/wan_norm_silu_post.py",
+      "python/sglang/multimodal_gen/runtime/models/vaes/wan_vae_cuda_opt.py",
+      "test/registered/kernels/benchmark/diffusion/bench_wan_norm_silu_post.py",
+      "test/registered/kernels/ops/diffusion/test_wan_norm_silu_post.py"
+    ],
+    "patch_file_delta": "pr-40405-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  },
+  {
+    "number": 40374,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-sensenova-rope",
+    "before": "c48ce299761ecf4d1db71501dd38c50edce9ed34",
+    "after": "241894bdd87f0670c69807f92145acecf08a9a2c",
+    "returncode": 0,
+    "patch_files": [
+      "python/sglang/multimodal_gen/configs/sample/sensenova_u1.py",
+      "python/sglang/multimodal_gen/runtime/models/sensenova_u1/neo_unify/modeling_qwen3.py",
+      "python/sglang/multimodal_gen/test/unit/test_sensenova_u1.py",
+      "test/registered/kernels/ops/diffusion/test_sensenova_rope.py"
+    ],
+    "patch_file_delta": "pr-40374-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  },
+  {
+    "number": 40425,
+    "repo": "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common/diffusion-h200-eight-pr-20260920/candidate-lingbot-current",
+    "before": "89b3700dbc9146727cbb368b6859f5a18e79ae66",
+    "after": "6eb19340a9e546e9a5aa867ce263d0241bb3c05e",
+    "returncode": 0,
+    "patch_files": [
+      "docs/docs/sglang-diffusion/fused_kernels.mdx",
+      "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "python/sglang/kernels/ops/diffusion/__init__.py",
+      "python/sglang/kernels/ops/diffusion/modulate/scale_shift_triton.py",
+      "python/sglang/multimodal_gen/runtime/models/dits/lingbot_world.py",
+      "test/registered/kernels/benchmark/diffusion/bench_lingbot_modulation.py",
+      "test/registered/kernels/ops/diffusion/test_lingbot_modulation.py"
+    ],
+    "patch_file_delta": "pr-40425-patch-file-followup.diff",
+    "benchmark_rerun": false,
+    "note": "Original performance/media evidence remains pinned to its measured head. This follow-up reruns targeted tests after merging main80da4432d085ed4d6166ef643d9fd2b829dbb0c5."
+  }
+]
