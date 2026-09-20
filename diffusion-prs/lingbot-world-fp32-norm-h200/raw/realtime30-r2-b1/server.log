@@ -1,0 +1,1356 @@
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-20 06:54:48] server_args: {"model_path": "robbyant/lingbot-world-v2-14b-causal-fast-diffusers", "model_subfolder": null, "model_variant": null, "model_id": null, "served_model_name": "robbyant/lingbot-world-v2-14b-causal-fast-diffusers", "backend": "auto", "attention_backend": null, "enable_attention_backend_autotune": false, "attention_backend_config": {}, "component_attention_backends": {}, "cache_dit_config": null, "nccl_port": null, "enable_nccl_nvls": false, "trust_remote_code": false, "revision": null, "num_gpus": 1, "performance_mode": "manual", "base_gpu_id": 0, "gpu_ids": null, "nnodes": 1, "node_rank": 0, "dist_init_addr": null, "tp_size": 1, "sp_degree": 1, "ulysses_degree": 1, "ring_degree": 1, "kv_gather_degree": 1, "sp_split_auto": false, "dp_size": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "encoder_parallel": "auto", "hsdp_replicate_dim": 1, "hsdp_shard_dim": 1, "dist_timeout": 3600, "scheduler_rpc_timeout": null, "pipeline_class_name": null, "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_alpha": null, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "component_weights_paths": {}, "component_direct_gpu_weight_loading": {}, "component_quantizations": {}, "component_precisions": {}, "component_quantization_ignored_layers": {}, "load_diffusion_decoder": false, "transformer_weights_path": null, "minimax_h3_adaln_cache_path": null, "minimax_h3_adaln_online": false, "minimax_h3_adaln_plan_width": 4, "minimax_h3_adaln_host_cache_gb": 8.0, "quantization": null, "quantization_ignored_layers": null, "lora_target_modules": null, "component_residency": null, "cpu_offload_components": null, "dit_cpu_offload": false, "direct_gpu_weight_loading": false, "dit_layerwise_offload": false, "layerwise_offload_components": null, "dit_offload_prefetch_size": 0.0, "dit_layerwise_resident_layers": 0.0, "dit_layerwise_residency_policy": "leading", "layerwise_prefetch_size": {}, "layerwise_resident_layers": {}, "layerwise_residency_policy": {}, "offload_during_compile": true, "text_encoder_cpu_offload": true, "image_encoder_cpu_offload": null, "vae_cpu_offload": false, "use_fsdp_inference": null, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": null, "comfyui_mode": false, "enable_torch_compile": false, "regional_compile": false, "enable_breakable_cuda_graph": false, "bcg_text_buckets": null, "enable_layerwise_nvtx_marker": false, "warmup_mode": "server", "warmup_resolutions": ["832x480"], "warmup_num_frames": 9, "warmup_steps": 1, "warmup_sampling_params": null, "disable_autocast": false, "master_port": 24305, "host": "127.0.0.1", "port": 24205, "enable_metrics": false, "webui": false, "webui_port": 12312, "scheduler_port": 5555, "scheduler_ports": [5555], "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "strict_ports": false, "output_path": "outputs/", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_downstream_wait_timeout": 1800, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_instance_id": 0, "disagg_max_slots_per_instance": 8, "disagg_transfer_redundancy": 1.25, "disagg_role_device": "auto", "disagg_transfer_backend": "auto", "disagg_transfer_pool_size": 268435456, "disagg_transfer_pin_memory": "auto", "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "pool_control_endpoint": null, "pool_control_advertised_endpoint": null, "log_level": "info", "log_requests": false, "log_requests_level": 2, "log_requests_format": "text", "log_requests_target": null, "uvicorn_access_log_exclude_prefixes": [], "enable_cache_report": false, "enable_trace": false, "otlp_traces_endpoint": "localhost:4317", "otlp_service_name": null, "srt_encoder_url": null, "srt_encoder_connect_timeout": 3.05, "srt_encoder_timeout": 100, "pe_server_url": null}
+[09-20 06:54:48] Starting server...
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-20 06:55:01] Scheduler (dp replica 0) bind at endpoint: tcp://127.0.0.1:5555
+[09-20 06:55:01] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/campaign/model-caches/lingbot-world-v2-cycle/sglang/torch_compile_cache/inductor TRITON_CACHE_DIR=/campaign/model-caches/lingbot-world-v2-cycle/sglang/torch_compile_cache/triton
+[09-20 06:55:01] Initializing distributed environment with world_size=1, device=cuda:0, timeout=3600
+[09-20 06:55:01] Setting distributed timeout to 3600 seconds
+[09-20 06:55:02] No pipeline_class_name specified, using model_index.json
+[09-20 06:55:03] Using pipeline from model_index.json: LingBotWorldCausalDMDPipeline
+[09-20 06:55:03] Loading pipeline modules...
+[09-20 06:55:03] Checking for cached model in Hugging Face Hub cache for robbyant/lingbot-world-v2-14b-causal-fast-diffusers...
+[09-20 06:55:03] Found complete model in cache at /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2
+[09-20 06:55:03] Model path: /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2
+[09-20 06:55:03] Diffusers version: 0.35.0.dev0
+[09-20 06:55:03] Loading pipeline modules from config: {'_class_name': 'LingBotWorldCausalDMDPipeline', '_diffusers_version': '0.35.0.dev0', 'boundary_ratio': 0.9, 'image_encoder': [None, None], 'image_processor': [None, None], 'scheduler': ['diffusers', 'UniPCMultistepScheduler'], 'text_encoder': ['transformers', 'UMT5EncoderModel'], 'tokenizer': ['transformers', 'T5TokenizerFast'], 'transformer': ['diffusers', 'CausalLingBotWorldTransformer3DModel'], 'transformer_2': [None, None], 'vae': ['diffusers', 'AutoencoderKLWan']}
+[09-20 06:55:03] MoE pipeline detected. Adding transformer_2 to self.required_config_modules...
+[09-20 06:55:03] Setting boundary ratio to 0.9
+[09-20 06:55:03] Loading required components: ['text_encoder', 'tokenizer', 'vae', 'transformer', 'scheduler', 'image_encoder', 'image_processor', 'transformer_2']
+[93m[09-20 06:55:03] Module image_encoder in model_index.json has null value, removing from required_config_modules[0;0m
+[93m[09-20 06:55:03] Module image_processor in model_index.json has null value, removing from required_config_modules[0;0m
+[93m[09-20 06:55:03] Module transformer_2 in model_index.json has null value, removing from required_config_modules[0;0m
+[09-20 06:55:03] Memory-aware component load order: ['transformer', 'text_encoder', 'vae', 'tokenizer', 'scheduler']
+Loading required modules:   0%|          | 0/5 [00:00<?, ?it/s][09-20 06:55:03] Loading transformer from /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2/transformer. avail mem: 138.65 GB
+[09-20 06:55:03] Loading CausalLingBotWorldTransformer3DModel from 8 safetensors file(s) , param_dtype: torch.bfloat16
+
+Loading safetensors checkpoint shards: 0%|          | 0/8[ALoading safetensors checkpoint shards: 100%|██████████| 8/8
+[09-20 06:55:12] Attention backends for transformer: fa
+[09-20 06:55:12] Loaded transformer: CausalLingBotWorldTransformer3DModel (sgl-diffusion version). model size: 40.4 GB, vram: 40.40 GB. avail GPU mem: 96.74 GB
+Loading required modules:  20%|██        | 1/5 [00:08<00:34,  8.72s/it][09-20 06:55:12] Loading text_encoder from /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2/text_encoder. avail mem: 96.74 GB
+
+Loading safetensors checkpoint shards: 0%|          | 0/3[A
+Loading safetensors checkpoint shards: 33%|███▎      | 1/3[A
+Loading safetensors checkpoint shards: 67%|██████▋   | 2/3[A
+Loading safetensors checkpoint shards: 100%|██████████| 3/3[ALoading safetensors checkpoint shards: 100%|██████████| 3/3
+[09-20 06:55:13] Loaded text_encoder: UMT5EncoderModel (sgl-diffusion version). model size: 10.58 GB, host pageable: 10.58 GB. avail GPU mem: 96.74 GB
+Loading required modules:  40%|████      | 2/5 [00:09<00:12,  4.23s/it][09-20 06:55:13] Loading vae from /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2/vae. avail mem: 96.74 GB
+[09-20 06:55:13] VAE: converted 61 Conv3d weights to channels_last_3d
+[09-20 06:55:13] Wan VAE: installed quality-gated fast path (29 RMSNorm+SiLU fusions, 3 channels_last upsamples).
+[09-20 06:55:13] Loaded vae: AutoencoderKLWan (sgl-diffusion version). model size: 0.47 GB, vram: 0.47 GB. avail GPU mem: 96.72 GB
+Loading required modules:  60%|██████    | 3/5 [00:10<00:04,  2.40s/it][09-20 06:55:13] Loading tokenizer from /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2/tokenizer. avail mem: 96.72 GB
+[09-20 06:55:15] Loaded tokenizer: T5Tokenizer (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 96.72 GB
+Loading required modules:  80%|████████  | 4/5 [00:11<00:02,  2.08s/it][09-20 06:55:15] Loading scheduler from /campaign/model-caches/lingbot-world-v2-cycle/huggingface/hub/models--robbyant--lingbot-world-v2-14b-causal-fast-diffusers/snapshots/59cccf49f2d2dd27418ae7a04b82b10868d455c2/scheduler. avail mem: 96.72 GB
+[09-20 06:55:15] Loaded scheduler: UniPCMultistepScheduler (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 96.72 GB
+Loading required modules: 100%|██████████| 5/5 [00:11<00:00,  2.33s/it]
+[09-20 06:55:15] Creating pipeline stages...
+[09-20 06:55:15] Using fa attention backend
+[09-20 06:55:15] Pipeline instantiated
+[09-20 06:55:15] Worker 0: Initialized device, model, and distributed environment.
+[09-20 06:55:15] Worker 0: Scheduler loop started.
+[09-20 06:55:15] Starting FastAPI server.
+[2026-09-20 06:55:15] [32mINFO[0m:     Started server process [[36m129264[0m]
+[2026-09-20 06:55:15] [32mINFO[0m:     Waiting for application startup.
+[09-20 06:55:15] ZMQ Broker is listening for offline jobs on tcp://127.0.0.1:24206
+[2026-09-20 06:55:15] [32mINFO[0m:     Application startup complete.
+[2026-09-20 06:55:15] [32mINFO[0m:     Uvicorn running on [1mhttp://127.0.0.1:24205[0m (Press CTRL+C to quit)
+[2026-09-20 06:55:15] [32mINFO[0m:     127.0.0.1:43048 - "[1mGET /health HTTP/1.1[0m" [32m200 OK[0m
+[2026-09-20 06:55:15] [32mINFO[0m:     127.0.0.1:43064 - "WebSocket /v1/realtime_video/generate" [accepted]
+[2026-09-20 06:55:15] [32mINFO[0m:     connection open
+[09-20 06:55:16] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:16] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 41
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/42e6e2b6a014410a83f67731fa52dd8a_first_frame
+                 save_output: False
+            output_file_path: outputs/42e6e2b6a014410a83f67731fa52dd8a_05bcd2f6b3844aa09d76c36764ca605b.mp4
+        
+[09-20 06:55:16] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:16] [RealtimeInputValidationStage] started...
+[09-20 06:55:16] [RealtimeInputValidationStage] finished in 0.0456 seconds
+[09-20 06:55:16] [RealtimeTextEncodingStage] started...
+[09-20 06:55:17] [RealtimeTextEncodingStage] finished in 1.8844 seconds
+[09-20 06:55:23] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:23] [AuxiliaryConditionEncodingStage] finished in 0.0575 seconds
+[09-20 06:55:23] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:24] [RealtimeImageVAEEncodingStage] finished in 1.0426 seconds
+[09-20 06:55:24] [DMDTimestepPreparationStage] started...
+[09-20 06:55:24] [DMDTimestepPreparationStage] finished in 0.0004 seconds
+[09-20 06:55:24] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:24] [RealtimeChunkLatentPreparationStage] finished in 0.0039 seconds
+[09-20 06:55:24] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:27] [LingBotWorldCausalDMDDenoisingStage] finished in 3.1930 seconds
+[09-20 06:55:27] [CausalVaeDecodingStage] started...
+[09-20 06:55:28] [CausalVaeDecodingStage] finished in 0.2867 seconds
+[09-20 06:55:28] realtime raw RGB frame batch timing: request_id=42e6e2b6a014410a83f67731fa52dd8a_05bcd2f6b3844aa09d76c36764ca605b chunk_idx=0 sample_to_frames=3.93ms frames_to_bytes=6.20ms total=10.16ms batches=1 frames=9 frame_shape=(480, 832, 3) raw_bytes=10782720 content_type=application/x-raw-rgb
+[09-20 06:55:28] Pixel data generated successfully in [92m12.10[0;0m seconds
+[09-20 06:55:28] Peak memory usage: 82744.00 MB
+[09-20 06:55:28] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:28] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 41
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/42e6e2b6a014410a83f67731fa52dd8a_first_frame
+                 save_output: False
+            output_file_path: outputs/42e6e2b6a014410a83f67731fa52dd8a_8fd3cbf13f7048adbe2f155d200b5fb2.mp4
+        
+[09-20 06:55:28] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:28] [RealtimeInputValidationStage] started...
+[09-20 06:55:28] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:28] [RealtimeTextEncodingStage] started...
+[09-20 06:55:28] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:28] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:28] [AuxiliaryConditionEncodingStage] finished in 0.0021 seconds
+[09-20 06:55:28] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:28] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:28] [DMDTimestepPreparationStage] started...
+[09-20 06:55:28] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:28] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:28] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:28] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:28] realtime chunk timing: session_id=42e6e2b6a014410a83f67731fa52dd8a request_id=42e6e2b6a014410a83f67731fa52dd8a_05bcd2f6b3844aa09d76c36764ca605b chunk_idx=0 event_id=None condition_kinds=['camera_actions'] request_prepare=2.03ms scheduler_forward=12100.75ms output_pace=0.00ms header_pack=0.02ms header_write=0.06ms raw_payload_build=2.53ms raw_write=4.65ms ws_write=4.71ms chunk_total=12111.20ms batches=1 frames=9 frame_shape=(480, 832, 3) raw_bytes=10782720 ws_payload_bytes=10783051 content_type=application/x-raw-rgb
+[09-20 06:55:29] [LingBotWorldCausalDMDDenoisingStage] finished in 1.5213 seconds
+[09-20 06:55:29] [CausalVaeDecodingStage] started...
+[09-20 06:55:29] [CausalVaeDecodingStage] finished in 0.3486 seconds
+[09-20 06:55:29] realtime raw RGB frame batch timing: request_id=42e6e2b6a014410a83f67731fa52dd8a_8fd3cbf13f7048adbe2f155d200b5fb2 chunk_idx=1 sample_to_frames=2.17ms frames_to_bytes=4.64ms total=6.84ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:30] Pixel data generated successfully in [92m1.91[0;0m seconds
+[09-20 06:55:30] Peak memory usage: 82744.00 MB
+[09-20 06:55:30] realtime chunk timing: session_id=42e6e2b6a014410a83f67731fa52dd8a request_id=42e6e2b6a014410a83f67731fa52dd8a_8fd3cbf13f7048adbe2f155d200b5fb2 chunk_idx=1 event_id=None condition_kinds=['camera_actions'] request_prepare=0.53ms scheduler_forward=1912.47ms output_pace=0.00ms header_pack=0.02ms header_write=0.03ms raw_payload_build=2.81ms raw_write=5.35ms ws_write=5.38ms chunk_total=1921.43ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:30] generation reached max chunks, session_id=42e6e2b6a014410a83f67731fa52dd8a, max_chunks=2
+[09-20 06:55:30] terminating session, session_id=42e6e2b6a014410a83f67731fa52dd8a
+[09-20 06:55:30] Realtime session release: session_id=42e6e2b6a014410a83f67731fa52dd8a released=True
+[2026-09-20 06:55:31] [32mINFO[0m:     127.0.0.1:39690 - "WebSocket /v1/realtime_video/generate" [accepted]
+[2026-09-20 06:55:31] [32mINFO[0m:     connection open
+[09-20 06:55:31] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:31] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_5a2e472de18e4a319df20319f72d1067.mp4
+        
+[09-20 06:55:31] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:31] [RealtimeInputValidationStage] started...
+[09-20 06:55:31] [RealtimeInputValidationStage] finished in 0.0386 seconds
+[09-20 06:55:31] [RealtimeTextEncodingStage] started...
+[09-20 06:55:31] [RealtimeTextEncodingStage] finished in 0.2384 seconds
+[09-20 06:55:31] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:31] [AuxiliaryConditionEncodingStage] finished in 0.0017 seconds
+[09-20 06:55:31] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:31] [RealtimeImageVAEEncodingStage] finished in 0.3775 seconds
+[09-20 06:55:31] [DMDTimestepPreparationStage] started...
+[09-20 06:55:31] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:31] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:31] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:31] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:33] [LingBotWorldCausalDMDDenoisingStage] finished in 1.3965 seconds
+[09-20 06:55:33] [CausalVaeDecodingStage] started...
+[09-20 06:55:33] [CausalVaeDecodingStage] finished in 0.2712 seconds
+[09-20 06:55:33] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_5a2e472de18e4a319df20319f72d1067 chunk_idx=0 sample_to_frames=1.89ms frames_to_bytes=4.00ms total=5.91ms batches=1 frames=9 frame_shape=(480, 832, 3) raw_bytes=10782720 content_type=application/x-raw-rgb
+[09-20 06:55:33] Pixel data generated successfully in [92m2.57[0;0m seconds
+[09-20 06:55:33] Peak memory usage: 82744.00 MB
+[09-20 06:55:33] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:33] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_098838df6f5948db887306139186701b.mp4
+        
+[09-20 06:55:33] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:33] [RealtimeInputValidationStage] started...
+[09-20 06:55:33] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:33] [RealtimeTextEncodingStage] started...
+[09-20 06:55:33] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:33] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:33] [AuxiliaryConditionEncodingStage] finished in 0.0019 seconds
+[09-20 06:55:33] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:33] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:33] [DMDTimestepPreparationStage] started...
+[09-20 06:55:33] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:33] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:33] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:33] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:33] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_5a2e472de18e4a319df20319f72d1067 chunk_idx=0 event_id=None condition_kinds=['camera_actions'] request_prepare=0.51ms scheduler_forward=2570.30ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.03ms raw_write=4.86ms ws_write=4.89ms chunk_total=2577.60ms batches=1 frames=9 frame_shape=(480, 832, 3) raw_bytes=10782720 ws_payload_bytes=10783051 content_type=application/x-raw-rgb
+[09-20 06:55:35] [LingBotWorldCausalDMDDenoisingStage] finished in 1.5289 seconds
+[09-20 06:55:35] [CausalVaeDecodingStage] started...
+[09-20 06:55:35] [CausalVaeDecodingStage] finished in 0.3483 seconds
+[09-20 06:55:35] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_098838df6f5948db887306139186701b chunk_idx=1 sample_to_frames=1.29ms frames_to_bytes=2.11ms total=3.42ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:35] Pixel data generated successfully in [92m1.91[0;0m seconds
+[09-20 06:55:35] Peak memory usage: 82744.00 MB
+[09-20 06:55:35] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:35] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_368e2d1fdde145ac9dc184946a92bd98.mp4
+        
+[09-20 06:55:35] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:35] [RealtimeInputValidationStage] started...
+[09-20 06:55:35] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:35] [RealtimeTextEncodingStage] started...
+[09-20 06:55:35] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:35] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:35] [AuxiliaryConditionEncodingStage] finished in 0.0020 seconds
+[09-20 06:55:35] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:35] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:35] [DMDTimestepPreparationStage] started...
+[09-20 06:55:35] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:35] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:35] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:35] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:35] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_098838df6f5948db887306139186701b chunk_idx=1 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=1906.09ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.60ms raw_write=5.63ms ws_write=5.67ms chunk_total=1914.72ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:37] [LingBotWorldCausalDMDDenoisingStage] finished in 1.6708 seconds
+[09-20 06:55:37] [CausalVaeDecodingStage] started...
+[09-20 06:55:37] [CausalVaeDecodingStage] finished in 0.3479 seconds
+[09-20 06:55:37] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_368e2d1fdde145ac9dc184946a92bd98 chunk_idx=2 sample_to_frames=1.29ms frames_to_bytes=2.10ms total=3.43ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:37] Pixel data generated successfully in [92m2.05[0;0m seconds
+[09-20 06:55:37] Peak memory usage: 82744.00 MB
+[09-20 06:55:37] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:37] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_8c9ec85e7d2d4c91960846aeae27aa2a.mp4
+        
+[09-20 06:55:37] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:37] [RealtimeInputValidationStage] started...
+[09-20 06:55:37] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:37] [RealtimeTextEncodingStage] started...
+[09-20 06:55:37] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:37] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:37] [AuxiliaryConditionEncodingStage] finished in 0.0021 seconds
+[09-20 06:55:37] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:37] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:37] [DMDTimestepPreparationStage] started...
+[09-20 06:55:37] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:37] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:37] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:37] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:37] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_368e2d1fdde145ac9dc184946a92bd98 chunk_idx=2 event_id=None condition_kinds=['camera_actions'] request_prepare=0.48ms scheduler_forward=2048.52ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.54ms raw_write=5.81ms ws_write=5.85ms chunk_total=2057.29ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:39] [LingBotWorldCausalDMDDenoisingStage] finished in 1.8161 seconds
+[09-20 06:55:39] [CausalVaeDecodingStage] started...
+[09-20 06:55:39] [CausalVaeDecodingStage] finished in 0.3483 seconds
+[09-20 06:55:39] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_8c9ec85e7d2d4c91960846aeae27aa2a chunk_idx=3 sample_to_frames=1.31ms frames_to_bytes=2.09ms total=3.43ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:39] Pixel data generated successfully in [92m2.19[0;0m seconds
+[09-20 06:55:39] Peak memory usage: 82744.00 MB
+[09-20 06:55:39] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:39] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_8a7fef16b71e4e16a98b1cde4c668312.mp4
+        
+[09-20 06:55:39] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:39] [RealtimeInputValidationStage] started...
+[09-20 06:55:39] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:39] [RealtimeTextEncodingStage] started...
+[09-20 06:55:39] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:39] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:39] [AuxiliaryConditionEncodingStage] finished in 0.0022 seconds
+[09-20 06:55:39] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:39] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:39] [DMDTimestepPreparationStage] started...
+[09-20 06:55:39] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:39] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:39] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:39] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:39] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_8c9ec85e7d2d4c91960846aeae27aa2a chunk_idx=3 event_id=None condition_kinds=['camera_actions'] request_prepare=0.47ms scheduler_forward=2189.27ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.45ms raw_write=4.53ms ws_write=4.56ms chunk_total=2196.62ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:41] [LingBotWorldCausalDMDDenoisingStage] finished in 1.9508 seconds
+[09-20 06:55:41] [CausalVaeDecodingStage] started...
+[09-20 06:55:42] [CausalVaeDecodingStage] finished in 0.3476 seconds
+[09-20 06:55:42] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_8a7fef16b71e4e16a98b1cde4c668312 chunk_idx=4 sample_to_frames=1.26ms frames_to_bytes=2.16ms total=3.45ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:42] Pixel data generated successfully in [92m2.32[0;0m seconds
+[09-20 06:55:42] Peak memory usage: 82744.00 MB
+[09-20 06:55:42] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:42] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_764aad33c6e941c3be39f46c2f2ac52c.mp4
+        
+[09-20 06:55:42] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:42] [RealtimeInputValidationStage] started...
+[09-20 06:55:42] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:42] [RealtimeTextEncodingStage] started...
+[09-20 06:55:42] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:42] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:42] [AuxiliaryConditionEncodingStage] finished in 0.0021 seconds
+[09-20 06:55:42] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:42] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:42] [DMDTimestepPreparationStage] started...
+[09-20 06:55:42] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:42] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:42] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:42] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:42] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_8a7fef16b71e4e16a98b1cde4c668312 chunk_idx=4 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2322.52ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.45ms raw_write=4.47ms ws_write=4.51ms chunk_total=2329.81ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:44] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0846 seconds
+[09-20 06:55:44] [CausalVaeDecodingStage] started...
+[09-20 06:55:44] [CausalVaeDecodingStage] finished in 0.3475 seconds
+[09-20 06:55:44] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_764aad33c6e941c3be39f46c2f2ac52c chunk_idx=5 sample_to_frames=2.23ms frames_to_bytes=3.74ms total=5.99ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:44] Pixel data generated successfully in [92m2.46[0;0m seconds
+[09-20 06:55:44] Peak memory usage: 82744.00 MB
+[09-20 06:55:44] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:44] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_0ca557fd190f47ccbe753cc57fe6ecdd.mp4
+        
+[09-20 06:55:44] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:44] [RealtimeInputValidationStage] started...
+[09-20 06:55:44] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:44] [RealtimeTextEncodingStage] started...
+[09-20 06:55:44] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:44] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:44] [AuxiliaryConditionEncodingStage] finished in 0.0022 seconds
+[09-20 06:55:44] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:44] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:44] [DMDTimestepPreparationStage] started...
+[09-20 06:55:44] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:44] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:44] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:44] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:44] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_764aad33c6e941c3be39f46c2f2ac52c chunk_idx=5 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2460.58ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.43ms raw_write=4.35ms ws_write=4.38ms chunk_total=2467.76ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:46] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0884 seconds
+[09-20 06:55:46] [CausalVaeDecodingStage] started...
+[09-20 06:55:46] [CausalVaeDecodingStage] finished in 0.3466 seconds
+[09-20 06:55:46] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_0ca557fd190f47ccbe753cc57fe6ecdd chunk_idx=6 sample_to_frames=1.28ms frames_to_bytes=2.08ms total=3.40ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:47] Pixel data generated successfully in [92m2.46[0;0m seconds
+[09-20 06:55:47] Peak memory usage: 82744.00 MB
+[09-20 06:55:47] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:47] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_693ed3fdce3149d88b73cb75479293d7.mp4
+        
+[09-20 06:55:47] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:47] [RealtimeInputValidationStage] started...
+[09-20 06:55:47] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:47] [RealtimeTextEncodingStage] started...
+[09-20 06:55:47] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:47] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:47] [AuxiliaryConditionEncodingStage] finished in 0.0024 seconds
+[09-20 06:55:47] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:47] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:47] [DMDTimestepPreparationStage] started...
+[09-20 06:55:47] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_0ca557fd190f47ccbe753cc57fe6ecdd chunk_idx=6 event_id=None condition_kinds=['camera_actions'] request_prepare=0.47ms scheduler_forward=2463.69ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.45ms raw_write=4.42ms ws_write=4.45ms chunk_total=2470.93ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:47] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:47] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:47] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:47] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:49] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0907 seconds
+[09-20 06:55:49] [CausalVaeDecodingStage] started...
+[09-20 06:55:49] [CausalVaeDecodingStage] finished in 0.3478 seconds
+[09-20 06:55:49] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_693ed3fdce3149d88b73cb75479293d7 chunk_idx=7 sample_to_frames=1.28ms frames_to_bytes=2.12ms total=3.42ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:49] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:55:49] Peak memory usage: 82744.00 MB
+[09-20 06:55:49] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:49] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_2ca8b25cf6154e60b41f14510e3b6c01.mp4
+        
+[09-20 06:55:49] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:49] [RealtimeInputValidationStage] started...
+[09-20 06:55:49] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:49] [RealtimeTextEncodingStage] started...
+[09-20 06:55:49] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:49] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:49] [AuxiliaryConditionEncodingStage] finished in 0.0024 seconds
+[09-20 06:55:49] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:49] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:49] [DMDTimestepPreparationStage] started...
+[09-20 06:55:49] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:49] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:49] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:49] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_693ed3fdce3149d88b73cb75479293d7 chunk_idx=7 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2465.75ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.56ms raw_write=4.57ms ws_write=4.60ms chunk_total=2473.27ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:49] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:51] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0936 seconds
+[09-20 06:55:51] [CausalVaeDecodingStage] started...
+[09-20 06:55:51] [CausalVaeDecodingStage] finished in 0.3478 seconds
+[09-20 06:55:51] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_2ca8b25cf6154e60b41f14510e3b6c01 chunk_idx=8 sample_to_frames=1.28ms frames_to_bytes=2.09ms total=3.40ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:51] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:55:51] Peak memory usage: 82744.00 MB
+[09-20 06:55:51] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:51] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_80388ff4add448d49f65a12df77308f6.mp4
+        
+[09-20 06:55:51] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:51] [RealtimeInputValidationStage] started...
+[09-20 06:55:51] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:51] [RealtimeTextEncodingStage] started...
+[09-20 06:55:51] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:51] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:51] [AuxiliaryConditionEncodingStage] finished in 0.0024 seconds
+[09-20 06:55:51] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:51] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:51] [DMDTimestepPreparationStage] started...
+[09-20 06:55:51] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:51] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:51] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:51] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_2ca8b25cf6154e60b41f14510e3b6c01 chunk_idx=8 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2470.26ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.43ms raw_write=4.44ms ws_write=4.48ms chunk_total=2477.51ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:51] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:54] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0961 seconds
+[09-20 06:55:54] [CausalVaeDecodingStage] started...
+[09-20 06:55:54] [CausalVaeDecodingStage] finished in 0.3478 seconds
+[09-20 06:55:54] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_80388ff4add448d49f65a12df77308f6 chunk_idx=9 sample_to_frames=2.67ms frames_to_bytes=3.78ms total=6.48ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:54] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:55:54] Peak memory usage: 82744.00 MB
+[09-20 06:55:54] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:54] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_e3ea149e72e04771bc469ed8bdf6610e.mp4
+        
+[09-20 06:55:54] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:54] [RealtimeInputValidationStage] started...
+[09-20 06:55:54] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:54] [RealtimeTextEncodingStage] started...
+[09-20 06:55:54] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:54] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:54] [AuxiliaryConditionEncodingStage] finished in 0.0024 seconds
+[09-20 06:55:54] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:54] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:54] [DMDTimestepPreparationStage] started...
+[09-20 06:55:54] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:54] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:54] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:54] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_80388ff4add448d49f65a12df77308f6 chunk_idx=9 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2475.82ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.66ms ws_write=4.69ms chunk_total=2483.29ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:54] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:56] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0973 seconds
+[09-20 06:55:56] [CausalVaeDecodingStage] started...
+[09-20 06:55:56] [CausalVaeDecodingStage] finished in 0.3473 seconds
+[09-20 06:55:56] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_e3ea149e72e04771bc469ed8bdf6610e chunk_idx=10 sample_to_frames=1.28ms frames_to_bytes=2.09ms total=3.40ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:56] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:55:56] Peak memory usage: 82744.00 MB
+[09-20 06:55:56] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:56] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_27c350d79510447da25d9fdf8cd87fbe.mp4
+        
+[09-20 06:55:56] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:56] [RealtimeInputValidationStage] started...
+[09-20 06:55:56] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:56] [RealtimeTextEncodingStage] started...
+[09-20 06:55:56] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:56] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:56] [AuxiliaryConditionEncodingStage] finished in 0.0024 seconds
+[09-20 06:55:56] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:56] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:56] [DMDTimestepPreparationStage] started...
+[09-20 06:55:56] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:56] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:56] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:56] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:55:56] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_e3ea149e72e04771bc469ed8bdf6610e chunk_idx=10 event_id=None condition_kinds=['camera_actions'] request_prepare=0.45ms scheduler_forward=2468.50ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.46ms ws_write=4.49ms chunk_total=2475.75ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:59] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1015 seconds
+[09-20 06:55:59] [CausalVaeDecodingStage] started...
+[09-20 06:55:59] [CausalVaeDecodingStage] finished in 0.3479 seconds
+[09-20 06:55:59] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_27c350d79510447da25d9fdf8cd87fbe chunk_idx=11 sample_to_frames=1.25ms frames_to_bytes=2.05ms total=3.33ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:55:59] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:55:59] Peak memory usage: 82744.00 MB
+[09-20 06:55:59] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:55:59] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_5f040bd5374e4ade9cb9fede25276238.mp4
+        
+[09-20 06:55:59] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:55:59] [RealtimeInputValidationStage] started...
+[09-20 06:55:59] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:55:59] [RealtimeTextEncodingStage] started...
+[09-20 06:55:59] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:59] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:55:59] [AuxiliaryConditionEncodingStage] finished in 0.0024 seconds
+[09-20 06:55:59] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:55:59] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:55:59] [DMDTimestepPreparationStage] started...
+[09-20 06:55:59] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:55:59] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_27c350d79510447da25d9fdf8cd87fbe chunk_idx=11 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2477.30ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.47ms raw_write=4.47ms ws_write=4.50ms chunk_total=2484.59ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:55:59] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:55:59] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:55:59] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:01] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0999 seconds
+[09-20 06:56:01] [CausalVaeDecodingStage] started...
+[09-20 06:56:01] [CausalVaeDecodingStage] finished in 0.3472 seconds
+[09-20 06:56:01] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_5f040bd5374e4ade9cb9fede25276238 chunk_idx=12 sample_to_frames=1.30ms frames_to_bytes=2.09ms total=3.42ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:01] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:01] Peak memory usage: 82744.00 MB
+[09-20 06:56:01] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:01] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_6397a4b6c08c44ae8734d503f8ad1fa5.mp4
+        
+[09-20 06:56:01] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:01] [RealtimeInputValidationStage] started...
+[09-20 06:56:01] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:01] [RealtimeTextEncodingStage] started...
+[09-20 06:56:01] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:01] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:01] [AuxiliaryConditionEncodingStage] finished in 0.0026 seconds
+[09-20 06:56:01] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:01] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:01] [DMDTimestepPreparationStage] started...
+[09-20 06:56:01] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:01] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:01] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:01] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_5f040bd5374e4ade9cb9fede25276238 chunk_idx=12 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2477.79ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.52ms ws_write=4.55ms chunk_total=2485.11ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:01] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:03] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0996 seconds
+[09-20 06:56:03] [CausalVaeDecodingStage] started...
+[09-20 06:56:04] [CausalVaeDecodingStage] finished in 0.3476 seconds
+[09-20 06:56:04] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_6397a4b6c08c44ae8734d503f8ad1fa5 chunk_idx=13 sample_to_frames=1.27ms frames_to_bytes=2.08ms total=3.38ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:04] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:04] Peak memory usage: 82744.00 MB
+[09-20 06:56:04] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:04] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_d4153c19d21b441e9eacf32f2e03a4b0.mp4
+        
+[09-20 06:56:04] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:04] [RealtimeInputValidationStage] started...
+[09-20 06:56:04] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:04] [RealtimeTextEncodingStage] started...
+[09-20 06:56:04] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:04] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:04] [AuxiliaryConditionEncodingStage] finished in 0.0026 seconds
+[09-20 06:56:04] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:04] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:04] [DMDTimestepPreparationStage] started...
+[09-20 06:56:04] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:04] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:04] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:04] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_6397a4b6c08c44ae8734d503f8ad1fa5 chunk_idx=13 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2475.76ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.44ms ws_write=4.47ms chunk_total=2483.00ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:04] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:06] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1025 seconds
+[09-20 06:56:06] [CausalVaeDecodingStage] started...
+[09-20 06:56:06] [CausalVaeDecodingStage] finished in 0.3475 seconds
+[09-20 06:56:06] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_d4153c19d21b441e9eacf32f2e03a4b0 chunk_idx=14 sample_to_frames=1.30ms frames_to_bytes=2.07ms total=3.41ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:06] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:06] Peak memory usage: 82744.00 MB
+[09-20 06:56:06] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:06] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_f2d60f256ea2470cbc07b3a77ddc89d5.mp4
+        
+[09-20 06:56:06] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:06] [RealtimeInputValidationStage] started...
+[09-20 06:56:06] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:06] [RealtimeTextEncodingStage] started...
+[09-20 06:56:06] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:06] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:06] [AuxiliaryConditionEncodingStage] finished in 0.0027 seconds
+[09-20 06:56:06] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:06] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:06] [DMDTimestepPreparationStage] started...
+[09-20 06:56:06] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:06] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:06] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:06] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_d4153c19d21b441e9eacf32f2e03a4b0 chunk_idx=14 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2473.05ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.45ms raw_write=4.60ms ws_write=4.63ms chunk_total=2480.46ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:06] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:08] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1028 seconds
+[09-20 06:56:08] [CausalVaeDecodingStage] started...
+[09-20 06:56:09] [CausalVaeDecodingStage] finished in 0.3477 seconds
+[09-20 06:56:09] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_f2d60f256ea2470cbc07b3a77ddc89d5 chunk_idx=15 sample_to_frames=1.28ms frames_to_bytes=2.05ms total=3.36ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:09] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:09] Peak memory usage: 82744.00 MB
+[09-20 06:56:09] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:09] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_a58c052231824394b530ca87a3ad5950.mp4
+        
+[09-20 06:56:09] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:09] [RealtimeInputValidationStage] started...
+[09-20 06:56:09] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:09] [RealtimeTextEncodingStage] started...
+[09-20 06:56:09] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:09] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:09] [AuxiliaryConditionEncodingStage] finished in 0.0028 seconds
+[09-20 06:56:09] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:09] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:09] [DMDTimestepPreparationStage] started...
+[09-20 06:56:09] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:09] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:09] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:09] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_f2d60f256ea2470cbc07b3a77ddc89d5 chunk_idx=15 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2478.83ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.42ms raw_write=4.49ms ws_write=4.53ms chunk_total=2486.12ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:09] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:11] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0980 seconds
+[09-20 06:56:11] [CausalVaeDecodingStage] started...
+[09-20 06:56:11] [CausalVaeDecodingStage] finished in 0.3475 seconds
+[09-20 06:56:11] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_a58c052231824394b530ca87a3ad5950 chunk_idx=16 sample_to_frames=1.28ms frames_to_bytes=2.71ms total=4.02ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:11] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:11] Peak memory usage: 82744.00 MB
+[09-20 06:56:11] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:11] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_4291428aee2b4128910b8605a274d1d5.mp4
+        
+[09-20 06:56:11] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:11] [RealtimeInputValidationStage] started...
+[09-20 06:56:11] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:11] [RealtimeTextEncodingStage] started...
+[09-20 06:56:11] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:11] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:11] [AuxiliaryConditionEncodingStage] finished in 0.0028 seconds
+[09-20 06:56:11] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:11] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:11] [DMDTimestepPreparationStage] started...
+[09-20 06:56:11] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:11] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_a58c052231824394b530ca87a3ad5950 chunk_idx=16 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2469.84ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.39ms ws_write=4.42ms chunk_total=2477.04ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:11] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:11] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:11] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:13] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1013 seconds
+[09-20 06:56:13] [CausalVaeDecodingStage] started...
+[09-20 06:56:14] [CausalVaeDecodingStage] finished in 0.3478 seconds
+[09-20 06:56:14] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_4291428aee2b4128910b8605a274d1d5 chunk_idx=17 sample_to_frames=1.29ms frames_to_bytes=2.07ms total=3.40ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:14] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:14] Peak memory usage: 82744.00 MB
+[09-20 06:56:14] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:14] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_7283f1e6cc1445f99f9b0662df9f318d.mp4
+        
+[09-20 06:56:14] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:14] [RealtimeInputValidationStage] started...
+[09-20 06:56:14] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:14] [RealtimeTextEncodingStage] started...
+[09-20 06:56:14] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:14] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:14] [AuxiliaryConditionEncodingStage] finished in 0.0028 seconds
+[09-20 06:56:14] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:14] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:14] [DMDTimestepPreparationStage] started...
+[09-20 06:56:14] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_4291428aee2b4128910b8605a274d1d5 chunk_idx=17 event_id=None condition_kinds=['camera_actions'] request_prepare=0.47ms scheduler_forward=2474.53ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.45ms raw_write=4.42ms ws_write=4.45ms chunk_total=2481.78ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:14] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:14] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:14] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:14] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:16] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0929 seconds
+[09-20 06:56:16] [CausalVaeDecodingStage] started...
+[09-20 06:56:16] [CausalVaeDecodingStage] finished in 0.3476 seconds
+[09-20 06:56:16] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_7283f1e6cc1445f99f9b0662df9f318d chunk_idx=18 sample_to_frames=1.32ms frames_to_bytes=2.45ms total=3.80ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:16] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:16] Peak memory usage: 82744.00 MB
+[09-20 06:56:16] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:16] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_aa5b2a5b4a504c8a92ad8df2cfe606f0.mp4
+        
+[09-20 06:56:16] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:16] [RealtimeInputValidationStage] started...
+[09-20 06:56:16] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:16] [RealtimeTextEncodingStage] started...
+[09-20 06:56:16] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:16] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:16] [AuxiliaryConditionEncodingStage] finished in 0.0030 seconds
+[09-20 06:56:16] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_7283f1e6cc1445f99f9b0662df9f318d chunk_idx=18 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2468.99ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.42ms ws_write=4.46ms chunk_total=2476.23ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:16] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:16] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:16] [DMDTimestepPreparationStage] started...
+[09-20 06:56:16] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:16] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:16] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:16] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:18] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0977 seconds
+[09-20 06:56:18] [CausalVaeDecodingStage] started...
+[09-20 06:56:19] [CausalVaeDecodingStage] finished in 0.3476 seconds
+[09-20 06:56:19] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_aa5b2a5b4a504c8a92ad8df2cfe606f0 chunk_idx=19 sample_to_frames=1.28ms frames_to_bytes=2.09ms total=3.41ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:19] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:19] Peak memory usage: 82744.00 MB
+[09-20 06:56:19] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:19] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_8f99b8ab2c134d828ecc09a2e786a3be.mp4
+        
+[09-20 06:56:19] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:19] [RealtimeInputValidationStage] started...
+[09-20 06:56:19] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:19] [RealtimeTextEncodingStage] started...
+[09-20 06:56:19] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:19] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:19] [AuxiliaryConditionEncodingStage] finished in 0.0031 seconds
+[09-20 06:56:19] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:19] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:19] [DMDTimestepPreparationStage] started...
+[09-20 06:56:19] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:19] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_aa5b2a5b4a504c8a92ad8df2cfe606f0 chunk_idx=19 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2469.74ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.46ms ws_write=4.49ms chunk_total=2477.02ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:19] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:19] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:19] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:21] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1035 seconds
+[09-20 06:56:21] [CausalVaeDecodingStage] started...
+[09-20 06:56:21] [CausalVaeDecodingStage] finished in 0.3482 seconds
+[09-20 06:56:21] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_8f99b8ab2c134d828ecc09a2e786a3be chunk_idx=20 sample_to_frames=2.29ms frames_to_bytes=3.54ms total=5.86ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:21] Pixel data generated successfully in [92m2.49[0;0m seconds
+[09-20 06:56:21] Peak memory usage: 82744.00 MB
+[09-20 06:56:21] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:21] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_6659ae38486f491fa83d4ffdf8789433.mp4
+        
+[09-20 06:56:21] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:21] [RealtimeInputValidationStage] started...
+[09-20 06:56:21] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:21] [RealtimeTextEncodingStage] started...
+[09-20 06:56:21] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:21] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:21] [AuxiliaryConditionEncodingStage] finished in 0.0030 seconds
+[09-20 06:56:21] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:21] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:21] [DMDTimestepPreparationStage] started...
+[09-20 06:56:21] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_8f99b8ab2c134d828ecc09a2e786a3be chunk_idx=20 event_id=None condition_kinds=['camera_actions'] request_prepare=0.45ms scheduler_forward=2486.15ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.60ms ws_write=4.64ms chunk_total=2493.54ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:21] [DMDTimestepPreparationStage] finished in 0.0003 seconds
+[09-20 06:56:21] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:21] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:21] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:23] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0987 seconds
+[09-20 06:56:23] [CausalVaeDecodingStage] started...
+[09-20 06:56:24] [CausalVaeDecodingStage] finished in 0.3480 seconds
+[09-20 06:56:24] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_6659ae38486f491fa83d4ffdf8789433 chunk_idx=21 sample_to_frames=1.28ms frames_to_bytes=4.06ms total=5.37ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:24] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:24] Peak memory usage: 82744.00 MB
+[09-20 06:56:24] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:24] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_2b48747edb40408bbd3ce311107c41d3.mp4
+        
+[09-20 06:56:24] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:24] [RealtimeInputValidationStage] started...
+[09-20 06:56:24] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:24] [RealtimeTextEncodingStage] started...
+[09-20 06:56:24] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:24] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:24] [AuxiliaryConditionEncodingStage] finished in 0.0031 seconds
+[09-20 06:56:24] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:24] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:24] [DMDTimestepPreparationStage] started...
+[09-20 06:56:24] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:24] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:24] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:24] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_6659ae38486f491fa83d4ffdf8789433 chunk_idx=21 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2475.10ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.56ms raw_write=4.87ms ws_write=4.91ms chunk_total=2482.90ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:24] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:26] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0969 seconds
+[09-20 06:56:26] [CausalVaeDecodingStage] started...
+[09-20 06:56:26] [CausalVaeDecodingStage] finished in 0.3481 seconds
+[09-20 06:56:26] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_2b48747edb40408bbd3ce311107c41d3 chunk_idx=22 sample_to_frames=1.27ms frames_to_bytes=2.08ms total=3.38ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:26] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:26] Peak memory usage: 82744.00 MB
+[09-20 06:56:26] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:26] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_335ba71052eb4b4dbbcfa62414dcfa0f.mp4
+        
+[09-20 06:56:26] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:26] [RealtimeInputValidationStage] started...
+[09-20 06:56:26] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:26] [RealtimeTextEncodingStage] started...
+[09-20 06:56:26] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:26] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:26] [AuxiliaryConditionEncodingStage] finished in 0.0032 seconds
+[09-20 06:56:26] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:26] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:26] [DMDTimestepPreparationStage] started...
+[09-20 06:56:26] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:26] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_2b48747edb40408bbd3ce311107c41d3 chunk_idx=22 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2474.49ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.49ms raw_write=4.51ms ws_write=4.54ms chunk_total=2481.86ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:26] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:26] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:26] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:28] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0997 seconds
+[09-20 06:56:28] [CausalVaeDecodingStage] started...
+[09-20 06:56:29] [CausalVaeDecodingStage] finished in 0.3476 seconds
+[09-20 06:56:29] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_335ba71052eb4b4dbbcfa62414dcfa0f chunk_idx=23 sample_to_frames=1.27ms frames_to_bytes=2.28ms total=3.57ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:29] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:29] Peak memory usage: 82744.00 MB
+[09-20 06:56:29] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:29] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_ca80224c1315447cbb75dc5dd3e17610.mp4
+        
+[09-20 06:56:29] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:29] [RealtimeInputValidationStage] started...
+[09-20 06:56:29] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:29] [RealtimeTextEncodingStage] started...
+[09-20 06:56:29] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:29] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:29] [AuxiliaryConditionEncodingStage] finished in 0.0032 seconds
+[09-20 06:56:29] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_335ba71052eb4b4dbbcfa62414dcfa0f chunk_idx=23 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2470.98ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.49ms raw_write=4.46ms ws_write=4.49ms chunk_total=2478.34ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:29] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:29] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:29] [DMDTimestepPreparationStage] started...
+[09-20 06:56:29] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:29] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:29] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:29] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:31] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0982 seconds
+[09-20 06:56:31] [CausalVaeDecodingStage] started...
+[09-20 06:56:31] [CausalVaeDecodingStage] finished in 0.3483 seconds
+[09-20 06:56:31] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_ca80224c1315447cbb75dc5dd3e17610 chunk_idx=24 sample_to_frames=2.28ms frames_to_bytes=3.19ms total=5.50ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:31] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:31] Peak memory usage: 82744.00 MB
+[09-20 06:56:31] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:31] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_e837a08769614551be28ce0717bb7f55.mp4
+        
+[09-20 06:56:31] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:31] [RealtimeInputValidationStage] started...
+[09-20 06:56:31] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:31] [RealtimeTextEncodingStage] started...
+[09-20 06:56:31] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:31] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:31] [AuxiliaryConditionEncodingStage] finished in 0.0032 seconds
+[09-20 06:56:31] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:31] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:31] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_ca80224c1315447cbb75dc5dd3e17610 chunk_idx=24 event_id=None condition_kinds=['camera_actions'] request_prepare=0.48ms scheduler_forward=2475.63ms output_pace=0.00ms header_pack=0.02ms header_write=0.03ms raw_payload_build=1.46ms raw_write=4.44ms ws_write=4.47ms chunk_total=2482.93ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:31] [DMDTimestepPreparationStage] started...
+[09-20 06:56:31] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:31] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:31] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:31] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:33] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0981 seconds
+[09-20 06:56:33] [CausalVaeDecodingStage] started...
+[09-20 06:56:34] [CausalVaeDecodingStage] finished in 0.3469 seconds
+[09-20 06:56:34] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_e837a08769614551be28ce0717bb7f55 chunk_idx=25 sample_to_frames=1.27ms frames_to_bytes=3.50ms total=4.80ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:34] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:34] Peak memory usage: 82744.00 MB
+[09-20 06:56:34] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:34] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_dd031d05bddd4591b704362977613e81.mp4
+        
+[09-20 06:56:34] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:34] [RealtimeInputValidationStage] started...
+[09-20 06:56:34] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:34] [RealtimeTextEncodingStage] started...
+[09-20 06:56:34] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:34] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:34] [AuxiliaryConditionEncodingStage] finished in 0.0034 seconds
+[09-20 06:56:34] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:34] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_e837a08769614551be28ce0717bb7f55 chunk_idx=25 event_id=None condition_kinds=['camera_actions'] request_prepare=0.45ms scheduler_forward=2475.97ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.39ms ws_write=4.43ms chunk_total=2483.18ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:34] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:34] [DMDTimestepPreparationStage] started...
+[09-20 06:56:34] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:34] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:34] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:34] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:36] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0970 seconds
+[09-20 06:56:36] [CausalVaeDecodingStage] started...
+[09-20 06:56:36] [CausalVaeDecodingStage] finished in 0.3477 seconds
+[09-20 06:56:36] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_dd031d05bddd4591b704362977613e81 chunk_idx=26 sample_to_frames=1.26ms frames_to_bytes=2.53ms total=3.81ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:36] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:36] Peak memory usage: 82744.00 MB
+[09-20 06:56:36] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:36] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_6327ad11c478496a980c951fe50ca892.mp4
+        
+[09-20 06:56:36] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:36] [RealtimeInputValidationStage] started...
+[09-20 06:56:36] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:36] [RealtimeTextEncodingStage] started...
+[09-20 06:56:36] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:36] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:36] [AuxiliaryConditionEncodingStage] finished in 0.0033 seconds
+[09-20 06:56:36] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:36] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:36] [DMDTimestepPreparationStage] started...
+[09-20 06:56:36] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_dd031d05bddd4591b704362977613e81 chunk_idx=26 event_id=None condition_kinds=['camera_actions'] request_prepare=0.47ms scheduler_forward=2469.07ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.42ms raw_write=4.48ms ws_write=4.52ms chunk_total=2476.36ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:36] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:36] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:36] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:36] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:38] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1020 seconds
+[09-20 06:56:38] [CausalVaeDecodingStage] started...
+[09-20 06:56:38] [CausalVaeDecodingStage] finished in 0.3473 seconds
+[09-20 06:56:38] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_6327ad11c478496a980c951fe50ca892 chunk_idx=27 sample_to_frames=1.37ms frames_to_bytes=2.14ms total=3.54ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:38] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:38] Peak memory usage: 82744.00 MB
+[09-20 06:56:38] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:38] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_fb2484ae046f4357866fb47e6291c6de.mp4
+        
+[09-20 06:56:38] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:38] [RealtimeInputValidationStage] started...
+[09-20 06:56:38] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:38] [RealtimeTextEncodingStage] started...
+[09-20 06:56:38] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:38] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:38] [AuxiliaryConditionEncodingStage] finished in 0.0034 seconds
+[09-20 06:56:38] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:38] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:38] [DMDTimestepPreparationStage] started...
+[09-20 06:56:38] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_6327ad11c478496a980c951fe50ca892 chunk_idx=27 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2478.33ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.45ms raw_write=4.54ms ws_write=4.58ms chunk_total=2485.69ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:38] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:38] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:38] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:38] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:41] [LingBotWorldCausalDMDDenoisingStage] finished in 2.0992 seconds
+[09-20 06:56:41] [CausalVaeDecodingStage] started...
+[09-20 06:56:41] [CausalVaeDecodingStage] finished in 0.3479 seconds
+[09-20 06:56:41] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_fb2484ae046f4357866fb47e6291c6de chunk_idx=28 sample_to_frames=1.28ms frames_to_bytes=2.09ms total=3.43ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:41] Pixel data generated successfully in [92m2.47[0;0m seconds
+[09-20 06:56:41] Peak memory usage: 82744.00 MB
+[09-20 06:56:41] Adjusting number of frames from 21 to 21 based on model
+[09-20 06:56:41] Sampling params:
+                       width: 832
+                      height: 480
+                  num_frames: 21
+                         fps: 16
+                      prompt: <redacted, len=62>
+                  neg_prompt: None
+                        seed: 42
+                 infer_steps: 4
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: inputs/uploads/e12669cd8da3491ab7d8a59f55a77550_first_frame
+                 save_output: False
+            output_file_path: outputs/e12669cd8da3491ab7d8a59f55a77550_10af57229c224fb2b6ae8396edb9eaaf.mp4
+        
+[09-20 06:56:41] Running pipeline stages: ['RealtimeInputValidationStage', 'RealtimeTextEncodingStage', 'AuxiliaryConditionEncodingStage', 'RealtimeImageVAEEncodingStage', 'DMDTimestepPreparationStage', 'RealtimeChunkLatentPreparationStage', 'LingBotWorldCausalDMDDenoisingStage', 'CausalVaeDecodingStage']
+[09-20 06:56:41] [RealtimeInputValidationStage] started...
+[09-20 06:56:41] [RealtimeInputValidationStage] finished in 0.0001 seconds
+[09-20 06:56:41] [RealtimeTextEncodingStage] started...
+[09-20 06:56:41] [RealtimeTextEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:41] [AuxiliaryConditionEncodingStage] started...
+[09-20 06:56:41] [AuxiliaryConditionEncodingStage] finished in 0.0035 seconds
+[09-20 06:56:41] [RealtimeImageVAEEncodingStage] started...
+[09-20 06:56:41] [RealtimeImageVAEEncodingStage] finished in 0.0000 seconds
+[09-20 06:56:41] [DMDTimestepPreparationStage] started...
+[09-20 06:56:41] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_fb2484ae046f4357866fb47e6291c6de chunk_idx=28 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2470.89ms output_pace=0.00ms header_pack=0.01ms header_write=0.03ms raw_payload_build=1.44ms raw_write=4.52ms ws_write=4.55ms chunk_total=2478.23ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:41] [DMDTimestepPreparationStage] finished in 0.0002 seconds
+[09-20 06:56:41] [RealtimeChunkLatentPreparationStage] started...
+[09-20 06:56:41] [RealtimeChunkLatentPreparationStage] finished in 0.0001 seconds
+[09-20 06:56:41] [LingBotWorldCausalDMDDenoisingStage] started...
+[09-20 06:56:43] [LingBotWorldCausalDMDDenoisingStage] finished in 2.1007 seconds
+[09-20 06:56:43] [CausalVaeDecodingStage] started...
+[09-20 06:56:43] [CausalVaeDecodingStage] finished in 0.3470 seconds
+[09-20 06:56:43] realtime raw RGB frame batch timing: request_id=e12669cd8da3491ab7d8a59f55a77550_10af57229c224fb2b6ae8396edb9eaaf chunk_idx=29 sample_to_frames=1.28ms frames_to_bytes=2.20ms total=3.51ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 content_type=application/x-raw-rgb
+[09-20 06:56:43] Pixel data generated successfully in [92m2.48[0;0m seconds
+[09-20 06:56:43] Peak memory usage: 82744.00 MB
+[09-20 06:56:43] realtime chunk timing: session_id=e12669cd8da3491ab7d8a59f55a77550 request_id=e12669cd8da3491ab7d8a59f55a77550_10af57229c224fb2b6ae8396edb9eaaf chunk_idx=29 event_id=None condition_kinds=['camera_actions'] request_prepare=0.46ms scheduler_forward=2476.69ms output_pace=0.00ms header_pack=0.02ms header_write=0.04ms raw_payload_build=1.65ms raw_write=5.23ms ws_write=5.27ms chunk_total=2484.16ms batches=1 frames=12 frame_shape=(480, 832, 3) raw_bytes=14376960 ws_payload_bytes=14377291 content_type=application/x-raw-rgb
+[09-20 06:56:43] generation reached max chunks, session_id=e12669cd8da3491ab7d8a59f55a77550, max_chunks=30
+[09-20 06:56:43] terminating session, session_id=e12669cd8da3491ab7d8a59f55a77550
+[09-20 06:56:43] Realtime session release: session_id=e12669cd8da3491ab7d8a59f55a77550 released=True
+[2026-09-20 06:56:46] [32mINFO[0m:     Shutting down
+[2026-09-20 06:56:46] [32mINFO[0m:     Waiting for application shutdown.
+[09-20 06:56:46] FastAPI app is shutting down...
+[2026-09-20 06:56:46] [32mINFO[0m:     Application shutdown complete.
+[2026-09-20 06:56:46] [32mINFO[0m:     Finished server process [[36m129264[0m]
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

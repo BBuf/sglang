@@ -1,0 +1,224 @@
+F...F............................................................. [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 20%]
+........................................................................ [ 27%]
+........................................................................ [ 34%]
+........................................................................ [ 41%]
+........................................................................ [ 48%]
+........................................................................ [ 55%]
+........................................................................ [ 62%]
+........................................................................ [ 69%]
+........................................................................ [ 76%]
+........................................................................ [ 83%]
+........................................................................ [ 90%]
+........................................................................ [ 97%]
+......................                                                   [100%]
+=================================== FAILURES ===================================
+______ TestLingBotModulation.test_camera_rounding_finite_bf16_and_replay _______
+
+self = <test_lingbot_modulation.TestLingBotModulation testMethod=test_camera_rounding_finite_bf16_and_replay>
+
+    @torch.inference_mode()
+    def test_camera_rounding_finite_bf16_and_replay(self):
+>       camera = LingBotWorldCamConditioner(64).cuda().bfloat16()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/registered/kernels/ops/diffusion/test_lingbot_modulation.py:86: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python/sglang/multimodal_gen/runtime/models/dits/lingbot_world.py:177: in __init__
+    self.cam_injector = MLP(dim, dim, dim, bias=True, act_type="silu")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+python/sglang/multimodal_gen/runtime/layers/mlp.py:45: in __init__
+    self.fc_in = ColumnParallelLinear(
+python/sglang/multimodal_gen/runtime/layers/linear.py:427: in __init__
+    self.tp_group = tp_group or get_tp_group()
+                                ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def get_tp_group() -> GroupCoordinator:
+>       assert _TP is not None, "tensor model parallel group is not initialized"
+               ^^^^^^^^^^^^^^^
+E       AssertionError: tensor model parallel group is not initialized
+
+python/sglang/multimodal_gen/runtime/distributed/parallel_state.py:217: AssertionError
+
+During handling of the above exception, another exception occurred:
+python/sglang/test/test_utils.py:2333: in _callTestMethod
+    retry(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fn = <function CustomTestCase._callTestMethod.<locals>.<lambda> at 0x7f812ce753a0>
+max_retry = 0, initial_delay = 2.0, max_delay = 60.0
+should_retry = <function <lambda> at 0x7f83ae3ed1c0>
+
+    def retry(
+        fn,
+        max_retry: int,
+        initial_delay: float = 2.0,
+        max_delay: float = 60.0,
+        should_retry: Callable[[Any], bool] = lambda e: True,
+    ):
+        for try_index in itertools.count():
+            try:
+                return fn()
+            except SkipTest:
+                # Do NOT retry skipped tests - used in CI and unittest
+                raise
+            except _ShouldStop:
+                # `unittest.case._ShouldStop` is raised by `subTest.__exit__`
+                # when a subtest fails/skips and `result.failfast` is True
+                # (CI invokes `python3 file.py -f`). It signals the outer
+                # `testPartExecutor` to stop the test method cleanly; do
+                # NOT retry, just propagate so unittest handles it.
+                raise
+            except Exception as e:
+                traceback.print_exc()
+    
+                if try_index >= max_retry:
+>                   raise Exception(f"retry() exceed maximum number of retries.")
+E                   Exception: retry() exceed maximum number of retries.
+
+python/sglang/srt/utils/common.py:3593: Exception
+----------------------------- Captured stdout call -----------------------------
+[CI Test Method] TestLingBotModulation.test_camera_rounding_finite_bf16_and_replay
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "/campaign/candidate-lingbot-modulation/python/sglang/srt/utils/common.py", line 3578, in retry
+    return fn()
+           ^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/test/test_utils.py", line 2334, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/case.py", line 589, in _callTestMethod
+    if method() is not None:
+       ^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/test/registered/kernels/ops/diffusion/test_lingbot_modulation.py", line 86, in test_camera_rounding_finite_bf16_and_replay
+    camera = LingBotWorldCamConditioner(64).cuda().bfloat16()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/models/dits/lingbot_world.py", line 177, in __init__
+    self.cam_injector = MLP(dim, dim, dim, bias=True, act_type="silu")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/layers/mlp.py", line 45, in __init__
+    self.fc_in = ColumnParallelLinear(
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/layers/linear.py", line 427, in __init__
+    self.tp_group = tp_group or get_tp_group()
+                                ^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/distributed/parallel_state.py", line 217, in get_tp_group
+    assert _TP is not None, "tensor model parallel group is not initialized"
+           ^^^^^^^^^^^^^^^
+AssertionError: tensor model parallel group is not initialized
+_____________ TestLingBotModulation.test_unsupported_and_gradients _____________
+
+self = <test_lingbot_modulation.TestLingBotModulation testMethod=test_unsupported_and_gradients>
+
+    def test_unsupported_and_gradients(self):
+        x = torch.randn(1, 17, 64, device="cuda", requires_grad=True)
+        row = torch.randn(1, 64, device="cuda")
+        self.assertIsNone(try_fused_modulate_fp32_to_bf16(x, row, row))
+>       camera = LingBotWorldCamConditioner(64).cuda()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test/registered/kernels/ops/diffusion/test_lingbot_modulation.py:232: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+python/sglang/multimodal_gen/runtime/models/dits/lingbot_world.py:177: in __init__
+    self.cam_injector = MLP(dim, dim, dim, bias=True, act_type="silu")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+python/sglang/multimodal_gen/runtime/layers/mlp.py:45: in __init__
+    self.fc_in = ColumnParallelLinear(
+python/sglang/multimodal_gen/runtime/layers/linear.py:427: in __init__
+    self.tp_group = tp_group or get_tp_group()
+                                ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def get_tp_group() -> GroupCoordinator:
+>       assert _TP is not None, "tensor model parallel group is not initialized"
+               ^^^^^^^^^^^^^^^
+E       AssertionError: tensor model parallel group is not initialized
+
+python/sglang/multimodal_gen/runtime/distributed/parallel_state.py:217: AssertionError
+
+During handling of the above exception, another exception occurred:
+python/sglang/test/test_utils.py:2333: in _callTestMethod
+    retry(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fn = <function CustomTestCase._callTestMethod.<locals>.<lambda> at 0x7f812cd49080>
+max_retry = 0, initial_delay = 2.0, max_delay = 60.0
+should_retry = <function <lambda> at 0x7f83ae3ed1c0>
+
+    def retry(
+        fn,
+        max_retry: int,
+        initial_delay: float = 2.0,
+        max_delay: float = 60.0,
+        should_retry: Callable[[Any], bool] = lambda e: True,
+    ):
+        for try_index in itertools.count():
+            try:
+                return fn()
+            except SkipTest:
+                # Do NOT retry skipped tests - used in CI and unittest
+                raise
+            except _ShouldStop:
+                # `unittest.case._ShouldStop` is raised by `subTest.__exit__`
+                # when a subtest fails/skips and `result.failfast` is True
+                # (CI invokes `python3 file.py -f`). It signals the outer
+                # `testPartExecutor` to stop the test method cleanly; do
+                # NOT retry, just propagate so unittest handles it.
+                raise
+            except Exception as e:
+                traceback.print_exc()
+    
+                if try_index >= max_retry:
+>                   raise Exception(f"retry() exceed maximum number of retries.")
+E                   Exception: retry() exceed maximum number of retries.
+
+python/sglang/srt/utils/common.py:3593: Exception
+----------------------------- Captured stdout call -----------------------------
+[CI Test Method] TestLingBotModulation.test_unsupported_and_gradients
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "/campaign/candidate-lingbot-modulation/python/sglang/srt/utils/common.py", line 3578, in retry
+    return fn()
+           ^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/test/test_utils.py", line 2334, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/case.py", line 589, in _callTestMethod
+    if method() is not None:
+       ^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/test/registered/kernels/ops/diffusion/test_lingbot_modulation.py", line 232, in test_unsupported_and_gradients
+    camera = LingBotWorldCamConditioner(64).cuda()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/models/dits/lingbot_world.py", line 177, in __init__
+    self.cam_injector = MLP(dim, dim, dim, bias=True, act_type="silu")
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/layers/mlp.py", line 45, in __init__
+    self.fc_in = ColumnParallelLinear(
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/layers/linear.py", line 427, in __init__
+    self.tp_group = tp_group or get_tp_group()
+                                ^^^^^^^^^^^^^^
+  File "/campaign/candidate-lingbot-modulation/python/sglang/multimodal_gen/runtime/distributed/parallel_state.py", line 217, in get_tp_group
+    assert _TP is not None, "tensor model parallel group is not initialized"
+           ^^^^^^^^^^^^^^^
+AssertionError: tensor model parallel group is not initialized
+=============================== warnings summary ===============================
+../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test/registered/kernels/ops/diffusion/test_lingbot_modulation.py::TestLingBotModulation::test_camera_rounding_finite_bf16_and_replay
+FAILED test/registered/kernels/ops/diffusion/test_lingbot_modulation.py::TestLingBotModulation::test_unsupported_and_gradients
+2 failed, 1022 passed, 15 warnings, 6 subtests passed in 72.11s (0:01:12)

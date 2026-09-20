@@ -1,0 +1,3327 @@
+{
+  "source": "/campaign/artifacts/lingbot-world-v2/current-profile/traces/5ad03280-2e86-486a-9945-c8c6746e7bdc-full_stages-global-rank0.trace.json.gz",
+  "scope_counts": {
+    "CausalLingBotWorldTransformer3DModel": 5,
+    "CausalLingBotWorldTransformerBlock": 200,
+    "FP32LayerNorm": 5,
+    "LingBotWorldCamConditioner": 199,
+    "ScaleResidualLayerNormScaleShift": 199,
+    "MLP": 405,
+    "MulAdd": 199,
+    "LingBotWorldCausalSelfAttention": 200,
+    "USPAttention": 199,
+    "RMSNorm": 688
+  },
+  "families": {
+    "model-outside-block": {
+      "kernels": 91,
+      "gpu_ms": 1.934623,
+      "kernel_types": [
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "count": 15,
+          "gpu_ms": 0.921152
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_2x1_v_bz_bias_TNT",
+          "count": 5,
+          "gpu_ms": 0.39244699999999993
+        },
+        {
+          "name": "nvjet_sm90_tst_256x144_64x4_2x1_v_bz_coopA_bias_TNT",
+          "count": 6,
+          "gpu_ms": 0.2336
+        },
+        {
+          "name": "kernel_cutlass_kernel_sglangkernelsopsdiffusionnormscale_residual_norm_cutedslScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_5120div5120div51201___tensorptrbf16_gmem__0",
+          "count": 4,
+          "gpu_ms": 0.205953
+        },
+        {
+          "name": "nvjet_sm90_tst_64x48_64x15_1x4_h_bz_bias_TNT",
+          "count": 4,
+          "gpu_ms": 0.06716699999999999
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul>)",
+          "count": 1,
+          "gpu_ms": 0.032192
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+          "count": 4,
+          "gpu_ms": 0.014752000000000001
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::sin_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::sin_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.00864
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::cos_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::cos_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.008544
+        },
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1, 16, 4>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 6,
+          "gpu_ms": 0.008512
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.008320000000000001
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::exp_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::exp_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.00592
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+          "count": 5,
+          "gpu_ms": 0.005824
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.005248
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.004992
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.004928
+        },
+        {
+          "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(long)#1}>::result_type*)",
+          "count": 5,
+          "gpu_ms": 0.0048319999999999995
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "count": 1,
+          "gpu_ms": 0.0016
+        }
+      ]
+    },
+    "MLP": {
+      "kernels": 1215,
+      "gpu_ms": 525.286895,
+      "kernel_types": [
+        {
+          "name": "nvjet_sm90_tst_256x144_64x4_2x1_v_bz_coopA_bias_TNT",
+          "count": 599,
+          "gpu_ms": 315.88941499999993
+        },
+        {
+          "name": "nvjet_sm90_tst_256x152_64x4_2x1_v_bz_coopA_bias_TNT",
+          "count": 199,
+          "gpu_ms": 185.83280700000003
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+          "count": 200,
+          "gpu_ms": 17.413983999999996
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+          "count": 205,
+          "gpu_ms": 5.9620809999999995
+        },
+        {
+          "name": "nvjet_sm90_tst_64x8_64x16_4x1_v_bz_bias_TNT",
+          "count": 10,
+          "gpu_ms": 0.12064000000000001
+        },
+        {
+          "name": "nvjet_sm90_tst_168x128_64x5_1x2_h_bz_coopA_bias_TNN",
+          "count": 2,
+          "gpu_ms": 0.067968
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::linear",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              5120,
+              5120
+            ],
+            [
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 796
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 597
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 597
+        },
+        {
+          "name": "aten::t",
+          "shapes": [
+            [
+              5120,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::transpose",
+          "shapes": [
+            [
+              5120,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              5120,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::addmm",
+          "shapes": [
+            [
+              5120
+            ],
+            [
+              4680,
+              5120
+            ],
+            [
+              5120,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::linear",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              13824,
+              5120
+            ],
+            [
+              13824
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::linear",
+          "shapes": [
+            [
+              1,
+              4680,
+              13824
+            ],
+            [
+              5120,
+              13824
+            ],
+            [
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::silu",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::t",
+          "shapes": [
+            [
+              13824,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::transpose",
+          "shapes": [
+            [
+              13824,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              13824,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::addmm",
+          "shapes": [
+            [
+              13824
+            ],
+            [
+              4680,
+              5120
+            ],
+            [
+              5120,
+              13824
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              13824
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::gelu",
+          "shapes": [
+            [
+              1,
+              4680,
+              13824
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            ""
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              13824
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::t",
+          "shapes": [
+            [
+              5120,
+              13824
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::transpose",
+          "shapes": [
+            [
+              5120,
+              13824
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              5120,
+              13824
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::addmm",
+          "shapes": [
+            [
+              5120
+            ],
+            [
+              4680,
+              13824
+            ],
+            [
+              13824,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 199
+        }
+      ]
+    },
+    "CausalLingBotWorldTransformerBlock": {
+      "kernels": 2497,
+      "gpu_ms": 586.731603,
+      "kernel_types": [
+        {
+          "name": "nvjet_sm90_tst_256x144_64x4_2x1_v_bz_coopA_bias_TNT",
+          "count": 995,
+          "gpu_ms": 342.671386
+        },
+        {
+          "name": "nvjet_sm90_tst_192x208_64x4_2x1_v_bz_coopB_bias_TNT",
+          "count": 200,
+          "gpu_ms": 206.19873599999997
+        },
+        {
+          "name": "_layernorm_modulate_kernel",
+          "count": 394,
+          "gpu_ms": 15.841288
+        },
+        {
+          "name": "_fused_scale_shift_4d_kernel",
+          "count": 199,
+          "gpu_ms": 7.981154000000004
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul>)",
+          "count": 199,
+          "gpu_ms": 6.551550999999996
+        },
+        {
+          "name": "nvjet_sm90_tst_168x128_64x5_1x2_h_bz_coopA_bias_TNN",
+          "count": 80,
+          "gpu_ms": 3.4587510000000004
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+          "count": 205,
+          "gpu_ms": 1.2498250000000004
+        },
+        {
+          "name": "void at::native::unrolled_elementwise_kernel<at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>, 4, TrivialOffsetCalculator<2, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<2>, at::native::memory::StoreWithCast<1> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>, TrivialOffsetCalculator<2, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<2>, at::native::memory::StoreWithCast<1>)",
+          "count": 200,
+          "gpu_ms": 0.9984969999999989
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "count": 5,
+          "gpu_ms": 0.812
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+          "count": 5,
+          "gpu_ms": 0.395264
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1})",
+          "count": 5,
+          "gpu_ms": 0.394016
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.171519
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctorOnSelf_add<float>, std::array<char*, 2ul> >(int, at::native::CUDAFunctorOnSelf_add<float>, std::array<char*, 2ul>)",
+          "count": 5,
+          "gpu_ms": 0.0076159999999999995
+        }
+      ]
+    },
+    "FP32LayerNorm": {
+      "kernels": 10,
+      "gpu_ms": 1.2287050000000002,
+      "kernel_types": [
+        {
+          "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1})",
+          "count": 5,
+          "gpu_ms": 0.8719040000000001
+        },
+        {
+          "name": "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<float, float, false>(int, float, float const*, float const*, float const*, float*, float*, float*)",
+          "count": 5,
+          "gpu_ms": 0.35680100000000003
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::to",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "count": 10
+        },
+        {
+          "name": "aten::layer_norm",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList",
+            "",
+            "",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 10
+        },
+        {
+          "name": "aten::empty",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 10
+        },
+        {
+          "name": "aten::empty",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            ""
+          ],
+          "count": 10
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 10
+        },
+        {
+          "name": "aten::native_layer_norm",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::contiguous",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::clone",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::copy_",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "float",
+            "Scalar"
+          ],
+          "count": 5
+        }
+      ]
+    },
+    "RMSNorm": {
+      "kernels": 639,
+      "gpu_ms": 15.815559999999998,
+      "kernel_types": [
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsrmsnormRMSNormKernel_object_at__tensorptrbf16gmemalign16oi645120i64div81_tensorptrbf16gmemalign16o51201_tensorptrbf16gmemalign16oi645120i64div81_0",
+          "count": 400,
+          "gpu_ms": 10.669733
+        },
+        {
+          "name": "kernel_cutlass_kernel_flashinfernormkernelsrmsnormRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64512051201_tensorptrbf16gmemalign16o51201_tensorptrbf16gmemalign128oi64512051201___T_0",
+          "count": 239,
+          "gpu_ms": 5.145826999999998
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::empty_strided",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar"
+          ],
+          "count": 639
+        },
+        {
+          "name": "aten::reshape",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 599
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 599
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 599
+        },
+        {
+          "name": "aten::_reshape_alias",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList"
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::reshape",
+          "shapes": [
+            [
+              1,
+              512,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 40
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              512,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 40
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              512,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 40
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              512,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 40
+        }
+      ]
+    },
+    "LingBotWorldCausalSelfAttention": {
+      "kernels": 879,
+      "gpu_ms": 170.61920999999998,
+      "kernel_types": [
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > >::Params)",
+          "count": 199,
+          "gpu_ms": 146.81724499999999
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "count": 200,
+          "gpu_ms": 12.954407
+        },
+        {
+          "name": "void flashinfer::BatchQKApplyRotaryPosIdsCosSinCacheHeadParallelismKernel<true, 128u, 8u, 16u, __nv_bfloat16, long>(__nv_bfloat16*, __nv_bfloat16*, __nv_bfloat16*, __nv_bfloat16*, float*, long*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long)",
+          "count": 200,
+          "gpu_ms": 10.589417000000005
+        },
+        {
+          "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+          "count": 200,
+          "gpu_ms": 0.19142300000000037
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<2, at::native::FillFunctor<long>, std::array<char*, 1ul> >(int, at::native::FillFunctor<long>, std::array<char*, 1ul>)",
+          "count": 80,
+          "gpu_ms": 0.06671799999999999
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 1200
+        },
+        {
+          "name": "aten::slice",
+          "shapes": [
+            [
+              1,
+              28080,
+              40,
+              128
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 800
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              1,
+              28080,
+              40,
+              128
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "count": 800
+        },
+        {
+          "name": "aten::reshape",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::type_as",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [
+              1,
+              4680,
+              40,
+              128
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::to",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::copy_",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::empty",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            ""
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::arange",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::empty",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "Scalar",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::arange",
+          "shapes": [
+            [],
+            [],
+            [],
+            [
+              0
+            ]
+          ],
+          "dtypes": [
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "long int"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::resize_",
+          "shapes": [
+            [
+              0
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "long int",
+            "ScalarList",
+            ""
+          ],
+          "count": 200
+        },
+        {
+          "name": "sglang::flashinfer_apply_rope_with_cos_sin_cache_inplace",
+          "shapes": [
+            [
+              4680
+            ],
+            [
+              4680,
+              5120
+            ],
+            [
+              4680,
+              5120
+            ],
+            [],
+            [
+              4680,
+              128
+            ],
+            []
+          ],
+          "dtypes": [
+            "long int",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "float",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "sgl_kernel::fwd",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar",
+            "",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::fill_",
+          "shapes": [
+            [
+              1
+            ],
+            []
+          ],
+          "dtypes": [
+            "long int",
+            "Scalar"
+          ],
+          "count": 80
+        }
+      ]
+    },
+    "LingBotWorldCamConditioner": {
+      "kernels": 199,
+      "gpu_ms": 9.175137,
+      "kernel_types": [
+        {
+          "name": "void sglang::modulate_scale_shift::(anonymous namespace)::modulate_scale_shift_kernel<__nv_bfloat16, 8>(__nv_bfloat16*, __nv_bfloat16 const*, __nv_bfloat16 const*, __nv_bfloat16 const*, long, long, long)",
+          "count": 199,
+          "gpu_ms": 9.175137
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 597
+        },
+        {
+          "name": "sglang::diffusion_modulate_scale_shift",
+          "shapes": [
+            [
+              4680,
+              1,
+              5120
+            ],
+            [
+              4680,
+              5120
+            ],
+            [
+              4680,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              4680,
+              1,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::empty_strided",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::view_as",
+          "shapes": [
+            [
+              4680,
+              1,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 199
+        }
+      ]
+    },
+    "USPAttention": {
+      "kernels": 199,
+      "gpu_ms": 21.92012000000002,
+      "kernel_types": [
+        {
+          "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > >::Params)",
+          "count": 199,
+          "gpu_ms": 21.92012000000002
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::empty",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            ""
+          ],
+          "count": 398
+        },
+        {
+          "name": "sgl_kernel::fwd",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [
+              1,
+              512,
+              40,
+              128
+            ],
+            [
+              1,
+              512,
+              40,
+              128
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar",
+            "",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 199
+        }
+      ]
+    },
+    "ScaleResidualLayerNormScaleShift": {
+      "kernels": 199,
+      "gpu_ms": 11.671485,
+      "kernel_types": [
+        {
+          "name": "kernel_cutlass_kernel_sglangkernelsopsdiffusionnormscale_residual_norm_cutedslScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_5120div5120div51201_tensorptrbf16_gmem_al_0",
+          "count": 199,
+          "gpu_ms": 11.671485
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::empty_strided",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar"
+          ],
+          "count": 398
+        },
+        {
+          "name": "sglang::fused_scale_residual_norm_scale_shift",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "float",
+            "float",
+            "",
+            "Scalar"
+          ],
+          "count": 199
+        }
+      ]
+    },
+    "MulAdd": {
+      "kernels": 199,
+      "gpu_ms": 8.039362000000002,
+      "kernel_types": [
+        {
+          "name": "_fused_scale_shift_4d_kernel",
+          "count": 199,
+          "gpu_ms": 8.039362000000002
+        }
+      ],
+      "ops": [
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 597
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::empty_strided",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::squeeze",
+          "shapes": [
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::reshape",
+          "shapes": [
+            [
+              1,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::reshape",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 199
+        }
+      ]
+    },
+    "block-direct": {
+      "ops": [
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 2782
+        },
+        {
+          "name": "aten::linear",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              5120,
+              5120
+            ],
+            [
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 1990
+        },
+        {
+          "name": "aten::narrow",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 1200
+        },
+        {
+          "name": "aten::slice",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 1200
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "count": 1200
+        },
+        {
+          "name": "aten::t",
+          "shapes": [
+            [
+              5120,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 1075
+        },
+        {
+          "name": "aten::transpose",
+          "shapes": [
+            [
+              5120,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 1075
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              5120,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 1075
+        },
+        {
+          "name": "aten::to",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "count": 1000
+        },
+        {
+          "name": "aten::addmm",
+          "shapes": [
+            [
+              5120
+            ],
+            [
+              4680,
+              5120
+            ],
+            [
+              5120,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 995
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 995
+        },
+        {
+          "name": "aten::empty_strided",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "Scalar"
+          ],
+          "count": 803
+        },
+        {
+          "name": "aten::squeeze",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 799
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 799
+        },
+        {
+          "name": "aten::unflatten",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList"
+          ],
+          "count": 799
+        },
+        {
+          "name": "aten::narrow",
+          "shapes": [
+            [
+              1,
+              4680,
+              15360
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 600
+        },
+        {
+          "name": "aten::slice",
+          "shapes": [
+            [
+              1,
+              4680,
+              15360
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 600
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              1,
+              4680,
+              15360
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "count": 600
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 593
+        },
+        {
+          "name": "aten::reshape",
+          "shapes": [
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 589
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 589
+        },
+        {
+          "name": "aten::linear",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              15360,
+              5120
+            ],
+            [
+              15360
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 400
+        },
+        {
+          "name": "aten::flatten",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              40,
+              128
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::expand",
+          "shapes": [
+            [
+              1,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList",
+            "Scalar"
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              1,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 398
+        },
+        {
+          "name": "aten::view_as",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 394
+        },
+        {
+          "name": "aten::to",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::_to_copy",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::copy_",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::add",
+          "shapes": [
+            [
+              1,
+              6,
+              5120
+            ],
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "float",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::chunk",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::split",
+          "shapes": [
+            [
+              1,
+              1,
+              6,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::t",
+          "shapes": [
+            [
+              15360,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::transpose",
+          "shapes": [
+            [
+              15360,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::as_strided",
+          "shapes": [
+            [
+              15360,
+              5120
+            ],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::addmm",
+          "shapes": [
+            [
+              15360
+            ],
+            [
+              4680,
+              5120
+            ],
+            [
+              5120,
+              15360
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              4680,
+              15360
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::chunk",
+          "shapes": [
+            [
+              1,
+              4680,
+              15360
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::split",
+          "shapes": [
+            [
+              1,
+              4680,
+              15360
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 200
+        },
+        {
+          "name": "aten::add",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 199
+        },
+        {
+          "name": "aten::linear",
+          "shapes": [
+            [
+              1,
+              512,
+              5120
+            ],
+            [
+              5120,
+              5120
+            ],
+            [
+              5120
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16"
+          ],
+          "count": 160
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              512,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 160
+        },
+        {
+          "name": "aten::addmm",
+          "shapes": [
+            [
+              5120
+            ],
+            [
+              512,
+              5120
+            ],
+            [
+              5120,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 80
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              512,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "count": 80
+        },
+        {
+          "name": "aten::unflatten",
+          "shapes": [
+            [
+              1,
+              512,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList"
+          ],
+          "count": 80
+        },
+        {
+          "name": "aten::detach",
+          "shapes": [
+            [
+              1,
+              512,
+              40,
+              128
+            ]
+          ],
+          "dtypes": [
+            "c10::BFloat16"
+          ],
+          "count": 80
+        },
+        {
+          "name": "aten::_to_copy",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::copy_",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::unflatten",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "ScalarList"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::add",
+          "shapes": [
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "long int",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::mul",
+          "shapes": [
+            [
+              1,
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              1,
+              1,
+              5120
+            ]
+          ],
+          "dtypes": [
+            "float",
+            "float"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::add",
+          "shapes": [
+            [
+              1,
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              1,
+              1,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "float",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::flatten",
+          "shapes": [
+            [
+              1,
+              1,
+              4680,
+              5120
+            ],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::view",
+          "shapes": [
+            [
+              1,
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "ScalarList"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::to",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::_to_copy",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "float",
+            "Scalar",
+            "",
+            "",
+            "",
+            "Scalar",
+            ""
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::copy_",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "float",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::contiguous",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::clone",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::empty_like",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::empty",
+          "shapes": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ],
+          "dtypes": [
+            "ScalarList",
+            "Scalar",
+            "Scalar",
+            "",
+            "",
+            "Scalar"
+          ],
+          "count": 5
+        },
+        {
+          "name": "aten::copy_",
+          "shapes": [
+            [
+              1,
+              4680,
+              5120
+            ],
+            [
+              1,
+              4680,
+              5120
+            ],
+            []
+          ],
+          "dtypes": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "count": 5
+        }
+      ]
+    }
+  },
+  "passes": [
+    {
+      "index": 0,
+      "launch_count": 1398,
+      "gpu_ms": 261.684325,
+      "wall_ms": 312.9452783203125,
+      "other_kernels_in_gpu_span": 0,
+      "cpu_scope_us": [
+        6916266294675.365,
+        180905.662
+      ]
+    },
+    {
+      "index": 1,
+      "launch_count": 1188,
+      "gpu_ms": 266.005781,
+      "wall_ms": 270.50462890625,
+      "other_kernels_in_gpu_span": 0,
+      "cpu_scope_us": [
+        6916266611482.69,
+        121984.072
+      ]
+    },
+    {
+      "index": 2,
+      "launch_count": 1188,
+      "gpu_ms": 276.697878,
+      "wall_ms": 280.599896484375,
+      "other_kernels_in_gpu_span": 0,
+      "cpu_scope_us": [
+        6916266734548.387,
+        245857.83
+      ]
+    },
+    {
+      "index": 3,
+      "launch_count": 1188,
+      "gpu_ms": 286.548321,
+      "wall_ms": 290.4818193359375,
+      "other_kernels_in_gpu_span": 0,
+      "cpu_scope_us": [
+        6916266984414.476,
+        290819.453
+      ]
+    },
+    {
+      "index": 4,
+      "launch_count": 1165,
+      "gpu_ms": 261.486395,
+      "wall_ms": 265.31797265625,
+      "other_kernels_in_gpu_span": 0,
+      "cpu_scope_us": [
+        6916267277237.897,
+        268992.277
+      ]
+    }
+  ]
+}
