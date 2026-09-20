@@ -1,0 +1,189 @@
+{
+  "qualified": false,
+  "groups": {
+    "v2": {
+      "1": {
+        "worker_s": {
+          "baseline": 14.2897717320011,
+          "candidate": 14.04906419251347,
+          "reduction_pct": 1.6844743499196735
+        },
+        "denoise_s": {
+          "baseline": 13.906798305019038,
+          "candidate": 13.660142354492564,
+          "reduction_pct": 1.7736357795413937
+        },
+        "client_saved_s": {
+          "baseline": 14.91,
+          "candidate": 14.225000000000001,
+          "reduction_pct": 4.594232059020786
+        }
+      },
+      "2": {
+        "worker_s": {
+          "baseline": 14.273052512988215,
+          "candidate": 14.040436487004627,
+          "reduction_pct": 1.6297566744879033
+        },
+        "denoise_s": {
+          "baseline": 13.900077789498027,
+          "candidate": 13.651339942996856,
+          "reduction_pct": 1.7894708955449201
+        },
+        "client_saved_s": {
+          "baseline": 14.45,
+          "candidate": 14.22,
+          "reduction_pct": 1.5916955017300949
+        }
+      }
+    },
+    "final": {
+      "1": {
+        "worker_s": {
+          "baseline": 14.261891691479832,
+          "candidate": 14.058035598514834,
+          "reduction_pct": 1.4293762522876508
+        },
+        "denoise_s": {
+          "baseline": 13.892660411976976,
+          "candidate": 13.654887610464357,
+          "reduction_pct": 1.7114994138029416
+        },
+        "client_saved_s": {
+          "baseline": 14.445,
+          "candidate": 14.25,
+          "reduction_pct": 1.349948078920038
+        }
+      },
+      "2": {
+        "worker_s": {
+          "baseline": 14.268267705017934,
+          "candidate": 14.033884906530147,
+          "reduction_pct": 1.642685736863192
+        },
+        "denoise_s": {
+          "baseline": 13.896811353013618,
+          "candidate": 13.655897588498192,
+          "reduction_pct": 1.7335902344474352
+        },
+        "client_saved_s": {
+          "baseline": 14.445,
+          "candidate": 14.21,
+          "reduction_pct": 1.6268605053651797
+        }
+      }
+    },
+    "outplace-v1": {
+      "1": {
+        "worker_s": {
+          "baseline": 14.265002112515504,
+          "candidate": 13.82074268447468,
+          "reduction_pct": 3.114331316159069
+        },
+        "denoise_s": {
+          "baseline": 13.892913639487233,
+          "candidate": 13.439162288501393,
+          "reduction_pct": 3.266063280607767
+        },
+        "client_saved_s": {
+          "baseline": 14.45,
+          "candidate": 14.0,
+          "reduction_pct": 3.114186851211065
+        }
+      },
+      "2": {
+        "worker_s": {
+          "baseline": 14.267451511026593,
+          "candidate": 13.822371113987174,
+          "reduction_pct": 3.1195507950066537
+        },
+        "denoise_s": {
+          "baseline": 13.896922637504758,
+          "candidate": 13.444557624519803,
+          "reduction_pct": 3.2551452201663778
+        },
+        "client_saved_s": {
+          "baseline": 14.445,
+          "candidate": 15.04,
+          "reduction_pct": -4.1190723433714105
+        }
+      }
+    }
+  },
+  "outputs": 45,
+  "high": [
+    {
+      "label": "outplace-v1-baseline-high",
+      "quality": "high",
+      "bcg": false,
+      "valid_request": true,
+      "pixel_exact": true,
+      "sha256": "76cfd40eb83feacb1b0292e171b9beb2a8cd7eb7fadc606cb1632e886d960ce6",
+      "ssim": 1.0,
+      "psnr_db": null,
+      "peak_memory_gib": 45.8359375,
+      "source": "80da4432d085ed4d6166ef643d9fd2b829dbb0c5"
+    },
+    {
+      "label": "outplace-v1-candidate-high",
+      "quality": "high",
+      "bcg": false,
+      "valid_request": true,
+      "pixel_exact": true,
+      "sha256": "76cfd40eb83feacb1b0292e171b9beb2a8cd7eb7fadc606cb1632e886d960ce6",
+      "ssim": 1.0,
+      "psnr_db": null,
+      "peak_memory_gib": 45.8359375,
+      "source": "4811f4d52aa2586412f699b3bb84ed184d76250a"
+    }
+  ],
+  "profiles": {
+    "baseline": {
+      "model_calls": 4,
+      "kernel_count": 1268,
+      "gpu_window_ms": 339.22407421875,
+      "gpu_union_ms": 335.5898740234375,
+      "cats": [
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<2u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 40,
+          "gpu_ms": 10.104390000000002
+        },
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 80,
+          "gpu_ms": 2.9752620000000003
+        }
+      ],
+      "fused": [],
+      "unchanged_fp32_cats": [
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1, 16, 4>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 2,
+          "gpu_ms": 0.004928
+        }
+      ]
+    },
+    "candidate": {
+      "model_calls": 4,
+      "kernel_count": 1108,
+      "gpu_window_ms": 327.499412109375,
+      "gpu_union_ms": 323.9701982421875,
+      "cats": [],
+      "fused": [
+        {
+          "name": "_joint_qkv_cat_kernel",
+          "count": 40,
+          "gpu_ms": 4.367754000000001
+        }
+      ],
+      "unchanged_fp32_cats": [
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1, 16, 4>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 2,
+          "gpu_ms": 0.00496
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "order": [
+    "baseline",
+    "candidate",
+    "candidate",
+    "baseline"
+  ],
+  "rounds": 2,
+  "saved_warmups_per_process": 1,
+  "measured_requests_per_process": 5,
+  "native_warmup_steps": 40,
+  "acceptance": "Each round arithmetic mean reduction >=1.5% in worker, native saved-client, and outer saved-client wall. No measured requests discarded.",
+  "motivation": "Oneshot combined round 2 retained a 16.08 s saved-client outlier (13.824 s worker). Builtin request warmup skips non-warmup replica peak-memory collective/reporting. Persistent full saved-request warmup tests steady-state behavior; cause of the outlier is not proven.",
+  "baseline": "80da4432d085ed4d6166ef643d9fd2b829dbb0c5",
+  "candidate": "4811f4d52aa2586412f699b3bb84ed184d76250a"
+}

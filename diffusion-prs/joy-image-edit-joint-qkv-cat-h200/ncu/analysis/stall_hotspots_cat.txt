@@ -1,0 +1,104 @@
+===== Stall hotspots for cat =====
+Total distinct (file, line) entries: 12
+
+Rank      Total File                            Line  Breakdown (stall: count)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+   0       4301 joint_qkv_cat_triton.py           47  long_scoreboard: 3659, mio_throttle: 364, lg_throttle: 177, wait: 47, selected: 33, not_selected: 11, math_pipe_throttle: 7, dispatch_stall: 3
+   1       3797 joint_qkv_cat_triton.py           55  drain: 1639, long_scoreboard: 1468, mio_throttle: 284, lg_throttle: 270, wait: 45, short_scoreboard: 30, branch_resolving: 26, selected: 20, not_selected: 9, no_instructions: 5, dispatch_stall: 1
+   2        758 joint_qkv_cat_triton.py           30  short_scoreboard: 588, mio_throttle: 163, selected: 5, not_selected: 2
+   3        578 joint_qkv_cat_triton.py           51  long_scoreboard: 510, mio_throttle: 33, lg_throttle: 33, wait: 2
+   4        117 joint_qkv_cat_triton.py           34  short_scoreboard: 37, wait: 35, selected: 23, not_selected: 12, math_pipe_throttle: 5, dispatch_stall: 2, no_instructions: 2, branch_resolving: 1
+   5         36 joint_qkv_cat_triton.py            9  no_instructions: 24, selected: 7, not_selected: 3, mio_throttle: 2
+   6         27 joint_qkv_cat_triton.py           28  short_scoreboard: 15, wait: 5, selected: 3, not_selected: 2, math_pipe_throttle: 1, dispatch_stall: 1
+   7         16 joint_qkv_cat_triton.py           50  wait: 10, selected: 4, math_pipe_throttle: 1, not_selected: 1
+   8         14 joint_qkv_cat_triton.py           46  wait: 8, selected: 5, not_selected: 1
+   9         13 joint_qkv_cat_triton.py           26  mio_throttle: 8, selected: 3, not_selected: 2
+  10          6 joint_qkv_cat_triton.py           29  math_pipe_throttle: 3, wait: 2, dispatch_stall: 1
+  11          3 joint_qkv_cat_triton.py           25  selected: 2, mio_throttle: 1
+
+
+===== Per-stall-type top lines =====
+
+--- long_scoreboard ---
+      3659  joint_qkv_cat_triton.py:47
+      1468  joint_qkv_cat_triton.py:55
+       510  joint_qkv_cat_triton.py:51
+
+--- short_scoreboard ---
+       588  joint_qkv_cat_triton.py:30
+        37  joint_qkv_cat_triton.py:34
+        30  joint_qkv_cat_triton.py:55
+        15  joint_qkv_cat_triton.py:28
+
+--- wait ---
+        47  joint_qkv_cat_triton.py:47
+        45  joint_qkv_cat_triton.py:55
+        35  joint_qkv_cat_triton.py:34
+        10  joint_qkv_cat_triton.py:50
+         8  joint_qkv_cat_triton.py:46
+         5  joint_qkv_cat_triton.py:28
+         2  joint_qkv_cat_triton.py:51
+         2  joint_qkv_cat_triton.py:29
+
+--- math_pipe_throttle ---
+         7  joint_qkv_cat_triton.py:47
+         5  joint_qkv_cat_triton.py:34
+         3  joint_qkv_cat_triton.py:29
+         1  joint_qkv_cat_triton.py:28
+         1  joint_qkv_cat_triton.py:50
+
+--- mio_throttle ---
+       364  joint_qkv_cat_triton.py:47
+       284  joint_qkv_cat_triton.py:55
+       163  joint_qkv_cat_triton.py:30
+        33  joint_qkv_cat_triton.py:51
+         8  joint_qkv_cat_triton.py:26
+         2  joint_qkv_cat_triton.py:9
+         1  joint_qkv_cat_triton.py:25
+
+--- lg_throttle ---
+       270  joint_qkv_cat_triton.py:55
+       177  joint_qkv_cat_triton.py:47
+        33  joint_qkv_cat_triton.py:51
+
+--- not_selected ---
+        12  joint_qkv_cat_triton.py:34
+        11  joint_qkv_cat_triton.py:47
+         9  joint_qkv_cat_triton.py:55
+         3  joint_qkv_cat_triton.py:9
+         2  joint_qkv_cat_triton.py:28
+         2  joint_qkv_cat_triton.py:30
+         2  joint_qkv_cat_triton.py:26
+         1  joint_qkv_cat_triton.py:46
+         1  joint_qkv_cat_triton.py:50
+
+--- dispatch_stall ---
+         3  joint_qkv_cat_triton.py:47
+         2  joint_qkv_cat_triton.py:34
+         1  joint_qkv_cat_triton.py:55
+         1  joint_qkv_cat_triton.py:28
+         1  joint_qkv_cat_triton.py:29
+
+--- drain ---
+      1639  joint_qkv_cat_triton.py:55
+
+--- no_instructions ---
+        24  joint_qkv_cat_triton.py:9
+         5  joint_qkv_cat_triton.py:55
+         2  joint_qkv_cat_triton.py:34
+
+--- selected ---
+        33  joint_qkv_cat_triton.py:47
+        23  joint_qkv_cat_triton.py:34
+        20  joint_qkv_cat_triton.py:55
+         7  joint_qkv_cat_triton.py:9
+         5  joint_qkv_cat_triton.py:30
+         5  joint_qkv_cat_triton.py:46
+         4  joint_qkv_cat_triton.py:50
+         3  joint_qkv_cat_triton.py:28
+         3  joint_qkv_cat_triton.py:26
+         2  joint_qkv_cat_triton.py:25
+
+--- branch_resolving ---
+        26  joint_qkv_cat_triton.py:55
+         1  joint_qkv_cat_triton.py:34

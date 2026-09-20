@@ -1,0 +1,36 @@
+# SGLang review corpus sweep
+
+- Filters: paths=['python/sglang/multimodal_gen/runtime/layers/layernorm.py'] queries=['out-of-place', 'partial mutation', 'bitwise', 'unverified'] category=- kind=-
+- Scanned **32639** threads in segments of 2000; matched **1** threads across **1** PRs, **1** human comments.
+
+## Aggregate over ALL matches
+- By type: inline_review_thread (1)
+- By category: performance (1), gpu-kernel (1), style-maintainability (1)
+- Top paths: python/sglang/multimodal_gen/runtime/layers/layernorm.py (1)
+- Top reviewers: DarkSharpness (1)
+- By PR year: 2025 (1)
+
+## Top 1 most relevant review threads (read and summarize these)
+
+### PR #14302: diffusion: rotary embedding kernel
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `performance, gpu-kernel, style-maintainability` | Hit terms: `out-of-place`
+- Link: https://github.com/sgl-project/sglang/pull/14302#discussion_r2653085681
+```diff
+@@ -458,7 +460,15 @@ def apply_qk_norm(
+         )
+         return q, k
+ 
+-    raise RuntimeError(
+-        "apply_qk_norm: fused inplace QK-norm is not applicable "
+-        "(expected CUDA, contiguous q/k, matching eps, and supported head_dim)"
+-    )
++    # Fallback: apply the PyTorch norms.
++    q_out = q_norm(q)
++    k_out = k_norm(k)
++
++    if allow_inplace and q.is_contiguous() and q_out...
+```
+- **DarkSharpness**: `allow_inplace` is just a performance hint, not a must (otherwise, it should be called `use_inplace`. if not applicable, simply use the fastest implementation is ok (i.e. out-of-place and without extra `copy_`)
+- _relevance: 7.2_
+

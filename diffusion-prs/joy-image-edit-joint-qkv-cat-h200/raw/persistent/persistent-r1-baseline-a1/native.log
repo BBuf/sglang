@@ -1,0 +1,17 @@
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Traceback (most recent call last):
+  File "/campaign/run-joy-persistent.py", line 96, in <module>
+    main()
+  File "/campaign/run-joy-persistent.py", line 59, in main
+    server_args = ServerArgs.from_cli_args(cli_args, unknown)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-super-current/python/sglang/multimodal_gen/runtime/server_args/server_args.py", line 3387, in from_cli_args
+    return cls.from_dict(provided_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-super-current/python/sglang/multimodal_gen/runtime/server_args/server_args.py", line 3408, in from_dict
+    pipeline_config = PipelineConfig.from_kwargs(kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-super-current/python/sglang/multimodal_gen/configs/pipeline_configs/base.py", line 1003, in from_kwargs
+    raise ValueError("model_path is required in kwargs")
+ValueError: model_path is required in kwargs

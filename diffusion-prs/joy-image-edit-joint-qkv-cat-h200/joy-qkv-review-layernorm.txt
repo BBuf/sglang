@@ -1,0 +1,253 @@
+# SGLang review corpus sweep
+
+- Filters: paths=['python/sglang/multimodal_gen/runtime/layers/layernorm.py', 'python/sglang/multimodal_gen/runtime/models/dits/hunyuanvideo.py'] queries=- category=- kind=-
+- Scanned **32639** threads in segments of 2000; matched **26** threads across **13** PRs, **35** human comments.
+
+## Aggregate over ALL matches
+- By type: inline_review_thread (26)
+- By category: gpu-kernel (20), models-quant (9), correctness (8), style-maintainability (3), performance (3), docs-examples (3), general-review (2), build-deps (1), memory-cache (1), tests-ci (1), observability (1)
+- Top paths: python/sglang/multimodal_gen/runtime/layers/layernorm.py (26)
+- Top reviewers: BBuf (9), jianyingzhu (5), Makcum888e (3), mickqian (2), DarkSharpness (2), yingluosanqian (2), mingfeima (2), xiaobaicxy (2), gjsheu (2), polisettyvarma (1), sushildubey171 (1), ping1jing2 (1)
+- By PR year: 2025 (16), 2026 (10)
+
+## Top 12 most relevant review threads (read and summarize these)
+
+### PR #13662: [NPU][diffusion] model: support WAN/FLUX/Qwen-Image/Qwen-Image-edit on Ascend
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `models-quant, style-maintainability` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/13662#discussion_r2644746658
+```diff
+@@ -8,15 +8,22 @@
+ import torch
+ import torch.nn as nn
+ import torch.nn.functional as F
+-from sgl_kernel import fused_add_rmsnorm, rmsnorm
+ 
+ from sglang.multimodal_gen.runtime.layers.custom_op import CustomOp
+ from sglang.multimodal_gen.runtime.layers.triton_ops import (
+     fuse_scale_shift_kernel,
+     norm_infer,
+     rms_norm_fn,
+ )
+-from sglang.multimodal_gen.runtime.utils.common import...
+```
+- **mickqian**: could we find a better way to avoid this? we don't want to repeat this code in every import of sgl_kernel
+- **Makcum888e**: we have different ways to do it
+1. use `try/except` block instead of `if not _is_npu`. But still need to modify each `import sgl_kernel`
+2. move `import` to `forward_cuda`. but we don't think it's a good practice
+3. refactor `custom_op` make different classes for different hardware
+- **Makcum888e**: I'm preparing PR for refactoring custom_ops https://github.com/sgl-project/sglang/pull/17928
+if this changes will be acceptable, we can remove `is_npu` from all `custom_ops` files
+- _relevance: 4.5_
+
+### PR #17920: Enable Sglang diffusion on Intel XPU
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `general-review` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/17920#discussion_r2993214796
+```diff
+@@ -10,6 +10,17 @@
+ import torch.nn as nn
+ import torch.nn.functional as F
+ 
++from sglang.multimodal_gen.runtime.platforms import current_platform
++
++_is_cuda = current_platform.is_cuda()
++_is_npu = current_platform.is_npu()
++_is_xpu = current_platform.is_xpu()
++if _is_cuda or _is_xpu:
++    from sgl_kernel import fused_add_rmsnorm, rmsnorm
++
++if _is_npu:
++    import torch_npu
+```
+- **polisettyvarma**: intentional ?
+- **sushildubey171**: this is typo, it should be for xpu
+- _relevance: 4.4_
+
+### PR #18583: [diffusion] hardware: SiluAndMul/RMSNorm/LayerNorm MUSA implementations (custom ops, 12/N)
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `gpu-kernel` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/18583#discussion_r2877323483
+```diff
+@@ -14,12 +14,16 @@
+ 
+ _is_cuda = current_platform.is_cuda()
+ _is_npu = current_platform.is_npu()
++_is_musa = current_platform.is_musa()
+ if _is_cuda:
+     from sgl_kernel import fused_add_rmsnorm, rmsnorm
+ 
+ if _is_npu:
+     import torch_npu
+ 
++if _is_musa:
+```
+- **mickqian**: could you try to do it with removing all these? thanks
+- **yeahdongcn**: I’m not entirely sure I understand the suggestion. `fused_add_rmsnorm` is required on MUSA to handle RMSNorm when a residual is present.
+
+For the other ops, we can fall back to the built-in implementations in `torch.nn.functional`, but in this case, the fused kernel is necessary.
+- _relevance: 4.4_
+
+### PR #20249: [diffusion][npu] use fused_scale_shift kernel
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `gpu-kernel, docs-examples` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/20249#discussion_r2924347125
+```diff
+@@ -519,6 +556,19 @@ def forward_native(
+         modulated = fuse_scale_shift_kernel(normalized, scale, shift)
+         return modulated.to(x.dtype)
+ 
++    def forward_npu(
++        self, x: torch.Tensor, shift: torch.Tensor, scale: torch.Tensor
++    ) -> torch.Tensor:
++        normalized = self.norm(x)
++        B, L, C = normalized.shape[0], normalized.shape[1], normalized.shape[2]
++        b...
+```
+- **xiaobaicxy**: Please add a comment
+- **gjsheu**: done
+- _relevance: 4.4_
+
+### PR #20249: [diffusion][npu] use fused_scale_shift kernel
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `correctness, gpu-kernel, models-quant, docs-examples` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/20249#discussion_r2924348543
+```diff
+@@ -437,6 +437,43 @@ def forward_native(
+         normalized = self.norm(residual_output)
+         modulated = fuse_scale_shift_kernel(normalized, scale, shift)
+         return modulated, residual_output
++    
++    def forward_npu(
++        self,
++        residual: torch.Tensor,
++        x: torch.Tensor,
++        gate: torch.Tensor | int,
++        shift: torch.Tensor,
++        scale: torch.Tens...
+```
+- **xiaobaicxy**: Please add a comment
+- **gjsheu**: done
+- _relevance: 4.4_
+
+### PR #20816: [Diffusion][CPU] Init CPU platform support for SGLang Diffusion
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `correctness, gpu-kernel` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/20816#discussion_r3007829949
+```diff
+@@ -34,6 +35,8 @@
+ 
+ if _is_musa:
+     from sgl_kernel import fused_add_rmsnorm
++if not _is_cpu:
++    from sglang.jit_kernel.diffusion.triton.norm import norm_infer, rms_norm_fn
+```
+- **mingfeima**: what if we leave this file unchanged? what will go wrong? seems that this file doesn't have a CPU implementation
+- **jianan-gu**: if not changed, will cause import error from these lines as cpu does not have triton:https://github.com/sgl-project/sglang/blob/v0.5.10/python/sglang/jit_kernel/diffusion/triton/norm.py#L46
+- _relevance: 4.4_
+
+### PR #13662: [NPU][diffusion] model: support WAN/FLUX/Qwen-Image/Qwen-Image-edit on Ascend
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `gpu-kernel, models-quant` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/13662#discussion_r2745683585
+```diff
+@@ -28,6 +27,12 @@
+ 
+ _is_cuda = current_platform.is_cuda()
+ 
++if not current_platform.is_npu():
+```
+- **BBuf**: Change this to if cuda or hip
+- **Makcum888e**: done
+- _relevance: 4.1_
+
+### PR #14717: [diffusion] kernel fusion: gated residual layernorm scale shift and layernorm scale shift kernel fusion for Qwen-Image, WAN and HunyuanVideo
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `gpu-kernel` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/14717#discussion_r2664393664
+```diff
+@@ -395,33 +510,130 @@ def __init__(
+         else:
+             raise NotImplementedError(f"Norm type {norm_type} not implemented")
+ 
++    def _get_arg(
++        self,
++        t: torch.Tensor,
++        x: torch.Tensor,
++        B: int,
++        L: int,
++        C: int,
++        M: int,
++    ) -> torch.Tensor:
++        if t.dim() == 0 or (t.dim() == 1 and t.numel() == 1):
++            return t...
+```
+- **BBuf**: `can_use_cuda` is a bad name, can we make it more clear?
+- **yingluosanqian**: I think we could derive `_ScaleResidualNormScaleShift` (as well as `_NormScaleShift`) from `CustomOp` instead of `nn.Module`, so that we don’t need to use `can_use_cuda`, since CustomOp already implements the dispatch logic.
+- _relevance: 4.1_
+
+### PR #17537: [Diffusion] Make the apply_qknorm function easier to use
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `observability` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/17537#discussion_r2714873651
+```diff
+@@ -471,13 +471,6 @@ def apply_qk_norm(
+         )
+         return q, k
+ 
+-    # Fallback for AMD/ROCm: apply RMSNorm separately to q and k
+```
+- **BBuf**: This warning will be printed for every layer. It can be omitted, as the AMD platform will default to the fallback implementation.
+- _relevance: 4.0_
+
+### PR #17996: [Diffusion] [NPU] Wan2.2-T2V-A14B-Diffusers modelslim quantization support
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `models-quant` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/17996#discussion_r2762573939
+```diff
+@@ -33,6 +33,11 @@
+ 
+ _is_cuda = current_platform.is_cuda()
+ 
++if not current_platform.is_npu():
+```
+- **ping1jing2**: ditto
+- _relevance: 4.0_
+
+### PR #18762: [diffusion] Diffusion norm fusion for z-image
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `gpu-kernel, docs-examples` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/18762#discussion_r2922783451
+```diff
+@@ -474,6 +451,152 @@ class RMSNormScaleShift(_NormScaleShift):
+     norm_type = "rms"
+ 
+ 
++################################################################################
++# NormTanhMulAdd
++# y = norm(x) * tanh(scale) + shift (where norm is layernorm or rmsnorm)
++# See details in norm_tanh_mul_add_norm_scale.py
++################################################################################...
+```
+- **yingluosanqian**: Let's remove the commented code here.
+
+It seems using the custom op in this place would be fairly complicated. we can come back to it in a later PR and find a cleaner solution.
+- _relevance: 4.0_
+
+### PR #19653: [diffusion] Initial XPU support for sglang diffusion
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/layers/layernorm.py`
+- Categories: `general-review` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/19653#discussion_r2903163515
+```diff
+@@ -519,9 +552,16 @@ def tensor_parallel_rms_norm(x: torch.Tensor, norm: "RMSNorm") -> torch.Tensor:
+     weight = norm.weight.tensor_split(tp_size)[tp_rank].float()
+     x_fp32 = x.float()
+     variance = x_fp32.pow(2).mean(dim=-1, keepdim=True)
+-    variance = get_tp_group().all_reduce(
+-        variance, op=torch._C._distributed_c10d.ReduceOp.AVG
+-    )
++    # Use SUM + divide instead of AVG...
+```
+- **mingfeima**: @xiangyuT
+- _relevance: 4.0_
+

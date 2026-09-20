@@ -1,0 +1,357 @@
+# SGLang review corpus sweep
+
+- Filters: paths=- queries=['bit-exact', 'cuda graph', 'contiguous', 'fusion'] category=- kind=-
+- Scanned **32639** threads in segments of 2000; matched **4828** threads across **2071** PRs, **14197** human comments.
+
+## Aggregate over ALL matches
+- By type: inline_review_thread (3012), pr_conversation (1522), review_submission (294)
+- By category: models-quant (2460), gpu-kernel (2254), tests-ci (2078), correctness (2035), performance (1486), api-compat (1325), memory-cache (1226), style-maintainability (982), docs-examples (948), distributed-concurrency (876), observability (866), build-deps (656)
+- Top paths: python/sglang/srt/server_args.py (86), python/sglang/multimodal_gen/runtime/managers/gpu_worker.py (83), python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py (58), python/sglang/srt/models/deepseek_v2.py (52), python/sglang/srt/model_executor/model_runner.py (42), python/sglang/srt/model_executor/cuda_graph_runner.py (38), python/sglang/multimodal_gen/runtime/server_args.py (33), python/sglang/multimodal_gen/runtime/managers/scheduler.py (33), python/sglang/multimodal_gen/runtime/models/dits/qwen_image.py (29), python/sglang/multimodal_gen/runtime/loader/weights_updater.py (28), python/sglang/srt/layers/moe/ep_moe/layer.py (26), python/sglang/multimodal_gen/runtime/layers/layernorm.py (26)
+- Top reviewers: mickqian (1577), yhyang201 (784), BBuf (777), zhaochenyang20 (525), yuan-luo (504), fzyzcjy (459), ping1jing2 (345), Fridge003 (323), JustinTong0323 (271), zhyncs (216), ispobock (188), ch-wan (171)
+- By PR year: 2026 (2928), 2025 (1826), 2024 (74)
+
+## Top 16 most relevant review threads (read and summarize these)
+
+### PR #5383: [Feature] add support kimi vl model
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, build-deps, observability` | Hit terms: `cuda graph, contiguous, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/5383#issuecomment-2806567894
+- **zhaochenyang20**: @mickqian @yizhang2077 could you help on this? thanks. I gonna find more people on VLM
+- **mickqian**: Also, please add a unit test to `test_vision_openai_server.py`
+- **liwenju0**: Ok, I'll add that test and resolve hard coded token id
+- **zhaochenyang20**: @liwenju0 Is it ready to review？
+- _relevance: 16.3_
+
+### PR #7123: Feat: Integrate FBGEMM into EPMoE
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, contiguous, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/7123#issuecomment-2966733856
+- **yuan-luo**: The e2e test no pass. Investigating.
+```
+$python3 -m sglang.launch_server --model /home/admin/Qwen3-30B-A3B --enable-ep-moe --tp-size 2 --port 30000
+Failed to import deepgemm, disable _ENABLE_JIT_DEEPGEMM.
+Failed to import ceil_div from deep_gemm.
+EP MoE is enabled. The expert parallel size is adjusted to be th...
+- **yuan-luo**: It's really strange, because the benchmark test with verify_data passed.
+```
+[root  /home/root/luoyuan.luo/sglang] 四 6月 12 21:37:45 
+$python ./benchmark/fbgemm/benchmark_fbgemm_grouped_gemm.py --verify-correctness
+TMA benchmarks will be running with experimental grid constant TMA descriptor.
+<frozen importlib._...
+- **jwfromm**: Just wanted to again note that another way to use FBGEMM kernels is through its pip package: `pip install fbgemm-gpu-genai`. Doing it this way will allow us to collaborate on kernel improvement rather than copy-pasting which means we end up with split implementations. Either way, looking forward to seeing the result...
+- **yuan-luo**: Currently, the tricky part is in side m_sizes, some element can be 0, which causes fbgemm working incorrectly, because the tiling mechanism in fbgemm is pre-configured, skipping some tile will cause tiling iterator mismatch.
+So, it might need to revise fbgemm kernel. That's why I put fbgemm kernel code into sglang....
+- _relevance: 16.3_
+
+### PR #26473: [MoE] Support BF16 standard A2A with DeepGEMM runner
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, observability` | Hit terms: `cuda graph, contiguous, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/26473#issuecomment-4563927025
+- **popsiclexu**: > #37 also adds the BF16 contiguous API, but the parameter is named `grouped_layout`, while existing SGLang warmup code already calls it with the `m_indices=` keyword. This should be made compatible as part of the change.
+
+I didn’t find the relevant information in #37, but I have removed the `m_indices=` keyword f...
+- **BBuf**: > > #37 also adds the BF16 contiguous API, but the parameter is named `grouped_layout`, while existing SGLang warmup code already calls it with the `m_indices=` keyword. This should be made compatible as part of the change.
+> 
+> I didn’t find the relevant information in #37, but I have removed the `m_indices=` key...
+- **yeahdongcn**: /tag-and-rerun-ci
+- **popsiclexu**: @Fridge003  @BBuf  After upgrading sgl-deep-gemm to 0.1.1, the sglang server can start normally. 
+```
+[2026-06-02 03:35:49] server_args=ServerArgs(model_path='/home/dist/10.10.142.201/models/Qwen3-30B-A3B', tokenizer_path='/home/dist/10.10.142.201/models/Qwen3-30B-A3B', tokenizer_mode='auto', tokenizer_backend='hu...
+- _relevance: 16.2_
+
+### PR #20667: [AMD]feat: Implement fused qk_norm and RoPE caching for improving Qwen3.5 BF16
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, contiguous, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/20667#issuecomment-4115001282
+- **yichiche**: @zhentaocc Please also try running with --attention-backend aiter and conduct accuracy and benchmark tests for comparison. 
+Additionally, although [ROCm/aiter#2199](https://github.com/ROCm/aiter/pull/2199) has been merged, upgrading aiter for sglang will take some time as we resolve the CI issues it introduced; the...
+- **zhentaocc**: @yichiche @HaiShaw one ci test failed due to OOM. Simply trigger rerun of that job may turn succeeded.
+- **1am9trash**: @amd-bot ci-status
+- **amd-bot**: > @1am9trash
+
+## CI Status for PR #20667
+
+PR: [\[Not-to-Merge\]\[AMD\]feat: Implement fused qk_norm and RoPE caching for improving Qwen3.5 BF16](https://github.com/sgl-project/sglang/pull/20667)
+Changed files: `python/sglang/srt/models/qwen3_5.py` (+172/-3), `python/sglang/srt/models/utils.py` (+31/-1)
+
+**AMD: 12 fa...
+- _relevance: 14.1_
+
+### PR #18184: Add piecewise cuda graph for Qwen3-Next FP8 flashinfer_trtllm moe backend
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/18184#issuecomment-3842199891
+- **samuellees**: cc @hlu1 @yizhang2077 @Fridge003 
+Please take a look, thanks a lot!
+- **samuellees**: /tag-and-rerun-ci
+- **moehanabi**: hi, thanks for your pr.
+
+in my test (also Qwen3-Next-80B-A3B-Instruct-FP8), the output length will be much shorter than that with piece cuda graph disabled.
+
+can you please check or take a test about the accuracy?
+- **samuellees**: > hi, thanks for your pr.
+> 
+> in my test (also Qwen3-Next-80B-A3B-Instruct-FP8), the output length will be much shorter than that with piece cuda graph disabled.
+> 
+> can you please check or take a test about the accuracy?
+
+Hi, it would be very nice if you can provide a failed test case, thanks a lot.
+- _relevance: 13.6_
+
+### PR #19549: [diffusion][llm] macOS support
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/19549#issuecomment-3976557401
+- **yeahdongcn**: Current progress: weight loading is working. Since my MacBook Pro has only 16GB of RAM, I’m looking for a more suitable test environment.
+
+<details>
+<summary><===Click to expand log details===></summary>
+
+```bash
+> sglang generate --model-path /Users/yexiaodong/.cache/modelscope/hub/models/Tongyi-MAI/Z-Image...
+- **yeahdongcn**: So far, I’ve managed to get `FLUX.1-dev` running on my M1 MBP (16GB) by manually setting `num_layers` to 1 in all `config.json` (LOL).
+
+I can see GPU activity in Activity Monitor:
+<img width="793" height="584" alt="m1_gpu" src="https://github.com/user-attachments/assets/f3cf7bf4-e6af-4445-8e8e-7fb2d09568c0" />...
+- **yeahdongcn**: LLM also works on macOS now:
+
+<img width="1392" height="801" alt="llm-mps" src="https://github.com/user-attachments/assets/e8bb325e-34cb-44d3-a1ef-866d12c41636" />
+
+<details>
+<summary><===Click to expand log details===></summary>
+
+```bash
+> python -m sglang.launch_server --model-path /Users/yexiaodong/.cache...
+- **yeahdongcn**: I also created `apple-smi` for monitoring GPU usage: https://github.com/yeahdongcn/apple-smi
+
+```bash
+pip install apple-smi
+```
+- _relevance: 13.6_
+
+### PR #19718: Support `triton_kernels` for GPT-OSS on SM120
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, api-compat, models-quant, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/19718#issuecomment-3987286754
+- **b8zhong**: /tag-and-rerun-ci
+- **amittell**: Did someone test his after rebase with an RTX pro 6000 @b8zhong ?
+- **b8zhong**: @amittell I used 5090. It's the same SM capability so it's fine
+- **amittell**: > @amittell I used 5090. It's the same SM capability so it's fine
+
+@b8zhong would appreciate being added as a co-author via Co-authored-by: in the commit message, not just the PR description. Or I can reopen my original [PR that I authored](https://github.com/sgl-project/sglang/pull/16975).
+- _relevance: 13.6_
+
+### PR #19876: [Diffusion] Diffusion support cuda graph
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, style-maintainability, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/19876#issuecomment-4001716942
+- **BBuf**: ## qwen-image-2512
+
+### main without torch compile
+
+```shell
+sglang generate --model-path=Qwen/Qwen-Image-2512  --prompt="A futuristic cyberpunk city at night, neon lights reflecting on wet streets, highly detailed, 8k" '--negative-prompt= ' --width=1024 --height=1024 --num-inference-steps=50 --guidance-scale=4...
+- **BBuf**: ## Qwen-Image-Edit 2511
+
+### main without torch compile
+
+```shell
+sglang generate --model-path=Qwen/Qwen-Image-Edit-2511 '--prompt=Transform into anime style' '--negative-prompt= ' --image-path=/workspace/gen_benchmark/figs/cat.png --width=1024 --height=1024 --num-inference-steps=50  --guidance-scale=4.0 --seed...
+- **BBuf**: FLUX.1.dev serving:
+
+- server
+
+```shell
+ sglang serve --model-path  black-forest-labs/FLUX.1-dev \
+  --host 127.0.0.1 --port 30000 \
+  --num-gpus 1 \
+  --attention-backend fa \
+  --enable-cuda-graph \
+  --log-level info \
+  --dit-cpu-offload false \
+  --text-encoder-cpu-offload false
+```
+
+- clinet:...
+- **BBuf**: For the qwen-image model, when the prompt changes, the hidden_states shape of the txt embedding also changes, and the resolution will also cause other dimensions of the hidden_states to change, making full-graph CUDA graph capture nearly impossible. One approach is to move attention outside of the CUDA graph, refere...
+- _relevance: 13.6_
+
+### PR #20736: [AMD] Enable share expert fusion with router experts for Qwen3.5 BF16 & FP8
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/20736#issuecomment-4140185388
+- **yichiche**: @zhentaocc Please fix lint issue, I will kick off CI again once it's done
+- **zhentaocc**: > @zhentaocc Please fix lint issue, I will kick off CI again once it's done
+
+Done.
+- **zhentaocc**: ## FP8 perf comparison (ignore the accuracy issue):
+@yichiche  @HaiShaw  ~ 5%  throughput improvement: 4918->5177
+### Disable fusion:
+```
+============ Serving Benchmark Result ============
+Backend:                                 sglang    
+Traffic request rate:                    inf       
+Max request concu...
+- **HaiShaw**: /tag-and-rerun-ci
+- _relevance: 13.6_
+
+### PR #20810: [Diffusion] Reland qwen image cuda graph
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, api-compat, models-quant, style-maintainability, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/20810#issuecomment-4080080317
+- **BBuf**: - main:
+
+```shell
+sglang generate \
+  --model-path=Qwen/Qwen-Image-2512 \
+  --prompt="A futuristic cyberpunk city at night, neon lights reflecting on wet streets, highly detailed, 8k" \
+  --negative-prompt=" " \
+  --width=1024 \
+  --height=1024 \
+  --num-inference-steps=50 \
+  --guidance-scale=4.0 \
+  --s...
+- **BBuf**: - main:
+
+```shell
+sglang generate --model-path=Qwen/Qwen-Image-Edit-2511 '--prompt=Transform into anime style' '--negative-prompt= ' --image-path=/workspace/gen_benchmark/figs/cat.png --width=1024 --height=1024 --num-inference-steps=50  --guidance-scale=4.0 --seed=42 --save-output --warmup --dit-cpu-offload false...
+- **BBuf**: > * main:
+> 
+> 
+> ```shell
+> sglang generate --model-path=Qwen/Qwen-Image-Edit-2511 '--prompt=Transform into anime style' '--negative-prompt= ' --image-path=/workspace/gen_benchmark/figs/cat.png --width=1024 --height=1024 --num-inference-steps=50  --guidance-scale=4.0 --seed=42 --save-output --warmup --dit-cpu-o...
+- **BBuf**: I reproduced the diffusion CUDA graph behavior on `Qwen/Qwen-Image-Edit-2511` with the following workload on a single `H200`:
+
+- `1024x1024`
+- `50` denoising steps
+- `--warmup`
+- `--dit-cpu-offload false`
+- `--text-encoder-cpu-offload false`
+- prompt: `Transform into anime style`
+- image: `cat.png`
+
+The ma...
+- _relevance: 13.6_
+
+### PR #21019: [Qwen3.5] Fuse split/reshape/cat ops in GDN projection with Triton kernel
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/21019#issuecomment-4097447891
+- **yuan-luo**: /tag-and-rerun-ci again
+- **yuan-luo**: /gemini review
+- **yizhang2077**: could you paste FP8 test results here?
+- **yuan-luo**: > could you paste FP8 test results here?
+
+It encountered some error. Investigating.
+```
+root@e1448ef40573:/sgl-workspace/sglang_dev/python# python3 -m sglang.launch_server --model Qwen/Qwen3.5-35B-A3B-FP8 --tp-size 2 --disable-radix-cache --enable-piecewise-cuda-graph --piecewise-cuda-graph-compiler eager
+/sgl-...
+- _relevance: 13.6_
+
+### PR #21203: [KDA] Support CuTeDSL KDA decode kernel
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, models-quant, observability` | Hit terms: `cuda graph, contiguous`
+- Link: https://github.com/sgl-project/sglang/pull/21203#issuecomment-4109233585
+- **yuan-luo**: /tag-and-rerun-ci
+- **yuan-luo**: > Can we add a correct test?
+
+In benchmark test, there's a correct check firstly.
+- **kaixih**: thanks for the pr. i mainly concerned about this plan item:
+
+> Support triton prefill KDA kernel with KV and VK layout switch off.
+
+i think we have agreed upon standardizing the vk layout everywhere in the long-term direction to avoid complexity. So, instead of adding back the KV to the KDA triton, I think we sh...
+- **yuan-luo**: > thanks for the pr. i mainly concerned about this plan item:
+> 
+> > Support triton prefill KDA kernel with KV and VK layout switch off.
+> 
+> i think we have agreed upon standardizing the vk layout everywhere in the long-term direction to avoid complexity. So, instead of adding back the KV to the KDA triton, I t...
+- _relevance: 13.6_
+
+### PR #23135: [KVCache] TurboQuant: fused Triton KV cache compression (3.88x, 93-105% decode throughput)
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/23135#issuecomment-4277518290
+- **AndyLi429**: ### Code review
+
+Found 1 issue:
+
+1. **Merge conflict: PR cannot be merged** — The PR has conflicting changes in . Double sparsity options were removed in PR #23009, but this PR re-adds them. The PR status shows , which blocks merging.
+
+Please rebase this PR on the latest main branch to resolve the conflicts.
+
+🤖 Gene...
+- **liuhuijiayou**: @AndyLi429 Thanks for the heads-up! Conflicts resolved and rebased onto latest main (now at `7a2dc8a65`).
+
+Summary of the resolution:
+- **`model_runner.py`**: pure additive merge — kept both main's new `_pre_initialize_flashinfer_allreduce_workspace` and TurboQuant's `_warmup_turboquant_kernels` / `_maybe_fuse_tq_ou...
+- **mesaleh**: Hi @liuhuijiayou .thanks for working on this, the fused kernel approach is great.
+
+I've been integrating this PR with an MLA-based model (kv_lora_rank=512, qk_rope_head_dim=64) and hit two interactions that I wanted to flag in case they help others who try the MLA path.
+
+Both show up as the same visible symptom:...
+- **RickyShi46**: > ## Motivation
+> Implement high-performance TurboQuant KV cache compression based on [Zandieh et al., ICLR 2026](https://arxiv.org/abs/2504.19874). Uses **fused Triton kernels** that read packed 4-bit KV directly during attention — no dequant buffer needed, with full CUDA graph support.
+> 
+> Related: #23134, #21...
+- _relevance: 13.6_
+
+### PR #24303: Feature/sm120 deepseek v4 highspeed inference support
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/24303#issuecomment-4376838831
+- **sonny-vleisides**: Tested this on 2x RTX PRO 6000 Blackwells  (SM 120, 96 GB each) running DeepSeek-V4-Flash. The PR fixes the FP8 expert OOM, FP4 hidden size mismatch & CPU offload weight loader shape errors I was hitting without it. Server gets to `The server is fired up and ready to roll!` fine. Two new things block actual inferenc...
+- **sonny-vleisides**: Tested 429deb088f on the same 2x setup. Doesn't get to bugs 1 & 2... stalls much earlier. NCCL init hangs for 6+ minutes, both TP ranks pegged at 99% CPU, GPUs sitting at 914 MB (just CUDA context, weights never start loading).
+
+Last thing in the log is `[... TP0] sglang is using nccl==2.27.5` ... then it goes qui...
+- **samuellees**: Hi @AdamPlatin123 , could you tell the difference between this PR and https://github.com/sgl-project/sglang/pull/24047, please? Seems 24047 has provided perf/accuracy results.
+cc @Fridge003 @b8zhong @nvpohanh
+- **AdamPlatin123**: Thanks @b8zhong for the corrections!
+
+  **PDL and TMA on SM120:** You're right — SM120 does support both PDL and TMA. I was
+  incorrectly conflating PDL with TMEM/tcgen05 (which are SM100 datacenter-only). I've
+   reverted `is_arch_support_pdl()` in `03f8f94` — it now correctly returns `major >=
+  9` for all SM...
+- _relevance: 13.6_
+
+### PR #25647: Sandbox: verify full main CI is green on latest main (do not merge)
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/25647#issuecomment-4477594599
+- **fzyzcjy**: /tag-and-rerun-ci
+- **fzyzcjy**: ### CI failure: `base-b-test-1-gpu-large (1)` (PR Test Base, B200, 80 GB)
+
+[Job log](https://github.com/sgl-project/sglang/actions/runs/26070746122/job/76651503297)
+
+**Failing test**: `test/registered/spec/eagle/test_eagle_infer_b.py::TestEAGLEServerAdditional::test_radix_attention`
+
+**Symptom**: 11/12 EAGLE tests p...
+- **fzyzcjy**: ### CI failure: `extra-a-test-1-gpu-large (0)` (PR Test Extra, NVIDIA)
+
+[Job log](https://github.com/sgl-project/sglang/actions/runs/26070746071/job/76651456797)
+
+**Failing test**: `test/registered/lora/test_lora_qwen3_8b_logprob_diff.py::TestLoRAQwen3_8BLogprobDiff::test_lora_qwen3_8b_logprob_accuracy`
+
+**Symptom**...
+- **fzyzcjy**: ### CI failure: `base-b-test-1-gpu-small (5)` (PR Test Base, NVIDIA, 32 GB)
+
+[Job log](https://github.com/sgl-project/sglang/actions/runs/26070746122/job/76651503169)
+
+**Failing test**: `test/registered/core/test_srt_endpoint.py::TestSRTEndpoint::test_get_server_info_concurrent` ("Make sure the concurrent get_server...
+- _relevance: 13.6_
+
+### PR #3582: Support NextN (MTP) speculative decoding for DeepSeek-V3/R1
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph, fusion`
+- Link: https://github.com/sgl-project/sglang/pull/3582#issuecomment-2660750870
+- **freeliuzc**: Great work！
+Regarding the tokens for Draft 1, what is the average accepted length?
+Thanks
+- **Swipe4057**: Could you please clarify if I understand correctly that speculative decoding does not increase throughput, and even decreases it under high load? How can I properly find the optimal load point?
+- **lambert0312**: I wonder if MTP supports bf16?
+- **zhyncs**: FYI you can use these checkpoints for V3 NextN and R1 NextN instead of exporting them yourself. Cheers!
+
+https://huggingface.co/SGLang/DeepSeek-V3-NextN
+https://huggingface.co/SGLang/DeepSeek-R1-NextN
+- _relevance: 13.3_
+

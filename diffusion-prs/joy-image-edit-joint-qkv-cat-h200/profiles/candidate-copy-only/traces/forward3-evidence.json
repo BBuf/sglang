@@ -1,0 +1,5124 @@
+{
+  "source": "/campaign/artifacts/joy-image-edit/qkv-final-candidate-profile/traces/d243f342-a0a2-4107-8f71-00cd3e6a6790-3_steps-global-rank0.trace.json.gz",
+  "model_calls": 4,
+  "forwards": [
+    {
+      "index": 0,
+      "cpu_us": 110745.548,
+      "kernel_count": 1188,
+      "gpu_ms": 325.23771600000003,
+      "start_us": 6968828844832.886,
+      "end_us": 6968828955578.434
+    },
+    {
+      "index": 1,
+      "cpu_us": 106606.169,
+      "kernel_count": 1188,
+      "gpu_ms": 348.857013,
+      "start_us": 6968829174761.572,
+      "end_us": 6968829281367.741
+    },
+    {
+      "index": 2,
+      "cpu_us": 106002.948,
+      "kernel_count": 1188,
+      "gpu_ms": 331.44023599999997,
+      "start_us": 6968829529307.345,
+      "end_us": 6968829635310.293
+    },
+    {
+      "index": 3,
+      "cpu_us": 104811.084,
+      "kernel_count": 1188,
+      "gpu_ms": 324.808344,
+      "start_us": 6968829865224.529,
+      "end_us": 6968829970035.613
+    }
+  ],
+  "selected_forward_index": 2,
+  "kernel_count": 1188,
+  "gpu_window_ms": 335.1012802734375,
+  "gpu_union_ms": 331.4349912109375,
+  "top_kernels": [
+    {
+      "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<1>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > >::Params)",
+      "count": 40,
+      "gpu_ms": 84.628289
+    },
+    {
+      "name": "nvjet_sm90_tst_192x192_64x4_2x1_v_bz_coopB_bias_TNN",
+      "count": 80,
+      "gpu_ms": 75.740656
+    },
+    {
+      "name": "nvjet_sm90_tst_192x176_64x4_1x2_h_bz_coopB_bias_TNT",
+      "count": 40,
+      "gpu_ms": 60.700954
+    },
+    {
+      "name": "nvjet_sm90_tst_192x208_64x4_2x1_v_bz_coopB_bias_TNT",
+      "count": 40,
+      "gpu_ms": 45.50698300000001
+    },
+    {
+      "name": "nvjet_sm90_tst_128x256_64x4_2x1_v_bz_coopA_bias_TNN",
+      "count": 162,
+      "gpu_ms": 24.393287000000008
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::addcmul_cuda_kernel(at::TensorIteratorBase&, c10::Scalar const&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16, c10::BFloat16, c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::addcmul_cuda_kernel(at::TensorIteratorBase&, c10::Scalar const&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16, c10::BFloat16, c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::addcmul_cuda_kernel(at::TensorIteratorBase&, c10::Scalar const&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16, c10::BFloat16, c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::addcmul_cuda_kernel(at::TensorIteratorBase&, c10::Scalar const&)::{lambda()#2}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16, c10::BFloat16, c10::BFloat16)#1} const&)::{lambda(int)#1})",
+      "count": 160,
+      "gpu_ms": 10.075366999999998
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<8, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+      "count": 81,
+      "gpu_ms": 8.019436999999996
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+      "count": 160,
+      "gpu_ms": 7.902187000000001
+    },
+    {
+      "name": "kernel_cutlass_kernel_sglangkernelsopsdiffusionnormscale_residual_norm_cutedslScaleResidualNormScaleShift_object_at__tensorptrbf16_gmem_align32_o_4096div4096div40961___tensorptrbf16_gmem__0",
+      "count": 160,
+      "gpu_ms": 4.803429000000001
+    },
+    {
+      "name": "_joint_qkv_cat_kernel",
+      "count": 40,
+      "gpu_ms": 4.372549000000001
+    },
+    {
+      "name": "void sglang::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, float, false, false, false, long, false>(std::conditional<false, sglang::QKNormRopePackKVParams, std::conditional<false, sglang::QKNormRopeOutOfPlaceParams, sglang::QKNormRopeParams>::type>::type)",
+      "count": 40,
+      "gpu_ms": 4.1472050000000005
+    },
+    {
+      "name": "void sglang::fused_qknorm_warp<128l, true, __nv_bfloat16>(sglang::QKNormParams)",
+      "count": 40,
+      "gpu_ms": 0.42963199999999996
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<8, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul>)",
+      "count": 80,
+      "gpu_ms": 0.11798400000000007
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+      "count": 1,
+      "gpu_ms": 0.1072
+    },
+    {
+      "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+      "count": 1,
+      "gpu_ms": 0.10617700000000001
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<float, float, false>(int, float, float const*, float const*, float const*, float*, float*, float*)",
+      "count": 1,
+      "gpu_ms": 0.09136
+    },
+    {
+      "name": "nvjet_sm90_tst_192x8_64x8_2x1_v_bz_bias_TNT",
+      "count": 1,
+      "gpu_ms": 0.055616
+    },
+    {
+      "name": "sm90_xmma_fprop_implicit_gemm_bf16bf16_bf16f32_f32_nhwckrsc_nhwc_tilesize128x256x64_warpgroupsize2x1x1_g1_execute_segment_k_off_kernel__5x_cudnn",
+      "count": 1,
+      "gpu_ms": 0.054528
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<8, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "count": 2,
+      "gpu_ms": 0.04736
+    },
+    {
+      "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>::result_type*)",
+      "count": 40,
+      "gpu_ms": 0.04429100000000002
+    },
+    {
+      "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<__nv_bfloat16, __nv_bfloat16, float, false, true, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, __nv_bfloat16 const*, __nv_bfloat16*)",
+      "count": 2,
+      "gpu_ms": 0.028415999999999997
+    },
+    {
+      "name": "nvjet_sm90_tst_64x80_64x11_1x4_h_bz_bias_TNT",
+      "count": 1,
+      "gpu_ms": 0.021952000000000003
+    },
+    {
+      "name": "nvjet_sm90_tst_64x8_64x16_2x1_v_bz_splitK_bias_TNT",
+      "count": 1,
+      "gpu_ms": 0.015744
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 2, 128, 1, 16, 4>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+      "count": 2,
+      "gpu_ms": 0.004992
+    },
+    {
+      "name": "nvjet_sm90_tst_64x8_64x16_4x1_v_bz_bias_TNT",
+      "count": 1,
+      "gpu_ms": 0.004704
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::(anonymous namespace)::complex_kernel_cuda(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(float, float)#1}>(at::TensorIteratorBase&, at::native::(anonymous namespace)::complex_kernel_cuda(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(float, float)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::(anonymous namespace)::complex_kernel_cuda(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(float, float)#1}>(at::TensorIteratorBase&, at::native::(anonymous namespace)::complex_kernel_cuda(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(float, float)#1} const&)::{lambda(int)#1})",
+      "count": 1,
+      "gpu_ms": 0.004064
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<8, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+      "count": 2,
+      "gpu_ms": 0.003648
+    },
+    {
+      "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, __nv_bfloat16, float, __nv_bfloat16, false, float, __nv_bfloat16, __nv_bfloat16, true, true, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __nv_bfloat16 const*, float*, __nv_bfloat16*, float const*, float const*, __nv_bfloat16 const*, float const*, __nv_bfloat16*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+      "count": 1,
+      "gpu_ms": 0.002496
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::cos_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::cos_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "count": 1,
+      "gpu_ms": 0.001952
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::sin_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::sin_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "count": 1,
+      "gpu_ms": 0.0019199999999999998
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      "count": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::exp_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::exp_kernel_cuda(at::TensorIteratorBase&)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "count": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+      "count": 1,
+      "gpu_ms": 0.001121
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::BUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+      "count": 1,
+      "gpu_ms": 0.001088
+    },
+    {
+      "name": "void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(long)#1}>(int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(long)#1}, function_traits<at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(long)#1}>::result_type*)",
+      "count": 1,
+      "gpu_ms": 0.000896
+    }
+  ],
+  "module_scopes": [
+    {
+      "name": "nn.Module: JoyImageEditTransformer3DModel_0",
+      "calls": 1,
+      "kernels": 1188,
+      "gpu_ms": 331.44023599999997
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_0",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.554474
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_1",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.492715
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_2",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.388301
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_23",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.293068
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_24",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.287692999999999
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_22",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.284876
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_18",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.279917
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_34",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.279086
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_5",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.272877000000001
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_37",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.272075000000001
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_7",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.271949000000001
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_31",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.271949000000001
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_8",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.271309
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_6",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.270125
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_21",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.269803
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_30",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.268365
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_36",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.268074
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_10",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.267244
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_28",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.265932999999999
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_29",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.265611999999999
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_4",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.262893
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_20",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.260877
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_27",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.260138999999999
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_11",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.259629
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_3",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.258764
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_19",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.257290999999999
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_16",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.257101
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_25",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.257004
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_35",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.255181
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_17",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.255055
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_15",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.253516
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_26",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.253067
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_9",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.253002
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_38",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.230829
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_32",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.210220999999999
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_14",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.207148
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_33",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.177227
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_12",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.176237
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_39",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.161036
+    },
+    {
+      "name": "nn.Module: MMDoubleStreamBlock_13",
+      "calls": 1,
+      "kernels": 29,
+      "gpu_ms": 8.157868
+    },
+    {
+      "name": "nn.Module: MLP_4",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.283588
+    },
+    {
+      "name": "nn.Module: MLP_2",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.2823399999999996
+    },
+    {
+      "name": "nn.Module: MLP_48",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.19674
+    },
+    {
+      "name": "nn.Module: MLP_12",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1954930000000004
+    },
+    {
+      "name": "nn.Module: MLP_10",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.195205
+    },
+    {
+      "name": "nn.Module: MLP_38",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.195045
+    },
+    {
+      "name": "nn.Module: MLP_6",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.194821
+    },
+    {
+      "name": "nn.Module: MLP_46",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.194245
+    },
+    {
+      "name": "nn.Module: MLP_16",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1939569999999997
+    },
+    {
+      "name": "nn.Module: MLP_18",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.193413
+    },
+    {
+      "name": "nn.Module: MLP_58",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.193348
+    },
+    {
+      "name": "nn.Module: MLP_44",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.193189
+    },
+    {
+      "name": "nn.Module: MLP_24",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.192901
+    },
+    {
+      "name": "nn.Module: MLP_76",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1924210000000004
+    },
+    {
+      "name": "nn.Module: MLP_50",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.192069
+    },
+    {
+      "name": "nn.Module: MLP_62",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.191717
+    },
+    {
+      "name": "nn.Module: MLP_74",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.191716
+    },
+    {
+      "name": "nn.Module: MLP_64",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.191237
+    },
+    {
+      "name": "nn.Module: MLP_60",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.187333
+    },
+    {
+      "name": "nn.Module: MLP_52",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1868849999999997
+    },
+    {
+      "name": "nn.Module: MLP_22",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.186021
+    },
+    {
+      "name": "nn.Module: MLP_70",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.186021
+    },
+    {
+      "name": "nn.Module: MLP_8",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.185829
+    },
+    {
+      "name": "nn.Module: MLP_14",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.185701
+    },
+    {
+      "name": "nn.Module: MLP_30",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1852199999999997
+    },
+    {
+      "name": "nn.Module: MLP_34",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.184581
+    },
+    {
+      "name": "nn.Module: MLP_72",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.184165
+    },
+    {
+      "name": "nn.Module: MLP_20",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.183109
+    },
+    {
+      "name": "nn.Module: MLP_32",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.183012
+    },
+    {
+      "name": "nn.Module: MLP_36",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.182918
+    },
+    {
+      "name": "nn.Module: MLP_42",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1828849999999997
+    },
+    {
+      "name": "nn.Module: MLP_56",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.181797
+    },
+    {
+      "name": "nn.Module: MLP_54",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.181188
+    },
+    {
+      "name": "nn.Module: MLP_40",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1772519999999997
+    },
+    {
+      "name": "nn.Module: MLP_78",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1561329999999996
+    },
+    {
+      "name": "nn.Module: MLP_68",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.153189
+    },
+    {
+      "name": "nn.Module: MLP_26",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.1494449999999996
+    },
+    {
+      "name": "nn.Module: MLP_66",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.148965
+    },
+    {
+      "name": "nn.Module: MLP_80",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.148325
+    },
+    {
+      "name": "nn.Module: MLP_28",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 3.146789
+    },
+    {
+      "name": "nn.Module: USPAttention_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.195299
+    },
+    {
+      "name": "nn.Module: USPAttention_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.176707
+    },
+    {
+      "name": "nn.Module: USPAttention_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1765149999999998
+    },
+    {
+      "name": "nn.Module: USPAttention_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1275239999999997
+    },
+    {
+      "name": "nn.Module: USPAttention_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1258589999999997
+    },
+    {
+      "name": "nn.Module: USPAttention_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.125091
+    },
+    {
+      "name": "nn.Module: USPAttention_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.124292
+    },
+    {
+      "name": "nn.Module: USPAttention_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1176350000000004
+    },
+    {
+      "name": "nn.Module: USPAttention_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.116739
+    },
+    {
+      "name": "nn.Module: USPAttention_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.116163
+    },
+    {
+      "name": "nn.Module: USPAttention_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.115427
+    },
+    {
+      "name": "nn.Module: USPAttention_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.114819
+    },
+    {
+      "name": "nn.Module: USPAttention_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.114403
+    },
+    {
+      "name": "nn.Module: USPAttention_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.114243
+    },
+    {
+      "name": "nn.Module: USPAttention_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.114212
+    },
+    {
+      "name": "nn.Module: USPAttention_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.114179
+    },
+    {
+      "name": "nn.Module: USPAttention_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.114116
+    },
+    {
+      "name": "nn.Module: USPAttention_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.113795
+    },
+    {
+      "name": "nn.Module: USPAttention_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.113667
+    },
+    {
+      "name": "nn.Module: USPAttention_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.113636
+    },
+    {
+      "name": "nn.Module: USPAttention_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1135390000000003
+    },
+    {
+      "name": "nn.Module: USPAttention_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.113123
+    },
+    {
+      "name": "nn.Module: USPAttention_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.113028
+    },
+    {
+      "name": "nn.Module: USPAttention_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1117150000000002
+    },
+    {
+      "name": "nn.Module: USPAttention_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1108510000000003
+    },
+    {
+      "name": "nn.Module: USPAttention_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1103389999999997
+    },
+    {
+      "name": "nn.Module: USPAttention_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.109699
+    },
+    {
+      "name": "nn.Module: USPAttention_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.109603
+    },
+    {
+      "name": "nn.Module: USPAttention_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1094749999999998
+    },
+    {
+      "name": "nn.Module: USPAttention_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.109411
+    },
+    {
+      "name": "nn.Module: USPAttention_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.109379
+    },
+    {
+      "name": "nn.Module: USPAttention_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1089960000000003
+    },
+    {
+      "name": "nn.Module: USPAttention_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.108644
+    },
+    {
+      "name": "nn.Module: USPAttention_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.1082910000000004
+    },
+    {
+      "name": "nn.Module: USPAttention_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.107747
+    },
+    {
+      "name": "nn.Module: USPAttention_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.088931
+    },
+    {
+      "name": "nn.Module: USPAttention_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.086179
+    },
+    {
+      "name": "nn.Module: USPAttention_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.085603
+    },
+    {
+      "name": "nn.Module: USPAttention_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.084931
+    },
+    {
+      "name": "nn.Module: USPAttention_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 2.084484
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5633299999999999
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.562338
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.538946
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.538594
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.524739
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.523938
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5232670000000001
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.52301
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_49",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.52301
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_59",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5229139999999999
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_45",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.52253
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5224659999999999
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.522114
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_47",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.521603
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_77",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.521411
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_51",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.52125
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_65",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5210899999999998
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_75",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.520578
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_63",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.52045
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.51805
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_53",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.51805
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_71",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.517987
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.517603
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.51629
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_73",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.515554
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_43",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.51549
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.515426
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5148499999999998
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.514018
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_55",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.513986
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_57",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.513571
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.513443
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_61",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.5132180000000002
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.511234
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_41",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.50845
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_79",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.505122
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_59",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.504514
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.50397
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_81",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.500002
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.499938
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_69",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.499555
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.49901
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_67",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.498786
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_43",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.498178
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4972509999999999
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_119",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.496867
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.494563
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_95",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.494402
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_75",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.493827
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_123",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.493827
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.493794
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_91",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.49373
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_147",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.493666
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_151",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.493634
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_47",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4934100000000001
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_127",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.493346
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.49325
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_87",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.492931
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_115",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4928979999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.492674
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_67",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.492162
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_99",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.492098
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4920660000000001
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_111",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.49149
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_63",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4914580000000002
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_143",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.491266
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_83",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.490754
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4907219999999999
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_71",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4907219999999999
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_139",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.490626
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_79",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.490594
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_107",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.49021
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_103",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4901469999999999
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.490115
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_135",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.478242
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_155",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.475522
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_131",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.474499
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_51",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.474051
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_55",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.473986
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_159",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.4732509999999999
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.202658
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.167618
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.167138
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.143009
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_76",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.14285
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.141761
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_42",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.138946
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_64",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.138786
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.138689
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_48",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.1384020000000001
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_46",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137889
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_40",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137826
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_68",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137826
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_56",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137762
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137218
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_58",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137186
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.137122
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_54",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.1369939999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_60",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.136929
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_70",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.136674
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.136258
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.133954
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.133538
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.133442
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_74",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.133057
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_52",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.1329939999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_44",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.132897
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.132866
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_50",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.132866
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_72",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.132833
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.1328019999999999
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_62",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.13277
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.132578
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.13229
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.132258
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.1321620000000001
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.1217300000000001
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_78",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.121538
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_66",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.121281
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 1.119586
+    },
+    {
+      "name": "nn.Module: MLP_5",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.431585
+    },
+    {
+      "name": "nn.Module: MLP_3",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.430977
+    },
+    {
+      "name": "nn.Module: MLP_13",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42435300000000004
+    },
+    {
+      "name": "nn.Module: MLP_21",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42432
+    },
+    {
+      "name": "nn.Module: MLP_77",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.424032
+    },
+    {
+      "name": "nn.Module: MLP_57",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42265600000000003
+    },
+    {
+      "name": "nn.Module: MLP_39",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.422017
+    },
+    {
+      "name": "nn.Module: MLP_71",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.421728
+    },
+    {
+      "name": "nn.Module: MLP_65",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42131300000000005
+    },
+    {
+      "name": "nn.Module: MLP_41",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42128000000000004
+    },
+    {
+      "name": "nn.Module: MLP_47",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42112
+    },
+    {
+      "name": "nn.Module: MLP_17",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.420961
+    },
+    {
+      "name": "nn.Module: MLP_43",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.420961
+    },
+    {
+      "name": "nn.Module: MLP_49",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42089699999999997
+    },
+    {
+      "name": "nn.Module: MLP_59",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42051299999999997
+    },
+    {
+      "name": "nn.Module: MLP_33",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.420512
+    },
+    {
+      "name": "nn.Module: MLP_55",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.420448
+    },
+    {
+      "name": "nn.Module: MLP_31",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.42035300000000003
+    },
+    {
+      "name": "nn.Module: MLP_69",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.420224
+    },
+    {
+      "name": "nn.Module: MLP_61",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41990500000000003
+    },
+    {
+      "name": "nn.Module: MLP_11",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.419873
+    },
+    {
+      "name": "nn.Module: MLP_23",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.419617
+    },
+    {
+      "name": "nn.Module: MLP_73",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41958500000000004
+    },
+    {
+      "name": "nn.Module: MLP_63",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.419489
+    },
+    {
+      "name": "nn.Module: MLP_53",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41945699999999997
+    },
+    {
+      "name": "nn.Module: MLP_45",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.419424
+    },
+    {
+      "name": "nn.Module: MLP_51",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41939299999999996
+    },
+    {
+      "name": "nn.Module: MLP_37",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.419138
+    },
+    {
+      "name": "nn.Module: MLP_7",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.419072
+    },
+    {
+      "name": "nn.Module: MLP_35",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41891300000000004
+    },
+    {
+      "name": "nn.Module: MLP_9",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.418625
+    },
+    {
+      "name": "nn.Module: MLP_19",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.418433
+    },
+    {
+      "name": "nn.Module: MLP_25",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.418401
+    },
+    {
+      "name": "nn.Module: MLP_75",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41830399999999995
+    },
+    {
+      "name": "nn.Module: MLP_15",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.418144
+    },
+    {
+      "name": "nn.Module: MLP_81",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.415169
+    },
+    {
+      "name": "nn.Module: MLP_29",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41459300000000004
+    },
+    {
+      "name": "nn.Module: MLP_79",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.414304
+    },
+    {
+      "name": "nn.Module: MLP_67",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.41417699999999996
+    },
+    {
+      "name": "nn.Module: MLP_27",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.412832
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.412353
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.4112
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.41072000000000003
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_126",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.403745
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40288
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_146",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.402752
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_150",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40236900000000003
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.402209
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_86",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.402145
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_46",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40198500000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.401857
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_98",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.401857
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_122",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.401792
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_74",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.401729
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_90",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40169600000000005
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_94",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40166399999999997
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.401313
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_138",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.401313
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_142",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.400865
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_114",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40083300000000005
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.4008
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_66",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40054500000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_102",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.40048
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_70",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.400449
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_42",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.400161
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_154",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399809
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_78",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399808
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399712
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399521
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_110",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399488
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_82",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399137
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_118",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.399008
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_62",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.398497
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_130",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.398337
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_106",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.397856
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_134",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.39532799999999996
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_54",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.39408
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_58",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.39398500000000003
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_158",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.393312
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_50",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.392096
+    },
+    {
+      "name": "nn.Module: WanTimeTextImageEmbedding_0",
+      "calls": 1,
+      "kernels": 18,
+      "gpu_ms": 0.217121
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.208832
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.208672
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_58",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20528
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_72",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20499199999999998
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.204864
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_40",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.204864
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.204608
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_78",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.204544
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_50",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203937
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_48",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20387200000000003
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20384
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_52",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203809
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_44",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20377699999999999
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_54",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20377699999999999
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203745
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_60",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203745
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_64",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20371199999999998
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_74",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20361600000000002
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_66",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20358500000000002
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20358400000000001
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20352099999999998
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203424
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_42",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203424
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_46",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20336
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_56",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203296
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_70",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203296
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.203201
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_62",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20316800000000002
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20304
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.202912
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.202785
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.202721
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_76",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20272
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.202625
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.2024
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_82",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.2008
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.200769
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_68",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.200608
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_80",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.20047900000000002
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19961600000000002
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.199041
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.199009
+    },
+    {
+      "name": "nn.Module: LayerNorm_0",
+      "calls": 1,
+      "kernels": 2,
+      "gpu_ms": 0.19753700000000002
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.196737
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_153",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19670400000000002
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_41",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19663999999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_129",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.195104
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19478399999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_77",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19433699999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_93",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194336
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_109",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194304
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_85",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194272
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_137",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194272
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_81",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19424
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_61",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194145
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_121",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194049
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_97",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194048
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_141",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194048
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_65",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.194016
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_113",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19398400000000002
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_117",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19391999999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.193345
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.193248
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_45",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.193216
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.193184
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19312
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_89",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.193056
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_145",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.193056
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_49",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.192993
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_69",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.192992
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_125",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19289699999999999
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_149",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19289599999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.192865
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_73",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.192865
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_101",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.192832
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_105",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.192801
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_161",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.191809
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_57",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.191168
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_157",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.191136
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_133",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.19100899999999998
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_53",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.190656
+    },
+    {
+      "name": "nn.Module: Conv3d_0",
+      "calls": 1,
+      "kernels": 4,
+      "gpu_ms": 0.190144
+    },
+    {
+      "name": "nn.Module: GELU_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.181664
+    },
+    {
+      "name": "nn.Module: GELU_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.18105600000000002
+    },
+    {
+      "name": "nn.Module: GELU_47",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17932800000000002
+    },
+    {
+      "name": "nn.Module: GELU_45",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17891200000000002
+    },
+    {
+      "name": "nn.Module: GELU_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.178753
+    },
+    {
+      "name": "nn.Module: GELU_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17875200000000002
+    },
+    {
+      "name": "nn.Module: GELU_49",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.178721
+    },
+    {
+      "name": "nn.Module: GELU_51",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17868799999999999
+    },
+    {
+      "name": "nn.Module: GELU_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.178208
+    },
+    {
+      "name": "nn.Module: GELU_43",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177728
+    },
+    {
+      "name": "nn.Module: GELU_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17756899999999998
+    },
+    {
+      "name": "nn.Module: GELU_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177568
+    },
+    {
+      "name": "nn.Module: GELU_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177536
+    },
+    {
+      "name": "nn.Module: GELU_57",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177536
+    },
+    {
+      "name": "nn.Module: GELU_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177505
+    },
+    {
+      "name": "nn.Module: GELU_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17747300000000002
+    },
+    {
+      "name": "nn.Module: GELU_73",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17747200000000002
+    },
+    {
+      "name": "nn.Module: GELU_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17744
+    },
+    {
+      "name": "nn.Module: GELU_61",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17744
+    },
+    {
+      "name": "nn.Module: GELU_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17740799999999998
+    },
+    {
+      "name": "nn.Module: GELU_69",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17740799999999998
+    },
+    {
+      "name": "nn.Module: GELU_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177376
+    },
+    {
+      "name": "nn.Module: GELU_75",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177376
+    },
+    {
+      "name": "nn.Module: GELU_71",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177345
+    },
+    {
+      "name": "nn.Module: GELU_59",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177248
+    },
+    {
+      "name": "nn.Module: GELU_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.177217
+    },
+    {
+      "name": "nn.Module: GELU_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17699199999999998
+    },
+    {
+      "name": "nn.Module: GELU_53",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17699199999999998
+    },
+    {
+      "name": "nn.Module: GELU_63",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17680099999999999
+    },
+    {
+      "name": "nn.Module: GELU_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17673599999999998
+    },
+    {
+      "name": "nn.Module: GELU_55",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17673599999999998
+    },
+    {
+      "name": "nn.Module: GELU_41",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.176641
+    },
+    {
+      "name": "nn.Module: GELU_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17660900000000002
+    },
+    {
+      "name": "nn.Module: GELU_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.176481
+    },
+    {
+      "name": "nn.Module: GELU_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17638399999999999
+    },
+    {
+      "name": "nn.Module: GELU_65",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17568
+    },
+    {
+      "name": "nn.Module: GELU_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.17555199999999999
+    },
+    {
+      "name": "nn.Module: GELU_77",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.175489
+    },
+    {
+      "name": "nn.Module: GELU_67",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.175392
+    },
+    {
+      "name": "nn.Module: GELU_79",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.175072
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.16089599999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15884800000000002
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.158688
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_63",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.157152
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_47",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.156672
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.156639
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_65",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.156255
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.156192
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15616
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155904
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_73",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155904
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_49",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15584
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_77",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155809
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_45",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155776
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_55",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155776
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_69",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155681
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155648
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155552
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_41",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155521
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15552000000000002
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_53",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155328
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_75",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155328
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_59",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155264
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155232
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155231
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155201
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15519999999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155136
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_61",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155136
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.155105
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_43",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15504099999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_57",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15500899999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.154848
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_71",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15475299999999997
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.154752
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_51",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.154433
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_79",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.153088
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_67",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.153024
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.15247999999999998
+    },
+    {
+      "name": "nn.Module: MergedColumnParallelLinear_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.151905
+    },
+    {
+      "name": "nn.Module: MLP_1",
+      "calls": 1,
+      "kernels": 3,
+      "gpu_ms": 0.12272
+    },
+    {
+      "name": "nn.Module: ReplicatedLinear_0",
+      "calls": 1,
+      "kernels": 2,
+      "gpu_ms": 0.068096
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.059872
+    },
+    {
+      "name": "nn.Module: ModulateProjection_0",
+      "calls": 1,
+      "kernels": 2,
+      "gpu_ms": 0.057375999999999996
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.055839
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.055616
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.055615000000000005
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.055392000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_60",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054464
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054335999999999995
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_40",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054304000000000005
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_76",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054304000000000005
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_44",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054273
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054241
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_80",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054240000000000003
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054208
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_68",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054208
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_124",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054177
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054176
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_72",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054144
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_140",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054144
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_144",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054144
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054112
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054112
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_96",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054081000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_112",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054081000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054079999999999996
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_64",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054079999999999996
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_100",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054079999999999996
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_116",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054079999999999996
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_84",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054017
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_148",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.054016
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_152",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053985
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_48",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053984000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_92",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053984000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_104",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053984000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_120",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05392
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_108",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053888
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_128",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053888
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_88",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053856
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053632
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_136",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0536
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_156",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053568
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_160",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053408000000000004
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_56",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053377
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_52",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05312
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_132",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.053024
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052927999999999996
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052896
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052512
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_90",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052479
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_98",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052416
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_88",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052351999999999996
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052287999999999994
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052256
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_122",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052256
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_70",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052095999999999996
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_142",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052095999999999996
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_66",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052064
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_86",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052064
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_62",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052033
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.052
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_74",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051969
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_138",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_100",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051904000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_72",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051840000000000004
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_68",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051808
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_58",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051776
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_118",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051776
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_144",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051744
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051712
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_124",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051712
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051648000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_146",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051648000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_148",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051648000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_126",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051616
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_94",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051585
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_114",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051488
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_150",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051488
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_158",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051488
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051456
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_134",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051424
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051392
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_46",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051392
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_92",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051392
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_106",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051392
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_78",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051361
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_120",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051361
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_152",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051361
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_64",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05136
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_96",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05136
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_102",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05136
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051328000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_40",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051328000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_82",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051328000000000006
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_76",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051327
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_80",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051327
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051296999999999995
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051296
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051264000000000004
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_42",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051264000000000004
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_110",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051264000000000004
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_156",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051264000000000004
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_104",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051232
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_108",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051232
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_60",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0512
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_56",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051168
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_128",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051136
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_112",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051073
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051072
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_48",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051072
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_84",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051072
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_140",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051072
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_154",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051072
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_52",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051071
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_132",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05104
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_136",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.051039
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050976
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_44",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050944
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050848
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_116",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050816
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_50",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050783999999999996
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050752000000000005
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_130",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.05072
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_54",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.050656
+    },
+    {
+      "name": "nn.Module: TimestepEmbedder_0",
+      "calls": 1,
+      "kernels": 13,
+      "gpu_ms": 0.037024999999999995
+    },
+    {
+      "name": "nn.Module: MLP_0",
+      "calls": 1,
+      "kernels": 4,
+      "gpu_ms": 0.024832
+    },
+    {
+      "name": "nn.Module: GELU_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023712
+    },
+    {
+      "name": "nn.Module: GELU_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023615999999999998
+    },
+    {
+      "name": "nn.Module: GELU_40",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023615999999999998
+    },
+    {
+      "name": "nn.Module: GELU_56",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023392
+    },
+    {
+      "name": "nn.Module: GELU_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023296
+    },
+    {
+      "name": "nn.Module: GELU_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023008
+    },
+    {
+      "name": "nn.Module: GELU_44",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.023008
+    },
+    {
+      "name": "nn.Module: GELU_72",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022913
+    },
+    {
+      "name": "nn.Module: GELU_42",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022912
+    },
+    {
+      "name": "nn.Module: GELU_46",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022912
+    },
+    {
+      "name": "nn.Module: GELU_48",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022912
+    },
+    {
+      "name": "nn.Module: GELU_62",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022879999999999998
+    },
+    {
+      "name": "nn.Module: GELU_52",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022879
+    },
+    {
+      "name": "nn.Module: GELU_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022849
+    },
+    {
+      "name": "nn.Module: GELU_54",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022848
+    },
+    {
+      "name": "nn.Module: GELU_58",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022848
+    },
+    {
+      "name": "nn.Module: GELU_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022816
+    },
+    {
+      "name": "nn.Module: GELU_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022816
+    },
+    {
+      "name": "nn.Module: GELU_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022816
+    },
+    {
+      "name": "nn.Module: GELU_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022784
+    },
+    {
+      "name": "nn.Module: GELU_76",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022784
+    },
+    {
+      "name": "nn.Module: GELU_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022783
+    },
+    {
+      "name": "nn.Module: GELU_50",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022751999999999998
+    },
+    {
+      "name": "nn.Module: GELU_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022719999999999997
+    },
+    {
+      "name": "nn.Module: GELU_78",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022689
+    },
+    {
+      "name": "nn.Module: GELU_60",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022688
+    },
+    {
+      "name": "nn.Module: GELU_70",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022688
+    },
+    {
+      "name": "nn.Module: GELU_74",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022688
+    },
+    {
+      "name": "nn.Module: GELU_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022687000000000002
+    },
+    {
+      "name": "nn.Module: GELU_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022656
+    },
+    {
+      "name": "nn.Module: GELU_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022656
+    },
+    {
+      "name": "nn.Module: GELU_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022656
+    },
+    {
+      "name": "nn.Module: GELU_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022656
+    },
+    {
+      "name": "nn.Module: GELU_68",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022656
+    },
+    {
+      "name": "nn.Module: GELU_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022624
+    },
+    {
+      "name": "nn.Module: GELU_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022624
+    },
+    {
+      "name": "nn.Module: GELU_64",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.022624
+    },
+    {
+      "name": "nn.Module: GELU_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.02256
+    },
+    {
+      "name": "nn.Module: GELU_66",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.02256
+    },
+    {
+      "name": "nn.Module: GELU_80",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.02256
+    },
+    {
+      "name": "nn.Module: RowParallelLinear_0",
+      "calls": 1,
+      "kernels": 2,
+      "gpu_ms": 0.01824
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_129",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.010241
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_45",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.010209
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009311999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009215999999999998
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009151999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_93",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00912
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_149",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00912
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_73",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_77",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_105",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_121",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_81",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009087
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_101",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009055
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_113",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009055
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_61",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_89",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_109",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_137",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_85",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.009023
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008993000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008992000000000002
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_57",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008992000000000002
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_153",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008990999999999999
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_97",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008961
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_49",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008960000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_65",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008960000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_141",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008960000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_145",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008960000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_69",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008929
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_125",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008929
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008928
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_41",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008928
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_117",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008928
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_133",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008928
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_53",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008896000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_157",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008832000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008096
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_79",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008065
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.008064
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_75",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007968
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_63",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007937
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_55",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_59",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_67",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_91",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_95",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_99",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_115",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007936
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_139",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007905
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_43",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_71",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_103",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_111",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_119",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_143",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_155",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007904
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_87",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_107",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_123",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_135",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_147",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_151",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007872
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007871000000000001
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00784
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_47",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00784
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_83",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00784
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_127",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007839
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_159",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007808
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_131",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007776
+    },
+    {
+      "name": "nn.Module: LayerNormScaleShift_51",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.007744
+    },
+    {
+      "name": "nn.Module: GELU_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0070090000000000005
+    },
+    {
+      "name": "nn.Module: ColumnParallelLinear_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.004704
+    },
+    {
+      "name": "nn.Module: SiLU_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001888
+    },
+    {
+      "name": "nn.Module: ModulateWan_14",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001792
+    },
+    {
+      "name": "nn.Module: SiLU_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00176
+    },
+    {
+      "name": "nn.Module: ModulateWan_68",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00176
+    },
+    {
+      "name": "nn.Module: ModulateWan_53",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001696
+    },
+    {
+      "name": "nn.Module: ModulateWan_0",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001664
+    },
+    {
+      "name": "nn.Module: ModulateWan_16",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001664
+    },
+    {
+      "name": "nn.Module: ModulateWan_28",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001664
+    },
+    {
+      "name": "nn.Module: ModulateWan_47",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001664
+    },
+    {
+      "name": "nn.Module: ModulateWan_50",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001664
+    },
+    {
+      "name": "nn.Module: ModulateWan_8",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001632
+    },
+    {
+      "name": "nn.Module: ModulateWan_24",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001632
+    },
+    {
+      "name": "nn.Module: ModulateWan_26",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001632
+    },
+    {
+      "name": "nn.Module: ModulateWan_32",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001632
+    },
+    {
+      "name": "nn.Module: ModulateWan_62",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001632
+    },
+    {
+      "name": "nn.Module: ModulateWan_4",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_6",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_42",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_46",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_48",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_58",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_66",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_72",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_74",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_78",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0016
+    },
+    {
+      "name": "nn.Module: ModulateWan_40",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0015689999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_36",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0015680000000000002
+    },
+    {
+      "name": "nn.Module: ModulateWan_12",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001567
+    },
+    {
+      "name": "nn.Module: ModulateWan_2",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001536
+    },
+    {
+      "name": "nn.Module: ModulateWan_11",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001536
+    },
+    {
+      "name": "nn.Module: ModulateWan_35",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001536
+    },
+    {
+      "name": "nn.Module: ModulateWan_9",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001504
+    },
+    {
+      "name": "nn.Module: ModulateWan_17",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001504
+    },
+    {
+      "name": "nn.Module: ModulateWan_55",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001504
+    },
+    {
+      "name": "nn.Module: ModulateWan_61",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001504
+    },
+    {
+      "name": "nn.Module: ModulateWan_63",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001504
+    },
+    {
+      "name": "nn.Module: ModulateWan_79",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001504
+    },
+    {
+      "name": "nn.Module: ModulateWan_3",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001472
+    },
+    {
+      "name": "nn.Module: ModulateWan_25",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001472
+    },
+    {
+      "name": "nn.Module: ModulateWan_56",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001472
+    },
+    {
+      "name": "nn.Module: ModulateWan_73",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001472
+    },
+    {
+      "name": "nn.Module: ModulateWan_7",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_10",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_22",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_33",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_43",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_45",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_54",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_65",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_76",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0014399999999999999
+    },
+    {
+      "name": "nn.Module: ModulateWan_18",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_30",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_31",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_38",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_41",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_44",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_52",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_60",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_64",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_70",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_77",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001408
+    },
+    {
+      "name": "nn.Module: ModulateWan_15",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0013759999999999998
+    },
+    {
+      "name": "nn.Module: ModulateWan_20",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0013759999999999998
+    },
+    {
+      "name": "nn.Module: ModulateWan_34",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0013759999999999998
+    },
+    {
+      "name": "nn.Module: ModulateWan_37",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0013759999999999998
+    },
+    {
+      "name": "nn.Module: ModulateWan_51",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0013759999999999998
+    },
+    {
+      "name": "nn.Module: ModulateWan_59",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.0013440000000000001
+    },
+    {
+      "name": "nn.Module: ModulateWan_1",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "nn.Module: ModulateWan_5",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "nn.Module: ModulateWan_23",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "nn.Module: ModulateWan_39",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "nn.Module: ModulateWan_49",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "nn.Module: ModulateWan_57",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001312
+    },
+    {
+      "name": "nn.Module: ModulateWan_13",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_19",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_21",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_27",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_67",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_69",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_71",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_75",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.00128
+    },
+    {
+      "name": "nn.Module: ModulateWan_29",
+      "calls": 1,
+      "kernels": 1,
+      "gpu_ms": 0.001248
+    }
+  ],
+  "note": "Third complete native model call. Kernel ownership uses CUDA launch correlation; overlapping parent/child module times must not be summed. No CFG count assumed."
+}
