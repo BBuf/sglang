@@ -1,0 +1,182 @@
+{
+  "groups": {
+    "r1": {
+      "rows": [
+        {
+          "label": "final-r1-a1",
+          "arm": "a1",
+          "source": "80da4432d085ed4d6166ef643d9fd2b829dbb0c5",
+          "worker_s": 4.297169751953334,
+          "client_s": 4.7,
+          "denoise_s": 4.227283596992493,
+          "peak_gib": 69.068359375
+        },
+        {
+          "label": "final-r1-b1",
+          "arm": "b1",
+          "source": "1a7e397700ad6f6d7c1bb5af719411c9937bec1f",
+          "worker_s": 3.9719897150062025,
+          "client_s": 4.45,
+          "denoise_s": 3.8972127930028364,
+          "peak_gib": 69.068359375
+        },
+        {
+          "label": "final-r1-b2",
+          "arm": "b2",
+          "source": "1a7e397700ad6f6d7c1bb5af719411c9937bec1f",
+          "worker_s": 3.988427590986248,
+          "client_s": 4.37,
+          "denoise_s": 3.914441723958589,
+          "peak_gib": 69.068359375
+        },
+        {
+          "label": "final-r1-a2",
+          "arm": "a2",
+          "source": "80da4432d085ed4d6166ef643d9fd2b829dbb0c5",
+          "worker_s": 4.297979826980736,
+          "client_s": 4.73,
+          "denoise_s": 4.228893090970814,
+          "peak_gib": 69.068359375
+        }
+      ],
+      "means": {
+        "worker_s": {
+          "baseline": 4.297574789467035,
+          "candidate": 3.9802086529962253,
+          "reduction_pct": 7.3847728548819
+        },
+        "client_s": {
+          "baseline": 4.715,
+          "candidate": 4.41,
+          "reduction_pct": 6.468716861081648
+        },
+        "denoise_s": {
+          "baseline": 4.2280883439816535,
+          "candidate": 3.9058272584807128,
+          "reduction_pct": 7.62190993382751
+        }
+      },
+      "qualified": true
+    },
+    "r2": {
+      "rows": [
+        {
+          "label": "final-r2-a1",
+          "arm": "a1",
+          "source": "80da4432d085ed4d6166ef643d9fd2b829dbb0c5",
+          "worker_s": 4.912799937010277,
+          "client_s": 5.31,
+          "denoise_s": 4.843816118023824,
+          "peak_gib": 69.068359375
+        },
+        {
+          "label": "final-r2-b1",
+          "arm": "b1",
+          "source": "1a7e397700ad6f6d7c1bb5af719411c9937bec1f",
+          "worker_s": 3.9611818360281177,
+          "client_s": 4.4,
+          "denoise_s": 3.887250367028173,
+          "peak_gib": 69.068359375
+        },
+        {
+          "label": "final-r2-b2",
+          "arm": "b2",
+          "source": "1a7e397700ad6f6d7c1bb5af719411c9937bec1f",
+          "worker_s": 3.968412996036932,
+          "client_s": 4.39,
+          "denoise_s": 3.8943544609937817,
+          "peak_gib": 69.068359375
+        },
+        {
+          "label": "final-r2-a2",
+          "arm": "a2",
+          "source": "80da4432d085ed4d6166ef643d9fd2b829dbb0c5",
+          "worker_s": 4.725430409016553,
+          "client_s": 7.28,
+          "denoise_s": 4.65396690601483,
+          "peak_gib": 69.068359375
+        }
+      ],
+      "means": {
+        "worker_s": {
+          "baseline": 4.819115173013415,
+          "candidate": 3.964797416032525,
+          "reduction_pct": 17.727689136067724
+        },
+        "client_s": {
+          "baseline": 6.295,
+          "candidate": 4.395,
+          "reduction_pct": 30.182684670373316
+        },
+        "denoise_s": {
+          "baseline": 4.748891512019327,
+          "candidate": 3.8908024140109774,
+          "reduction_pct": 18.069250388991772
+        }
+      },
+      "qualified": true
+    }
+  },
+  "outputs": 22,
+  "high_baseline_candidate_byte_exact": true,
+  "profile_attribution": {
+    "baseline": {
+      "qk_scopes": 64,
+      "prefix_cat_scopes": 128,
+      "kernels": 1472,
+      "gpu_ms": 6.189829,
+      "by_kernel": [
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+          "count": 512,
+          "gpu_ms": 2.565478000000005
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+          "count": 384,
+          "gpu_ms": 1.7827550000000028
+        },
+        {
+          "name": "void at::native::vectorized_elementwise_kernel<8, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul>)",
+          "count": 256,
+          "gpu_ms": 0.5498910000000007
+        },
+        {
+          "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1} const&)::{lambda(int)#1})",
+          "count": 128,
+          "gpu_ms": 0.42294400000000004
+        },
+        {
+          "name": "void sglang::fused_qknorm_warp<128l, true, __nv_bfloat16>(sglang::QKNormParams)",
+          "count": 64,
+          "gpu_ms": 0.40307
+        },
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<2u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 64,
+          "gpu_ms": 0.3501100000000001
+        },
+        {
+          "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+          "count": 64,
+          "gpu_ms": 0.11558100000000002
+        }
+      ],
+      "note": "Disjoint QKNorm/RoPE scopes plus native UND-prefix cats, matched by input shape. CUDA launch correlation selects owned kernels. Rank 0 only; diagnostic cumulative device time, not request latency."
+    },
+    "candidate": {
+      "qk_scopes": 64,
+      "prefix_cat_scopes": 0,
+      "kernels": 64,
+      "gpu_ms": 0.747231,
+      "by_kernel": [
+        {
+          "name": "void sglang::fused_qknorm_rope_warp<128l, 128l, true, true, __nv_bfloat16, __nv_bfloat16, true, true, false, long, false>(std::conditional<true, sglang::QKNormRopePackKVParams, std::conditional<false, sglang::QKNormRopeOutOfPlaceParams, sglang::QKNormRopeParams>::type>::type)",
+          "count": 64,
+          "gpu_ms": 0.7472310000000004
+        }
+      ],
+      "note": "Disjoint QKNorm/RoPE scopes plus native UND-prefix cats, matched by input shape. CUDA launch correlation selects owned kernels. Rank 0 only; diagnostic cumulative device time, not request latency."
+    }
+  }
+}

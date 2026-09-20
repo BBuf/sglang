@@ -1,0 +1,3 @@
+LingBot test-only follow-up e0b81e1f947872a10fc6ad2dec349cd0222b50e6
+
+B200 job106118219469 passed every output bit comparison but failed the unconditional gate-enabled assertion for per-frame normalization. The test now compares raw native equivalence to actual gate state, retains exact changed-input graph replay, and requires fusion on Hopper. Affine/block tests likewise validate actual dispatch on other GPUs. No production or tolerance changes. H200:8tests+15subtests pass; precommit passes. B200 on this new head is pending. Initial test-driver attempt stopped before worktree creation because the preceding Cosmos audit had not completed successfully; retry log is retained.

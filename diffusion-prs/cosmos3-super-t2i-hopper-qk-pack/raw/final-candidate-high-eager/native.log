@@ -1,0 +1,255 @@
+
+================================================================
+[FINAL-CANDIDATE-HIGH-EAGER] cosmos3-super-t2i
+  CUDA_VISIBLE_DEVICES=0,1
+  sglang \
+  generate \
+  --backend=sglang \
+  --model-path=nvidia/Cosmos3-Super-Text2Image \
+  --prompt=A warehouse robot folds a blue cloth on a clean workbench. \
+  --seed=42 \
+  --width=1024 \
+  --height=1024 \
+  --num-frames=1 \
+  --num-inference-steps=35 \
+  --guidance-scale=4 \
+  --num-gpus=2 \
+  --tp-size=2 \
+  --ulysses-degree=1 \
+  --enable-torch-compile=false \
+  --performance-mode=manual \
+  --dit-cpu-offload=false \
+  --dit-layerwise-offload=false \
+  --vae-cpu-offload=false \
+  --warmup-resolutions=1024x1024 \
+  --warmup-num-frames=1 \
+  --quality=high \
+  --save-output \
+  --warmup-mode \
+  request \
+  --perf-dump-path \
+  /campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager/cosmos3-super-t2i_final-candidate-high-eager.json \
+  --output-path \
+  /campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager \
+  --output-file-name \
+  cosmos3-super-t2i-final-candidate-high-eager
+
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-20 17:52:24] server_args: {"model_path": "nvidia/Cosmos3-Super-Text2Image", "model_subfolder": null, "model_variant": null, "model_id": null, "served_model_name": "nvidia/Cosmos3-Super-Text2Image", "backend": "sglang", "attention_backend": null, "enable_attention_backend_autotune": false, "attention_backend_config": {}, "component_attention_backends": {}, "cache_dit_config": null, "nccl_port": null, "enable_nccl_nvls": false, "trust_remote_code": false, "revision": null, "num_gpus": 2, "performance_mode": "manual", "base_gpu_id": 0, "gpu_ids": null, "nnodes": 1, "node_rank": 0, "dist_init_addr": null, "tp_size": 2, "sp_degree": 1, "ulysses_degree": 1, "ring_degree": 1, "kv_gather_degree": 1, "sp_split_auto": false, "dp_size": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "encoder_parallel": "auto", "hsdp_replicate_dim": 1, "hsdp_shard_dim": 2, "dist_timeout": 3600, "scheduler_rpc_timeout": null, "pipeline_class_name": null, "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_alpha": null, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "component_weights_paths": {}, "component_direct_gpu_weight_loading": {}, "component_quantizations": {}, "component_precisions": {}, "component_quantization_ignored_layers": {}, "load_diffusion_decoder": false, "transformer_weights_path": null, "minimax_h3_adaln_cache_path": null, "minimax_h3_adaln_online": false, "minimax_h3_adaln_plan_width": 4, "minimax_h3_adaln_host_cache_gb": 8.0, "quantization": null, "quantization_ignored_layers": null, "lora_target_modules": null, "component_residency": null, "cpu_offload_components": null, "dit_cpu_offload": false, "direct_gpu_weight_loading": false, "dit_layerwise_offload": false, "layerwise_offload_components": null, "dit_offload_prefetch_size": 0.0, "dit_layerwise_resident_layers": 0.0, "dit_layerwise_residency_policy": "leading", "layerwise_prefetch_size": {}, "layerwise_resident_layers": {}, "layerwise_residency_policy": {}, "offload_during_compile": true, "text_encoder_cpu_offload": null, "image_encoder_cpu_offload": null, "vae_cpu_offload": false, "use_fsdp_inference": null, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": null, "comfyui_mode": false, "enable_torch_compile": false, "regional_compile": false, "enable_breakable_cuda_graph": false, "bcg_text_buckets": null, "enable_layerwise_nvtx_marker": false, "warmup_mode": "request", "warmup_resolutions": ["1024x1024"], "warmup_num_frames": 1, "warmup_steps": 1, "warmup_sampling_params": null, "disable_autocast": false, "master_port": 30005, "host": "127.0.0.1", "port": 30000, "enable_metrics": false, "webui": false, "webui_port": 12312, "scheduler_port": 5594, "scheduler_ports": [5594], "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "strict_ports": false, "output_path": "/campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_downstream_wait_timeout": 1800, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_instance_id": 0, "disagg_max_slots_per_instance": 8, "disagg_transfer_redundancy": 1.25, "disagg_role_device": "auto", "disagg_transfer_backend": "auto", "disagg_transfer_pool_size": 268435456, "disagg_transfer_pin_memory": "auto", "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "pool_control_endpoint": null, "pool_control_advertised_endpoint": null, "log_level": "info", "log_requests": false, "log_requests_level": 2, "log_requests_format": "text", "log_requests_target": null, "uvicorn_access_log_exclude_prefixes": [], "enable_cache_report": false, "enable_trace": false, "otlp_traces_endpoint": "localhost:4317", "otlp_service_name": null, "srt_encoder_url": null, "srt_encoder_connect_timeout": 3.05, "srt_encoder_timeout": 100, "pe_server_url": null}
+[09-20 17:52:24] Local mode: True
+[09-20 17:52:24] Starting server...
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-20 17:52:37] Scheduler (dp replica 0) bind at endpoint: tcp://127.0.0.1:5594
+[09-20 17:52:38] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/campaign/model-caches/cosmos3-super-t2i-cycle/sglang/torch_compile_cache/inductor TRITON_CACHE_DIR=/campaign/model-caches/cosmos3-super-t2i-cycle/sglang/torch_compile_cache/triton
+[09-20 17:52:38] Initializing distributed environment with world_size=2, device=cuda:0, timeout=3600
+[09-20 17:52:38] Setting distributed timeout to 3600 seconds
+[09-20 17:52:39] Found nccl from library libnccl.so.2
+[09-20 17:52:39] sglang-diffusion is using nccl==2.30.7
+[09-20 17:52:40] reading GPU P2P access cache from /root/.cache/sglang/gpu_p2p_access_cache_for_0,1.json
+[09-20 17:52:40] reading GPU P2P access cache from /root/.cache/sglang/gpu_p2p_access_cache_for_0,1.json
+[09-20 17:52:40] All Reduce config: symmetric_memory = 160.01 MB, local_buffer = 2.00 MB, multicast = False, pull = True
+[09-20 17:52:40] Found nccl from library libnccl.so.2
+[09-20 17:52:40] sglang-diffusion is using nccl==2.30.7
+[09-20 17:52:41] No pipeline_class_name specified, using model_index.json
+[09-20 17:52:42] Using pipeline from model_index.json: Cosmos3OmniDiffusersPipeline
+[09-20 17:52:42] Loading pipeline modules...
+[09-20 17:52:42] Checking for cached model in Hugging Face Hub cache for nvidia/Cosmos3-Super-Text2Image...
+[09-20 17:52:42] Found complete model in cache at /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79
+[09-20 17:52:42] Model path: /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79
+[09-20 17:52:42] Diffusers version: 0.37.1
+[09-20 17:52:42] Model already exists locally and is complete
+[09-20 17:52:42] Model path: /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79
+[09-20 17:52:42] Diffusers version: 0.37.1
+[09-20 17:52:42] Loading pipeline modules from config: {'_class_name': 'Cosmos3OmniDiffusersPipeline', '_diffusers_version': '0.37.1', 'scheduler': ['diffusers', 'UniPCMultistepScheduler'], 'text_tokenizer': ['transformers', 'Qwen2TokenizerFast'], 'transformer': ['diffusers', 'Cosmos3OmniTransformer'], 'vae': ['diffusers', 'AutoencoderKLWan'], 'vision_encoder': ['transformers', 'Qwen3VLVisionModel'], 'sound_tokenizer': ['diffusers', 'Cosmos3AVAEAudioTokenizer']}
+[09-20 17:52:42] Loading required components: ['text_tokenizer', 'vae', 'transformer', 'scheduler', 'sound_tokenizer']
+
+Loading required modules:   0%|          | 0/5 [00:00<?, ?it/s][09-20 17:52:42] Memory-aware component load order: ['transformer', 'sound_tokenizer', 'vae', 'text_tokenizer', 'scheduler']
+
+Loading required modules:   0%|          | 0/5 [00:00<?, ?it/s][09-20 17:52:42] Loading transformer from /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79/transformer. avail mem: 136.53 GB
+[09-20 17:52:42] Loading Cosmos3OmniTransformer from 27 safetensors file(s) , param_dtype: torch.bfloat16
+
+
+Loading safetensors checkpoint shards: 0%|          | 0/27[A
+
+Loading safetensors checkpoint shards: 4%|▎         | 1/27[A
+
+Loading safetensors checkpoint shards: 7%|▋         | 2/27[A
+
+Loading safetensors checkpoint shards: 11%|█         | 3/27[A
+
+Loading safetensors checkpoint shards: 15%|█▍        | 4/27[A
+
+Loading safetensors checkpoint shards: 19%|█▊        | 5/27[A
+
+Loading safetensors checkpoint shards: 22%|██▏       | 6/27[A
+
+Loading safetensors checkpoint shards: 26%|██▌       | 7/27[A
+
+Loading safetensors checkpoint shards: 30%|██▉       | 8/27[A
+
+Loading safetensors checkpoint shards: 33%|███▎      | 9/27[A
+
+Loading safetensors checkpoint shards: 37%|███▋      | 10/27[A
+
+Loading safetensors checkpoint shards: 41%|████      | 11/27[A
+
+Loading safetensors checkpoint shards: 44%|████▍     | 12/27[A
+
+Loading safetensors checkpoint shards: 48%|████▊     | 13/27[A
+
+Loading safetensors checkpoint shards: 52%|█████▏    | 14/27[A
+
+Loading safetensors checkpoint shards: 56%|█████▌    | 15/27[A
+
+Loading safetensors checkpoint shards: 59%|█████▉    | 16/27[A
+
+Loading safetensors checkpoint shards: 63%|██████▎   | 17/27[A
+
+Loading safetensors checkpoint shards: 67%|██████▋   | 18/27[A
+
+Loading safetensors checkpoint shards: 70%|███████   | 19/27[A
+
+Loading safetensors checkpoint shards: 74%|███████▍  | 20/27[A
+
+Loading safetensors checkpoint shards: 78%|███████▊  | 21/27[A
+
+Loading safetensors checkpoint shards: 81%|████████▏ | 22/27[A
+
+Loading safetensors checkpoint shards: 85%|████████▌ | 23/27[A
+
+Loading safetensors checkpoint shards: 89%|████████▉ | 24/27[A
+
+Loading safetensors checkpoint shards: 93%|█████████▎| 25/27[A
+
+Loading safetensors checkpoint shards: 96%|█████████▋| 26/27[A
+Loading safetensors checkpoint shards: 100%|██████████| 27/27
+
+Loading required modules:  20%|██        | 1/5 [00:26<01:47, 26.77s/it]/opt/sglang/lib/python3.12/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+[09-20 17:53:10] Attention backends for transformer: fa
+[09-20 17:53:10] Loaded transformer: Cosmos3OmniTransformer (sgl-diffusion version). model size: 58.96 GB, vram: 58.96 GB. avail GPU mem: 72.99 GB
+
+Loading required modules:  20%|██        | 1/5 [00:27<01:50, 27.67s/it][09-20 17:53:10] Loading sound_tokenizer from /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79/sound_tokenizer. avail mem: 72.99 GB
+/opt/sglang/lib/python3.12/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+
+Loading required modules:  40%|████      | 2/5 [00:28<00:36, 12.01s/it]
+Loading required modules:  60%|██████    | 3/5 [00:28<00:13,  6.73s/it]
+
+Loading safetensors checkpoint shards: 0%|          | 0/1[A
+Loading safetensors checkpoint shards: 100%|██████████| 1/1
+[09-20 17:53:12] Loaded sound_tokenizer: Cosmos3AVAEAudioTokenizer (sgl-diffusion version). model size: 0.88 GB, vram: 0.88 GB. avail GPU mem: 72.59 GB
+
+Loading required modules:  40%|████      | 2/5 [00:29<00:37, 12.38s/it][09-20 17:53:12] Loading vae from /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79/vae. avail mem: 72.59 GB
+[09-20 17:53:12] Wan VAE: spatial-parallel decode; skipping fast path.
+[09-20 17:53:12] Loaded vae: AutoencoderKLWan (sgl-diffusion version). model size: 1.31 GB, vram: 1.31 GB. avail GPU mem: 71.74 GB
+
+Loading required modules:  60%|██████    | 3/5 [00:29<00:13,  6.93s/it][09-20 17:53:12] Loading text_tokenizer from /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79/text_tokenizer. avail mem: 71.74 GB
+
+Loading required modules:  80%|████████  | 4/5 [00:29<00:04,  4.43s/it]
+Loading required modules: 100%|██████████| 5/5 [00:29<00:00,  5.96s/it]
+[09-20 17:53:13] Loaded text_tokenizer: Qwen2Tokenizer (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 71.74 GB
+
+Loading required modules:  80%|████████  | 4/5 [00:30<00:04,  4.51s/it][09-20 17:53:13] Loading scheduler from /campaign/model-caches/cosmos3-super-t2i-cycle/huggingface/hub/models--nvidia--Cosmos3-Super-Text2Image/snapshots/daf3d374804be4c512c2135568a7cb95d4341d79/scheduler. avail mem: 71.74 GB
+[09-20 17:53:13] Overriding scheduler class from UniPCMultistepScheduler to FlowUniPCMultistepScheduler
+[09-20 17:53:13] Loaded scheduler: FlowUniPCMultistepScheduler (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 71.74 GB
+
+Loading required modules: 100%|██████████| 5/5 [00:30<00:00,  6.12s/it]
+[09-20 17:53:13] Creating pipeline stages...
+[09-20 17:53:13] Cosmos3 pipeline stages created successfully (guardrails=False)
+[09-20 17:53:13] Pipeline instantiated
+[09-20 17:53:13] Worker 0: Initialized device, model, and distributed environment.
+[09-20 17:53:13] Worker 0: Scheduler loop started.
+
+Warmup requests:   0%|          | 0/1 [00:00<?, ?req/s]
+Warmup requests: 100%|██████████| 1/1 [00:02<00:00,  2.34s/req, server warmup req (1024x1024, 2/35 steps), last=2.34s]
+Warmup requests: 100%|██████████| 1/1 [00:02<00:00,  2.34s/req, server warmup req (1024x1024, 2/35 steps), last=2.34s]
+[09-20 17:53:15] Sequence dimension shard is enabled, disabling frame adjustment for better performance
+[09-20 17:53:15] Adjusting number of frames from 1 to 1 based on model
+[09-20 17:53:15] Processing 1 grouped request(s)
+[09-20 17:53:15] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=58>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 35
+      num_outputs_per_prompt: 1
+              guidance_scale: 4.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: None
+                 save_output: True
+            output_file_path: /campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager/cosmos3-super-t2i-final-candidate-high-eager.png
+        
+[09-20 17:53:15] Running pipeline stages: ['Cosmos3ImagePreprocessStage', 'Cosmos3TokenizationStage', 'Cosmos3LatentPreparationStage', 'Cosmos3TimestepPreparationStage', 'Cosmos3DenoisingStage', 'Cosmos3DecodingStage']
+[09-20 17:53:15] [Cosmos3ImagePreprocessStage] started...
+[09-20 17:53:15] [Cosmos3ImagePreprocessStage] finished in 0.0000 seconds
+[09-20 17:53:15] [Cosmos3TokenizationStage] started...
+[09-20 17:53:15] [Cosmos3TokenizationStage] finished in 0.0021 seconds
+[09-20 17:53:15] [Cosmos3LatentPreparationStage] started...
+[09-20 17:53:15] [Cosmos3LatentPreparationStage] Prepared latents with shape (1, 48, 1, 64, 64)
+[09-20 17:53:15] [Cosmos3LatentPreparationStage] finished in 0.0001 seconds
+[09-20 17:53:15] [Cosmos3TimestepPreparationStage] started...
+[09-20 17:53:15] [Cosmos3TimestepPreparationStage] Prepared 35 timesteps (flow_shift=3.0)
+[09-20 17:53:15] [Cosmos3TimestepPreparationStage] finished in 0.0003 seconds
+[09-20 17:53:15] [Cosmos3DenoisingStage] started...
+[09-20 17:53:15] [Cosmos3DenoisingStage] Starting denoising with 35 steps, CFG=True, CFG_parallel=False, cfg_rank=0
+
+Denoising:   0%|          | 0/35 [00:00<?, ?it/s][09-20 17:53:15] [Cosmos3DenoisingStage] Prompt and negative prompt tokenize to different lengths (23 vs 10); running the CFG branches in separate forwards to keep padding out of the cross-attention
+
+Denoising:   3%|▎         | 1/35 [00:00<00:06,  4.98it/s]
+Denoising:   9%|▊         | 3/35 [00:00<00:03,  8.51it/s]
+Denoising:  11%|█▏        | 4/35 [00:00<00:03,  8.58it/s]
+Denoising:  14%|█▍        | 5/35 [00:00<00:03,  8.60it/s]
+Denoising:  17%|█▋        | 6/35 [00:00<00:03,  8.58it/s]
+Denoising:  20%|██        | 7/35 [00:00<00:03,  8.66it/s]
+Denoising:  23%|██▎       | 8/35 [00:00<00:03,  8.61it/s]
+Denoising:  26%|██▌       | 9/35 [00:01<00:03,  8.31it/s]
+Denoising:  29%|██▊       | 10/35 [00:01<00:03,  8.18it/s]
+Denoising:  31%|███▏      | 11/35 [00:01<00:02,  8.23it/s]
+Denoising:  34%|███▍      | 12/35 [00:01<00:02,  8.32it/s]
+Denoising:  37%|███▋      | 13/35 [00:01<00:02,  8.37it/s]
+Denoising:  40%|████      | 14/35 [00:01<00:02,  8.46it/s]
+Denoising:  43%|████▎     | 15/35 [00:01<00:02,  8.53it/s]
+Denoising:  46%|████▌     | 16/35 [00:01<00:02,  8.48it/s]
+Denoising:  49%|████▊     | 17/35 [00:02<00:02,  8.37it/s]
+Denoising:  51%|█████▏    | 18/35 [00:02<00:02,  8.28it/s]
+Denoising:  54%|█████▍    | 19/35 [00:02<00:01,  8.28it/s]
+Denoising:  57%|█████▋    | 20/35 [00:02<00:01,  8.33it/s]
+Denoising:  60%|██████    | 21/35 [00:02<00:01,  8.39it/s]
+Denoising:  63%|██████▎   | 22/35 [00:02<00:01,  8.43it/s]
+Denoising:  66%|██████▌   | 23/35 [00:02<00:01,  8.48it/s]
+Denoising:  69%|██████▊   | 24/35 [00:02<00:01,  8.50it/s]
+Denoising:  71%|███████▏  | 25/35 [00:02<00:01,  8.43it/s]
+Denoising:  74%|███████▍  | 26/35 [00:03<00:01,  8.32it/s]
+Denoising:  77%|███████▋  | 27/35 [00:03<00:00,  8.30it/s]
+Denoising:  80%|████████  | 28/35 [00:03<00:00,  8.32it/s]
+Denoising:  83%|████████▎ | 29/35 [00:03<00:00,  8.36it/s]
+Denoising:  89%|████████▊ | 31/35 [00:03<00:00, 10.12it/s]
+Denoising:  94%|█████████▍| 33/35 [00:03<00:00, 12.08it/s]
+Denoising: 100%|██████████| 35/35 [00:03<00:00, 13.44it/s]
+Denoising: 100%|██████████| 35/35 [00:03<00:00,  9.07it/s]
+[09-20 17:53:19] [Cosmos3DenoisingStage] Denoising complete
+[09-20 17:53:19] [Cosmos3DenoisingStage] finished in 3.8922 seconds
+[09-20 17:53:19] [Cosmos3DecodingStage] started...
+[09-20 17:53:19] [Cosmos3DecodingStage] Decoding latents to image...
+[09-20 17:53:19] [Cosmos3DecodingStage] finished in 0.0657 seconds
+[09-20 17:53:19] Output saved to [1;36m/campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager/cosmos3-super-t2i-final-candidate-high-eager.png[0;0m
+[09-20 17:53:20] Metrics dumped to: [1;36m/campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager/cosmos3-super-t2i_final-candidate-high-eager.json[0;0m
+[09-20 17:53:20] Pixel data generated successfully in [92m4.36[0;0m seconds
+[09-20 17:53:20] Warmed-up request processed in [92m3.96[0;0m seconds (with warmup excluded)
+[09-20 17:53:20] Memory usage - Max peak: 70726.00 MB, Avg peak: 70726.00 MB
+[09-20 17:53:20] Metrics dumped to: [1;36m/campaign/artifacts/cosmos3-super-t2i/final-candidate-high-eager/cosmos3-super-t2i_final-candidate-high-eager.json[0;0m
+[93m[09-20 17:53:20] Generator was garbage collected without being shut down. Forcing local server and client cleanup.[0;0m
+[93m[09-20 17:53:20] Local worker sglang-diffusionWorker-0 did not terminate gracefully, forcing.[0;0m
+[93m[09-20 17:53:20] Local worker sglang-diffusionWorker-1 did not terminate gracefully, forcing.[0;0m
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 2 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

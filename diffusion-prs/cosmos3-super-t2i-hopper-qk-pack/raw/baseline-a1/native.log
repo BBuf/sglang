@@ -1,0 +1,278 @@
+
+================================================================
+[BASELINE-A1] cosmos3-super-t2i
+  CUDA_VISIBLE_DEVICES=0,1
+  sglang \
+  generate \
+  --backend=sglang \
+  --model-path=nvidia/Cosmos3-Super-Text2Image \
+  --prompt=A warehouse robot folds a blue cloth on a clean workbench. \
+  --seed=42 \
+  --width=1024 \
+  --height=1024 \
+  --num-frames=1 \
+  --num-inference-steps=35 \
+  --guidance-scale=4 \
+  --num-gpus=2 \
+  --tp-size=2 \
+  --ulysses-degree=1 \
+  --enable-torch-compile=false \
+  --performance-mode=manual \
+  --dit-cpu-offload=false \
+  --dit-layerwise-offload=false \
+  --vae-cpu-offload=false \
+  --warmup-resolutions=1024x1024 \
+  --warmup-num-frames=1 \
+  --quality=lossless \
+  --save-output \
+  --warmup-mode \
+  request \
+  --perf-dump-path \
+  /campaign/artifacts/cosmos3-super-t2i/baseline-a1/cosmos3-super-t2i_baseline-a1.json \
+  --output-path \
+  /campaign/artifacts/cosmos3-super-t2i/baseline-a1 \
+  --output-file-name \
+  cosmos3-super-t2i-baseline-a1
+
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-20 07:22:54] server_args: {"model_path": "nvidia/Cosmos3-Super-Text2Image", "model_subfolder": null, "model_variant": null, "model_id": null, "served_model_name": "nvidia/Cosmos3-Super-Text2Image", "backend": "sglang", "attention_backend": null, "enable_attention_backend_autotune": false, "attention_backend_config": {}, "component_attention_backends": {}, "cache_dit_config": null, "nccl_port": null, "enable_nccl_nvls": false, "trust_remote_code": false, "revision": null, "num_gpus": 2, "performance_mode": "manual", "base_gpu_id": 0, "gpu_ids": null, "nnodes": 1, "node_rank": 0, "dist_init_addr": null, "tp_size": 2, "sp_degree": 1, "ulysses_degree": 1, "ring_degree": 1, "kv_gather_degree": 1, "sp_split_auto": false, "dp_size": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "encoder_parallel": "auto", "hsdp_replicate_dim": 1, "hsdp_shard_dim": 2, "dist_timeout": 3600, "scheduler_rpc_timeout": null, "pipeline_class_name": null, "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_alpha": null, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "component_weights_paths": {}, "component_direct_gpu_weight_loading": {}, "component_quantizations": {}, "component_precisions": {}, "component_quantization_ignored_layers": {}, "load_diffusion_decoder": false, "transformer_weights_path": null, "minimax_h3_adaln_cache_path": null, "minimax_h3_adaln_online": false, "minimax_h3_adaln_plan_width": 4, "minimax_h3_adaln_host_cache_gb": 8.0, "quantization": null, "quantization_ignored_layers": null, "lora_target_modules": null, "component_residency": null, "cpu_offload_components": null, "dit_cpu_offload": false, "direct_gpu_weight_loading": false, "dit_layerwise_offload": false, "layerwise_offload_components": null, "dit_offload_prefetch_size": 0.0, "dit_layerwise_resident_layers": 0.0, "dit_layerwise_residency_policy": "leading", "layerwise_prefetch_size": {}, "layerwise_resident_layers": {}, "layerwise_residency_policy": {}, "offload_during_compile": true, "text_encoder_cpu_offload": null, "image_encoder_cpu_offload": null, "vae_cpu_offload": false, "use_fsdp_inference": null, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": null, "comfyui_mode": false, "enable_torch_compile": false, "regional_compile": false, "enable_breakable_cuda_graph": false, "bcg_text_buckets": null, "enable_layerwise_nvtx_marker": false, "warmup_mode": "request", "warmup_resolutions": ["1024x1024"], "warmup_num_frames": 1, "warmup_steps": 1, "warmup_sampling_params": null, "disable_autocast": false, "master_port": 30005, "host": "127.0.0.1", "port": 30000, "enable_metrics": false, "webui": false, "webui_port": 12312, "scheduler_port": 5591, "scheduler_ports": [5591], "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "strict_ports": false, "output_path": "/campaign/artifacts/cosmos3-super-t2i/baseline-a1", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_downstream_wait_timeout": 1800, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_instance_id": 0, "disagg_max_slots_per_instance": 8, "disagg_transfer_redundancy": 1.25, "disagg_role_device": "auto", "disagg_transfer_backend": "auto", "disagg_transfer_pool_size": 268435456, "disagg_transfer_pin_memory": "auto", "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "pool_control_endpoint": null, "pool_control_advertised_endpoint": null, "log_level": "info", "log_requests": false, "log_requests_level": 2, "log_requests_format": "text", "log_requests_target": null, "uvicorn_access_log_exclude_prefixes": [], "enable_cache_report": false, "enable_trace": false, "otlp_traces_endpoint": "localhost:4317", "otlp_service_name": null, "srt_encoder_url": null, "srt_encoder_connect_timeout": 3.05, "srt_encoder_timeout": 100, "pe_server_url": null}
+[09-20 07:22:54] Local mode: True
+[09-20 07:22:54] Starting server...
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+Flax classes are deprecated and will be removed in Diffusers v1.0.0. We recommend migrating to PyTorch classes or pinning your version of Diffusers.
+[09-20 07:23:07] Scheduler (dp replica 0) bind at endpoint: tcp://127.0.0.1:5591
+[09-20 07:23:08] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/campaign/model-caches/cosmos3-super-t2i-cycle/sglang/torch_compile_cache/inductor TRITON_CACHE_DIR=/campaign/model-caches/cosmos3-super-t2i-cycle/sglang/torch_compile_cache/triton
+[09-20 07:23:08] Initializing distributed environment with world_size=2, device=cuda:0, timeout=3600
+[09-20 07:23:08] Setting distributed timeout to 3600 seconds
+[09-20 07:23:10] Found nccl from library libnccl.so.2
+[09-20 07:23:10] sglang-diffusion is using nccl==2.30.7
+[09-20 07:23:10] reading GPU P2P access cache from /root/.cache/sglang/gpu_p2p_access_cache_for_0,1.json
+[09-20 07:23:10] reading GPU P2P access cache from /root/.cache/sglang/gpu_p2p_access_cache_for_0,1.json
+[09-20 07:23:11] All Reduce config: symmetric_memory = 160.01 MB, local_buffer = 2.00 MB, multicast = False, pull = True
+[09-20 07:23:11] Found nccl from library libnccl.so.2
+[09-20 07:23:11] sglang-diffusion is using nccl==2.30.7
+[09-20 07:23:11] No pipeline_class_name specified, using model_index.json
+[09-20 07:23:13] Using pipeline from model_index.json: Cosmos3OmniDiffusersPipeline
+[09-20 07:23:13] Loading pipeline modules...
+[09-20 07:23:13] Checking for cached model in Hugging Face Hub cache for nvidia/Cosmos3-Super-Text2Image...
+[09-20 07:23:13] Model not found in cache, will download from Hugging Face Hub
+[09-20 07:23:13] Downloading model snapshot from Hugging Face Hub for nvidia/Cosmos3-Super-Text2Image (attempt 1/5)...
+Process sglang-diffusionWorker-1:
+Traceback (most recent call last):
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 268, in snapshot_download
+    repo_info = api.repo_info(repo_id=repo_id, repo_type=repo_type, revision=revision)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/hf_api.py", line 3653, in repo_info
+    return method(
+           ^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/hf_api.py", line 3332, in model_info
+    r = get_session().get(path, headers=headers, timeout=timeout, params=params)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+           ^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 977, in _send_handling_redirects
+    hook(request)
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_http.py", line 260, in hf_request_event_hook
+    raise OfflineModeIsEnabled(
+huggingface_hub.errors.OfflineModeIsEnabled: Cannot reach https://huggingface.co/api/models/nvidia/Cosmos3-Super-Text2Image/revision/main: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/utils/hf_diffusers_utils.py", line 1059, in maybe_download_model
+    local_path = snapshot_download(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/utils/hf_diffusers_utils.py", line 1239, in snapshot_download
+    return _hf_snapshot_download(**hf_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 321, in snapshot_download
+    _raise_if_incomplete_snapshot(
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 576, in _raise_if_incomplete_snapshot
+    raise IncompleteSnapshotError(
+huggingface_hub.errors.IncompleteSnapshotError: The cached snapshot for 'nvidia/Cosmos3-Super-Text2Image' (revision 'main', commit daf3d374804be4c512c2135568a7cb95d4341d79) is incomplete: 7 file(s) are missing (assets/benchmark-text2image-leaderboard-all-models.jpg, assets/benchmark-text2image-leaderboard.png, assets/benchmark-text2image.png, ... (4 more)). The Hub could not be reached (OfflineModeIsEnabled: Cannot reach https://huggingface.co/api/models/nvidia/Cosmos3-Super-Text2Image/revision/main: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Re-run the download with network access to complete the snapshot.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/worker_bootstrap.py", line 147, in bootstrap_scheduler_process
+    gpu_worker.run_scheduler_process(
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/gpu_worker.py", line 1600, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/scheduler.py", line 134, in __init__
+    worker = Exec_worker(
+             ^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/gpu_worker.py", line 245, in __init__
+    self.init_device_and_model()
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/gpu_worker.py", line 424, in init_device_and_model
+    self.pipeline = build_pipeline(self.server_args)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/__init__.py", line 80, in build_pipeline
+    pipeline = pipeline_cls(model_path, server_args)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/lora/pipeline.py", line 170, in __init__
+    super().__init__(*args, **kwargs)
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/composed_pipeline_base.py", line 154, in __init__
+    self.modules = self.load_modules(server_args, loaded_modules)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines/cosmos3_pipeline.py", line 54, in load_modules
+    if "sound_tokenizer" not in self._load_config():
+                                ^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/composed_pipeline_base.py", line 188, in _load_config
+    model_path = maybe_download_model(
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/utils/hf_diffusers_utils.py", line 1155, in maybe_download_model
+    raise ValueError(
+ValueError: Could not find model at nvidia/Cosmos3-Super-Text2Image and failed to download from Hugging Face Hub: The cached snapshot for 'nvidia/Cosmos3-Super-Text2Image' (revision 'main', commit daf3d374804be4c512c2135568a7cb95d4341d79) is incomplete: 7 file(s) are missing (assets/benchmark-text2image-leaderboard-all-models.jpg, assets/benchmark-text2image-leaderboard.png, assets/benchmark-text2image.png, ... (4 more)). The Hub could not be reached (OfflineModeIsEnabled: Cannot reach https://huggingface.co/api/models/nvidia/Cosmos3-Super-Text2Image/revision/main: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Re-run the download with network access to complete the snapshot.
+[09-20 07:23:15] Worker 0: Shutdown complete.
+Process sglang-diffusionWorker-0:
+Traceback (most recent call last):
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 268, in snapshot_download
+    repo_info = api.repo_info(repo_id=repo_id, repo_type=repo_type, revision=revision)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/hf_api.py", line 3653, in repo_info
+    return method(
+           ^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/hf_api.py", line 3332, in model_info
+    r = get_session().get(path, headers=headers, timeout=timeout, params=params)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+           ^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/httpx/_client.py", line 977, in _send_handling_redirects
+    hook(request)
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_http.py", line 260, in hf_request_event_hook
+    raise OfflineModeIsEnabled(
+huggingface_hub.errors.OfflineModeIsEnabled: Cannot reach https://huggingface.co/api/models/nvidia/Cosmos3-Super-Text2Image/revision/main: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/utils/hf_diffusers_utils.py", line 1059, in maybe_download_model
+    local_path = snapshot_download(
+                 ^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/utils/hf_diffusers_utils.py", line 1239, in snapshot_download
+    return _hf_snapshot_download(**hf_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 321, in snapshot_download
+    _raise_if_incomplete_snapshot(
+  File "/opt/sglang/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 576, in _raise_if_incomplete_snapshot
+    raise IncompleteSnapshotError(
+huggingface_hub.errors.IncompleteSnapshotError: The cached snapshot for 'nvidia/Cosmos3-Super-Text2Image' (revision 'main', commit daf3d374804be4c512c2135568a7cb95d4341d79) is incomplete: 7 file(s) are missing (assets/benchmark-text2image-leaderboard-all-models.jpg, assets/benchmark-text2image-leaderboard.png, assets/benchmark-text2image.png, ... (4 more)). The Hub could not be reached (OfflineModeIsEnabled: Cannot reach https://huggingface.co/api/models/nvidia/Cosmos3-Super-Text2Image/revision/main: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Re-run the download with network access to complete the snapshot.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/worker_bootstrap.py", line 147, in bootstrap_scheduler_process
+    gpu_worker.run_scheduler_process(
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/gpu_worker.py", line 1600, in run_scheduler_process
+    scheduler = Scheduler(
+                ^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/scheduler.py", line 134, in __init__
+    worker = Exec_worker(
+             ^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/gpu_worker.py", line 245, in __init__
+    self.init_device_and_model()
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/managers/gpu_worker.py", line 424, in init_device_and_model
+    self.pipeline = build_pipeline(self.server_args)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/__init__.py", line 80, in build_pipeline
+    pipeline = pipeline_cls(model_path, server_args)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/lora/pipeline.py", line 170, in __init__
+    super().__init__(*args, **kwargs)
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/composed_pipeline_base.py", line 154, in __init__
+    self.modules = self.load_modules(server_args, loaded_modules)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines/cosmos3_pipeline.py", line 54, in load_modules
+    if "sound_tokenizer" not in self._load_config():
+                                ^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/pipelines_core/composed_pipeline_base.py", line 188, in _load_config
+    model_path = maybe_download_model(
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/utils/hf_diffusers_utils.py", line 1155, in maybe_download_model
+    raise ValueError(
+ValueError: Could not find model at nvidia/Cosmos3-Super-Text2Image and failed to download from Hugging Face Hub: The cached snapshot for 'nvidia/Cosmos3-Super-Text2Image' (revision 'main', commit daf3d374804be4c512c2135568a7cb95d4341d79) is incomplete: 7 file(s) are missing (assets/benchmark-text2image-leaderboard-all-models.jpg, assets/benchmark-text2image-leaderboard.png, assets/benchmark-text2image.png, ... (4 more)). The Hub could not be reached (OfflineModeIsEnabled: Cannot reach https://huggingface.co/api/models/nvidia/Cosmos3-Super-Text2Image/revision/main: offline mode is enabled. To disable it, please unset the `HF_HUB_OFFLINE` environment variable.). Re-run the download with network access to complete the snapshot.
+[91m[09-20 07:23:17] Rank 0 scheduler is dead. Please check if there are relevant logs.[0;0m
+[91m[09-20 07:23:17] Exit code: 1[0;0m
+Traceback (most recent call last):
+  File "/opt/sglang/bin/sglang", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/campaign/baseline-current/python/sglang/cli/main.py", line 44, in main
+    generate(args, extra_argv)
+  File "/campaign/baseline-current/python/sglang/cli/generate.py", line 29, in generate
+    generate_cmd(parsed_args, unknown_args)
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/entrypoints/cli/generate.py", line 202, in generate_cmd
+    generator = DiffGenerator.from_pretrained(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/entrypoints/diffusion_generator.py", line 145, in from_pretrained
+    return cls._create(server_args, local_mode=local_mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/entrypoints/diffusion_generator.py", line 178, in _create
+    instance.local_scheduler_process = instance._start_local_server_if_needed()
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/entrypoints/diffusion_generator.py", line 198, in _start_local_server_if_needed
+    processes = launch_server(self.server_args, launch_http_server=False)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/baseline-current/python/sglang/multimodal_gen/runtime/launch_server.py", line 196, in launch_server
+    data = reader.recv()
+           ^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+          ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 430, in _recv_bytes
+    buf = self._recv(4)
+          ^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/multiprocessing/connection.py", line 399, in _recv
+    raise EOFError
+EOFError
+  ERROR: exit code 1

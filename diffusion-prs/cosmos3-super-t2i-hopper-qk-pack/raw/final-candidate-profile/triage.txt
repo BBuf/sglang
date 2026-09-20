@@ -1,0 +1,26 @@
+Triage View
+Mode: single-trace
+Framework: SGLang
+Input traces: /campaign/artifacts/cosmos3-super-t2i/final-candidate-profile/traces/forward3.trace.json.gz
+
+Kernel Table
+| Kernel | Category | GPU time | Share | Launches | Python location (site share) | CPU op |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TNT | gemm | 41.18 ms | 79.9% | 256 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| void sglang::all_reduce_1shot_push_kernel<sglang::LoadStoreImpl<sglang::device::AlignedVector<__nv_bfloat162, 4ul>, 2u, false>, __nv_bfloat16, 2u, true> | communication | 4.73 ms | 9.2% | 128 | python/sglang/kernels/ops/communication/all_reduce.py:217 custom_all_reduce | cudaLaunchKernelExC |
+| void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > > | gemm | 2.05 ms | 4.0% | 64 | python/sglang/kernels/ops/attention/flash_attention_v3.py:19 _call_fa3_kernel | sgl_kernel::fwd |
+| kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64512051201_tensorptrbf16gmemalign128oi64512051201_tensorptrbf16gme_0 | gemm | 1.53 ms | 3.0% | 127 | python/sglang/multimodal_gen/runtime/layers/layernorm.py:123 forward_cuda | cudaLaunchKernelExC |
+| void sglang::act_and_mul_kernel<__nv_bfloat16, (sglang::ActivationKind)0, true, false, false, false> | activation | 1.18 ms | 2.3% | 64 | python/sglang/kernels/ops/activation/activation.py:105 run_activation | sglang::_run_activation_inplace |
+| void sglang::fused_qknorm_rope_warp<128l, 128l, true, true, __nv_bfloat16, __nv_bfloat16, true, true, false, long, false> | rope | 0.75 ms | 1.4% | 64 | python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py:280 _apply_qwen3_qk_norm_rope_pack_kv | sglang::fused_qknorm_rope_pack_kv |
+
+Overlap Opportunity Table
+| Priority | Verdict | Kernel | Python scope | Formal signal | Dep risk | Recommendation |
+| --- | --- | --- | --- | --- | --- | --- |
+| - | - | No rows cleared the 1.0% reporting bar. Use mapping/formal mode for overlap attribution. | - | - | - | - |
+
+Fuse Opportunity Table
+| Pattern | Confidence | Related GPU time | Share | Evidence kernels | Current kernel Python location | Candidate fused Python path | Rationale |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| Fused QK RMSNorm + RoPE | Confirmed | 0.75 ms | 1.4% | void sglang::fused_qknorm_rope_warp<128l, 128l, true, true, __nv_bfloat16, __nv_bfloat16, true, true, false, long, false> (1.4%) | _apply_qwen3_qk_norm_rope_pack_kv @ python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py:280 | python/sglang/jit_kernel/fused_qknorm_rope.py<br>python/sglang/srt/models/qwen3_moe.py | `Fused QK RMSNorm + RoPE` is present in this trace (1.4% related GPU time). SGLang has a fused QK-norm plus RoPE kernel family. |
+| NSA fused quantize + indexed K-cache store | Confirmed | 45.97 ms | 89.2% | nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TNT (79.9%)<br>void sglang::all_reduce_1shot_push_kernel<sglang::LoadStoreImpl<sglang::device::AlignedVector<__nv_bfloat162, 4ul>, 2u, false>, __nv_bfloat16, 2u, true> (9.2%) | apply_unquantized_linear @ python/sglang/multimodal_gen/runtime/layers/linear.py:134<br>custom_all_reduce @ python/sglang/kernels/ops/communication/all_reduce.py:217<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py:1474 | python/sglang/jit_kernel/fused_store_index_cache.py<br>python/sglang/srt/layers/attention/nsa/nsa_indexer.py | Split kernels in this family take 89.2% of GPU time. This tree already has a matching path. NSA already has a fused quantize-and-indexed-store kernel family. |
+| Fused residual add + RMSNorm | Confirmed | 1.53 ms | 3.0% | kernel_cutlass_kernel_flashinfernormkernelsfused_add_rmsnormFusedAddRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64512051201_tensorptrbf16gmemalign128oi64512051201_tensorptrbf16gme_0 (3.0%) | forward_cuda @ python/sglang/multimodal_gen/runtime/layers/layernorm.py:123 | python/sglang/srt/layers/layernorm.py<br>python/sglang/srt/layers/quantization/modelslim/modelslim.py | `Fused residual add + RMSNorm` is present in this trace (3.0% related GPU time). Residual add plus RMSNorm already has fused implementations across several backends. |

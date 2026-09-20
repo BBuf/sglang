@@ -1,0 +1,70 @@
+# SGLang review corpus sweep
+
+- Filters: paths=['python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py', 'python/sglang/multimodal_gen/test/unit/test_cosmos3.py', 'test/registered/kernels/ops/diffusion/test_rope.py', 'test/registered/kernels/benchmark/diffusion/bench_cosmos3_super_qk_pack.py', 'docs/docs/sglang-diffusion/fused_kernels.mdx'] queries=- category=- kind=-
+- Scanned **32639** threads in segments of 2000; matched **3** threads across **1** PRs, **6** human comments.
+
+## Aggregate over ALL matches
+- By type: inline_review_thread (3)
+- By category: models-quant (3), memory-cache (2), build-deps (2), correctness (1), tests-ci (1), performance (1), gpu-kernel (1), distributed-concurrency (1), api-compat (1), style-maintainability (1)
+- Top paths: python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py (3)
+- Top reviewers: mickqian (3), nv-dmajchrowski (3)
+- By PR year: 2026 (3)
+
+## Top 3 most relevant review threads (read and summarize these)
+
+### PR #24994: [diffusion] model: support a new model
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py`
+- Categories: `memory-cache, models-quant, build-deps` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/24994#discussion_r3246750319
+```diff
+@@ -0,0 +1,1468 @@
++# SPDX-License-Identifier: Apache-2.0
++"""Cosmos3 Omni transformer.
++
++Dual-pathway DiT: an Understanding (UND) pathway runs causal self-attention
++over the text tokens once and caches its K/V; a Generation (GEN) pathway
++cross-attends from noisy visual tokens to that cache at every denoising step.
++"""
++
++import math
++from collections.abc import Iterable, Iterator
++from typ...
+```
+- **mickqian**: could you move it to `parallel_stage.py`? what's the necessity of this
+- **nv-dmajchrowski**: This one we can safely remove, it's artifact from first version of multi-gpu support.
+- _relevance: 4.4_
+
+### PR #24994: [diffusion] model: support a new model
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, style-maintainability, build-deps` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/24994#discussion_r3246768791
+```diff
+@@ -0,0 +1,1468 @@
++# SPDX-License-Identifier: Apache-2.0
++"""Cosmos3 Omni transformer.
++
++Dual-pathway DiT: an Understanding (UND) pathway runs causal self-attention
++over the text tokens once and caches its K/V; a Generation (GEN) pathway
++cross-attends from noisy visual tokens to that cache at every denoising step.
++"""
++
++import math
++from collections.abc import Iterable, Iterator
++from typ...
+```
+- **mickqian**: is it possible that it's compatible with other attention backends
+- **nv-dmajchrowski**: I removed this wrapper, now we fallback to default `_supported_attention_backends` from `DiTArchConfig`
+- _relevance: 4.4_
+
+### PR #24994: [diffusion] model: support a new model
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/models/dits/cosmos3video.py`
+- Categories: `models-quant` | Hit terms: `-`
+- Link: https://github.com/sgl-project/sglang/pull/24994#discussion_r3246773792
+```diff
+@@ -0,0 +1,1468 @@
++# SPDX-License-Identifier: Apache-2.0
+```
+- **mickqian**: would you adapt to `USPAttention`?
+- **nv-dmajchrowski**: Done, adapted the codebase to `USPAttention`
+- _relevance: 4.4_
+
