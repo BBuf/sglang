@@ -1,0 +1,39 @@
+{
+  "qualified": true,
+  "qualified_workloads": [
+    "longlive2-i2v"
+  ],
+  "unqualified_workloads": [
+    "longlive2-t2v"
+  ],
+  "candidate": "be05e7e6c24252db11458621f2d06f3969be08d1",
+  "basis": "All four independent I2V ABBA groups exceed 1.5% in both saved-request worker and client means, including final-source r3/r4. No claim that both model workloads qualify.",
+  "worker_improvement_pct": {
+    "t2v-r1": 6.10473338338117,
+    "t2v-r2": 5.398973158779042,
+    "t2v-r3": 5.009046355873895,
+    "t2v-r4": 5.02241157417428,
+    "i2v-r1": 6.074579545666118,
+    "i2v-r2": 5.8511661160519095,
+    "i2v-r3": 5.52799319992316,
+    "i2v-r4": 5.883844948230183
+  },
+  "client_improvement_pct": {
+    "t2v-r1": -57.434944237918195,
+    "t2v-r2": 4.82374768089055,
+    "t2v-r3": 5.667276051188308,
+    "t2v-r4": -44.320297951582866,
+    "i2v-r1": 5.666666666666664,
+    "i2v-r2": 2.828618968386022,
+    "i2v-r3": 5.2675585284281,
+    "i2v-r4": 12.538226299694195
+  },
+  "limitations": [
+    "T2V r1B1 and r4B2 have post-save client outliers; retain all samples and make no T2V client E2E speed claim.",
+    "I2V r4A1 baseline client 7.08s inflates r4 mean improvement. Quote r3 client reduction 5.27%, not r4 12.54%, as representative.",
+    "Native I2V CLI requests 960x928 but preserves source aspect ratio and produces 1152x768. All 24 baseline/candidate videos share this geometry. The preset emits a supported-resolution advisory.",
+    "Actual native BCG is disabled in both LongLive 2 configurations. Standalone CUDA graph replay tests do not establish native BCG support.",
+    "Final native peak memory increases from 59.642578125 to 61.01953125 GiB. Performance mode auto resolves all components resident in both arms.",
+    "Diagnostic py-spy/GC runs and all torch profiles are excluded from performance claims."
+  ]
+}

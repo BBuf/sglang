@@ -1,0 +1,71 @@
+{
+  "diagnostic_only": true,
+  "rows": [
+    {
+      "arm": "a1",
+      "source": "993d1fccbaafe3e79d91567d2fc1d665cc94fa50",
+      "worker_s": 2.392123046971392,
+      "client_s": 6.09,
+      "output_sha256": "fb15120992e8e5fc5bf50fb15ffe31e653f42d8e896bd620ef773015bb44f5b4",
+      "max_observed_gc_s": 0.4153975920053199,
+      "gc_events_over_10ms": 12,
+      "sampler_exit": "0",
+      "timing_log_lines": [
+        "[09-20 03:33:11] Processing 1 grouped request(s)",
+        "[09-20 03:33:14] Output saved to /campaign/artifacts/longlive2/diag-t2v-client-retry2-a1/longlive2-t2v-diag-t2v-client-retry2-a1.mp4",
+        "[09-20 03:33:17] Pixel data generated successfully in 6.09 seconds",
+        "[09-20 03:33:17] Warmed-up request processed in 2.39 seconds (with warmup excluded)"
+      ]
+    },
+    {
+      "arm": "b1",
+      "source": "be05e7e6c24252db11458621f2d06f3969be08d1",
+      "worker_s": 2.268157829006668,
+      "client_s": 2.57,
+      "output_sha256": "fb15120992e8e5fc5bf50fb15ffe31e653f42d8e896bd620ef773015bb44f5b4",
+      "max_observed_gc_s": 0.4503502819570713,
+      "gc_events_over_10ms": 12,
+      "sampler_exit": "0",
+      "timing_log_lines": [
+        "[09-20 03:34:12] Processing 1 grouped request(s)",
+        "[09-20 03:34:15] Output saved to /campaign/artifacts/longlive2/diag-t2v-client-retry2-b1/longlive2-t2v-diag-t2v-client-retry2-b1.mp4",
+        "[09-20 03:34:15] Pixel data generated successfully in 2.57 seconds",
+        "[09-20 03:34:15] Warmed-up request processed in 2.27 seconds (with warmup excluded)"
+      ]
+    },
+    {
+      "arm": "b2",
+      "source": "be05e7e6c24252db11458621f2d06f3969be08d1",
+      "worker_s": 2.2822204870171845,
+      "client_s": 2.57,
+      "output_sha256": "fb15120992e8e5fc5bf50fb15ffe31e653f42d8e896bd620ef773015bb44f5b4",
+      "max_observed_gc_s": 0.39501666999422014,
+      "gc_events_over_10ms": 12,
+      "sampler_exit": "0",
+      "timing_log_lines": [
+        "[09-20 03:35:09] Processing 1 grouped request(s)",
+        "[09-20 03:35:12] Output saved to /campaign/artifacts/longlive2/diag-t2v-client-retry2-b2/longlive2-t2v-diag-t2v-client-retry2-b2.mp4",
+        "[09-20 03:35:12] Pixel data generated successfully in 2.57 seconds",
+        "[09-20 03:35:12] Warmed-up request processed in 2.28 seconds (with warmup excluded)"
+      ]
+    },
+    {
+      "arm": "a2",
+      "source": "993d1fccbaafe3e79d91567d2fc1d665cc94fa50",
+      "worker_s": 2.3911300810286775,
+      "client_s": 2.7,
+      "output_sha256": "fb15120992e8e5fc5bf50fb15ffe31e653f42d8e896bd620ef773015bb44f5b4",
+      "max_observed_gc_s": 0.4199219439760782,
+      "gc_events_over_10ms": 12,
+      "sampler_exit": "0",
+      "timing_log_lines": [
+        "[09-20 03:36:09] Processing 1 grouped request(s)",
+        "[09-20 03:36:12] Output saved to /campaign/artifacts/longlive2/diag-t2v-client-retry2-a2/longlive2-t2v-diag-t2v-client-retry2-a2.mp4",
+        "[09-20 03:36:12] Pixel data generated successfully in 2.70 seconds",
+        "[09-20 03:36:12] Warmed-up request processed in 2.39 seconds (with warmup excluded)"
+      ]
+    }
+  ],
+  "conclusion": "The fixed diagnostic ABBA also reproduced a post-save delay on the unmodified baseline (A1 client6.09s, worker about2.39s); it is not exclusive to the candidate. Active-thread py-spy samples and GC callbacks do not establish the cause of the post-save interval. No diagnostic timing is included in native performance claims, and no T2V client speedup is claimed.",
+  "earlier_attempt": "The first py-spy child-launch wrapper returned OS error10 after the native CLI had saved its MP4; retained as a failed diagnostic. Retry2 attaches to a separately managed CLI child and all four native helper records pass."
+}

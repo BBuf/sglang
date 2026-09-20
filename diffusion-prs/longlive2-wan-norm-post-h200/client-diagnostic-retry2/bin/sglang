@@ -1,0 +1,9 @@
+#!/bin/bash
+/opt/sglang/bin/python /campaign/artifacts/longlive2/client-diagnostic-retry2/entry.py "$@" &
+diag_child=$!
+/opt/sglang/bin/py-spy record --pid "$diag_child" --rate 100 --format speedscope --output "$LONGLIVE_CLIENT_DIAG/samples.json"
+spy_status=$?
+wait "$diag_child"
+child_status=$?
+printf "%s\n" "$spy_status" > "$LONGLIVE_CLIENT_DIAG/sampler.exit"
+exit "$child_status"

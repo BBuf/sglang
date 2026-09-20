@@ -1,0 +1,4480 @@
+{
+  "source": "/campaign/artifacts/longlive2/t2v-norm-final-profile/traces/de33eb98-e353-47ad-9f14-9cdfbc5105e8-full_stages-global-rank0.trace.json.gz",
+  "scope_count": 464,
+  "kernel_count": 1834,
+  "gpu_ms": 124.12247100000003,
+  "kernels": [
+    {
+      "name": "void sglang::wan_norm_silu_post_kernel<__nv_bfloat16, __nv_bfloat16, true>(__nv_bfloat16 const*, float const*, __nv_bfloat16 const*, __nv_bfloat16 const*, float*, long, long, long, float, bool)",
+      "count": 415,
+      "gpu_ms": 47.16188900000003
+    },
+    {
+      "name": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<c10::BFloat16, at::native::NormTwoOps<c10::BFloat16, float, float, true>, unsigned int, float, 4, 4> >(at::native::ReduceOp<c10::BFloat16, at::native::NormTwoOps<c10::BFloat16, float, float, true>, unsigned int, float, 4, 4>)",
+      "count": 415,
+      "gpu_ms": 21.39112499999999
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::DivFunctor<float> > const&)::{lambda(int)#1})",
+      "count": 76,
+      "gpu_ms": 16.120458000000003
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      "count": 76,
+      "gpu_ms": 14.293827000000002
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "count": 76,
+      "gpu_ms": 6.142977000000003
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul> >(int, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+      "count": 76,
+      "gpu_ms": 6.1056750000000015
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctorOnSelf_add<float>, std::array<char*, 2ul> >(int, at::native::CUDAFunctorOnSelf_add<float>, std::array<char*, 2ul>)",
+      "count": 76,
+      "gpu_ms": 6.038187
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<8, at::native::BinaryFunctor<int, int, bool, at::native::(anonymous namespace)::CompareEqFunctor<int> >, std::array<char*, 3ul> >(int, at::native::BinaryFunctor<int, int, bool, at::native::(anonymous namespace)::CompareEqFunctor<int> >, std::array<char*, 3ul>)",
+      "count": 46,
+      "gpu_ms": 3.204387
+    },
+    {
+      "name": "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<c10::BFloat16, at::native::NormTwoOps<c10::BFloat16, float, float, true>, unsigned int, float, 4, 4> >(at::native::ReduceOp<c10::BFloat16, at::native::NormTwoOps<c10::BFloat16, float, float, true>, unsigned int, float, 4, 4>)",
+      "count": 49,
+      "gpu_ms": 1.5123189999999995
+    },
+    {
+      "name": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<bool, at::native::func_wrapper_t<bool, at::native::and_kernel_cuda(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#12}::operator()() const::{lambda(bool, bool)#1}>, unsigned int, bool, 4, 4> >(at::native::ReduceOp<bool, at::native::func_wrapper_t<bool, at::native::and_kernel_cuda(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#12}::operator()() const::{lambda(bool, bool)#1}>, unsigned int, bool, 4, 4>)",
+      "count": 46,
+      "gpu_ms": 1.033411
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "count": 464,
+      "gpu_ms": 0.7544059999999988
+    },
+    {
+      "name": "void sglang::wan_norm_silu_post_kernel<__nv_bfloat16, __nv_bfloat16, false>(__nv_bfloat16 const*, float const*, __nv_bfloat16 const*, __nv_bfloat16 const*, float*, long, long, long, float, bool)",
+      "count": 19,
+      "gpu_ms": 0.36380999999999997
+    }
+  ],
+  "ops": [
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 484
+    },
+    {
+      "name": "aten::empty_strided",
+      "input_dims": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "ScalarList",
+        "ScalarList",
+        "Scalar",
+        "Scalar",
+        "",
+        "Scalar"
+      ],
+      "count": 434
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 192
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          256,
+          1,
+          1,
+          1
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 192
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 160
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 160
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 160
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 160
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [
+          1,
+          1,
+          1,
+          30,
+          52
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 160
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 160
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 144
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 144
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          30,
+          52,
+          1024
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 144
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 144
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 144
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          30,
+          52,
+          1024
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 144
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 105
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 105
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          2,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 90
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          4,
+          240,
+          416
+        ],
+        [
+          256,
+          1,
+          1,
+          1
+        ],
+        [
+          256,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          4,
+          240,
+          416,
+          256
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          4,
+          240,
+          416,
+          256
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 90
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [
+          1,
+          1,
+          2,
+          60,
+          104
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          2,
+          60,
+          104,
+          1024
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          2,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          2,
+          60,
+          104,
+          1024
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          4,
+          120,
+          208
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          4,
+          120,
+          208,
+          512
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          4,
+          120,
+          208,
+          512
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 75
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "bool",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 46
+    },
+    {
+      "name": "aten::item",
+      "input_dims": [
+        []
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 46
+    },
+    {
+      "name": "aten::_local_scalar_dense",
+      "input_dims": [
+        []
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 46
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 20
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [
+          1,
+          1,
+          2,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 20
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 20
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 20
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 20
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 20
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 16
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 16
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          4,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          1024,
+          4,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 15
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          4,
+          240,
+          416
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          4,
+          240,
+          416,
+          512
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          4,
+          240,
+          416,
+          512
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 15
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 12
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 12
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 12
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [
+          1,
+          1,
+          1,
+          30,
+          52
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ],
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          30,
+          52
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 10
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 7
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 7
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 6
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [
+          1,
+          1,
+          1,
+          60,
+          104
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [
+          1,
+          1,
+          1,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 6
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          1,
+          240,
+          416
+        ],
+        [
+          256,
+          1,
+          1,
+          1
+        ],
+        [
+          256,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          240,
+          416,
+          256
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          240,
+          416,
+          256
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [
+          256,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ],
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          256,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [
+          256,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ],
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          256,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 6
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          60,
+          104,
+          1024
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          60,
+          104,
+          1024
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 5
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          1,
+          120,
+          208
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          120,
+          208,
+          512
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::permute",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::as_strided",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList",
+        "ScalarList",
+        ""
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1,
+          120,
+          208,
+          512
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ],
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ],
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          1024,
+          2,
+          60,
+          104
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          4,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ],
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 5
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 2
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 2
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "Scalar"
+      ],
+      "count": 2
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          60,
+          104
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 1
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          1,
+          120,
+          208
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [
+          1,
+          1,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [
+          1024,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ],
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          1024,
+          1,
+          120,
+          208
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        ""
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::linalg_vector_norm",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "ScalarList",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::empty_like",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "Scalar",
+        "",
+        "",
+        "Scalar",
+        ""
+      ],
+      "count": 1
+    },
+    {
+      "name": "sglang::_wan_norm_silu_post",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          1,
+          240,
+          416
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "float",
+        "Scalar",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "ScalarList"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::view",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "ScalarList"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ],
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          512,
+          1,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::div",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [
+          1,
+          1,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "c10::BFloat16",
+        "float"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [
+          512,
+          1,
+          1,
+          1
+        ]
+      ],
+      "input_types": [
+        "float",
+        "c10::BFloat16"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::add",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [],
+        []
+      ],
+      "input_types": [
+        "float",
+        "double",
+        "Scalar"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "float"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::equal",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ],
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "int",
+        "int"
+      ],
+      "count": 1
+    },
+    {
+      "name": "aten::all",
+      "input_dims": [
+        [
+          1,
+          512,
+          4,
+          240,
+          416
+        ]
+      ],
+      "input_types": [
+        "bool"
+      ],
+      "count": 1
+    }
+  ]
+}
