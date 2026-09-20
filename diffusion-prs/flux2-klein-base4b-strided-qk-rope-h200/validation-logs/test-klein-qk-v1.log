@@ -1,0 +1,191 @@
+F...                                                         [100%]
+=================================== FAILURES ===================================
+_ TestFlux2StridedQKNormRoPE.test_changed_inputs_weights_cache_and_graph_replay _
+
+self = <test_flux2_strided_qknorm_rope.TestFlux2StridedQKNormRoPE testMethod=test_changed_inputs_weights_cache_and_graph_replay>
+
+    @torch.inference_mode()
+    def test_changed_inputs_weights_cache_and_graph_replay(self):
+        packed, q, k, qn, kn, cache = inputs(1, 513)
+        gate = BitExactFusionGate("test Klein replay", per_signature=True)
+        with patch.object(flux_2, "_FLUX2_STRIDED_QK_ROPE", gate):
+            flux_2._flux2_single_qk_rope(q, k, qn, kn, 128, cache, None)
+            graph = torch.cuda.CUDAGraph()
+            with torch.cuda.graph(graph):
+                out = flux_2._flux2_single_qk_rope(q, k, qn, kn, 128, cache, None)
+            for seed in range(8):
+                torch.manual_seed(seed)
+                packed.normal_()
+                qn.weight.normal_()
+                kn.weight.normal_()
+                cache.normal_()
+                graph.replay()
+                self.assert_bits(out, reference(q, k, qn, kn, cache))
+            packed.zero_().neg_()
+            graph.replay()
+>           self.assert_bits(out, reference(q, k, qn, kn, cache))
+
+test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py:58: in assert_bits
+    self.assertTrue(torch.equal(a.view(torch.int16), b.view(torch.int16)))
+E   AssertionError: False is not true
+
+During handling of the above exception, another exception occurred:
+python/sglang/test/test_utils.py:2333: in _callTestMethod
+    retry(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fn = <function CustomTestCase._callTestMethod.<locals>.<lambda> at 0x79e4f132c5e0>
+max_retry = 0, initial_delay = 2.0, max_delay = 60.0
+should_retry = <function <lambda> at 0x79e772654400>
+
+    def retry(
+        fn,
+        max_retry: int,
+        initial_delay: float = 2.0,
+        max_delay: float = 60.0,
+        should_retry: Callable[[Any], bool] = lambda e: True,
+    ):
+        for try_index in itertools.count():
+            try:
+                return fn()
+            except SkipTest:
+                # Do NOT retry skipped tests - used in CI and unittest
+                raise
+            except _ShouldStop:
+                # `unittest.case._ShouldStop` is raised by `subTest.__exit__`
+                # when a subtest fails/skips and `result.failfast` is True
+                # (CI invokes `python3 file.py -f`). It signals the outer
+                # `testPartExecutor` to stop the test method cleanly; do
+                # NOT retry, just propagate so unittest handles it.
+                raise
+            except Exception as e:
+                traceback.print_exc()
+    
+                if try_index >= max_retry:
+>                   raise Exception(f"retry() exceed maximum number of retries.")
+E                   Exception: retry() exceed maximum number of retries.
+
+python/sglang/srt/utils/common.py:3603: Exception
+----------------------------- Captured stdout call -----------------------------
+[CI Test Method] TestFlux2StridedQKNormRoPE.test_changed_inputs_weights_cache_and_graph_replay
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "/campaign/candidate-klein-qk-tests/python/sglang/srt/utils/common.py", line 3588, in retry
+    return fn()
+           ^^^^
+  File "/campaign/candidate-klein-qk-tests/python/sglang/test/test_utils.py", line 2334, in <lambda>
+    lambda: super(CustomTestCase, self)._callTestMethod(method),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/case.py", line 589, in _callTestMethod
+    if method() is not None:
+       ^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/campaign/candidate-klein-qk-tests/test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py", line 112, in test_changed_inputs_weights_cache_and_graph_replay
+    self.assert_bits(out, reference(q, k, qn, kn, cache))
+  File "/campaign/candidate-klein-qk-tests/test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py", line 58, in assert_bits
+    self.assertTrue(torch.equal(a.view(torch.int16), b.view(torch.int16)))
+  File "/usr/lib/python3.12/unittest/case.py", line 727, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true
+_ TestFlux2StridedQKNormRoPE.test_native_shapes_magnitudes_and_untouched_packed_input (batch=1, tokens=1, magnitude=0.005) _
+
+self = <test_flux2_strided_qknorm_rope.TestFlux2StridedQKNormRoPE testMethod=test_native_shapes_magnitudes_and_untouched_packed_input>
+
+    @torch.inference_mode()
+    def test_native_shapes_magnitudes_and_untouched_packed_input(self):
+        torch.manual_seed(42)
+        for batch, tokens in [(1, 1), (1, 17), (2, 257), (1, 4608)]:
+            packed, q, k, qn, kn, cache = inputs(batch, tokens)
+            for magnitude in (0.005, 1.0, 200.0):
+                with self.subTest(batch=batch, tokens=tokens, magnitude=magnitude):
+                    packed.normal_().mul_(magnitude)
+                    original = packed.clone()
+                    gate = BitExactFusionGate("test Klein QK", per_signature=True)
+                    with patch.object(flux_2, "_FLUX2_STRIDED_QK_ROPE", gate):
+                        actual = flux_2._flux2_single_qk_rope(
+                            q, k, qn, kn, 128, cache, None
+                        )
+                    self.assert_bits(actual, reference(q, k, qn, kn, cache))
+>                   self.assertTrue(
+                        torch.equal(
+                            packed.view(torch.int16), original.view(torch.int16)
+                        )
+                    )
+E                   AssertionError: False is not true
+
+test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py:75: AssertionError
+_ TestFlux2StridedQKNormRoPE.test_native_shapes_magnitudes_and_untouched_packed_input (batch=1, tokens=1, magnitude=1.0) _
+
+self = <test_flux2_strided_qknorm_rope.TestFlux2StridedQKNormRoPE testMethod=test_native_shapes_magnitudes_and_untouched_packed_input>
+
+    @torch.inference_mode()
+    def test_native_shapes_magnitudes_and_untouched_packed_input(self):
+        torch.manual_seed(42)
+        for batch, tokens in [(1, 1), (1, 17), (2, 257), (1, 4608)]:
+            packed, q, k, qn, kn, cache = inputs(batch, tokens)
+            for magnitude in (0.005, 1.0, 200.0):
+                with self.subTest(batch=batch, tokens=tokens, magnitude=magnitude):
+                    packed.normal_().mul_(magnitude)
+                    original = packed.clone()
+                    gate = BitExactFusionGate("test Klein QK", per_signature=True)
+                    with patch.object(flux_2, "_FLUX2_STRIDED_QK_ROPE", gate):
+                        actual = flux_2._flux2_single_qk_rope(
+                            q, k, qn, kn, 128, cache, None
+                        )
+                    self.assert_bits(actual, reference(q, k, qn, kn, cache))
+>                   self.assertTrue(
+                        torch.equal(
+                            packed.view(torch.int16), original.view(torch.int16)
+                        )
+                    )
+E                   AssertionError: False is not true
+
+test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py:75: AssertionError
+_ TestFlux2StridedQKNormRoPE.test_native_shapes_magnitudes_and_untouched_packed_input (batch=1, tokens=1, magnitude=200.0) _
+
+self = <test_flux2_strided_qknorm_rope.TestFlux2StridedQKNormRoPE testMethod=test_native_shapes_magnitudes_and_untouched_packed_input>
+
+    @torch.inference_mode()
+    def test_native_shapes_magnitudes_and_untouched_packed_input(self):
+        torch.manual_seed(42)
+        for batch, tokens in [(1, 1), (1, 17), (2, 257), (1, 4608)]:
+            packed, q, k, qn, kn, cache = inputs(batch, tokens)
+            for magnitude in (0.005, 1.0, 200.0):
+                with self.subTest(batch=batch, tokens=tokens, magnitude=magnitude):
+                    packed.normal_().mul_(magnitude)
+                    original = packed.clone()
+                    gate = BitExactFusionGate("test Klein QK", per_signature=True)
+                    with patch.object(flux_2, "_FLUX2_STRIDED_QK_ROPE", gate):
+                        actual = flux_2._flux2_single_qk_rope(
+                            q, k, qn, kn, 128, cache, None
+                        )
+                    self.assert_bits(actual, reference(q, k, qn, kn, cache))
+>                   self.assertTrue(
+                        torch.equal(
+                            packed.view(torch.int16), original.view(torch.int16)
+                        )
+                    )
+E                   AssertionError: False is not true
+
+test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py:75: AssertionError
+=============================== warnings summary ===============================
+../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py::TestFlux2StridedQKNormRoPE::test_changed_inputs_weights_cache_and_graph_replay
+SUBFAILED(batch=1, tokens=1, magnitude=0.005) test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py::TestFlux2StridedQKNormRoPE::test_native_shapes_magnitudes_and_untouched_packed_input
+SUBFAILED(batch=1, tokens=1, magnitude=1.0) test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py::TestFlux2StridedQKNormRoPE::test_native_shapes_magnitudes_and_untouched_packed_input
+SUBFAILED(batch=1, tokens=1, magnitude=200.0) test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py::TestFlux2StridedQKNormRoPE::test_native_shapes_magnitudes_and_untouched_packed_input
+4 failed, 3 passed, 15 warnings, 9 subtests passed in 16.28s

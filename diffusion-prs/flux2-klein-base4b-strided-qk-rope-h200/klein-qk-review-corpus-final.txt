@@ -1,0 +1,37 @@
+# SGLang review corpus sweep
+
+- Filters: paths=['python/sglang/multimodal_gen/runtime/models/dits/flux_2.py', 'python/sglang/kernels/ops/diffusion', 'test/registered/kernels/ops/diffusion/test_flux2_strided_qknorm_rope.py', 'docs/docs/sglang-diffusion/fused_kernels.mdx'] queries=['qknorm', 'rounding', 'non-contiguous', 'cuda graph'] category=- kind=-
+- Scanned **32639** threads in segments of 2000; matched **1** threads across **1** PRs, **2** human comments.
+
+## Aggregate over ALL matches
+- By type: inline_review_thread (1)
+- By category: gpu-kernel (1)
+- Top paths: python/sglang/multimodal_gen/runtime/models/dits/flux_2.py (1)
+- Top reviewers: mickqian (1), BBuf (1)
+- By PR year: 2026 (1)
+
+## Top 1 most relevant review threads (read and summarize these)
+
+### PR #21440: [Diffusion] Add qknorm rope fuse kernel
+- Type: `inline_review_thread` | Path: `python/sglang/multimodal_gen/runtime/models/dits/flux_2.py`
+- Categories: `gpu-kernel` | Hit terms: `qknorm`
+- Link: https://github.com/sgl-project/sglang/pull/21440#discussion_r2994646494
+```diff
+@@ -291,44 +295,86 @@ def forward(
+         key = key.unflatten(-1, (self.local_heads, -1))
+         value = value.unflatten(-1, (self.local_heads, -1))
+ 
+-        query, key = apply_qk_norm(
+-            q=query,
+-            k=key,
+-            q_norm=self.norm_q,
+-            k_norm=self.norm_k,
+-            head_dim=self.head_dim,
+-            allow_inplace=True,
+-        )
++        cos_sin...
+```
+- **mickqian**: could we use a helper function to generalize these logic, and put it in `layernorm.py`?
+- **BBuf**: done
+- _relevance: 7.9_
+

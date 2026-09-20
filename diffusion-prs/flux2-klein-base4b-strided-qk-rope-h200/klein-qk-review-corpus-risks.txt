@@ -1,0 +1,361 @@
+# SGLang review corpus sweep
+
+- Filters: paths=- queries=['qknorm', 'rounding', 'non-contiguous', 'cuda graph'] category=- kind=-
+- Scanned **32639** threads in segments of 2000; matched **1349** threads across **680** PRs, **5333** human comments.
+
+## Aggregate over ALL matches
+- By type: inline_review_thread (811), pr_conversation (455), review_submission (83)
+- By category: gpu-kernel (1297), models-quant (829), correctness (641), tests-ci (616), performance (513), memory-cache (487), api-compat (466), distributed-concurrency (377), docs-examples (356), style-maintainability (329), observability (296), build-deps (278)
+- Top paths: python/sglang/srt/server_args.py (50), python/sglang/srt/model_executor/model_runner.py (37), python/sglang/srt/model_executor/cuda_graph_runner.py (36), python/sglang/srt/model_executor/piecewise_cuda_graph_runner.py (24), docs/backend/function_calling_streaming.ipynb (22), docs/advanced_features/sglang_for_rl.md (15), python/sglang/multimodal_gen/runtime/models/dits/qwen_image.py (15), sgl-kernel/csrc/moe/moe_sum_reduce.cu (14), python/sglang/srt/layers/attention/flashinfer_backend.py (12), python/sglang/srt/layers/attention/nsa_backend.py (11), python/sglang/srt/lora/layers.py (10), python/sglang/srt/layers/radix_attention.py (10)
+- Top reviewers: yuan-luo (376), fzyzcjy (283), BBuf (212), Fridge003 (171), Oasis-Git (167), zhyncs (140), merrymercy (136), ispobock (131), zhaochenyang20 (107), ch-wan (95), JustinTong0323 (91), Qiaolin-Yu (89)
+- By PR year: 2025 (650), 2026 (638), 2024 (61)
+
+## Top 15 most relevant review threads (read and summarize these)
+
+### PR #17628: [AMD] CI - enable torch compile in AMD CI
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `rounding, cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/17628#issuecomment-4132655392
+- **bingxche**: @amd-bot ci-status
+- **bingxche**: > @bingxche
+
+## CI Status for PR #17628
+
+**8 workflow(s)**: 4 passed, 4 failed
+
+### Failed Checks
+
+#### `PR Test`
+
+| Job | Failed Step | Error Message | Log |
+|-----|-----------|---------------|-----|
+| `pr-test-finish` | Check all dependent job statuses | `##[error]Process completed with exit code 1.` | [View](http...
+- **bingxche**: @amd-bot ci-status
+- **bingxche**: > @bingxche
+
+## CI Status for PR #17628
+
+**8 workflow(s)**: 4 passed, 4 failed
+
+### Failed Checks
+
+#### `PR Test`
+
+| Job | Failed Step | Error Message | Log |
+|-----|-----------|---------------|-----|
+| `wait-for-stage-b` | Wait for stage-b jobs to complete | `*(see detailed analysis)*` | [View](https://github.com/s...
+- _relevance: 13.6_
+
+### PR #17216: [Performance] Decode Offload improves the long texts performance 100% through dynamic block offload.
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, api-compat, models-quant, style-maintainability` | Hit terms: `rounding, cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/17216#issuecomment-3766181935
+- **ShangmingCai**: @hzh0425 Please review this PR.
+- **hzh0425**: > @hzh0425 Please review this PR.
+
+Sure I will take a review this week；thanks   @yuyu5333
+- **programmer-lxj**: @yuyu5333  I wanted to use this on the deepseek-r1-0528-w4afp8 model, but my tests showed no performance improvement. Further debugging revealed that it wasn't entering the if statements 414 and 425 in python/sglang/srt/managers/scheduler_output_processor_mixin.py. Is it because the deepseek-r1-0528-w4afp8 model doe...
+- **yuyu5333**: @programmer-lxj You should turn on the `--disaggregation-decode-enable-offload-kvcache` , and adjust `--hicache-storage-backend` `--hicache-ratio` according to your device and I used `file` `4`. However, I indeed haven't tested it on R1.
+- _relevance: 13.1_
+
+### PR #22355: Auto-enable fused QK-norm+RoPE for Qwen3 MoE on SM90/SM100
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, models-quant, docs-examples, build-deps, observability` | Hit terms: `qknorm, cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/22355#issuecomment-4205885041
+- **BBuf**: Adding the exact H100 performance sanity commands I used for the `bench_one_batch` comparison.
+
+Environment:
+- host: `h100_sglang`
+- container: `sglang_bbuf`
+- GPU constraint: `CUDA_VISIBLE_DEVICES=0` only, within the `0,1,2,3` pool
+- baseline repo: `/data/bbuf/repos/sglang`
+- PR repo/worktree: `/tmp/sglang_h100_run...
+- **BBuf**: Follow-up: CUDA-graph-on sanity on H100 (`CUDA_VISIBLE_DEVICES=2`, still within the requested `0/1/2/3` pool).
+
+I re-ran this with CUDA graph enabled and split the validation into two parts:
+
+1. `bench_one_batch` without profiler, repeated 3x for the actual performance sanity
+2. a separate graph-on profiler capture...
+- **BBuf**: Follow-up: I re-ran the GSM8K sanity with the benchmark path you would normally use for this model family instead of the previous `run_eval`-based GSM8K check.
+
+This is the command shape I used on H100:
+
+```bash
+ulimit -n 65535
+PYTHONPATH=python /tmp/sglang_h100_venv/bin/python benchmark/gsm8k/bench_sglang.py \
+  --...
+- **BBuf**: /rerun-failed-ci
+- _relevance: 11.2_
+
+### PR #16785: [Bugfix] fix recompile in qwen3 vl
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/16785#issuecomment-3747441012
+- **yuan-luo**: Could you help to verify with SGLANG_VIT_ENABLE_CUDA_GRAPH=1? Qwen3-VL ViT CUDA Graph considered injecting deepstack output into LLM layers, just want make sure the full ViT+LLM CUDA Graph path working correctly.
+The issue also exists when SGLANG_VIT_ENABLE_CUDA_GRAPH is set to 0.
+https://github.com/sgl-project/sg...
+- **yuan-luo**: /rerun-failed-ci
+- **narutolhy**: > Could you help to verify with SGLANG_VIT_ENABLE_CUDA_GRAPH=1? Qwen3-VL ViT CUDA Graph considered injecting deepstack output into LLM layers, just want make sure the full ViT+LLM CUDA Graph path working correctly.
+> The issue also exists when SGLANG_VIT_ENABLE_CUDA_GRAPH is set to 0.
+
+Hi @yuan-luo Thank you for...
+- **yuan-luo**: > > Could you help to verify with SGLANG_VIT_ENABLE_CUDA_GRAPH=1? Qwen3-VL ViT CUDA Graph considered injecting deepstack output into LLM layers, just want make sure the full ViT+LLM CUDA Graph path working correctly.
+> > The issue also exists when SGLANG_VIT_ENABLE_CUDA_GRAPH is set to 0.
+> 
+> Hi @yuan-luo Thank...
+- _relevance: 10.6_
+
+### PR #19163: [Feature] Stronger transformers modeling backend with TP, PP, MoE, VLMs, and torch compile
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/19163#issuecomment-4018636697
+- **yuan-luo**: Could you specify the usage commands for these new features and paste the accuracy result?
+- **adarshxs**: ## Usage Instructions
+### Basic Usage (Transformers Backend)
+
+Use the transformers modeling backend explicitly:
+
+```bash
+python -m sglang.launch_server \
+  --model-path Qwen/Qwen3-4B \
+  --model-impl transformers \
+  --host 0.0.0.0 --port 30000
+```
+or
+```bash
+sglang serve \
+  --model-path Qwen/Qwen3-4B...
+- **yuan-luo**: /tag-and-rerun-ci
+- **yuan-luo**: /tag-and-rerun-ci
+- _relevance: 10.6_
+
+### PR #20810: [Diffusion] Reland qwen image cuda graph
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, api-compat, models-quant, style-maintainability, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/20810#issuecomment-4080080317
+- **BBuf**: - main:
+
+```shell
+sglang generate \
+  --model-path=Qwen/Qwen-Image-2512 \
+  --prompt="A futuristic cyberpunk city at night, neon lights reflecting on wet streets, highly detailed, 8k" \
+  --negative-prompt=" " \
+  --width=1024 \
+  --height=1024 \
+  --num-inference-steps=50 \
+  --guidance-scale=4.0 \
+  --s...
+- **BBuf**: - main:
+
+```shell
+sglang generate --model-path=Qwen/Qwen-Image-Edit-2511 '--prompt=Transform into anime style' '--negative-prompt= ' --image-path=/workspace/gen_benchmark/figs/cat.png --width=1024 --height=1024 --num-inference-steps=50  --guidance-scale=4.0 --seed=42 --save-output --warmup --dit-cpu-offload false...
+- **BBuf**: > * main:
+> 
+> 
+> ```shell
+> sglang generate --model-path=Qwen/Qwen-Image-Edit-2511 '--prompt=Transform into anime style' '--negative-prompt= ' --image-path=/workspace/gen_benchmark/figs/cat.png --width=1024 --height=1024 --num-inference-steps=50  --guidance-scale=4.0 --seed=42 --save-output --warmup --dit-cpu-o...
+- **BBuf**: I reproduced the diffusion CUDA graph behavior on `Qwen/Qwen-Image-Edit-2511` with the following workload on a single `H200`:
+
+- `1024x1024`
+- `50` denoising steps
+- `--warmup`
+- `--dit-cpu-offload false`
+- `--text-encoder-cpu-offload false`
+- prompt: `Transform into anime style`
+- image: `cat.png`
+
+The ma...
+- _relevance: 10.6_
+
+### PR #21019: [Qwen3.5] Fuse split/reshape/cat ops in GDN projection with Triton kernel
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/21019#issuecomment-4097447891
+- **yuan-luo**: /tag-and-rerun-ci again
+- **yuan-luo**: /gemini review
+- **yizhang2077**: could you paste FP8 test results here?
+- **yuan-luo**: > could you paste FP8 test results here?
+
+It encountered some error. Investigating.
+```
+root@e1448ef40573:/sgl-workspace/sglang_dev/python# python3 -m sglang.launch_server --model Qwen/Qwen3.5-35B-A3B-FP8 --tp-size 2 --disable-radix-cache --enable-piecewise-cuda-graph --piecewise-cuda-graph-compiler eager
+/sgl-...
+- _relevance: 10.6_
+
+### PR #21259: [HiCache & HybridModel] mooncake backend support DSA & mamba  model
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, style-maintainability, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/21259#issuecomment-4115197748
+- **huangtingwei9988**: /tag-run-ci-label
+- **llc-kc**: @huangtingwei9988 When I use your branch 
+antgroup:hicache/hicache-refactor4 to launch v3.2+hicache, I got an error:
+```
+
+[DP5 TP5] Prefill batch, #new-seq: 1, #new-token: 64, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, cuda graph: False, input throughput (token/s): 0.00
+[DP5 TP5] Sched...
+- **huangtingwei9988**: > @huangtingwei9988 When I use your branch antgroup:hicache/hicache-refactor4 to launch v3.2+hicache, I got an error:
+> 
+> ```
+> 
+> [DP5 TP5] Prefill batch, #new-seq: 1, #new-token: 64, #cached-token: 0, token usage: 0.00, #running-req: 0, #queue-req: 0, cuda graph: False, input throughput (token/s): 0.00
+> [DP...
+- **janssen-llm**: Hello @huangtingwei9988 , I currently have a requirement to implement a three-tier cache on a single machine. I want any KV cache that cannot fit in GPU memory to be gradually evicted to CPU cache, and then finally evicted to disk.
+
+I first started mooncake_master using the following script:
+```bash
+mooncake_mas...
+- _relevance: 10.6_
+
+### PR #21419: Add TurboQuant KV cache compression (3-4 bit, ICLR 2026)
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/21419#issuecomment-4128848460
+- **shvmjndl**: ## Usage
+
+```bash
+# Launch server with TurboQuant KV cache compression (4-bit, MSE mode)
+python -m sglang.launch_server --model-path Qwen/Qwen3-0.6B --kv-cache-dtype turboquant
+```
+
+```bash
+# Works with any MHA model
+python -m sglang.launch_server --model-path meta-llama/Llama-3.1-8B-Instruct --kv-cache-dtype turboq...
+- **huangzhilin-hzl**: Hi, @shvmjndl  I’m trying to reproduce the results and found some bad cases
+| Model | Bits | Tokens | KV MSE | Logit Cosine | Top-1 Match | Top-5 Match |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| Qwen3-0.6B | 3b | 51 | 0.0325 | 0.817 | NO | 0/5 |
+| Qwen3-0.6B | 4b | 51 | 0.0089 | 0.909 | OK | 5/5 |
+| Qwe...
+- **shvmjndl**: @huangzhilin-hzl im still working on this PR, sorry for the inconvenience i will specifically tag u in the comments once im finally done with it, also adding 3.5bit 2.5bit mixed precision, im also running thorough tests on mistral 7b and some 4b models(whatever my machine can support rn)
+thanks
+- **huangzhilin-hzl**: > @huangzhilin-hzl im still working on this PR, sorry for the inconvenience i will specifically tag u in the comments once im finally done with it, also adding 3.5bit 2.5bit mixed precision, im also running thorough tests on mistral 7b and some 4b models(whatever my machine can support rn) thanks
+
+@shvmjndl  thx,...
+- _relevance: 10.6_
+
+### PR #21952: [New Model] Gemma 4
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/21952#issuecomment-4178594834
+- **JustinTong0323**: /tag-and-rerun-ci
+- **nvpohanh**: cc @wenscarl
+- **mmangkad**: ```
+sglang serve --model-path google/gemma-4-31B-it --tensor-parallel-size 8 --reasoning-parser gemma4 --tool-call-parser gemma4
+
+...
+[2026-04-02 09:44:41] Persistent cache disabled, using in-memory JIT cache
+The `use_fast` parameter is deprecated and will be removed in a future version. Use `backend="torchvisi...
+- **JustinTong0323**: @mmangkad See PR description for installation, you need to install transformers from specific commit
+- _relevance: 10.6_
+
+### PR #23696: [BugFix][HiMamba] Fix host-protected node deletion in HiMamba tombstone del
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/23696#issuecomment-4320192066
+- **icepoint666**: /rerun-failed-ci
+- **icepoint666**: /rerun-failed-ci
+- **riZZZhik**: @icepoint666 Hello!
+
+Thanks for your fix. Unfortunately, after enabling it, SGLang failed with the following error after a few minutes under medium load:
+
+```
+[2026-04-27 12:46:32 TP0] Decode batch, #running-req: 3, #full token: 106560, full token usage: 0.14, mamba num: 12, mamba usage: 0.05, accept len: 3.19,...
+- **riZZZhik**: Never mind, we encountered the same error after disabling the patch from this PR, so it looks like something else affected the result.
+
+We’ll re-test this patch later.
+- _relevance: 10.6_
+
+### PR #24013: [VLM] Batch cross-request ViT encoding and reuse attention metadata
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, api-compat, models-quant, docs-examples, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/24013#issuecomment-4376359685
+- **AgainstEntropy**: For this PR (and the base PR #22132 ), there are two things happening at the same time:
+1. **add** the feature of cross-request batching, which is at the level of scheduling and determines how many times we will invoke `data_embedding_func` and what items we will feed in
+2. **remove** the feature of `ViTCudaGraphR...
+- **Alisehen**: > For this PR (and the base PR #22132 ), there are two things happening at the same time:
+> 
+> 1. **add** the feature of cross-request batching, which is at the level of scheduling and determines how many times we will invoke `data_embedding_func` and what items we will feed in
+> 2. **remove** the feature of `ViT...
+- **Alisehen**: @AgainstEntropy Thanks for the suggestion. We updated this PR to keep the existing ViT CUDA Graph path, while limiting the PR scope to cross-request ViT batching and reusable attention metadata.
+- **ping1jing2**: /tag-and-rerun-ci
+- _relevance: 10.6_
+
+### PR #24047: feat: SM120 support for DeepSeek-V4 inference
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/24047#issuecomment-4346127355
+- **rahulvijayaraghavan**: > Tested: Server launches, warmup passes, generates coherent text on 8× RTX PRO 6000 (TP=8) with DeepSeek-V4-Flash.
+
+Please share the command used and generated text output. Or any benchmark results like for gsm8k
+- **AliceChenyy**: ## Update: SM120 Optimization Results & GSM8K Eval
+
+Following the initial functional enablement, we've completed kernel optimization and evaluation on **8× RTX PRO 6000 (SM120, 96GB GDDR7, TP=8, PCIe)**.
+
+### 1. Additional Fixes Discovered During Validation
+
+Beyond the original PR, 6 more fixes were needed for stabl...
+- **AliceChenyy**: ## GSM8K Evaluation Results & Reproducible Setup
+
+Full GSM8K evaluation on **8× RTX PRO 6000 Blackwell Server Edition** (SM120, CC 12.0, 96GB GDDR7 per GPU).
+
+### Hardware & Software Environment
+
+| Component | Version |
+|-----------|---------|
+| GPU | 8× NVIDIA RTX PRO 6000 Blackwell Server Edition (SM120) |
+| VRAM...
+- **AliceChenyy**: ## Update: P1 FlashMLA Triton + P2 MQA Optimization (2026-05-01)
+
+Added two additional SM120-optimized kernels on top of the P0 MoE Triton kernel:
+
+### P1: FlashMLA Sparse Decode Triton Kernel (`flash_mla_sm120_triton.py`)
+
+Tiled vectorized kernel replacing PyTorch fallback for MLA decode attention.
+
+| Config | topk...
+- _relevance: 10.6_
+
+### PR #24303: Feature/sm120 deepseek v4 highspeed inference support
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/24303#issuecomment-4376838831
+- **sonny-vleisides**: Tested this on 2x RTX PRO 6000 Blackwells  (SM 120, 96 GB each) running DeepSeek-V4-Flash. The PR fixes the FP8 expert OOM, FP4 hidden size mismatch & CPU offload weight loader shape errors I was hitting without it. Server gets to `The server is fired up and ready to roll!` fine. Two new things block actual inferenc...
+- **sonny-vleisides**: Tested 429deb088f on the same 2x setup. Doesn't get to bugs 1 & 2... stalls much earlier. NCCL init hangs for 6+ minutes, both TP ranks pegged at 99% CPU, GPUs sitting at 914 MB (just CUDA context, weights never start loading).
+
+Last thing in the log is `[... TP0] sglang is using nccl==2.27.5` ... then it goes qui...
+- **samuellees**: Hi @AdamPlatin123 , could you tell the difference between this PR and https://github.com/sgl-project/sglang/pull/24047, please? Seems 24047 has provided perf/accuracy results.
+cc @Fridge003 @b8zhong @nvpohanh
+- **AdamPlatin123**: Thanks @b8zhong for the corrections!
+
+  **PDL and TMA on SM120:** You're right — SM120 does support both PDL and TMA. I was
+  incorrectly conflating PDL with TMEM/tcgen05 (which are SM100 datacenter-only). I've
+   reverted `is_arch_support_pdl()` in `03f8f94` — it now correctly returns `major >=
+  9` for all SM...
+- _relevance: 10.6_
+
+### PR #25647: Sandbox: verify full main CI is green on latest main (do not merge)
+- Type: `pr_conversation` | Path: `<conversation>`
+- Categories: `correctness, tests-ci, performance, gpu-kernel, distributed-concurrency, memory-cache, api-compat, models-quant, docs-examples, style-maintainability, build-deps, observability` | Hit terms: `cuda graph`
+- Link: https://github.com/sgl-project/sglang/pull/25647#issuecomment-4477594599
+- **fzyzcjy**: /tag-and-rerun-ci
+- **fzyzcjy**: ### CI failure: `base-b-test-1-gpu-large (1)` (PR Test Base, B200, 80 GB)
+
+[Job log](https://github.com/sgl-project/sglang/actions/runs/26070746122/job/76651503297)
+
+**Failing test**: `test/registered/spec/eagle/test_eagle_infer_b.py::TestEAGLEServerAdditional::test_radix_attention`
+
+**Symptom**: 11/12 EAGLE tests p...
+- **fzyzcjy**: ### CI failure: `extra-a-test-1-gpu-large (0)` (PR Test Extra, NVIDIA)
+
+[Job log](https://github.com/sgl-project/sglang/actions/runs/26070746071/job/76651456797)
+
+**Failing test**: `test/registered/lora/test_lora_qwen3_8b_logprob_diff.py::TestLoRAQwen3_8BLogprobDiff::test_lora_qwen3_8b_logprob_accuracy`
+
+**Symptom**...
+- **fzyzcjy**: ### CI failure: `base-b-test-1-gpu-small (5)` (PR Test Base, NVIDIA, 32 GB)
+
+[Job log](https://github.com/sgl-project/sglang/actions/runs/26070746122/job/76651503169)
+
+**Failing test**: `test/registered/core/test_srt_endpoint.py::TestSRTEndpoint::test_get_server_info_concurrent` ("Make sure the concurrent get_server...
+- _relevance: 10.6_
+

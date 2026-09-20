@@ -1,0 +1,145 @@
+{"source": "/campaign/artifacts/flux2-klein-base-4b/qk-v3-candidate-profile/traces/bac430a1-65a3-4bd4-b9b0-51ecb6eefeee-3_steps-global-rank0.trace.json.gz", "model_calls": 8, "selected_forward_index": 2, "kernel_count": 349, "gpu_window_ms": 59.5356103515625, "gpu_union_ms": 55.364181640625, "note": "Third complete native model call. Kernel ownership uses CUDA launch correlation; overlapping parent/child module times must not be summed. No CFG count assumed."}
+[
+  {
+    "index": 0,
+    "cpu_us": 39808.943,
+    "kernel_count": 349,
+    "gpu_ms": 54.310072,
+    "start_us": 6964222888424.051,
+    "end_us": 6964222928232.994
+  },
+  {
+    "index": 1,
+    "cpu_us": 37898.301,
+    "kernel_count": 349,
+    "gpu_ms": 54.706427000000005,
+    "start_us": 6964222928324.547,
+    "end_us": 6964222966222.848
+  },
+  {
+    "index": 2,
+    "cpu_us": 37615.417,
+    "kernel_count": 349,
+    "gpu_ms": 55.36437600000001,
+    "start_us": 6964223004050.609,
+    "end_us": 6964223041666.026
+  },
+  {
+    "index": 3,
+    "cpu_us": 37891.5,
+    "kernel_count": 349,
+    "gpu_ms": 55.641628,
+    "start_us": 6964223041741.934,
+    "end_us": 6964223079633.434
+  },
+  {
+    "index": 4,
+    "cpu_us": 37700.588,
+    "kernel_count": 349,
+    "gpu_ms": 54.680099,
+    "start_us": 6964223120509.748,
+    "end_us": 6964223158210.336
+  }
+]
+[
+  {
+    "name": "nvjet_sm90_tst_320x128_64x3_1x2_h_bz_coopB_TNT",
+    "count": 20,
+    "gpu_ms": 21.439783
+  },
+  {
+    "name": "nvjet_sm90_tst_192x192_64x4_2x1_v_bz_coopB_TNN",
+    "count": 25,
+    "gpu_ms": 12.61117
+  },
+  {
+    "name": "void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > >(flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > >::Params)",
+    "count": 25,
+    "gpu_ms": 10.680103
+  },
+  {
+    "name": "nvjet_sm90_tst_256x128_64x4_1x2_h_bz_coopA_TNT",
+    "count": 25,
+    "gpu_ms": 3.8534109999999995
+  },
+  {
+    "name": "_packed_silu_mul_kernel",
+    "count": 30,
+    "gpu_ms": 1.5341410000000002
+  },
+  {
+    "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 3, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+    "count": 20,
+    "gpu_ms": 1.1357460000000001
+  },
+  {
+    "name": "_layernorm_modulate_kernel",
+    "count": 40,
+    "gpu_ms": 0.940382
+  },
+  {
+    "name": "_flux2_strided_qknorm_rope_kernel",
+    "count": 20,
+    "gpu_ms": 0.6898600000000001
+  },
+  {
+    "name": "void sglang::residual_gate_add::(anonymous namespace)::residual_gate_add_broadcast_kernel<__nv_bfloat16, 8>(__nv_bfloat16*, __nv_bfloat16 const*, __nv_bfloat16 const*, __nv_bfloat16 const*, long, long)",
+    "count": 40,
+    "gpu_ms": 0.651103
+  },
+  {
+    "name": "nvjet_sm90_tst_96x128_64x7_2x1_v_bz_TNN",
+    "count": 26,
+    "gpu_ms": 0.605761
+  },
+  {
+    "name": "nvjet_sm90_tst_192x128_64x5_1x2_h_bz_coopB_TNT",
+    "count": 5,
+    "gpu_ms": 0.44495999999999997
+  },
+  {
+    "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 2, 128, 1, 16, 8>(char*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 128, 1>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+    "count": 16,
+    "gpu_ms": 0.25878400000000007
+  },
+  {
+    "name": "void sglang::fused_qknorm_rope_warp<128l, 128l, false, true, __nv_bfloat16, float, false, false, false, long, false>(std::conditional<false, sglang::QKNormRopePackKVParams, std::conditional<false, sglang::QKNormRopeOutOfPlaceParams, sglang::QKNormRopeParams>::type>::type)",
+    "count": 10,
+    "gpu_ms": 0.23343899999999998
+  },
+  {
+    "name": "nvjet_sm90_tst_192x8_64x8_4x1_v_bz_TNT",
+    "count": 2,
+    "gpu_ms": 0.06758499999999999
+  },
+  {
+    "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+    "count": 1,
+    "gpu_ms": 0.036768
+  },
+  {
+    "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+    "count": 1,
+    "gpu_ms": 0.036737
+  },
+  {
+    "name": "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float, false>(int, float, c10::BFloat16 const*, c10::BFloat16 const*, c10::BFloat16 const*, float*, float*, c10::BFloat16*)",
+    "count": 1,
+    "gpu_ms": 0.024352
+  },
+  {
+    "name": "nvjet_sm90_tst_64x8_64x16_4x1_v_bz_TNT",
+    "count": 2,
+    "gpu_ms": 0.019393
+  },
+  {
+    "name": "nvjet_sm90_tst_192x8_64x8_4x1_v_bz_splitK_TNT",
+    "count": 1,
+    "gpu_ms": 0.018049
+  },
+  {
+    "name": "nvjet_sm90_tst_256x128_64x4_1x2_h_bz_coopA_TTT",
+    "count": 1,
+    "gpu_ms": 0.012865
+  }
+]

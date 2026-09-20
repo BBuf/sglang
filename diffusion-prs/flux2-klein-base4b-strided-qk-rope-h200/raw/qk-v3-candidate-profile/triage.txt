@@ -1,0 +1,29 @@
+Triage View
+Mode: single-trace
+Framework: SGLang
+Input traces: /campaign/artifacts/flux2-klein-base-4b/qk-v3-candidate-profile/traces/forward3.trace.json.gz
+
+Kernel Table
+| Kernel | Category | GPU time | Share | Launches | Python location (site share) | CPU op |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TNT | gemm | 21.44 ms | 38.7% | 20 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| nvjet_sm90_tst_192x192_64x4_2x1_v_bz_coopB_TNN | gemm | 12.61 ms | 22.8% | 25 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::CollectiveMainloopFwdSm90<2, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cute::tuple<cute::C<128>, cute::C<176>, cute::C<128> >, 128, cutlass::bfloat16_t, float, cutlass::arch::Sm90, false, false, false, false, false, false, false, false, true, true, false, false, false, cutlass::bfloat16_t, false, 1>, flash::CollectiveEpilogueFwd<cute::tuple<cute::C<128>, cute::C<128>, cute::C<176> >, cute::tuple<cute::C<2>, cute::C<1>, cute::C<1> >, cutlass::bfloat16_t, cutlass::arch::Sm90, 256, false, false, false, false>, flash::StaticPersistentTileScheduler<false> > > > | gemm | 10.68 ms | 19.3% | 25 | python/sglang/kernels/ops/attention/flash_attention_v3.py:19 _call_fa3_kernel | sgl_kernel::fwd |
+| nvjet_sm90_tst_256x128_64x4_1x2_h_bz_coopA_TNT | gemm | 3.85 ms | 7.0% | 25 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+| _packed_silu_mul_kernel | activation | 1.53 ms | 2.8% | 30 | python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py:101 fused_packed_silu_mul_bitexact | cuLaunchKernelEx |
+| void at::native::(anonymous namespace)::CatArrayBatchedCopy_vectorized<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 3, 128, 1, 16, 8> | memory | 1.14 ms | 2.1% | 20 | python/sglang/multimodal_gen/runtime/models/dits/flux_2.py:981 forward | aten::cat |
+| _layernorm_modulate_kernel | norm | 0.94 ms | 1.7% | 40 | python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py:423 fused_layernorm_modulate_raw | cuLaunchKernelEx |
+| _flux2_strided_qknorm_rope_kernel | rope | 0.69 ms | 1.2% | 20 | python/sglang/kernels/ops/diffusion/rope/flux2_qknorm_rope_triton.py:94 flux2_strided_qknorm_rope | cuLaunchKernelEx |
+| void sglang::residual_gate_add::(anonymous namespace)::residual_gate_add_broadcast_kernel<__nv_bfloat16, 8> | communication | 0.65 ms | 1.2% | 40 | python/sglang/kernels/kda_kernels/residual_gate_add_jit.py:155 residual_gate_add_cuda | sglang::diffusion_residual_gate_add |
+| nvjet_sm90_tst_96x128_64x7_2x1_v_bz_TNN | gemm | 0.61 ms | 1.1% | 26 | python/sglang/multimodal_gen/runtime/layers/linear.py:134 apply_unquantized_linear | aten::mm |
+
+Overlap Opportunity Table
+| Priority | Verdict | Kernel | Python scope | Formal signal | Dep risk | Recommendation |
+| --- | --- | --- | --- | --- | --- | --- |
+| - | - | No rows cleared the 1.0% reporting bar. Use mapping/formal mode for overlap attribution. | - | - | - | - |
+
+Fuse Opportunity Table
+| Pattern | Confidence | Related GPU time | Share | Evidence kernels | Current kernel Python location | Candidate fused Python path | Rationale |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| Fused QK RMSNorm + RoPE | Confirmed | 0.94 ms | 1.7% | _flux2_strided_qknorm_rope_kernel (1.2%) | apply_qk_norm_rope @ python/sglang/multimodal_gen/runtime/layers/layernorm.py:1062<br>flux2_strided_qknorm_rope @ python/sglang/kernels/ops/diffusion/rope/flux2_qknorm_rope_triton.py:94<br>_flux2_derive_rope_tensors @ python/sglang/multimodal_gen/runtime/models/dits/flux_2.py:270<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/flux_2.py:1408 | python/sglang/jit_kernel/fused_qknorm_rope.py<br>python/sglang/srt/models/qwen3_moe.py | `Fused QK RMSNorm + RoPE` is present in this trace (1.7% related GPU time). SGLang has a fused QK-norm plus RoPE kernel family. |
+| Fused MoE activation + quant / re-quant | Confirmed | 40.61 ms | 73.4% | _packed_silu_mul_kernel (2.8%)<br>nvjet_sm90_tst_320xADDR_64x3_1x2_h_bz_coopB_TNT (38.7%)<br>nvjet_sm90_tst_192x192_64x4_2x1_v_bz_coopB_TNN (22.8%) | fused_packed_silu_mul_bitexact @ python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py:101<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/flux_2.py:1437<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/flux_2.py:1692<br>forward @ python/sglang/multimodal_gen/runtime/models/dits/flux_2.py:1408 | python/sglang/srt/layers/moe/ep_moe/kernels.py<br>python/sglang/jit_kernel/nvfp4.py<br>python/sglang/srt/layers/moe/cutlass_w4a8_moe.py | Split kernels in this family take 73.4% of GPU time. This tree already has a matching path. Quantized MoE backends already fuse activation with re-quantization. |
