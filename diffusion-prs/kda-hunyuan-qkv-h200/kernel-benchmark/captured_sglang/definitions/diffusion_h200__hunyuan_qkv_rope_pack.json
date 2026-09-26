@@ -1,0 +1,38 @@
+{
+  "name": "diffusion_h200__hunyuan_qkv_rope_pack",
+  "description": "Tune joint token/head tiles and coalesced qkv stores beyond existing head-only autotune; sequence-sensitive dispatch.",
+  "target_gpu": "NVIDIA H200",
+  "targets": {
+    "hunyuan_qkv_rope_pack": "sglang.kernels.ops.diffusion.rope.hunyuan_qkv_pack_triton.hunyuan_qkv_rope_pack"
+  },
+  "entry_points": [
+    "sglang.kernels.ops.diffusion.rope.hunyuan_qkv_pack_triton.hunyuan_qkv_rope_pack"
+  ],
+  "source_sha256": {
+    "sglang.kernels.ops.diffusion.rope.hunyuan_qkv_pack_triton": "42278e67341961f7187bce90f406ce91c03b9339f84a8462a36c7270f2861636"
+  },
+  "output_aliases": {},
+  "baseline": {
+    "kind": "sglang_runtime",
+    "sglang_revision": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "image": "host-process:sglang-diffusion-c842d32b0a"
+  },
+  "shape_coverage": {
+    "kind": "source/test-derived initial sweep; see each row origin",
+    "production_capture_complete": false,
+    "workload_records": 6,
+    "split": {
+      "small": 2,
+      "large": 4
+    }
+  },
+  "timing": {
+    "warmup": 5,
+    "iterations": 60,
+    "trials": 5
+  },
+  "models": [
+    "HunyuanVideo"
+  ],
+  "correctness": "Exact current-kernel values, dtype, shape, layout and declared aliases. Native model validation required separately."
+}

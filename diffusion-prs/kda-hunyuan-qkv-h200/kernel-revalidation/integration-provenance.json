@@ -1,0 +1,41 @@
+{
+  "submission": "023944d9780d4237",
+  "original_kernel_sha256": "28bab007491571e18c59768fa427d525946d6f7624eec0380107e389a14f665a",
+  "integrated_source_sha256": "f5d31559b624cb5e6057183ff8efc3fc3544b3ca42fa658ca6524b57e572c814",
+  "semantic_ast_matches_native_compared_second_compat": true,
+  "functions": [
+    "_qkvs_small_kernel",
+    "_grid_small",
+    "_qkvs_large_kernel",
+    "_grid_large",
+    "_validate",
+    "hunyuan_qkv_rope_pack"
+  ],
+  "intentional_changes": [
+    "Restore baseline explicit cos/sin FP32 conversion in both kernels; two original FP64 regressions independently demonstrated.",
+    "Remove KDA-only TARGETS/run/prepare_benchmark wrappers, unused tokens_per_batch, artifact-only module description/future import; preserve SPDX and format source."
+  ],
+  "independent_optimization_added": false,
+  "git_commit": "b1c6e3aaa0b7b13ba0d2597d998e066d68e516e8",
+  "final_targeted_tests": {
+    "passed": 8,
+    "seconds": 35.09
+  },
+  "final_repeats": {
+    "repeat-1.jsonl": {
+      "all": 1.3412034481462485,
+      "large": 1.4652141939123966,
+      "small": 1.1237811669401547
+    },
+    "repeat-2.jsonl": {
+      "all": 1.3287520450680714,
+      "large": 1.4537240172753167,
+      "small": 1.1101148358640474
+    },
+    "repeat-3.jsonl": {
+      "all": 1.328933101106116,
+      "large": 1.4552215298545204,
+      "small": 1.1082841800496264
+    }
+  }
+}

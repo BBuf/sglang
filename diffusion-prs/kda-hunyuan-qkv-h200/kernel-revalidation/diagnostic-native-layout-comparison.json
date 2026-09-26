@@ -1,0 +1,149 @@
+{
+  "source_sha256": {
+    "baseline": "42278e67341961f7187bce90f406ce91c03b9339f84a8462a36c7270f2861636",
+    "first_compat": "3de63a6f8108040bf855acb518dea39a762ccf76c3c3b8a2f6d1200386a43d4b",
+    "second_compat": "5648222a97d76ca43f4039c35000bc9ca7515ef52209cc92fb858624845e30b9"
+  },
+  "capture_sha256": "83df112bd37ac0ea2966c173c1d5634eada9394cc474140a23dfb7a26e3c64bf",
+  "actual_values": "random regenerated; exact captured shape/dtype/stride/storage_offset",
+  "rows": [
+    {
+      "capture_row": 0,
+      "image_tokens": 10200,
+      "text_tokens": 4,
+      "image_v_stride": [
+        94003200,
+        9216,
+        128,
+        1
+      ],
+      "text_v_offset": 6144,
+      "call_count": 40,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.12344706743039517,
+          "first_compat": 0.10165714100566259,
+          "second_compat": 0.09325206723420516
+        },
+        {
+          "second_compat": 0.09385733117529547,
+          "first_compat": 0.1019022384380002,
+          "baseline": 0.12416800809565703
+        },
+        {
+          "baseline": 0.1239687594851932,
+          "first_compat": 0.10179156028001007,
+          "second_compat": 0.09332923639833537
+        }
+      ]
+    },
+    {
+      "capture_row": 1,
+      "image_tokens": 10200,
+      "text_tokens": 4,
+      "image_v_stride": [
+        219426816,
+        21504,
+        128,
+        1
+      ],
+      "text_v_offset": 219346944,
+      "call_count": 80,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.12449918042345569,
+          "first_compat": 0.10206843090057373,
+          "second_compat": 0.09389718869215662
+        },
+        {
+          "second_compat": 0.09389289548044248,
+          "first_compat": 0.10210923727344413,
+          "baseline": 0.12416911228843357
+        },
+        {
+          "baseline": 0.12418657803653574,
+          "first_compat": 0.10212609906188214,
+          "second_compat": 0.09388113419639874
+        }
+      ]
+    },
+    {
+      "capture_row": 2,
+      "image_tokens": 10200,
+      "text_tokens": 55,
+      "image_v_stride": [
+        94003200,
+        9216,
+        128,
+        1
+      ],
+      "text_v_offset": 6144,
+      "call_count": 80,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.12499507657402503,
+          "first_compat": 0.10222894812142977,
+          "second_compat": 0.09389819940546962
+        },
+        {
+          "second_compat": 0.09349574638625323,
+          "first_compat": 0.10231277604379123,
+          "baseline": 0.12460722301317298
+        },
+        {
+          "baseline": 0.12488930905430654,
+          "first_compat": 0.10232089609594389,
+          "second_compat": 0.09315875299706891
+        }
+      ]
+    },
+    {
+      "capture_row": 3,
+      "image_tokens": 10200,
+      "text_tokens": 55,
+      "image_v_stride": [
+        220523520,
+        21504,
+        128,
+        1
+      ],
+      "text_v_offset": 219346944,
+      "call_count": 160,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.12504306249655256,
+          "first_compat": 0.10273743919444309,
+          "second_compat": 0.09413824752722373
+        },
+        {
+          "second_compat": 0.09413252259162373,
+          "first_compat": 0.10266550133714841,
+          "baseline": 0.12480856016186473
+        },
+        {
+          "baseline": 0.12473852234309986,
+          "first_compat": 0.10265180638706649,
+          "second_compat": 0.09413913223554174
+        }
+      ]
+    }
+  ],
+  "geomean_speedups": {
+    "first_compat": [
+      1.2184759315167233,
+      1.2170318137059923,
+      1.2174000968200895
+    ],
+    "second_compat": [
+      1.3272915722797176,
+      1.3260032833880693,
+      1.3291705770255648
+    ]
+  },
+  "timing": "triton.testing.do_bench_cudagraph rep=200ms, three repeats alternating candidate order; no E2E claim",
+  "second_artifact_compatibility_change": "restore baseline explicit FP32 conversion immediately after cos/sin loads"
+}

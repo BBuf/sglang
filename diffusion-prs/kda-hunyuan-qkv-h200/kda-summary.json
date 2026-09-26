@@ -1,0 +1,76 @@
+{
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "candidate_commit": "b1c6e3aaa0b7b13ba0d2597d998e066d68e516e8",
+  "kda_repository": "https://github.com/radixark/KDA-1.5",
+  "kda_base_commit": "e2631d8aa2f18268af7e4584a45f96e8ef5de9ae",
+  "driver": "Codex CLI with Kimi K3",
+  "submission": "023944d9780d4237",
+  "candidate_model_commit": "a7ea82ba855b4e0d5e4d9b5a136ae4b6a0b7e38e",
+  "artifact_digest": "9884741599cfda6ec3cb177fa675ce6e5be5170d30b4b02dddeeec917dec222f",
+  "integrated_source_sha256": "f5d31559b624cb5e6057183ff8efc3fc3544b3ca42fa658ca6524b57e572c814",
+  "integration_changes": [
+    "Restore baseline explicit cos/sin FP32 conversion in both kernels; two original FP64 regressions independently demonstrated.",
+    "Remove KDA-only TARGETS/run/prepare_benchmark wrappers, unused tokens_per_batch, artifact-only module description/future import; preserve SPDX and format source."
+  ],
+  "independent_suite_repeats": {
+    "repeat-1.jsonl": {
+      "all": 1.3412034481462485,
+      "large": 1.4652141939123966,
+      "small": 1.1237811669401547
+    },
+    "repeat-2.jsonl": {
+      "all": 1.3287520450680714,
+      "large": 1.4537240172753167,
+      "small": 1.1101148358640474
+    },
+    "repeat-3.jsonl": {
+      "all": 1.328933101106116,
+      "large": 1.4552215298545204,
+      "small": 1.1082841800496264
+    }
+  },
+  "correctness": {
+    "registered_rows_per_repeat": 6,
+    "independent_repeats": 3,
+    "targeted_tests": 8,
+    "exact": true,
+    "gates": [
+      "fresh changed-input replay",
+      "input mutation",
+      "shape/stride/device/dtype",
+      "storage alias",
+      "FP64 rotary-table cast compatibility",
+      "source address beyond INT32"
+    ]
+  },
+  "native_layout_kernel_repeats": {
+    "capture_request": "HunyuanVideo 960x544, 17 frames, 4 steps diagnostic; actual tensor metadata, regenerated values",
+    "rows": 4,
+    "geomean": [
+      1.3273,
+      1.326,
+      1.3292
+    ],
+    "timing": "CUDA events, three passes with alternating implementation order",
+    "full_generation_timings": "See separate abba.json; kernel ratios do not imply model-level acceleration"
+  },
+  "hardware": "NVIDIA H200, exclusive per-GPU flock lease",
+  "judging_environment": "Existing SGLang environment, host processes; not isolated containers",
+  "kernel_timer": "CUPTI for registered rows",
+  "full_native_layout_kernel_repeats": {
+    "request": "HunyuanVideo 960x544, 65 frames; actual tensor metadata captured in separate 4-step diagnostic",
+    "geomean": [
+      1.3558602494798728,
+      1.3502149828956433,
+      1.34777905306628
+    ],
+    "rows": 4,
+    "image_tokens": 34680,
+    "text_tokens": [
+      4,
+      55
+    ],
+    "timing": "triton.testing.do_bench_cudagraph rep=200ms, three repeats alternating candidate order; no E2E claim",
+    "correctness": "byte-exact two changed-input states; layout/offset/alias/input state checked"
+  }
+}

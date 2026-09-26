@@ -1,0 +1,131 @@
+{
+  "source_sha256": {
+    "baseline": "42278e67341961f7187bce90f406ce91c03b9339f84a8462a36c7270f2861636",
+    "candidate": "f5d31559b624cb5e6057183ff8efc3fc3544b3ca42fa658ca6524b57e572c814"
+  },
+  "capture_sha256": "9e3c697f4f3e30494a22ea03180f104bff37c7784849bdc8bbea73015962afcb",
+  "actual_values": "random regenerated; exact captured shape/dtype/stride/storage_offset",
+  "rows": [
+    {
+      "capture_row": 0,
+      "image_tokens": 34680,
+      "text_tokens": 4,
+      "image_v_stride": [
+        319610880,
+        9216,
+        128,
+        1
+      ],
+      "text_v_offset": 6144,
+      "call_count": null,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.417608283176895,
+          "candidate": 0.3092818883692463
+        },
+        {
+          "candidate": 0.3077013753885086,
+          "baseline": 0.41650602963096217
+        },
+        {
+          "baseline": 0.4174137794365317,
+          "candidate": 0.3098769928688227
+        }
+      ]
+    },
+    {
+      "capture_row": 1,
+      "image_tokens": 34680,
+      "text_tokens": 4,
+      "image_v_stride": [
+        745844736,
+        21504,
+        128,
+        1
+      ],
+      "text_v_offset": 745764864,
+      "call_count": null,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.42021864895009403,
+          "candidate": 0.31052288637725733
+        },
+        {
+          "candidate": 0.30984629455756546,
+          "baseline": 0.4175802974377648
+        },
+        {
+          "baseline": 0.41866253142661236,
+          "candidate": 0.31099951200396103
+        }
+      ]
+    },
+    {
+      "capture_row": 2,
+      "image_tokens": 34680,
+      "text_tokens": 55,
+      "image_v_stride": [
+        319610880,
+        9216,
+        128,
+        1
+      ],
+      "text_v_offset": 6144,
+      "call_count": null,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.42143654407801967,
+          "candidate": 0.30905941877038307
+        },
+        {
+          "candidate": 0.309438435335337,
+          "baseline": 0.41776840045887936
+        },
+        {
+          "baseline": 0.4189287542527722,
+          "candidate": 0.308996278279306
+        }
+      ]
+    },
+    {
+      "capture_row": 3,
+      "image_tokens": 34680,
+      "text_tokens": 55,
+      "image_v_stride": [
+        746941440,
+        21504,
+        128,
+        1
+      ],
+      "text_v_offset": 745764864,
+      "call_count": null,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.4220057741800944,
+          "candidate": 0.3111323802870391
+        },
+        {
+          "candidate": 0.31034887075424195,
+          "baseline": 0.4188080128682018
+        },
+        {
+          "baseline": 0.41764084975606897,
+          "candidate": 0.3111694264411926
+        }
+      ]
+    }
+  ],
+  "geomean_speedups": {
+    "candidate": [
+      1.3558602494798728,
+      1.3502149828956433,
+      1.34777905306628
+    ]
+  },
+  "timing": "triton.testing.do_bench_cudagraph rep=200ms, three repeats alternating candidate order; no E2E claim",
+  "integration_compatibility_change": "restore baseline explicit FP32 conversion immediately after cos/sin loads"
+}
