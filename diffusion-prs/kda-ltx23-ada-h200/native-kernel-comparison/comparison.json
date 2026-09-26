@@ -1,0 +1,131 @@
+{
+  "source_sha256": {
+    "baseline": "7553c5a66990fb970448bcb37d3813490a2e2585934772b8e766cc2516bc6673",
+    "candidate": "0075bd9c37182eb90a2e902ca2a732507a6f3f1e863e8157707dae973bae0a24"
+  },
+  "capture_sha256": "808935b038333c1bc634055b0a37ca6a3a2619e74df53a2e289595c9039d549d",
+  "actual_values": "random regenerated; exact captured shape/dtype/stride/storage_offset",
+  "rows": [
+    {
+      "capture_row": 0,
+      "table_shape": [
+        9,
+        4096
+      ],
+      "timestep_shape": [
+        2,
+        2688,
+        36864
+      ],
+      "call_count": 96,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.19711927284757455,
+          "candidate": 0.19022180081790635
+        },
+        {
+          "candidate": 0.1900796450101412,
+          "baseline": 0.19743661167376775
+        },
+        {
+          "baseline": 0.19752203490603623,
+          "candidate": 0.1902165159139349
+        }
+      ]
+    },
+    {
+      "capture_row": 1,
+      "table_shape": [
+        9,
+        2048
+      ],
+      "timestep_shape": [
+        2,
+        1,
+        18432
+      ],
+      "call_count": 96,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.0018993561061751308,
+          "candidate": 0.0011620336427025516
+        },
+        {
+          "candidate": 0.0011616197157309916,
+          "baseline": 0.001889332634560485
+        },
+        {
+          "baseline": 0.001890991779613806,
+          "candidate": 0.001161781577176826
+        }
+      ]
+    },
+    {
+      "capture_row": 2,
+      "table_shape": [
+        9,
+        4096
+      ],
+      "timestep_shape": [
+        1,
+        1,
+        36864
+      ],
+      "call_count": 768,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.003156114075482596,
+          "candidate": 0.0011599547498166774
+        },
+        {
+          "candidate": 0.0011650208218644755,
+          "baseline": 0.0031414726072333033
+        },
+        {
+          "baseline": 0.003141865533308411,
+          "candidate": 0.0011585942241504976
+        }
+      ]
+    },
+    {
+      "capture_row": 3,
+      "table_shape": [
+        9,
+        2048
+      ],
+      "timestep_shape": [
+        1,
+        1,
+        18432
+      ],
+      "call_count": 768,
+      "correctness": "byte-exact two input states; layout/offset/alias/input state checked",
+      "milliseconds": [
+        {
+          "baseline": 0.001871030675915272,
+          "candidate": 0.0011398138627815592
+        },
+        {
+          "candidate": 0.0011359084458673605,
+          "baseline": 0.0018734897967356786
+        },
+        {
+          "baseline": 0.0018670068044385475,
+          "candidate": 0.0011402694890252723
+        }
+      ]
+    }
+  ],
+  "geomean_speedups": {
+    "candidate": [
+      1.6584553292265312,
+      1.6556213969293694,
+      1.6551287363246432
+    ]
+  },
+  "timing": "triton.testing.do_bench_cudagraph rep=200ms, three repeats alternating candidate order; no E2E claim",
+  "integration_changes": "Remove artifact docstring and KDA wrappers only; preserve kernel computation and launch configuration"
+}

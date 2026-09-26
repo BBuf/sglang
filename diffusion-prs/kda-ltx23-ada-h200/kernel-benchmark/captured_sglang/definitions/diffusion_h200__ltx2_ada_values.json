@@ -1,0 +1,39 @@
+{
+  "name": "diffusion_h200__ltx2_ada_values",
+  "description": "Use program dimensions for slice and column to expose parallelism when B*S=1; current CTA holds nine hidden-size tensors and launches only B*S CTAs.",
+  "target_gpu": "NVIDIA H200",
+  "targets": {
+    "ltx2_ada_values9": "sglang.kernels.ops.diffusion.modulate.ltx2_ada_values_triton.ltx2_ada_values9"
+  },
+  "entry_points": [
+    "sglang.kernels.ops.diffusion.modulate.ltx2_ada_values_triton.ltx2_ada_values9"
+  ],
+  "source_sha256": {
+    "sglang.kernels.ops.diffusion.modulate.ltx2_ada_values_triton": "7553c5a66990fb970448bcb37d3813490a2e2585934772b8e766cc2516bc6673"
+  },
+  "output_aliases": {},
+  "baseline": {
+    "kind": "sglang_runtime",
+    "sglang_revision": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "image": "host-process:sglang-diffusion-c842d32b0a"
+  },
+  "shape_coverage": {
+    "kind": "source/test-derived initial sweep; see each row origin",
+    "production_capture_complete": false,
+    "workload_records": 8,
+    "split": {
+      "small": 4,
+      "large": 4
+    }
+  },
+  "timing": {
+    "warmup": 5,
+    "iterations": 60,
+    "trials": 5
+  },
+  "models": [
+    "LTX-2",
+    "LTX-2.5"
+  ],
+  "correctness": "Exact current-kernel values, dtype, shape, layout and declared aliases. Native model validation required separately."
+}

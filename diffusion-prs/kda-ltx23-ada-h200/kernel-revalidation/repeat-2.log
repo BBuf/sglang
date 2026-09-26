@@ -1,0 +1,62 @@
+OP: diffusion_h200__ltx2_ada_values
+device: NVIDIA H200
+sglang: 0.5.21.dev629+g42b9b9949
+workloads: 8
+warmup/iters/trials: 5/60/5
+
+[001/008] ltx2_ada_values__0 axes={'elements': 36864}
+  baseline: 0.004000 ms
+  kernel:   0.001376 ms
+  speedup:  2.9070x (cupti)
+  correct:  PASS
+
+[002/008] ltx2_ada_values__1 axes={'elements': 36864}
+  baseline: 0.004384 ms
+  kernel:   0.001520 ms
+  speedup:  2.8852x (cupti)
+  correct:  PASS
+
+[003/008] ltx2_ada_values__2 axes={'elements': 110592}
+  baseline: 0.002400 ms
+  kernel:   0.001504 ms
+  speedup:  1.5957x (cupti)
+  correct:  PASS
+
+[004/008] ltx2_ada_values__3 axes={'elements': 110592}
+  baseline: 0.002944 ms
+  kernel:   0.001536 ms
+  speedup:  1.9167x (cupti)
+  correct:  PASS
+
+[005/008] ltx2_ada_values__4 axes={'elements': 1179648}
+  baseline: 0.004512 ms
+  kernel:   0.002816 ms
+  speedup:  1.6023x (cupti)
+  correct:  PASS
+
+[006/008] ltx2_ada_values__5 axes={'elements': 1179648}
+  baseline: 0.003583 ms
+  kernel:   0.003104 ms
+  speedup:  1.1545x (cupti)
+  correct:  PASS
+
+[007/008] ltx2_ada_values__6 axes={'elements': 1253376}
+  baseline: 0.064544 ms
+  kernel:   0.003072 ms
+  speedup:  21.0104x (cupti)
+  correct:  PASS
+
+[008/008] ltx2_ada_values__7 axes={'elements': 2359296}
+  baseline: 0.005423 ms
+  kernel:   0.004160 ms
+  speedup:  1.3037x (cupti)
+  correct:  PASS
+
+
+Summary
+  passed: 8/8
+  mean speedup: 4.2969x
+  min/max speedup: 1.1545x / 21.0104x
+  all geomean:   2.4504x (n=8)
+  large geomean: 2.6680x (n=4)  [primary]
+  small geomean: 2.2505x (n=4)  [guardrail]

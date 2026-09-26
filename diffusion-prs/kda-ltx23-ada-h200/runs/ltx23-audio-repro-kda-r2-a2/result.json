@@ -1,0 +1,123 @@
+{
+  "source_sha": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "repo": "/personal/kda-diffusion-h200-20260926/baseline",
+  "sglang_file": "/personal/kda-diffusion-h200-20260926/baseline/python/sglang/__init__.py",
+  "request": {
+    "model": "Lightricks/LTX-2.3",
+    "revision": "7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+    "local_model_path": "/personal/kda-diffusion-h200-20260926/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 121,
+    "steps": 30,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ]
+  },
+  "quality": "lossless",
+  "gpu": "7",
+  "command": [
+    "sglang",
+    "generate",
+    "--backend=sglang",
+    "--model-path=/personal/kda-diffusion-h200-20260926/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "--revision=7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+    "--prompt=A beautiful sunset over the ocean",
+    "--seed=42",
+    "--width=768",
+    "--height=512",
+    "--num-frames=121",
+    "--num-inference-steps=30",
+    "--guidance-scale=3",
+    "--num-gpus=1",
+    "--tp-size=1",
+    "--ulysses-degree=1",
+    "--master-port=32070",
+    "--scheduler-port=32170",
+    "--port=32270",
+    "--performance-mode=manual",
+    "--enable-torch-compile=false",
+    "--dit-cpu-offload=false",
+    "--dit-layerwise-offload=false",
+    "--vae-cpu-offload=false",
+    "--text-encoder-cpu-offload=false",
+    "--quality=lossless",
+    "--warmup-mode=request",
+    "--warmup-resolutions=768x512",
+    "--warmup-num-frames=121",
+    "--save-output",
+    "--output-path=/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-audio-repro-kda-r2-a2",
+    "--output-file-name=sample",
+    "--perf-dump-path=/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-audio-repro-kda-r2-a2/perf.json",
+    "--pipeline-class-name=LTX2Pipeline",
+    "--fps=24"
+  ],
+  "diagnostic": false,
+  "captured": false,
+  "profiled": false,
+  "shadow_baseline": null,
+  "deterministic_audio_decode": true,
+  "validation_repro_source_sha256": "5e0b9920624b2ee636b6850fe31e67309ac19b61100b153c73243db631d21ad4",
+  "environment": {
+    "PYTHONPATH": "/personal/kda-diffusion-h200-20260926/validation/repro:/personal/kda-diffusion-h200-20260926/baseline/python",
+    "CUDA_VISIBLE_DEVICES": "7",
+    "HF_HUB_CACHE": "/cluster-storage/models",
+    "HF_HUB_OFFLINE": "1",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "1"
+  },
+  "returncode": 0,
+  "elapsed_with_load_s": 132.6315724849701,
+  "native_fallback_signals": [],
+  "artifacts": [
+    {
+      "path": "/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-audio-repro-kda-r2-a2/sample.mp4",
+      "sha256": "20c8ea1506e93baa24e50d9e2a5d73efa40d36a5dbca74f3a2ddbd68ec789499",
+      "size": 786996
+    }
+  ],
+  "valid": true,
+  "audio_repro_context_calls": [
+    {
+      "method": "AutoencoderKLLTX2Audio.decode",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    },
+    {
+      "method": "LTX2Vocoder.forward",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    },
+    {
+      "method": "AutoencoderKLLTX2Audio.decode",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    },
+    {
+      "method": "LTX2Vocoder.forward",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    }
+  ],
+  "worker_e2e_s": 42.90249559702352,
+  "denoise_s": 41.88977961987257,
+  "decode_s": 0.897984161041677,
+  "client_saved_e2e_s": 43.76,
+  "client_saved_timer_precision_s": 0.01
+}

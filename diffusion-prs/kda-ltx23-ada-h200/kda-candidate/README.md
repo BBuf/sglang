@@ -1,0 +1,1 @@
+Immutable Kimi K3 KDA submission 970fabc2be8f4e22, candidate commit 59d0f34c50318f565e952606ba70d72725d33046. Both production function ASTs are identical to candidate commit bc556521a0704b2d21a31dc9d0031093d9b6c5d5. Integration removes only KDA wrappers/module text and preserves existing license/attribution. See ../kda-summary.json.

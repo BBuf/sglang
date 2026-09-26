@@ -1,0 +1,136 @@
+{
+  "zimage": {
+    "model": "Tongyi-MAI/Z-Image-Turbo",
+    "revision": "f332072aa78be7aecdf3ee76d5c247082da564a6",
+    "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "steps": 9,
+    "guidance": 0,
+    "seed": 42
+  },
+  "wan21": {
+    "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+    "revision": "0fad780a534b6463e45facd96134c9f345acfa5b",
+    "prompt": "A curious raccoon walks through a sunlit forest.",
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "steps": 50,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 16
+  },
+  "sana-video": {
+    "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "prompt": "A curious raccoon walks through a sunlit forest. motion score: 30.",
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "steps": 50,
+    "guidance": 6,
+    "seed": 42,
+    "fps": 16
+  },
+  "ltx2": {
+    "model": "Lightricks/LTX-2",
+    "revision": "47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 121,
+    "steps": 30,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ]
+  },
+  "flux2-klein": {
+    "model": "black-forest-labs/FLUX.2-klein-base-4B",
+    "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "steps": 50,
+    "guidance": 4,
+    "seed": 42
+  },
+  "hunyuanvideo": {
+    "model": "hunyuanvideo-community/HunyuanVideo",
+    "revision": "e8c2aaa66fe3742a32c11a6766aecbf07c56e773",
+    "prompt": "A cat and a dog baking a cake together in a kitchen. The cat is carefully measuring flour, while the dog is stirring the batter with a wooden spoon. The kitchen is cozy, with sunlight streaming through the window.",
+    "width": 960,
+    "height": 544,
+    "frames": 65,
+    "steps": 30,
+    "guidance": 1,
+    "seed": 42,
+    "fps": 24
+  },
+  "ltx23": {
+    "model": "Lightricks/LTX-2.3",
+    "revision": "7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+    "local_model_path": "/personal/kda-diffusion-h200-20260926/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 121,
+    "steps": 30,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ]
+  },
+  "fasth3-vsa": {
+    "model": "FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree",
+    "revision": "b65818d41939b5085451074fe8ca8b799f8d4921",
+    "seed": 42,
+    "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "off",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "/personal/kda-diffusion-h200-20260926/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e",
+      "revision": "b65818d41939b5085451074fe8ca8b799f8d4921",
+      "layerwise_offload_components": [
+        "text_encoder"
+      ],
+      "attention_backend": "video_sparse_attn_h3",
+      "attention_backend_config": "{\"VSA_sparsity\": 0.9}",
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "task": "t2va",
+      "conditions": [],
+      "target": {
+        "short_edge": 768,
+        "aspect_ratio": "16:9",
+        "duration_seconds": 4.0
+      },
+      "num_inference_steps": 5,
+      "flow_shift": 12.0,
+      "audio_flow_shift": 3.0,
+      "pipeline_class_name": "FastH3Pipeline"
+    },
+    "hf_hub_cache": "/personal/kda-diffusion-h200-20260926/validation/model-cache/fasth3/hub",
+    "native_cache_root": "/personal/kda-diffusion-h200-20260926/validation/model-cache/fasth3/native-cache",
+    "local_model_path": "/personal/kda-diffusion-h200-20260926/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e"
+  }
+}

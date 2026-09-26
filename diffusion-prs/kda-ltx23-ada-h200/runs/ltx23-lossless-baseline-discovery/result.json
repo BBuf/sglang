@@ -1,0 +1,91 @@
+{
+  "source_sha": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "repo": "/personal/kda-diffusion-h200-20260926/baseline",
+  "sglang_file": "/personal/kda-diffusion-h200-20260926/baseline/python/sglang/__init__.py",
+  "request": {
+    "model": "Lightricks/LTX-2.3",
+    "revision": "7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+    "local_model_path": "/personal/kda-diffusion-h200-20260926/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 49,
+    "steps": 4,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ]
+  },
+  "quality": "lossless",
+  "gpu": "7",
+  "command": [
+    "sglang",
+    "generate",
+    "--backend=sglang",
+    "--model-path=/personal/kda-diffusion-h200-20260926/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "--revision=7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+    "--prompt=A beautiful sunset over the ocean",
+    "--seed=42",
+    "--width=768",
+    "--height=512",
+    "--num-frames=49",
+    "--num-inference-steps=4",
+    "--guidance-scale=3",
+    "--num-gpus=1",
+    "--tp-size=1",
+    "--ulysses-degree=1",
+    "--master-port=32070",
+    "--scheduler-port=32170",
+    "--port=32270",
+    "--performance-mode=manual",
+    "--enable-torch-compile=false",
+    "--dit-cpu-offload=false",
+    "--dit-layerwise-offload=false",
+    "--vae-cpu-offload=false",
+    "--text-encoder-cpu-offload=false",
+    "--quality=lossless",
+    "--warmup-mode=request",
+    "--warmup-resolutions=768x512",
+    "--warmup-num-frames=49",
+    "--save-output",
+    "--output-path=/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-lossless-baseline-discovery",
+    "--output-file-name=sample",
+    "--perf-dump-path=/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-lossless-baseline-discovery/perf.json",
+    "--pipeline-class-name=LTX2Pipeline",
+    "--fps=24",
+    "--profile",
+    "--profile-all-stages"
+  ],
+  "diagnostic": true,
+  "captured": true,
+  "profiled": true,
+  "environment": {
+    "PYTHONPATH": "/personal/kda-diffusion-h200-20260926/validation/capture:/personal/kda-diffusion-h200-20260926/baseline/python",
+    "CUDA_VISIBLE_DEVICES": "7",
+    "HF_HUB_CACHE": "/cluster-storage/models",
+    "HF_HUB_OFFLINE": "1",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "1"
+  },
+  "returncode": 0,
+  "elapsed_with_load_s": 219.795401096344,
+  "native_fallback_signals": [],
+  "artifacts": [
+    {
+      "path": "/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-lossless-baseline-discovery/sample.mp4",
+      "sha256": "2da8d89f0c13a37d072a40cb65e1364364fa94c26a0a331c7477f8717722a566",
+      "size": 119794
+    }
+  ],
+  "valid": true,
+  "worker_e2e_s": 103.01546501694247,
+  "denoise_s": 7.113483500201255,
+  "decode_s": 0.46654495503753424,
+  "client_saved_e2e_s": 103.7,
+  "client_saved_timer_precision_s": 0.01,
+  "traces": [
+    "/personal/kda-diffusion-h200-20260926/validation/artifacts/ltx23-lossless-baseline-discovery/traces/a4a107e8-6763-43f7-8ff3-33e2828ab2d3-full_stages-global-rank0.trace.json.gz"
+  ]
+}
