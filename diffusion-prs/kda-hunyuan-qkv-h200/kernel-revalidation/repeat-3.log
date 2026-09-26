@@ -1,0 +1,50 @@
+OP: diffusion_h200__hunyuan_qkv_rope_pack
+device: NVIDIA H200
+sglang: 0.5.21.dev629+g42b9b9949
+workloads: 6
+warmup/iters/trials: 5/60/5
+
+[001/006] hunyuan_qkv_rope_pack__0 axes={'elements': 789504}
+  baseline: 0.005664 ms
+  kernel:   0.004703 ms
+  speedup:  1.2042x (cupti)
+  correct:  PASS
+
+[002/006] hunyuan_qkv_rope_pack__1 axes={'elements': 12582912}
+  baseline: 0.060095 ms
+  kernel:   0.041200 ms
+  speedup:  1.4586x (cupti)
+  correct:  PASS
+
+[003/006] hunyuan_qkv_rope_pack__2 axes={'elements': 12582912}
+  baseline: 0.060175 ms
+  kernel:   0.041264 ms
+  speedup:  1.4583x (cupti)
+  correct:  PASS
+
+[004/006] hunyuan_qkv_rope_pack__3 axes={'elements': 6291456}
+  baseline: 0.030367 ms
+  kernel:   0.022096 ms
+  speedup:  1.3743x (cupti)
+  correct:  PASS
+
+[005/006] hunyuan_qkv_rope_pack__4 axes={'elements': 35389440}
+  baseline: 0.161005 ms
+  kernel:   0.104959 ms
+  speedup:  1.5340x (cupti)
+  correct:  PASS
+
+[006/006] hunyuan_qkv_rope_pack__5 axes={'elements': 8704}
+  baseline: 0.001632 ms
+  kernel:   0.001600 ms
+  speedup:  1.0200x (cupti)
+  correct:  PASS
+
+
+Summary
+  passed: 6/6
+  mean speedup: 1.3416x
+  min/max speedup: 1.0200x / 1.5340x
+  all geomean:   1.3289x (n=6)
+  large geomean: 1.4552x (n=4)  [primary]
+  small geomean: 1.1083x (n=2)  [guardrail]
