@@ -1,0 +1,35 @@
+{
+  "family": "mxfp8_producers",
+  "path": "python/sglang/kernels/ops/diffusion/quantization/mxfp8_swizzled_triton.py",
+  "source_sha256": "96b70d2c1ea8f22e41b57f3e0fd2f2716aab55a9bae003fdd6f8025f946591ec",
+  "dependent_sources_sha256": {},
+  "tested_commit": "7adcfa610c2977f8ddbd311838c6af57b27ad87f",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 16,
+      "geomean": 8.433743167764735,
+      "native_geomean": null,
+      "worst": 2.171988080034057
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 16,
+      "geomean": 8.0888486887875,
+      "native_geomean": null,
+      "worst": 2.129211087420043
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 16,
+      "geomean": 8.038017545080038,
+      "native_geomean": null,
+      "worst": 2.1243611584327087
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v33/mxfp8_producers",
+  "cpp_namespace_isolation": [],
+  "frozen_submission": "bf35ab4109974c32",
+  "validation_note": "132 expanded production records plus8 targeted regressions pass. The original CUDA FlashInfer tests fail4/5 in both arms onH200 because installed0.6.18 compiles an empty SM90 kernel body; two sentinel probes show zero bytes written. Four independent CPU-host quantization oracle cases pass for baseline and candidate. Original test files unchanged; no model E2E gain claimed."
+}

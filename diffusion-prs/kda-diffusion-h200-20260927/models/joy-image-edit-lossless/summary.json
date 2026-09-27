@@ -1,0 +1,119 @@
+{
+  "model": "jdopensource/JoyAI-Image-Edit-Diffusers",
+  "model_key": "joy-image-edit",
+  "quality": "lossless",
+  "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; final published-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 27.855,
+        "candidate": 27.869999999999997,
+        "reduction_pct": -0.053850296176618254
+      },
+      "worker_e2e_s": {
+        "baseline": 27.669515277259052,
+        "candidate": 27.682127451058477,
+        "reduction_pct": -0.045581477207123404
+      },
+      "denoise_s": {
+        "baseline": 27.32500637904741,
+        "candidate": 27.34067877708003,
+        "reduction_pct": -0.057355514634529106
+      },
+      "decode_s": {
+        "baseline": 0.06744443206116557,
+        "candidate": 0.06746167014352977,
+        "reduction_pct": -0.02555894065290412
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 27.85,
+        "candidate": 27.865000000000002,
+        "reduction_pct": -0.05385996409335931
+      },
+      "worker_e2e_s": {
+        "baseline": 27.65955282887444,
+        "candidate": 27.67425383394584,
+        "reduction_pct": -0.05314982914711073
+      },
+      "denoise_s": {
+        "baseline": 27.31815380253829,
+        "candidate": 27.331003924133256,
+        "reduction_pct": -0.04703876289682313
+      },
+      "decode_s": {
+        "baseline": 0.06712813675403595,
+        "candidate": 0.06706737633794546,
+        "reduction_pct": 0.09051408102256812
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    -0.053850296176618254,
+    -0.05385996409335931
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "jdopensource/JoyAI-Image-Edit-Diffusers",
+    "revision": "4b41fb25d961f37668750178ccbb380da326201c",
+    "prompt": "Turn the neon city into a snowy dawn while preserving the buildings and camera viewpoint.",
+    "seed": 42,
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "request",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "jdopensource/JoyAI-Image-Edit-Diffusers",
+      "revision": "4b41fb25d961f37668750178ccbb380da326201c",
+      "prompt": "Turn the neon city into a snowy dawn while preserving the buildings and camera viewpoint.",
+      "negative_prompt": "",
+      "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+      "height": 1024,
+      "width": 1024,
+      "num_frames": 1,
+      "num_inference_steps": 40,
+      "guidance_scale": 4.0,
+      "warmup_resolutions": [
+        "1024x1024"
+      ],
+      "warmup_num_frames": 1
+    },
+    "media_extension": "png"
+  },
+  "abba": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-abba.json",
+  "media_audit": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-media-audit/evidence.json",
+  "device_proof": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-dispatch.json",
+  "preview": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-media-audit/joy-image-edit-lossless-9436dcf3-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic before/after image: identical snow-covered city street at sunset, buildings, cars, signs and pedestrians.",
+  "actual_changed_branch_evidence": "Modified flat joint-QKV concatenation3200 launches and norm-SiLU post29. Input edit image hash is identical across all eight requests.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "recorded_denoise_step_counts": [
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+  ],
+  "public_directory": "models/joy-image-edit-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

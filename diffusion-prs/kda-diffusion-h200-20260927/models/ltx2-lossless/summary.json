@@ -1,0 +1,127 @@
+{
+  "model": "Lightricks/LTX-2",
+  "model_key": "ltx2",
+  "quality": "lossless",
+  "candidate_commit": "620955f604199168eff2abdc8f8c198061fe2cec",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 24.134999999999998,
+        "candidate": 22.759999999999998,
+        "reduction_pct": 5.697120364615704
+      },
+      "worker_e2e_s": {
+        "baseline": 22.29884069156833,
+        "candidate": 21.866446162573993,
+        "reduction_pct": 1.9390897265696614
+      },
+      "denoise_s": {
+        "baseline": 20.778205254347995,
+        "candidate": 20.79068931331858,
+        "reduction_pct": -0.0600824701545052
+      },
+      "decode_s": {
+        "baseline": 1.4130489823874086,
+        "candidate": 0.967429275624454,
+        "reduction_pct": 31.53604102315409
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 22.71,
+        "candidate": 22.725,
+        "reduction_pct": -0.06605019815059696
+      },
+      "worker_e2e_s": {
+        "baseline": 21.813888045027852,
+        "candidate": 21.81315787648782,
+        "reduction_pct": 0.0033472645432282245
+      },
+      "denoise_s": {
+        "baseline": 20.761160011636093,
+        "candidate": 20.770130067132413,
+        "reduction_pct": -0.04320594557959499
+      },
+      "decode_s": {
+        "baseline": 0.9450519850943238,
+        "candidate": 0.9358480221126229,
+        "reduction_pct": 0.9739107611929166
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    5.697120364615704,
+    -0.06605019815059696
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "Lightricks/LTX-2",
+    "revision": "47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 121,
+    "steps": 30,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ],
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "cli_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/native-cache"
+  },
+  "request_summary": "768×512,121 frames,30 steps,seed42,CFG3,24fps; symmetric deterministic audio decode",
+  "recorded_denoise_step_counts": [
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30
+  ],
+  "abba": "full-model-results-v45-ltx/ltx2-lossless-620955f6-abba.json",
+  "media_audit": "full-model-results-v45-ltx/ltx2-lossless-620955f6-media-audit/evidence.json",
+  "device_proof": "full-model-results-v45-ltx/ltx2-lossless-620955f6-dispatch.json",
+  "preview": "full-model-results-v45-ltx/ltx2-lossless-620955f6-media-audit/ltx2-lossless-620955f6-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v45-ltx/ltx2-lossless-620955f6-media-audit/ltx2-lossless-620955f6-r1-b1/comparison.gif",
+  "visual_inspection": "Viewed actual matching ocean sunset frames0/40/80/120.",
+  "actual_changed_branch_evidence": "Device trace observes the changed flat scale/shift kernel. Three unrelated SLA capture-install errors are retained; they do not establish SLA use or missing LTX device evidence. Profile event counts are not per-request invocation claims.",
+  "instrumentation_records": [
+    {
+      "file": "install-428249.jsonl",
+      "record": {
+        "module": "sglang.kernels.ops.diffusion.attention.sparse_linear_attn_triton",
+        "error": "ModuleNotFoundError(\"No module named 'raw_launch_capture'\")"
+      }
+    },
+    {
+      "file": "install-428202.jsonl",
+      "record": {
+        "module": "sglang.kernels.ops.diffusion.attention.sparse_linear_attn_triton",
+        "error": "ModuleNotFoundError(\"No module named 'raw_launch_capture'\")"
+      }
+    },
+    {
+      "file": "install-428248.jsonl",
+      "record": {
+        "module": "sglang.kernels.ops.diffusion.attention.sparse_linear_attn_triton",
+        "error": "ModuleNotFoundError(\"No module named 'raw_launch_capture'\")"
+      }
+    }
+  ],
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {
+    "validation_repro_source_sha256": "5e0b9920624b2ee636b6850fe31e67309ac19b61100b153c73243db631d21ad4"
+  },
+  "public_directory": "models/ltx2-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

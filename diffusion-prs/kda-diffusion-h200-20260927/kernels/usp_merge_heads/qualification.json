@@ -1,0 +1,45 @@
+{
+  "family": "usp_merge_heads",
+  "path": "python/sglang/kernels/ops/diffusion/layout/usp_relayout_jit.py",
+  "source_sha256": "24face527fc4140c73a15cc3bf2550f68a4da73ea9d99befcf6db8821989d17b",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/diffusion/usp_relayout.cuh": "ace4e789acf61d89cbab7e1e18f57666ed75f5fab7accfbff50492b64889b968"
+  },
+  "tested_commit": "6ce3fcbdfb7af2d390c007e0f94e41ef71e0ed69",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 10,
+      "geomean": 1.1037488331068597,
+      "native_geomean": 1.1674865108679002,
+      "worst": 0.9848558866634097
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 10,
+      "geomean": 1.104265287850694,
+      "native_geomean": 1.1660244796584076,
+      "worst": 0.984375
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 10,
+      "geomean": 1.1041746713544787,
+      "native_geomean": 1.1643664379193346,
+      "worst": 0.984375
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v44/usp_merge_heads",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-usp-v44/python/sglang/kernels/jit/csrc/diffusion/usp_relayout.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v44/usp_merge_heads/isolated_usp_relayout.cuh",
+      "namespace": "kda_independent_usp_merge_heads",
+      "isolated_sha256": "f6773a0bc6f2fc4802b921126561d51ad91f7ba3088900e69a7ac655b0348fe1",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ],
+  "frozen_submission": "2235dd5d43364552",
+  "validation_note": "Original-budget2235dd5d43364552, exact Kimi90358cb0. Ten frozen rows x3, ten unchanged tests,83 expanded contracts including36 changed-input Graph replays and actual >2^31 indices, plus22 two-device/concurrent-host records pass. Original task judge was infrastructure-blocked; independent replay and production evidence are retained. Native about1.166x; worst small shape0.984375x. Final affected multi-GPU model validation pending."
+}

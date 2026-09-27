@@ -1,0 +1,127 @@
+{
+  "model": "OpenVDN/vdn-minimax-h3",
+  "model_key": "vdn-h3",
+  "quality": "lossless",
+  "candidate_commit": "620955f604199168eff2abdc8f8c198061fe2cec",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 16.86,
+        "candidate": 16.325,
+        "reduction_pct": 3.173190984578886
+      },
+      "worker_e2e_s": {
+        "baseline": 16.143783123930916,
+        "candidate": 15.636427991557866,
+        "reduction_pct": 3.1427276275841836
+      },
+      "denoise_s": {
+        "baseline": 13.286323242122307,
+        "candidate": 13.018328851088881,
+        "reduction_pct": 2.0170696297963735
+      },
+      "decode_s": {
+        "baseline": 1.9709833965171129,
+        "candidate": 1.9612216085661203,
+        "reduction_pct": 0.49527499664596125
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 16.39,
+        "candidate": 16.365000000000002,
+        "reduction_pct": 0.15253203172665392
+      },
+      "worker_e2e_s": {
+        "baseline": 15.694374951068312,
+        "candidate": 15.66686180070974,
+        "reduction_pct": 0.1753058050693493
+      },
+      "denoise_s": {
+        "baseline": 13.093968051951379,
+        "candidate": 13.045293119037524,
+        "reduction_pct": 0.3717355405231858
+      },
+      "decode_s": {
+        "baseline": 1.9601231631822884,
+        "candidate": 1.9685086815152317,
+        "reduction_pct": -0.42780568540036584
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    3.173190984578886,
+    0.15253203172665392
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "OpenVDN/vdn-minimax-h3",
+    "revision": "50744d80bde8c1adbc5f37089f125e0e436bf7b0",
+    "seed": 42,
+    "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+    "media_extension": "mp4",
+    "native_cache_root": "${KDA_ROOT}/model-cache/vdn-h3-native/materialized",
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 4,
+      "tp_size": 1,
+      "ulysses_degree": 4,
+      "encoder_parallel": "auto",
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "off",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "OpenVDN/vdn-minimax-h3",
+      "revision": "50744d80bde8c1adbc5f37089f125e0e436bf7b0",
+      "attention_backend": "hybrid_window_attn_h3",
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "task": "t2va",
+      "conditions": [],
+      "target": {
+        "short_edge": 768,
+        "aspect_ratio": "16:9",
+        "duration_seconds": 5.0
+      },
+      "num_inference_steps": 9,
+      "flow_shift": 12.0,
+      "audio_flow_shift": 3.0,
+      "pipeline_class_name": "VDNH3Pipeline"
+    },
+    "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/OpenVDN--vdn-minimax-h3/models--OpenVDN--vdn-minimax-h3/snapshots/50744d80bde8c1adbc5f37089f125e0e436bf7b0",
+    "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/OpenVDN--vdn-minimax-h3"
+  },
+  "request_summary": "1344×768,124 frames;9 schedule points,8 actual updates;4 H200,Ulysses4,warmup off",
+  "recorded_denoise_step_counts": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "abba": "full-model-results-v44/vdn-h3-lossless-620955f6-abba.json",
+  "media_audit": "full-model-results-v44/vdn-h3-lossless-620955f6-media-audit/evidence.json",
+  "device_proof": "full-model-results-v44/vdn-h3-lossless-620955f6-dispatch.json",
+  "preview": "full-model-results-v44/vdn-h3-lossless-620955f6-media-audit/vdn-h3-lossless-620955f6-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v44/vdn-h3-lossless-620955f6-media-audit/vdn-h3-lossless-620955f6-r1-b1/comparison.gif",
+  "visual_inspection": "Viewed matching open wooden motorboat at frames0/41/82/123.",
+  "actual_changed_branch_evidence": "Device trace observes the new USP streaming merge-heads kernel with vec8, plus VDN factors/gather and indexed modulation. Profile event counts are not per-request invocation claims.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "instrumentation_records": [],
+  "public_directory": "models/vdn-h3-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

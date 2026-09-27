@@ -1,0 +1,126 @@
+{
+  "model": "MiniMaxAI/MiniMax-H3",
+  "model_key": "minimax-h3",
+  "quality": "lossless",
+  "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 64.39500000000001,
+        "candidate": 63.955,
+        "reduction_pct": 0.683282863576383
+      },
+      "worker_e2e_s": {
+        "baseline": 63.76362352189608,
+        "candidate": 63.315498241456226,
+        "reduction_pct": 0.7027914282286198
+      },
+      "denoise_s": {
+        "baseline": 61.18970089685172,
+        "candidate": 60.80089393700473,
+        "reduction_pct": 0.6354124209601961
+      },
+      "decode_s": {
+        "baseline": 1.953934389166534,
+        "candidate": 1.8616518243215978,
+        "reduction_pct": 4.7229101118538575
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 65.25999999999999,
+        "candidate": 63.915,
+        "reduction_pct": 2.060986821942985
+      },
+      "worker_e2e_s": {
+        "baseline": 64.61400802899152,
+        "candidate": 63.286508752265945,
+        "reduction_pct": 2.054506936220305
+      },
+      "denoise_s": {
+        "baseline": 62.141984310233966,
+        "candidate": 60.784295537509024,
+        "reduction_pct": 2.184817217852099
+      },
+      "decode_s": {
+        "baseline": 1.856515963561833,
+        "candidate": 1.864701768150553,
+        "reduction_pct": -0.44092293033749436
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.683282863576383,
+    2.060986821942985
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "MiniMaxAI/MiniMax-H3",
+    "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+    "seed": 42,
+    "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+    "media_extension": "mp4",
+    "native_cache_root": "${KDA_ROOT}/model-cache/minimax-h3-native/materialized",
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 4,
+      "tp_size": 1,
+      "ulysses_degree": 4,
+      "encoder_parallel": "auto",
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "off",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "MiniMaxAI/MiniMax-H3",
+      "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+      "model_variant": "fl2va",
+      "attention_backend": "fa",
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "task": "t2va",
+      "conditions": [],
+      "target": {
+        "short_edge": 768,
+        "aspect_ratio": "16:9",
+        "duration_seconds": 4.0
+      },
+      "num_inference_steps": 50,
+      "flow_shift": 12.0,
+      "audio_flow_shift": 3.0,
+      "pipeline_class_name": "MiniMaxH3Pipeline"
+    }
+  },
+  "request_summary": "768p/16:9 target,107 frames;50 schedule points,49 executed steps;4 H200,Ulysses4,warmup off",
+  "recorded_denoise_step_counts": [
+    49,
+    49,
+    49,
+    49,
+    49,
+    49,
+    49,
+    49
+  ],
+  "abba": "full-model-results-v36/minimax-h3-lossless-9436dcf3-abba.json",
+  "media_audit": "full-model-results-v36/minimax-h3-lossless-9436dcf3-media-audit/evidence.json",
+  "device_proof": "full-model-results-v36/minimax-h3-lossless-9436dcf3-dispatch.json",
+  "preview": "full-model-results-v36/minimax-h3-lossless-9436dcf3-media-audit/minimax-h3-lossless-9436dcf3-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v36/minimax-h3-lossless-9436dcf3-media-audit/minimax-h3-lossless-9436dcf3-r1-b1/comparison.gif",
+  "visual_inspection": "Viewed authentic frames0/35/70/106: matching wooden boat on a lake at sunrise.",
+  "actual_changed_branch_evidence": "The separate device profile contains indexed scale/shift, indexed gate, shared QKNorm/RoPE and optimized Ulysses QKV packing. All eight complete MP4 files, including encoded audio streams, are byte-identical. This9436 snapshot predates newly integrated scaled-residual and pending USP changes; final-source validation remains necessary.",
+  "instrumentation_limitations": "No capture installation error records.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "public_directory": "models/minimax-h3-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

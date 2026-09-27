@@ -1,0 +1,93 @@
+{
+  "input_media": {
+    "path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+    "sha256": "7190f29b8f6a9a20e4e512d030489f2c85cb82242da5b712551d2013d2575519"
+  },
+  "source_sha": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "repo": "${KDA_ROOT}/consolidated/model-sources/9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "sglang_file": "${KDA_ROOT}/consolidated/model-sources/9436dcf3248d41ca7931def3a0868da13e8650e0/python/sglang/__init__.py",
+  "request": {
+    "model": "jdopensource/JoyAI-Image-Edit-Diffusers",
+    "revision": "4b41fb25d961f37668750178ccbb380da326201c",
+    "prompt": "Turn the neon city into a snowy dawn while preserving the buildings and camera viewpoint.",
+    "seed": 42,
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "request",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "jdopensource/JoyAI-Image-Edit-Diffusers",
+      "revision": "4b41fb25d961f37668750178ccbb380da326201c",
+      "prompt": "Turn the neon city into a snowy dawn while preserving the buildings and camera viewpoint.",
+      "negative_prompt": "",
+      "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+      "height": 1024,
+      "width": 1024,
+      "num_frames": 1,
+      "num_inference_steps": 40,
+      "guidance_scale": 4.0,
+      "warmup_resolutions": [
+        "1024x1024"
+      ],
+      "warmup_num_frames": 1
+    },
+    "media_extension": "png"
+  },
+  "quality": "lossless",
+  "gpu": "0",
+  "command": [
+    "sglang",
+    "generate",
+    "--backend=sglang",
+    "--model-path=jdopensource/JoyAI-Image-Edit-Diffusers",
+    "--revision=4b41fb25d961f37668750178ccbb380da326201c",
+    "--config=${KDA_ROOT}/consolidated/full-model-results-v36/joy-image-edit-lossless-9436dcf3-r1-b2/native-config.json",
+    "--output-file-path=${KDA_ROOT}/consolidated/full-model-results-v36/joy-image-edit-lossless-9436dcf3-r1-b2/sample.png",
+    "--perf-dump-path=${KDA_ROOT}/consolidated/full-model-results-v36/joy-image-edit-lossless-9436dcf3-r1-b2/perf.json"
+  ],
+  "diagnostic": false,
+  "captured": false,
+  "profiled": false,
+  "shadow_baseline": null,
+  "glm_overlap_compat": false,
+  "glm_compat_source_sha256": null,
+  "glm_compat_bootstrap_sha256": null,
+  "deterministic_audio_decode": false,
+  "validation_repro_source_sha256": null,
+  "environment": {
+    "PYTHONPATH": "${KDA_ROOT}/consolidated/model-sources/9436dcf3248d41ca7931def3a0868da13e8650e0/python",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HF_HUB_CACHE": "${MODEL_CACHE}",
+    "HF_HUB_OFFLINE": "1",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "1"
+  },
+  "returncode": 0,
+  "elapsed_with_load_s": 87.23233127593994,
+  "native_fallback_signals": [],
+  "artifacts": [
+    {
+      "path": "${KDA_ROOT}/consolidated/full-model-results-v36/joy-image-edit-lossless-9436dcf3-r1-b2/sample.png",
+      "sha256": "0a1c35f97c07ce72c400abed353463d52d2ddb9a4e102ad7872bc4e44e9d5b4a",
+      "size": 1634186
+    }
+  ],
+  "valid": true,
+  "worker_e2e_s": 27.723080263007432,
+  "denoise_s": 27.38180286483839,
+  "decode_s": 0.06723340600728989,
+  "client_saved_e2e_s": 27.91,
+  "client_saved_timer_precision_s": 0.01,
+  "source_hashes_unchanged": true
+}

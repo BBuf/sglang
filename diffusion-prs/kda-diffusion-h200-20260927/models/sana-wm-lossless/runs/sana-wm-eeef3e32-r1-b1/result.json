@@ -1,0 +1,99 @@
+{
+  "input_media": {
+    "path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+    "sha256": "7190f29b8f6a9a20e4e512d030489f2c85cb82242da5b712551d2013d2575519"
+  },
+  "source_sha": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+  "repo": "${KDA_ROOT}/consolidated/model-sources/eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+  "sglang_file": "${KDA_ROOT}/consolidated/model-sources/eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080/python/sglang/__init__.py",
+  "request": {
+    "model": "Efficient-Large-Model/SANA-WM_bidirectional",
+    "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+    "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+    "seed": 42,
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "request",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+      "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+      "pipeline_class_name": "SanaWMPipeline",
+      "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+      "negative_prompt": "",
+      "height": 704,
+      "width": 1280,
+      "num_frames": 49,
+      "fps": 16,
+      "num_inference_steps": 20,
+      "guidance_scale": 4.5,
+      "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+      "warmup_resolutions": [
+        "1280x704"
+      ],
+      "warmup_num_frames": 49
+    },
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/sana-wm/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache",
+    "media_extension": "mp4"
+  },
+  "quality": "lossless",
+  "gpu": "0",
+  "command": [
+    "sglang",
+    "generate",
+    "--backend=sglang",
+    "--model-path=${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+    "--revision=e96271d77398def8ebb9fc595e7c0056dc625ab7",
+    "--config=${KDA_ROOT}/consolidated/full-model-results-v26/sana-wm-eeef3e32-r1-b1/native-config.json",
+    "--output-file-path=${KDA_ROOT}/consolidated/full-model-results-v26/sana-wm-eeef3e32-r1-b1/sample.mp4",
+    "--perf-dump-path=${KDA_ROOT}/consolidated/full-model-results-v26/sana-wm-eeef3e32-r1-b1/perf.json"
+  ],
+  "diagnostic": false,
+  "captured": false,
+  "profiled": false,
+  "shadow_baseline": null,
+  "glm_overlap_compat": false,
+  "glm_compat_source_sha256": null,
+  "glm_compat_bootstrap_sha256": null,
+  "deterministic_audio_decode": false,
+  "validation_repro_source_sha256": null,
+  "environment": {
+    "PYTHONPATH": "${KDA_ROOT}/consolidated/model-sources/eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080/python",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "HF_HUB_CACHE": "${KDA_ROOT}/validation/model-cache/sana-wm/hub",
+    "HF_HUB_OFFLINE": "1",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "1",
+    "SGLANG_DIFFUSION_CACHE_ROOT": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache"
+  },
+  "returncode": 0,
+  "elapsed_with_load_s": 48.84060859680176,
+  "native_fallback_signals": [],
+  "artifacts": [
+    {
+      "path": "${KDA_ROOT}/consolidated/full-model-results-v26/sana-wm-eeef3e32-r1-b1/sample.mp4",
+      "sha256": "b1224a93c33397c8ce1fbcb37d6a916dbf8bd08b651f88492733cf4026408748",
+      "size": 577202
+    }
+  ],
+  "valid": true,
+  "worker_e2e_s": 9.288796625100076,
+  "denoise_s": 8.834238753654063,
+  "decode_s": 0.2930074096657336,
+  "client_saved_e2e_s": 9.69,
+  "client_saved_timer_precision_s": 0.01,
+  "source_hashes_unchanged": true
+}

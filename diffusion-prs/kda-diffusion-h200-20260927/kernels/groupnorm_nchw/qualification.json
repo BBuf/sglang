@@ -1,0 +1,36 @@
+{
+  "family": "groupnorm_nchw",
+  "path": "python/sglang/kernels/ops/diffusion/norm/group_norm_silu_triton.py",
+  "source_sha256": "aef4043911dbac39dc7372f9c6abe86a6f3310c16d7e1f5320df6101bc31d951",
+  "dependent_sources_sha256": {},
+  "tested_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 13,
+      "geomean": 1.0063577648521296,
+      "native_geomean": null,
+      "worst": 0.9810697115384615
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 13,
+      "geomean": 1.0064286277498966,
+      "native_geomean": null,
+      "worst": 0.9622641509433962
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 13,
+      "geomean": 1.0064681883022215,
+      "native_geomean": null,
+      "worst": 0.9714117300324197
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v35/groupnorm_nchw",
+  "cpp_namespace_isolation": [],
+  "frozen_submission": "ae94ad4b766948c4",
+  "validation_note": "Original-budget constant-spatial candidate replaces rejected fused-finalize implementation. 55 external records including actual Hunyuan failure tensor and 9 changed-input graphs pass; 15 unchanged tests pass. Full Hunyuan rerun pending.",
+  "superseded_failure": "4479e97af65b41f3: actual Hunyuan tensor differs at5588 elements; all14 original-budget alternatives replayed. Historical1.17x is not a current gain."
+}

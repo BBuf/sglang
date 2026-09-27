@@ -1,0 +1,35 @@
+{
+  "family": "wan_scale_shift",
+  "path": "python/sglang/kernels/ops/diffusion/modulate/scale_shift_triton.py",
+  "source_sha256": "5940bbe4d598d4ff092dbc078da1f0295a7f9c947c4fbcd1f3af006f064b2708",
+  "dependent_sources_sha256": {},
+  "tested_commit": "61d241b9143f9198de449efbfcfb86bb6eaec401",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 5,
+      "geomean": 1.0813753273945876,
+      "native_geomean": 1.4762301918265222,
+      "worst": 0.9834350479511771
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 5,
+      "geomean": 1.084380422268392,
+      "native_geomean": 1.4766666666666668,
+      "worst": 0.9838568935427575
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 5,
+      "geomean": 1.081684906986695,
+      "native_geomean": 1.475871767493945,
+      "worst": 0.9888609414301115
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v41/wan_scale_shift",
+  "cpp_namespace_isolation": [],
+  "frozen_submission": "4739f3333fea437a",
+  "validation_note": "Same-file suite rerun after scaled-residual integration; its production functions remain AST-identical."
+}

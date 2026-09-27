@@ -1,0 +1,45 @@
+{
+  "family": "interleaved_rope_fp64",
+  "path": "python/sglang/kernels/ops/diffusion/rope/interleaved_rope_fp64_jit.py",
+  "source_sha256": "c37748a25c487660b5f35d45b200007c8c484580221199c9d24f5740b94e0f4a",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/diffusion/interleaved_rope_fp64.cuh": "b53eef96fa9c6972448a55c5ba6e6814039077b59247c4ab36250d78c8d5b4b3"
+  },
+  "tested_commit": "61d241b9143f9198de449efbfcfb86bb6eaec401",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 9,
+      "geomean": 1.0408718415861022,
+      "native_geomean": 1.5996797437950363,
+      "worst": 0.928134063809217
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 9,
+      "geomean": 1.0365131133462582,
+      "native_geomean": 1.6052104208416835,
+      "worst": 0.9274088541666666
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 9,
+      "geomean": 1.0400527447011412,
+      "native_geomean": 1.5959999999999999,
+      "worst": 0.9266447368421052
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v41/interleaved_rope_fp64",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-remaining-v41/python/sglang/kernels/jit/csrc/diffusion/interleaved_rope_fp64.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v41/interleaved_rope_fp64/isolated_interleaved_rope_fp64.cuh",
+      "namespace": "kda_independent_interleaved_rope_fp64",
+      "isolated_sha256": "7d47cdc7b12dfbbaec4fe5f04b8c7d6e45c713bd3d439932c322aa3d1a3961f9",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ],
+  "frozen_submission": "c6d92a482f454c55",
+  "validation_note": "Earlier original-budgetc6d92a482f454c55 uses ordinary stream serialization. Later109d44 PDL version is rejected for producer-read races. Selected source passes64 expanded records and the adversarial producer check; production passes5 unchanged tests. Small-shape regressions remain visible."
+}

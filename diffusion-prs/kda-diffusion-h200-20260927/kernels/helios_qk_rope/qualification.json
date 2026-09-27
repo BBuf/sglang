@@ -1,0 +1,43 @@
+{
+  "family": "helios_qk_rope",
+  "path": "python/sglang/kernels/ops/diffusion/rope/helios_qk_rope_jit.py",
+  "source_sha256": "afa8af5011bfe7b52dc3c4f1e0f95bbd68cc028ac883090a6dfac59c0732c119",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/diffusion/helios_qk_rope.cuh": "e4723d4f55da2b11b95112f4f365913de5655988d72602dd9fec4e2ec19b69af"
+  },
+  "tested_commit": "1e94dde68055c8f5e1b2258d39cefad57f6adbc4",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 6,
+      "geomean": 1.1396891235791968,
+      "native_geomean": 1.294966858462884,
+      "worst": 0.9754464285714287
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 6,
+      "geomean": 1.1376794193567732,
+      "native_geomean": 1.295399101154372,
+      "worst": 0.9534883720930233
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 6,
+      "geomean": 1.1358907025080844,
+      "native_geomean": 1.29535802691382,
+      "worst": 0.9642857142857144
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v23/helios_qk_rope",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-diffusion-combined/python/sglang/kernels/jit/csrc/diffusion/helios_qk_rope.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v23/helios_qk_rope/isolated_helios_qk_rope.cuh",
+      "namespace": "kda_independent_helios_qk_rope",
+      "isolated_sha256": "4e3e2e23b1b8b37acff126113c000c6ba48485bc46a7c15ca67a33f989a5736d",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ]
+}

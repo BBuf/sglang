@@ -1,0 +1,43 @@
+{
+  "family": "inplace_qknorm_rope",
+  "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_rope_jit.py",
+  "source_sha256": "aed122acebfb88d9b04de633172f85049890bff79a52555789d5b87d15d75829",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/diffusion/qknorm_rope.cuh": "aa7f813401ae1aba565f9103f69ffc7f018eec1b616d4cd3c5e708b146d15d4a"
+  },
+  "tested_commit": "6cd9f731771a54df2094dff22b75c1d7f3685d3b",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 30,
+      "geomean": 1.1327309130230963,
+      "native_geomean": 1.0651142568145073,
+      "worst": 1.015625
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 30,
+      "geomean": 1.1332556601844284,
+      "native_geomean": 1.0654888503667173,
+      "worst": 1.0157519074575436
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 30,
+      "geomean": 1.1339239739532005,
+      "native_geomean": 1.0662497758363894,
+      "worst": 1.0236220472440944
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v14/inplace_qknorm_rope",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-diffusion-combined/python/sglang/kernels/jit/csrc/diffusion/qknorm_rope.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v14/inplace_qknorm_rope/isolated_qknorm_rope.cuh",
+      "namespace": "kda_independent_inplace_qknorm_rope",
+      "isolated_sha256": "2dde9f6fa8a70a19614ed452cc1a92f38de73d138f7af8c815e30e237c391c32",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "family": "qwen_qkv_epilogue",
+  "path": "python/sglang/kernels/ops/diffusion/rope/qwen_qkv_epilogue_jit.py",
+  "source_sha256": "de87aa50eb3b9b780ce44ff8c94a3b30038c2349ede36f8ff43e3d8e95a2e4ac",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/diffusion/qwen_qkv_epilogue.cuh": "3b8f7a9a9e4cb4dfefcb3a9347002a635c6d44e9ba4d0147ee55c8f914fa7639"
+  },
+  "tested_commit": "6cd9f731771a54df2094dff22b75c1d7f3685d3b",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 7,
+      "geomean": 1.130347912687133,
+      "native_geomean": 1.075730425795113,
+      "worst": 1.0678511738511067
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 7,
+      "geomean": 1.140183740532707,
+      "native_geomean": 1.0778679171727243,
+      "worst": 1.072365460763139
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 7,
+      "geomean": 1.127880320785118,
+      "native_geomean": 1.0768038441044578,
+      "worst": 1.070798944472517
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v15/qwen_qkv_epilogue",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-diffusion-combined/python/sglang/kernels/jit/csrc/diffusion/qwen_qkv_epilogue.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v15/qwen_qkv_epilogue/isolated_qwen_qkv_epilogue.cuh",
+      "namespace": "kda_independent_qwen_qkv_epilogue",
+      "isolated_sha256": "c9d856b27a5559f341984f90a21ff7adea080c677565e07c24a172d188f0a4bf",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ]
+}

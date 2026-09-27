@@ -1,0 +1,132 @@
+{
+  "input_media": null,
+  "source_sha": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "repo": "${KDA_ROOT}/baseline",
+  "sglang_file": "${KDA_ROOT}/baseline/python/sglang/__init__.py",
+  "request": {
+    "model": "Lightricks/LTX-2",
+    "revision": "47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 121,
+    "steps": 30,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ],
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "cli_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/native-cache"
+  },
+  "quality": "lossless",
+  "gpu": "7",
+  "command": [
+    "sglang",
+    "generate",
+    "--backend=sglang",
+    "--model-path=${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "--revision=47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+    "--prompt=A beautiful sunset over the ocean",
+    "--seed=42",
+    "--width=768",
+    "--height=512",
+    "--num-frames=121",
+    "--num-inference-steps=30",
+    "--guidance-scale=3",
+    "--num-gpus=1",
+    "--tp-size=1",
+    "--ulysses-degree=1",
+    "--master-port=32070",
+    "--scheduler-port=32170",
+    "--port=32270",
+    "--performance-mode=manual",
+    "--enable-torch-compile=false",
+    "--dit-cpu-offload=false",
+    "--dit-layerwise-offload=false",
+    "--vae-cpu-offload=false",
+    "--text-encoder-cpu-offload=false",
+    "--quality=lossless",
+    "--warmup-mode=request",
+    "--warmup-resolutions=768x512",
+    "--warmup-num-frames=121",
+    "--save-output",
+    "--output-path=${KDA_ROOT}/consolidated/full-model-results-v45-ltx/ltx2-lossless-620955f6-r2-a1",
+    "--output-file-name=sample",
+    "--perf-dump-path=${KDA_ROOT}/consolidated/full-model-results-v45-ltx/ltx2-lossless-620955f6-r2-a1/perf.json",
+    "--pipeline-class-name=LTX2Pipeline",
+    "--fps=24"
+  ],
+  "diagnostic": false,
+  "captured": false,
+  "profiled": false,
+  "shadow_baseline": null,
+  "glm_overlap_compat": false,
+  "glm_compat_source_sha256": null,
+  "glm_compat_bootstrap_sha256": null,
+  "deterministic_audio_decode": true,
+  "validation_repro_source_sha256": "5e0b9920624b2ee636b6850fe31e67309ac19b61100b153c73243db631d21ad4",
+  "environment": {
+    "PYTHONPATH": "${KDA_ROOT}/consolidated/full-model-v45-ltx/repro:${KDA_ROOT}/baseline/python",
+    "CUDA_VISIBLE_DEVICES": "7",
+    "HF_HUB_CACHE": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub",
+    "HF_HUB_OFFLINE": "1",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "1",
+    "SGLANG_DIFFUSION_CACHE_ROOT": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/native-cache"
+  },
+  "returncode": 0,
+  "elapsed_with_load_s": 109.89775538444519,
+  "native_fallback_signals": [],
+  "artifacts": [
+    {
+      "path": "${KDA_ROOT}/consolidated/full-model-results-v45-ltx/ltx2-lossless-620955f6-r2-a1/sample.mp4",
+      "sha256": "9b068ab3f34bc39d1c1538a91b8da5cad1e85b8d493ca80df7c58e31e3b3c6c8",
+      "size": 862559
+    }
+  ],
+  "valid": true,
+  "audio_repro_context_calls": [
+    {
+      "method": "AutoencoderKLLTX2Audio.decode",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    },
+    {
+      "method": "LTX2Vocoder.forward",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    },
+    {
+      "method": "AutoencoderKLLTX2Audio.decode",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    },
+    {
+      "method": "LTX2Vocoder.forward",
+      "cudnn_deterministic": true,
+      "cudnn_benchmark": false,
+      "cudnn_tf32": false,
+      "matmul_tf32": false,
+      "restored": true
+    }
+  ],
+  "worker_e2e_s": 21.80015350598842,
+  "denoise_s": 20.75538013735786,
+  "decode_s": 0.9372252062894404,
+  "client_saved_e2e_s": 22.64,
+  "client_saved_timer_precision_s": 0.01,
+  "source_hashes_unchanged": true
+}

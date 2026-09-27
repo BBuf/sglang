@@ -1,0 +1,99 @@
+{
+  "model": "baidu/ERNIE-Image-Turbo",
+  "model_key": "ernie-image-turbo",
+  "quality": "lossless",
+  "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 8.79,
+        "candidate": 7.85,
+        "reduction_pct": 10.693970420932873
+      },
+      "worker_e2e_s": {
+        "baseline": 8.573712467681617,
+        "candidate": 7.635997614590451,
+        "reduction_pct": 10.937092381227583
+      },
+      "denoise_s": {
+        "baseline": 1.1197135006077588,
+        "candidate": 1.1090501330327243,
+        "reduction_pct": 0.9523299995263637
+      },
+      "decode_s": {
+        "baseline": 0.12275230209343135,
+        "candidate": 0.12318599433638155,
+        "reduction_pct": -0.3533068101811253
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 7.915,
+        "candidate": 7.895,
+        "reduction_pct": 0.2526847757422674
+      },
+      "worker_e2e_s": {
+        "baseline": 7.698451597010717,
+        "candidate": 7.678989301202819,
+        "reduction_pct": 0.2528079258880473
+      },
+      "denoise_s": {
+        "baseline": 1.1166857180651277,
+        "candidate": 1.1097091916017234,
+        "reduction_pct": 0.6247529050064747
+      },
+      "decode_s": {
+        "baseline": 0.12237269408069551,
+        "candidate": 0.12341084447689354,
+        "reduction_pct": -0.8483513450422632
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    10.693970420932873,
+    0.2526847757422674
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "baidu/ERNIE-Image-Turbo",
+    "revision": "bc68c81e2a1730a394d5fc9fae70713dee940140",
+    "prompt": "A curious raccoon walks through a sunlit forest.",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "steps": 8,
+    "guidance": 1.0,
+    "seed": 42,
+    "extra_args": [
+      "--pipeline-class-name=ErnieImagePipeline"
+    ],
+    "ernie_pe_repro_mode": "seeded"
+  },
+  "request_summary": "1024×1024,1 frame,8 steps; symmetric prompt-enhancer RNG seed/restore condition",
+  "recorded_denoise_step_counts": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+  ],
+  "abba": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-abba.json",
+  "media_audit": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-media-audit/evidence.json",
+  "device_proof": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-dispatch.json",
+  "preview": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-media-audit/ernie-image-turbo-lossless-9436dcf3-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic1024-square image: identical raccoon walking through a sunlit forest.",
+  "actual_changed_branch_evidence": "Shared QKNorm/RoPE288 and flat residual288 profiled launches. No specialized ERNIE RMSNorm device branch is claimed. The eight request prompt-enhancements match; the eight warmups separately match; all16 calls restore CPU/CUDA RNG. The original unseeded failure remains archived.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {
+    "validation_repro_source_sha256": "d20b7eb348fcdfffc6b0f1ee35303558d31dae13dae490946d0c11d7a6beedd0"
+  },
+  "public_directory": "models/ernie-image-turbo-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

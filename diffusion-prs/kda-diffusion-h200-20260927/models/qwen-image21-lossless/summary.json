@@ -1,0 +1,90 @@
+{
+  "model": "Qwen/Qwen-Image-2.1",
+  "model_key": "qwen-image21",
+  "quality": "lossless",
+  "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; final published-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 4.57,
+        "candidate": 4.57,
+        "reduction_pct": 0.0
+      },
+      "worker_e2e_s": {
+        "baseline": 4.356000762665644,
+        "candidate": 4.354074297472835,
+        "reduction_pct": 0.04422554764730586
+      },
+      "denoise_s": {
+        "baseline": 4.218213296029717,
+        "candidate": 4.216460163006559,
+        "reduction_pct": 0.041561033075492096
+      },
+      "decode_s": {
+        "baseline": 0.0886515888851136,
+        "candidate": 0.08916127029806376,
+        "reduction_pct": -0.5749264275575144
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 4.575,
+        "candidate": 4.7,
+        "reduction_pct": -2.73224043715847
+      },
+      "worker_e2e_s": {
+        "baseline": 4.362062629079446,
+        "candidate": 4.3533014305867255,
+        "reduction_pct": 0.20084990147355253
+      },
+      "denoise_s": {
+        "baseline": 4.222047848859802,
+        "candidate": 4.214755040127784,
+        "reduction_pct": 0.17273155096968776
+      },
+      "decode_s": {
+        "baseline": 0.09043706790544093,
+        "candidate": 0.08884989912621677,
+        "reduction_pct": 1.754998051112921
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.0,
+    -2.73224043715847
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "Qwen/Qwen-Image-2.1",
+    "revision": "790c92633540aa0cb11d9abf19eb46d861714758",
+    "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/Qwen--Qwen-Image-2.1/models--Qwen--Qwen-Image-2.1/snapshots/790c92633540aa0cb11d9abf19eb46d861714758",
+    "cli_model_path": "${KDA_ROOT}/model-cache/remaining-native/Qwen--Qwen-Image-2.1/models--Qwen--Qwen-Image-2.1/snapshots/790c92633540aa0cb11d9abf19eb46d861714758",
+    "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/Qwen--Qwen-Image-2.1",
+    "prompt": "A raccoon wearing a small red scarf, standing beside a wooden cabin in a snowy forest.",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "steps": 40,
+    "guidance": 1.0,
+    "seed": 42,
+    "media_extension": "png",
+    "extra_args": [
+      "--pipeline-class-name=QwenImage21Pipeline",
+      "--model-id=Qwen/Qwen-Image-2.1"
+    ]
+  },
+  "abba": "full-model-results-v30/qwen-image21-lossless-da15e6fa-abba.json",
+  "media_audit": "full-model-results-v30/qwen-image21-lossless-da15e6fa-media-audit/evidence.json",
+  "device_proof": "full-model-results-v30/qwen-image21-lossless-da15e6fa-dispatch.json",
+  "preview": "full-model-results-v30/qwen-image21-lossless-da15e6fa-media-audit/qwen-image21-lossless-da15e6fa-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic before/after PNGs: identical red-scarf raccoon in front of a snowy cabin and forest.",
+  "actual_changed_branch_evidence": "Modified plain QKNorm/complex-RoPE executes1344times (first eight-row launch uses256threads); modified KV packing1280times; LayerNorm cached/pipe2600/64, modified residual2624 and contiguous DupUp3D4. Standalone RMS, complex RoPE and SiLU calls do not indicate modifications to those unchanged families.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "public_directory": "models/qwen-image21-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

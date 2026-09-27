@@ -1,0 +1,51 @@
+{
+  "family": "causal_conv3d_cat_pad",
+  "path": "python/sglang/kernels/kda_kernels/causal_conv3d_cat_pad_jit.py",
+  "source_sha256": "980a9a118ecb3313a7d157c3e003efa634e84b21ad94c6eea8cefed0d8f91000",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/kda_kernels/csrc/diffusion/causal_conv3d_cat_pad.cuh": "19d81926d0fbb8cf0eaf11973b06f0488b51686673eb6faa027d85fa3eb20623",
+    "python/sglang/kernels/kda_kernels/csrc/diffusion/causal_conv3d_cat_pad_structured.cuh": "3bc25221ddd179b10f815ad78fd21fd98c9475c60de5ab4147eccb439a2e08cc"
+  },
+  "tested_commit": "a7289517d6092002d8ad041323c9def0fd129300",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 17,
+      "geomean": 1.158667993568981,
+      "native_geomean": 1.255569476595566,
+      "worst": 0.9848558866634097
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 17,
+      "geomean": 1.1596419427624107,
+      "native_geomean": 1.255392037198142,
+      "worst": 0.9980697938049572
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 17,
+      "geomean": 1.16080854989122,
+      "native_geomean": 1.2556374471987186,
+      "worst": 0.9960861056751469
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v18/causal_conv3d_cat_pad",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-diffusion-combined/python/sglang/kernels/kda_kernels/csrc/diffusion/causal_conv3d_cat_pad.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v18/causal_conv3d_cat_pad/isolated_causal_conv3d_cat_pad.cuh",
+      "namespace": "kda_independent_causal_conv3d_cat_pad",
+      "isolated_sha256": "ca72446134d8b793161811123983e77fc8bfb3934ce1352d768afcb20b8fc2d8",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    },
+    {
+      "original": "${KDA_ROOT}/pr-diffusion-combined/python/sglang/kernels/kda_kernels/csrc/diffusion/causal_conv3d_cat_pad_structured.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v18/causal_conv3d_cat_pad/isolated_causal_conv3d_cat_pad_structured.cuh",
+      "namespace": "kda_independent_causal_conv3d_cat_pad",
+      "isolated_sha256": "7ba98316b74a3a6304db9a94ae5526c4e9ac9e9a311c8653709e812acd2a61e9",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ]
+}

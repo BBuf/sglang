@@ -1,0 +1,35 @@
+{
+  "family": "scaled_residual_add",
+  "path": "python/sglang/kernels/ops/diffusion/modulate/scale_shift_triton.py",
+  "source_sha256": "5940bbe4d598d4ff092dbc078da1f0295a7f9c947c4fbcd1f3af006f064b2708",
+  "dependent_sources_sha256": {},
+  "tested_commit": "61d241b9143f9198de449efbfcfb86bb6eaec401",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 2,
+      "geomean": 1.0142306572933824,
+      "native_geomean": 1.0029472305389222,
+      "worst": 1.0029472305389222
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 2,
+      "geomean": 1.0014958871488429,
+      "native_geomean": 1.0029940119760479,
+      "worst": 1.0
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 2,
+      "geomean": 1.0133097204334762,
+      "native_geomean": 1.0,
+      "worst": 1.0
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v41/scaled_residual_add",
+  "cpp_namespace_isolation": [],
+  "frozen_submission": "8a9421acc6f84185",
+  "validation_note": "Earlier original-budget8a9421acc6f84185 uses ordinary Triton dispatch and a mask-free exact-block specialization. Later raw-cache version is rejected for offset-one misaligned loads.74 expanded records and1018 unchanged modulation tests pass. Captured native gain is only0%-0.3%."
+}

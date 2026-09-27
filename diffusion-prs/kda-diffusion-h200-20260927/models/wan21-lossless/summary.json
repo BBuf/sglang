@@ -1,0 +1,83 @@
+{
+  "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+  "model_key": "wan21",
+  "quality": "lossless",
+  "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; final published-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 46.489999999999995,
+        "candidate": 46.35,
+        "reduction_pct": 0.301140030113989
+      },
+      "worker_e2e_s": {
+        "baseline": 46.22113246424124,
+        "candidate": 46.07701532961801,
+        "reduction_pct": 0.3117992289235342
+      },
+      "denoise_s": {
+        "baseline": 44.613036361988634,
+        "candidate": 44.49729792098515,
+        "reduction_pct": 0.25942740158815647
+      },
+      "decode_s": {
+        "baseline": 1.2576912380754948,
+        "candidate": 1.2314828182570636,
+        "reduction_pct": 2.0838516660523907
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 46.57,
+        "candidate": 46.405,
+        "reduction_pct": 0.354305346789777
+      },
+      "worker_e2e_s": {
+        "baseline": 46.280637938994914,
+        "candidate": 46.13731682812795,
+        "reduction_pct": 0.30967833904079584
+      },
+      "denoise_s": {
+        "baseline": 44.66538305906579,
+        "candidate": 44.55743161193095,
+        "reduction_pct": 0.24168928987373023
+      },
+      "decode_s": {
+        "baseline": 1.2636849542614073,
+        "candidate": 1.2337463763542473,
+        "reduction_pct": 2.3691488773527642
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.301140030113989,
+    0.354305346789777
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+    "revision": "0fad780a534b6463e45facd96134c9f345acfa5b",
+    "prompt": "A curious raccoon walks through a sunlit forest.",
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "steps": 50,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 16
+  },
+  "abba": "full-model-results-v30/wan21-lossless-da15e6fa-abba.json",
+  "media_audit": "full-model-results-v30/wan21-lossless-da15e6fa-media-audit/evidence.json",
+  "device_proof": "full-model-results-v30/wan21-lossless-da15e6fa-dispatch.json",
+  "preview": "full-model-results-v30/wan21-lossless-da15e6fa-media-audit/wan21-lossless-da15e6fa-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic four-frame before/after contact sheet: identical raccoon on a mossy forest floor, including head turns, tail and foliage.",
+  "actual_changed_branch_evidence": "Modified scale/shift row kernel3000, causal cache row kernel670 and vector nearest-upsample20/63 for lossless/high. Modified norm-SiLU post kernels569 device launches.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "public_directory": "models/wan21-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

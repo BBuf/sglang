@@ -1,0 +1,521 @@
+{
+  "framework": "KDA-1.5",
+  "agent": "Codex CLI",
+  "model": "Kimi K3",
+  "hardware": "NVIDIA H200",
+  "sources": [
+    {
+      "family": "hunyuan_qkv_rope_pack",
+      "source_commit": "b1c6e3aaa0b7b13ba0d2597d998e066d68e516e8",
+      "path": "python/sglang/kernels/ops/diffusion/rope/hunyuan_qkv_pack_triton.py",
+      "sha256": "f5d31559b624cb5e6057183ff8efc3fc3544b3ca42fa658ca6524b57e572c814",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "ltx2_ada_values",
+      "source_commit": "bc556521a0704b2d21a31dc9d0031093d9b6c5d5",
+      "path": "python/sglang/kernels/ops/diffusion/modulate/ltx2_ada_values_triton.py",
+      "sha256": "0075bd9c37182eb90a2e902ca2a732507a6f3f1e863e8157707dae973bae0a24",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "wan_nearest_upsample",
+      "source_commit": "a909f9f565da029819361959cb5d82c243adca3e",
+      "path": "python/sglang/kernels/ops/diffusion/layout/nearest_upsample_nhwc_triton.py",
+      "sha256": "24db6133ed59eb1a63bbd99bde767bb2c370058c6d834d0fe9dd2cb3847cccbc",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "wan_causal_cache",
+      "source_commit": "35f07e5945d1ddbdfd6a0ef5463e763ecc205c09",
+      "path": "python/sglang/kernels/ops/diffusion/layout/wan_causal_cache_triton.py",
+      "sha256": "afed96fd7a80e4ed1abd4fc069e07123aff33f53cdc3aaa8349aa80dd4ce630a",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "cbd3380ccfcedcc4c54b27f8b75dfdaa52ca7a94",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "groupnorm_channels_last",
+      "source_commit": "5980c149b0a036de284c569de7d255f61c3899d8",
+      "path": "python/sglang/kernels/ops/diffusion/norm/group_norm_silu_twopass_triton.py",
+      "sha256": "c330a03b19ca2cee9336c40862659db1aac20a2c7cbfc6338561c15d8f982004",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "h3_indexed_modulation",
+      "source_commit": "fb2ba1502fa62991eccd5d7777f6a1adb86d681b",
+      "path": "python/sglang/kernels/ops/diffusion/modulate/indexed_modulation_triton.py",
+      "sha256": "b9e5ecc2735ed71a7614927e40fcda264a5ddea1a76eca94043ee1e1bcbb97fb",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "zimage_native_rmsnorm",
+      "source_commit": "3a4d51131d84dd4bdeeafc954c50f9c3886bffe3",
+      "path": "python/sglang/kernels/ops/diffusion/norm/native_bf16_rmsnorm_triton.py",
+      "sha256": "877457e9d37e9485cf94efc0637daab16b3ff55a041f7508cc665d4c045d6f9a",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "zimage_qk_rmsnorm",
+      "source_commit": "b48e29afc44921657a5bd1b51b8945f68e13a77e",
+      "path": "python/sglang/kernels/ops/diffusion/norm/zimage_qk_rmsnorm_triton.py",
+      "sha256": "a8c4fd5cb08d1831339d12108451966364844bf330ad5a0743f8e70a5e68246b",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "rotate_half_rope",
+      "accepted_submission": "368f2a6925c842f3",
+      "kimi_commit": "c14dc657f3731bc0a7a12eb984295371e9d7a301",
+      "path": "python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_bitexact.py",
+      "sha256": "ccb61ef150d73cd8de50c0bd2ed4ac0510d5423411c8c4681f0ef70ca1b3fc97",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "wan_rmsnorm_silu",
+      "accepted_submission": "369158e84f91447b",
+      "kimi_commit": "eab83b77b7e0b9088959462a24c2f649585dfee2",
+      "path": "python/sglang/kernels/ops/diffusion/norm/wan_rmsnorm_silu_triton.py",
+      "sha256": "5564c169b00666288a359ff8680bd76422c8d70be107c8d543590556cb495732",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "65921d58c645ba9d3d79c372e25a1c9fc75c6c6a",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "wan_scale_shift",
+      "accepted_submission": "4739f3333fea437a",
+      "kimi_commit": "9a15710f25d86ed858c968f0109b6eb4f657810f",
+      "path": "python/sglang/kernels/ops/diffusion/modulate/scale_shift_triton.py",
+      "sha256": "5940bbe4d598d4ff092dbc078da1f0295a7f9c947c4fbcd1f3af006f064b2708",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "61d241b9143f9198de449efbfcfb86bb6eaec401",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "joint_qkv_cat",
+      "accepted_submission": "264b18b8c5a545d2",
+      "kimi_commit": "1aa529cfedef2b2d3dcbbc442b1f13f99055c3cf",
+      "path": "python/sglang/kernels/ops/diffusion/layout/joint_qkv_cat_triton.py",
+      "sha256": "49a76ce1e77b873e51b3660c43a8fce88446f3ea79435d6173c28d4224a40f67",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "2b4fe0ef68c35f9d0ba423833d982e266ed7b77c",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "sana_conv_post",
+      "accepted_submission": "eb5d78dc82524c22",
+      "kimi_commit": "0bda5a7bf0f4f1940346f2198343a175c24e85b4",
+      "path": "python/sglang/kernels/ops/diffusion/activation/sana_conv_post_triton.py",
+      "sha256": "33ef750bc53694350b0452dc6bd6d8f104487d09c493edff07e169253e55cbbb",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "2f976a8f846754435ed1ebd962d7cdf32b9ba2de",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "layernorm_modulate",
+      "accepted_submission": "0fe637f1a1ee45ce",
+      "kimi_commit": "0e4d8142eac05c942d2febea62de5fcc5dbd0d19",
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "sha256": "e545ccc4d13bebb4a15001e464a2287ee5c807fdc00150964577e31bfcc6f2d4",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "98ff2d4c2bc3a026a87afa169ba6908b19261fe0",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "residual_gate_add",
+      "accepted_submission": "9ae938bc87e94373",
+      "kimi_commit": "a422e9969345fa02556c3b5940d406f9f55c45c4",
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "sha256": "e5cad549150d6dc8cedfa8c0df6b4babc13c1393d30e8dae91622b166ba89534",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "6509f75ca9ae34c4d2b91cfdece4e0e6a9a56a0f",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "modulate_scale_shift",
+      "accepted_submission": "fc2b0a3842e44591",
+      "kimi_commit": "9d1f7afad4946f8f4eba0039332c32b7d901e30b",
+      "path": "python/sglang/kernels/ops/diffusion/modulate/modulate_scale_shift_jit.py",
+      "sha256": "9e5951938420ee86ee04d301a61f9dfb1efe8e04dedb350e3d178c9c57c43323",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "aea48eeed1f1853ce56b387b8cd63c08b622c38e",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "inplace_qknorm_rope",
+      "accepted_submission": "4a60d5173f1046e6",
+      "kimi_commit": "6352ff3f41c542b3103100073ff9161d41e5c440",
+      "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_rope_jit.py",
+      "sha256": "aed122acebfb88d9b04de633172f85049890bff79a52555789d5b87d15d75829",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "6cd9f731771a54df2094dff22b75c1d7f3685d3b",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "timestep_embedding",
+      "accepted_submission": "b65149c7e1b14bc1",
+      "kimi_commit": "f5ced1ee270440ecc65c7f43361a187975f57189",
+      "path": "python/sglang/kernels/ops/diffusion/modulate/timestep_embedding_jit.py",
+      "sha256": "20c97c946381237bb9cd2a7212d41ceb6dc9b1b93e864bcb4a51ae641ccf24a7",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "ed7b3a92edc447f1d932b37cc5ffaf8fe02759cf",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "sanawm_qk_inv_rms",
+      "accepted_submission": "25ff77d0ada4480c",
+      "kimi_commit": "c205228682a5ac76061c13fea82445f8ebadbd84",
+      "path": "python/sglang/kernels/ops/diffusion/attention/sana_wm_gdn_triton.py",
+      "sha256": "76e152c5b3b9c93a4b0697dc829157b2aa5af5b6316c4d1d7d76a1ac6383c560",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "qwen_qkv_epilogue",
+      "accepted_submission": "82a24c11f2944efd",
+      "kimi_commit": null,
+      "path": "python/sglang/kernels/ops/diffusion/rope/qwen_qkv_epilogue_jit.py",
+      "sha256": "de87aa50eb3b9b780ce44ff8c94a3b30038c2349ede36f8ff43e3d8e95a2e4ac",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "6cd9f731771a54df2094dff22b75c1d7f3685d3b",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "group_limited_topk",
+      "accepted_submission": "5267d23e147842e2",
+      "kimi_commit": "61d8a791cd49c29a040f72f1abdb995681b71acd",
+      "path": "python/sglang/kernels/ops/diffusion/routing/group_limited_topk_triton.py",
+      "sha256": "1c0f851d63f470e1e709cceb0256e24c75f8bed2a2fe981ba3d9ebd5a4b6b2e1",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "6cd9f731771a54df2094dff22b75c1d7f3685d3b",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "ernie_rmsnorm_modulate",
+      "accepted_submission": "2bf115c516464ccd",
+      "kimi_commit": "3ddfcf67c0e5e75f438dcc652b38a997ed7077d4",
+      "path": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py",
+      "sha256": "8ab97de67b00b43afdc0113eb5be9d1e69832a2361345261e642861314f174c8",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "61fdfd7b45f13e04bf0bb9dab23c5454649ff280",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "wan_norm_silu_post",
+      "accepted_submission": "b8445ce7b3484575",
+      "kimi_commit": "dc5738fc01a0bdb21cbe34120d3e4a42afe2cc88",
+      "path": "python/sglang/kernels/ops/diffusion/norm/wan_norm_silu_post.py",
+      "sha256": "f57cf972c34a4f56e9489db58af5fb2c969ef5c35123778a1623da8da8e80312",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "6bb4fa5d629f43908ce6abfd3ee8115a0a5d9c2d",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "causal_conv3d_cat_pad",
+      "accepted_submission": "a958596c170a4f99",
+      "kimi_commit": "720754181893e4e9b29553bb19a1f27ef7baef4d",
+      "path": "python/sglang/kernels/kda_kernels/causal_conv3d_cat_pad_jit.py",
+      "sha256": "980a9a118ecb3313a7d157c3e003efa634e84b21ad94c6eea8cefed0d8f91000",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "a7289517d6092002d8ad041323c9def0fd129300",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "glm_qk_head_layernorm",
+      "accepted_submission": "3e4f9fa0c7d442ec",
+      "kimi_commit": "59bce4017818df16159a61512aa02b18abc6fbd2",
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "sha256": "e545ccc4d13bebb4a15001e464a2287ee5c807fdc00150964577e31bfcc6f2d4",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "98ff2d4c2bc3a026a87afa169ba6908b19261fe0",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "norm_infer",
+      "accepted_submission": "d38cec1bbd2c40cb",
+      "kimi_commit": "b679ee747d61779f10af636d9a58e8a1175ab6d7",
+      "path": "python/sglang/kernels/ops/diffusion/norm/norm_triton.py",
+      "sha256": "a569b8fd22f0bbe68760ea51734afb2d2c7092a96a9f97e0e5f1d99e565ee35e",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "7d5cde801bc8a1c093542d527399be384d1ce84c",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "helios_qk_rope",
+      "accepted_submission": "ad1876b1e86b4de4",
+      "kimi_commit": "c56226296f3512588dea4651edebf62955267495",
+      "path": "python/sglang/kernels/ops/diffusion/rope/helios_qk_rope_jit.py",
+      "sha256": "afa8af5011bfe7b52dc3c4f1e0f95bbd68cc028ac883090a6dfac59c0732c119",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "1e94dde68055c8f5e1b2258d39cefad57f6adbc4",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "ulysses_qkv_pack",
+      "accepted_submission": "46a470e50bd64bf8",
+      "kimi_commit": "2a6eceafcffee8d919b74d1bdc11a805b3259bc8",
+      "path": "python/sglang/kernels/ops/diffusion/layout/ulysses_qkv_triton.py",
+      "sha256": "bf6dd7ee22dbde461ebd846ea27acb7173d825c02a63648d17da4812094995c3",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "1730ffa1c3a67510aa6e0f3b735c3b95addc60f6",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "vdn_gather_linear_state",
+      "accepted_submission": "f6028d9ca78743f0",
+      "kimi_commit": "0eab72d1b7ac5ba2a1c6ad8232890cec67dfa2e6",
+      "path": "python/sglang/kernels/ops/diffusion/attention/vdn_linear_branch_triton.py",
+      "sha256": "4433e65c76df12322a4b612eea7f82b169613da721bc477644cac7b9c4ac94e9",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "2ee1b7fdf37fd35d82eab1b85fe3073f5a7f1b83",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "layernorm_modulate_fp8",
+      "accepted_submission": "d4897de44f0649c3",
+      "kimi_commit": "556f4943654497f6a9e6e0af3746cf7a37938735",
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "sha256": "e545ccc4d13bebb4a15001e464a2287ee5c807fdc00150964577e31bfcc6f2d4",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "98ff2d4c2bc3a026a87afa169ba6908b19261fe0",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "dup_up3d_add",
+      "accepted_submission": "52e72342793c4193",
+      "kimi_commit": "25ea0ab95ed4d7d0c00e480a6bf480b51bb42ff1",
+      "path": "python/sglang/kernels/ops/diffusion/layout/wan_causal_cache_triton.py",
+      "sha256": "afed96fd7a80e4ed1abd4fc069e07123aff33f53cdc3aaa8349aa80dd4ce630a",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "cbd3380ccfcedcc4c54b27f8b75dfdaa52ca7a94",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "sanawm_bigdn",
+      "accepted_submission": "5e11f0cb23db47a1",
+      "kimi_commit": "8f4ffc4bbae8fb6c1ee89903bb18d1916932fa43",
+      "path": "python/sglang/kernels/ops/diffusion/attention/sana_wm_gdn_triton.py",
+      "sha256": "76e152c5b3b9c93a4b0697dc829157b2aa5af5b6316c4d1d7d76a1ac6383c560",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "qknorm_complex_rope",
+      "accepted_submission": "3dd9788475d34414",
+      "kimi_commit": "273d79c7cafbca2443472866603c010d10c14ce6",
+      "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_triton.py",
+      "sha256": "ece1f4c7d2ab8a8b270c45d93bf751dbf61cabd51494a21cbe608866f8145d29",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "qknorm_complex_rope_kv",
+      "accepted_submission": "52c5b3dd5b1a4847",
+      "kimi_commit": "3cfe1919aaa87d31d4a23b342c9719ffbde5d093",
+      "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_kv_triton.py",
+      "sha256": "26a85364e0e49dba07ea852359e06cce5719658e7e32a23c1c3b9df6b19b9b5b",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "groupnorm_nchw",
+      "accepted_submission": "ae94ad4b766948c4",
+      "kimi_commit": "c30984fb3d8487065e8f2f50feaf168307b547d8",
+      "path": "python/sglang/kernels/ops/diffusion/norm/group_norm_silu_triton.py",
+      "sha256": "aef4043911dbac39dc7372f9c6abe86a6f3310c16d7e1f5320df6101bc31d951",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "mxfp8_producers",
+      "accepted_submission": "bf35ab4109974c32",
+      "kimi_commit": "1c5b091ecfe7bd5e1e17b831e3000a1eee15c186",
+      "path": "python/sglang/kernels/ops/diffusion/quantization/mxfp8_swizzled_triton.py",
+      "sha256": "96b70d2c1ea8f22e41b57f3e0fd2f2716aab55a9bae003fdd6f8025f946591ec",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "7adcfa610c2977f8ddbd311838c6af57b27ad87f",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "vdn_delta_factors",
+      "accepted_submission": "616029bbe56b453c",
+      "kimi_commit": "021267e758b904721ac56f4eb8df527aefa8104d",
+      "path": "python/sglang/kernels/ops/diffusion/attention/vdn_delta_factors_jit.py",
+      "sha256": "6d61b061126258833f8ffafb62c7cfc1a049dcad87346d355363ff03ba91dac2",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "7a69cc734dec008a556731ba49ebb2205247ba45",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "interleaved_rope_fp64",
+      "accepted_submission": "c6d92a482f454c55",
+      "kimi_commit": "def8ea2fcee044a92ecea156fcc275e4d3f48660",
+      "path": "python/sglang/kernels/ops/diffusion/rope/interleaved_rope_fp64_jit.py",
+      "sha256": "c37748a25c487660b5f35d45b200007c8c484580221199c9d24f5740b94e0f4a",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "61d241b9143f9198de449efbfcfb86bb6eaec401",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "scaled_residual_add",
+      "accepted_submission": "8a9421acc6f84185",
+      "kimi_commit": "d1769b0e7906bad4cd9b9c54e818363fa80ed97f",
+      "path": "python/sglang/kernels/ops/diffusion/modulate/scale_shift_triton.py",
+      "sha256": "5940bbe4d598d4ff092dbc078da1f0295a7f9c947c4fbcd1f3af006f064b2708",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "61d241b9143f9198de449efbfcfb86bb6eaec401",
+        "source_bytes_match_current_tree": true
+      }
+    },
+    {
+      "family": "usp_merge_heads",
+      "accepted_submission": "2235dd5d43364552",
+      "kimi_commit": "90358cb0d65296f2e3d972b65f8facc9b74afb2c",
+      "path": "python/sglang/kernels/ops/diffusion/layout/usp_relayout_jit.py",
+      "sha256": "24face527fc4140c73a15cc3bf2550f68a4da73ea9d99befcf6db8821989d17b",
+      "kernel_validation": {
+        "all_frozen_correctness_passed": true,
+        "repeats": 3,
+        "tested_commit": "6ce3fcbdfb7af2d390c007e0f94e41ef71e0ed69",
+        "source_bytes_match_current_tree": true
+      }
+    }
+  ],
+  "method": "Original-budget Kimi submissions were mechanically integrated, then independently validated. Some candidates use earlier in-budget submissions after later candidates failed contracts. No expired task budget was reset."
+}

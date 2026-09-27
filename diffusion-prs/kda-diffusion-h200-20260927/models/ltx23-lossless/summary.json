@@ -1,0 +1,104 @@
+{
+  "model": "Lightricks/LTX-2.3",
+  "model_key": "ltx23",
+  "quality": "lossless",
+  "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 44.165000000000006,
+        "candidate": 43.95,
+        "reduction_pct": 0.48681082304993406
+      },
+      "worker_e2e_s": {
+        "baseline": 43.32298182789236,
+        "candidate": 43.080564042087644,
+        "reduction_pct": 0.5595593275822127
+      },
+      "denoise_s": {
+        "baseline": 42.31744151888415,
+        "candidate": 42.071988937910646,
+        "reduction_pct": 0.5800269868961071
+      },
+      "decode_s": {
+        "baseline": 0.8915926869958639,
+        "candidate": 0.89379867259413,
+        "reduction_pct": -0.2474207819827439
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 44.065,
+        "candidate": 43.864999999999995,
+        "reduction_pct": 0.45387495744922923
+      },
+      "worker_e2e_s": {
+        "baseline": 43.20723695564084,
+        "candidate": 43.00613982183859,
+        "reduction_pct": 0.46542465561662394
+      },
+      "denoise_s": {
+        "baseline": 42.199541934998706,
+        "candidate": 41.99481752817519,
+        "reduction_pct": 0.48513419206980823
+      },
+      "decode_s": {
+        "baseline": 0.8915749995503575,
+        "candidate": 0.8977145073004067,
+        "reduction_pct": -0.6886137176508463
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.48681082304993406,
+    0.45387495744922923
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "Lightricks/LTX-2.3",
+    "revision": "7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "prompt": "A beautiful sunset over the ocean",
+    "width": 768,
+    "height": 512,
+    "frames": 121,
+    "steps": 30,
+    "guidance": 3,
+    "seed": 42,
+    "fps": 24,
+    "extra_args": [
+      "--pipeline-class-name=LTX2Pipeline"
+    ],
+    "cli_model_path": "${KDA_ROOT}/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/ltx23/native-cache"
+  },
+  "request_summary": "768×512,121 frames,30 steps,24fps; symmetric deterministic audio decode",
+  "recorded_denoise_step_counts": [
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30,
+    30
+  ],
+  "abba": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-abba.json",
+  "media_audit": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-media-audit/evidence.json",
+  "device_proof": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-dispatch.json",
+  "preview": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-media-audit/ltx23-lossless-9436dcf3-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-media-audit/ltx23-lossless-9436dcf3-r1-b1/comparison.gif",
+  "visual_inspection": "Viewed authentic frames0/40/80/120: matching ocean sunset and a dog walking along the beach.",
+  "actual_changed_branch_evidence": "The separate device profile contains tiled nine-way Ada values, flat scale/shift modulation and both optimized residual kernels. Profile event counts are not converted to per-request call counts. All eight complete MP4 files, including encoded audio streams, are byte-identical.",
+  "instrumentation_limitations": "Three capture-install records report missing raw_launch_capture for the unrelated sparse-linear-attention module. Those records and raw files are preserved. They do not establish SLA coverage; LTX changed branches are independently present in device events. Uninstrumented ABBA requests are separate.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {
+    "validation_repro_source_sha256": "5e0b9920624b2ee636b6850fe31e67309ac19b61100b153c73243db631d21ad4"
+  },
+  "public_directory": "models/ltx23-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

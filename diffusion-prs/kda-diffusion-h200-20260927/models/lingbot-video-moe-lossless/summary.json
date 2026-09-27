@@ -1,0 +1,103 @@
+{
+  "model": "robbyant/lingbot-video-moe-30b-a3b",
+  "model_key": "lingbot-video-moe",
+  "quality": "lossless",
+  "candidate_commit": "620955f604199168eff2abdc8f8c198061fe2cec",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 57.485,
+        "candidate": 57.370000000000005,
+        "reduction_pct": 0.2000521875271721
+      },
+      "worker_e2e_s": {
+        "baseline": 57.3063450162299,
+        "candidate": 57.195324897998944,
+        "reduction_pct": 0.19373093537811822
+      },
+      "denoise_s": {
+        "baseline": 55.84390945988707,
+        "candidate": 55.74322636448778,
+        "reduction_pct": 0.18029378024046014
+      },
+      "decode_s": {
+        "baseline": 0.9354144250974059,
+        "candidate": 0.9046800239011645,
+        "reduction_pct": 3.285645417862886
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 57.455,
+        "candidate": 57.31,
+        "reduction_pct": 0.2523714211121678
+      },
+      "worker_e2e_s": {
+        "baseline": 57.28340609394945,
+        "candidate": 57.143848459934816,
+        "reduction_pct": 0.24362663383834124
+      },
+      "denoise_s": {
+        "baseline": 55.82348543195985,
+        "candidate": 55.719006936997175,
+        "reduction_pct": 0.18715867372706493
+      },
+      "decode_s": {
+        "baseline": 0.9360937410965562,
+        "candidate": 0.904892569873482,
+        "reduction_pct": 3.3331246490895894
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.2000521875271721,
+    0.2523714211121678
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "seed": 42,
+    "steps": 40,
+    "frames": 81,
+    "width": 480,
+    "height": 480,
+    "guidance": 6.0,
+    "prompt": "{\"comprehensive_description\":{\"scene_content_description\":\"A small silver robot arm on a white table slowly reaches toward a red cube. The background is a plain, softly lit laboratory wall.\",\"camera_movement_description\":\"The camera is static at eye level, medium shot, with the robot arm centered and in sharp focus.\"},\"camera_info\":{\"color\":\"Neutral\",\"frame_size\":\"Medium\",\"shot_type_angle\":\"Eye level\",\"lens_size\":\"Medium\",\"composition\":\"Center\",\"lighting\":\"Soft light\",\"lighting_type\":\"Artificial light\"},\"world_knowledge\":[],\"prominent_elements\":[{\"name\":\"robot arm\",\"description\":\"A small silver robot arm with a two-finger gripper.\",\"actions\":[{\"timestamp\":\"[0.0s - 1.0s]\",\"action\":\"reaches toward the red cube\"}],\"location\":\"center of the frame\",\"relative_size\":\"dominant\",\"shape_and_color\":\"articulated silver metal arm\",\"texture\":\"brushed metal\",\"appearance_details\":\"two-finger gripper, visible joints\",\"relationship\":\"reaching toward the red cube on the table\",\"orientation\":\"upright, base on the table\",\"pose\":\"reaching\",\"expression\":\"\",\"clothing\":\"\",\"gender\":\"\",\"skin_tone_and_texture\":\"\"}]}",
+    "model": "robbyant/lingbot-video-moe-30b-a3b",
+    "revision": "f2e538f64afe00cc4ae674db2aeb52e2945edfd5",
+    "fps": 16,
+    "extra_args": [
+      "--text-encoder-cpu-offload=true"
+    ],
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/hub/models--robbyant--lingbot-video-moe-30b-a3b/snapshots/f2e538f64afe00cc4ae674db2aeb52e2945edfd5",
+    "cli_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/hub/models--robbyant--lingbot-video-moe-30b-a3b/snapshots/f2e538f64afe00cc4ae674db2aeb52e2945edfd5",
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/native-cache"
+  },
+  "request_summary": "480×480,81 frames,40 steps,seed42,CFG6,16fps; original structured caption",
+  "recorded_denoise_step_counts": [
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+  ],
+  "abba": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-abba.json",
+  "media_audit": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-media-audit/evidence.json",
+  "device_proof": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-dispatch.json",
+  "preview": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-media-audit/lingbot-video-moe-lossless-620955f6-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-media-audit/lingbot-video-moe-lossless-620955f6-r1-b1/comparison.gif",
+  "visual_inspection": "Viewed matching robot-arm/red-cube scene at frames0/26/53/80.",
+  "actual_changed_branch_evidence": "Device trace observes group-limited TopK and both changed norm-SiLU post branches. Profile event counts are not per-request invocation claims.",
+  "instrumentation_records": [],
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "public_directory": "models/lingbot-video-moe-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

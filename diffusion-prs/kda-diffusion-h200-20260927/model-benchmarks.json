@@ -1,0 +1,2467 @@
+[
+  {
+    "model": "Efficient-Large-Model/SANA-WM_bidirectional",
+    "model_key": "sana-wm",
+    "quality": "lossless",
+    "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; verify executed source before final publication",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 9.76,
+          "candidate": 9.684999999999999,
+          "reduction_pct": 0.7684426229508307
+        },
+        "worker_e2e_s": {
+          "baseline": 9.383907324168831,
+          "candidate": 9.295255932491273,
+          "reduction_pct": 0.944717254924623
+        },
+        "denoise_s": {
+          "baseline": 8.927954072831199,
+          "candidate": 8.839091697707772,
+          "reduction_pct": 0.9953274221452914
+        },
+        "decode_s": {
+          "baseline": 0.29225585982203484,
+          "candidate": 0.2934437869116664,
+          "reduction_pct": -0.40646818522473055
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 9.77,
+          "candidate": 9.705,
+          "reduction_pct": 0.6653019447287565
+        },
+        "worker_e2e_s": {
+          "baseline": 9.389938484644517,
+          "candidate": 9.301178717054427,
+          "reduction_pct": 0.9452646333651767
+        },
+        "denoise_s": {
+          "baseline": 8.931511134142056,
+          "candidate": 8.846984390402213,
+          "reduction_pct": 0.9463879344753551
+        },
+        "decode_s": {
+          "baseline": 0.2928572059608996,
+          "candidate": 0.2929718289524317,
+          "reduction_pct": -0.03913954965048429
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.7684426229508307,
+      0.6653019447287565
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "frames_per_video": 49,
+    "request": {
+      "model": "Efficient-Large-Model/SANA-WM_bidirectional",
+      "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+      "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+      "seed": 42,
+      "cli_config": {
+        "backend": "sglang",
+        "num_gpus": 1,
+        "tp_size": 1,
+        "ulysses_degree": 1,
+        "performance_mode": "manual",
+        "enable_torch_compile": false,
+        "dit_cpu_offload": false,
+        "dit_layerwise_offload": false,
+        "vae_cpu_offload": false,
+        "text_encoder_cpu_offload": false,
+        "quality": "lossless",
+        "warmup_mode": "request",
+        "seed": 42,
+        "save_output": true,
+        "output_file_name": "sample",
+        "model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+        "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+        "pipeline_class_name": "SanaWMPipeline",
+        "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+        "negative_prompt": "",
+        "height": 704,
+        "width": 1280,
+        "num_frames": 49,
+        "fps": 16,
+        "num_inference_steps": 20,
+        "guidance_scale": 4.5,
+        "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+        "warmup_resolutions": [
+          "1280x704"
+        ],
+        "warmup_num_frames": 49
+      },
+      "local_model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+      "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/sana-wm/hub",
+      "native_cache_root": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache",
+      "media_extension": "mp4"
+    },
+    "abba": "full-model-results-v26/sana-wm-eeef3e32-abba.json",
+    "media_audit": "full-model-results-v26/sana-wm-eeef3e32-media-audit/evidence.json",
+    "device_proof": "sana-wm-device-proof-v29.json",
+    "preview": "full-model-results-v26/sana-wm-eeef3e32-media-audit/sana-wm-eeef3e32-r1-b1/comparison.png",
+    "video_preview": "full-model-results-v26/sana-wm-eeef3e32-media-audit/sana-wm-eeef3e32-r1-b1/comparison.gif",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "public_directory": "models/sana-wm-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Tongyi-MAI/Z-Image-Turbo",
+    "model_key": "zimage",
+    "quality": "lossless",
+    "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 1.1150000000000002,
+          "candidate": 1.1,
+          "reduction_pct": 1.3452914798206388
+        },
+        "worker_e2e_s": {
+          "baseline": 0.9312952349428087,
+          "candidate": 0.9203158540185541,
+          "reduction_pct": 1.1789366585698149
+        },
+        "denoise_s": {
+          "baseline": 0.8051378300879151,
+          "candidate": 0.7944557049777359,
+          "reduction_pct": 1.3267449014304515
+        },
+        "decode_s": {
+          "baseline": 0.09102679369971156,
+          "candidate": 0.09047882631421089,
+          "reduction_pct": 0.6019847159599623
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 1.11,
+          "candidate": 1.1,
+          "reduction_pct": 0.9009009009009016
+        },
+        "worker_e2e_s": {
+          "baseline": 0.9315981676336378,
+          "candidate": 0.9213699428364635,
+          "reduction_pct": 1.0979223824747482
+        },
+        "denoise_s": {
+          "baseline": 0.8053793401923031,
+          "candidate": 0.7945347514469177,
+          "reduction_pct": 1.3465193610250805
+        },
+        "decode_s": {
+          "baseline": 0.09125985624268651,
+          "candidate": 0.09161808900535107,
+          "reduction_pct": -0.3925414496730209
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      1.3452914798206388,
+      0.9009009009009016
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Tongyi-MAI/Z-Image-Turbo",
+      "revision": "f332072aa78be7aecdf3ee76d5c247082da564a6",
+      "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 9,
+      "guidance": 0,
+      "seed": 42
+    },
+    "abba": "full-model-results-v29/zimage-lossless-eeef3e32-abba.json",
+    "media_audit": "full-model-results-v29/zimage-lossless-eeef3e32-media-audit/evidence.json",
+    "device_proof": "full-model-results-v29/zimage-lossless-eeef3e32-dispatch.json",
+    "preview": "full-model-results-v29/zimage-lossless-eeef3e32-media-audit/zimage-lossless-eeef3e32-r1-b1/comparison.png",
+    "visual_inspection": "Before/after PNGs viewed: same coherent neon city,wet-road reflections,cars and pedestrians; no visible differences. Exact byte/pixel audit is separate.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "public_directory": "models/zimage-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Tongyi-MAI/Z-Image-Turbo",
+    "model_key": "zimage",
+    "quality": "high",
+    "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 1.185,
+          "candidate": 1.16,
+          "reduction_pct": 2.109704641350222
+        },
+        "worker_e2e_s": {
+          "baseline": 0.9897568584419787,
+          "candidate": 0.9790794751606882,
+          "reduction_pct": 1.078788511564172
+        },
+        "denoise_s": {
+          "baseline": 0.8149779960513115,
+          "candidate": 0.8060339437797666,
+          "reduction_pct": 1.0974593565568869
+        },
+        "decode_s": {
+          "baseline": 0.13911216775886714,
+          "candidate": 0.1378480743151158,
+          "reduction_pct": 0.9086864679892537
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 1.17,
+          "candidate": 1.16,
+          "reduction_pct": 0.8547008547008556
+        },
+        "worker_e2e_s": {
+          "baseline": 0.9819660282228142,
+          "candidate": 0.981676914030686,
+          "reduction_pct": 0.02944238230434787
+        },
+        "denoise_s": {
+          "baseline": 0.8147178329527378,
+          "candidate": 0.808353716507554,
+          "reduction_pct": 0.7811436288461528
+        },
+        "decode_s": {
+          "baseline": 0.1324308628682047,
+          "candidate": 0.13886527600698173,
+          "reduction_pct": -4.858696076896026
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      2.109704641350222,
+      0.8547008547008556
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Tongyi-MAI/Z-Image-Turbo",
+      "revision": "f332072aa78be7aecdf3ee76d5c247082da564a6",
+      "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 9,
+      "guidance": 0,
+      "seed": 42
+    },
+    "abba": "full-model-results-v29/zimage-high-eeef3e32-abba.json",
+    "media_audit": "full-model-results-v29/zimage-high-eeef3e32-media-audit/evidence.json",
+    "device_proof": "full-model-results-v29/zimage-high-eeef3e32-dispatch.json",
+    "preview": "full-model-results-v29/zimage-high-eeef3e32-media-audit/zimage-high-eeef3e32-r1-b1/comparison.png",
+    "visual_inspection": "Before/after PNGs viewed: same coherent neon city,wet-road reflections,cars and pedestrians; no visible differences. Exact byte/pixel audit is separate.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "public_directory": "models/zimage-high",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "zai-org/GLM-Image",
+    "model_key": "glm-image",
+    "quality": "lossless",
+    "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 36.095,
+          "candidate": 36.334999999999994,
+          "reduction_pct": -0.6649120376783346
+        },
+        "worker_e2e_s": {
+          "baseline": 35.92511277459562,
+          "candidate": 36.16624645050615,
+          "reduction_pct": -0.671212022140261
+        },
+        "denoise_s": {
+          "baseline": 6.04016174050048,
+          "candidate": 6.016648727701977,
+          "reduction_pct": 0.3892778671942448
+        },
+        "decode_s": {
+          "baseline": 0.18644827604293823,
+          "candidate": 0.1860038205049932,
+          "reduction_pct": 0.23838007375443682
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 35.675,
+          "candidate": 36.68,
+          "reduction_pct": -2.817098808689566
+        },
+        "worker_e2e_s": {
+          "baseline": 35.510074644582346,
+          "candidate": 36.48948779585771,
+          "reduction_pct": -2.7581275485288015
+        },
+        "denoise_s": {
+          "baseline": 6.078851553378627,
+          "candidate": 6.0510290949605405,
+          "reduction_pct": 0.45769267720680634
+        },
+        "decode_s": {
+          "baseline": 0.18662271671928465,
+          "candidate": 0.18577417684718966,
+          "reduction_pct": 0.4546819846007016
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      -0.6649120376783346,
+      -2.817098808689566
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "zai-org/GLM-Image",
+      "revision": "2c433cc0cbc293bde2ac8ca9624f279b5d23fcf4",
+      "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/zai-org--GLM-Image/models--zai-org--GLM-Image/snapshots/2c433cc0cbc293bde2ac8ca9624f279b5d23fcf4",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/zai-org--GLM-Image",
+      "prompt": "A raccoon wearing a small red scarf, standing beside a wooden cabin in a snowy forest.",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 30,
+      "guidance": 1.5,
+      "seed": 42,
+      "media_extension": "png",
+      "extra_args": [
+        "--pipeline-class-name=GlmImagePipeline"
+      ],
+      "glm_overlap_compat": true
+    },
+    "abba": "full-model-results-v29/glm-image-lossless-eeef3e32-abba.json",
+    "media_audit": "full-model-results-v29/glm-image-lossless-eeef3e32-media-audit/evidence.json",
+    "device_proof": "full-model-results-v29/glm-image-lossless-eeef3e32-dispatch.json",
+    "preview": "full-model-results-v29/glm-image-lossless-eeef3e32-media-audit/glm-image-lossless-eeef3e32-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after PNGs: identical raccoon with red scarf beside snowy wooden cabin.",
+    "actual_changed_branch_evidence": "Changed QK LayerNorm observed 1800 times with one-warp launch; cached/pipe LayerNorm 1860/1800 and modified residual 3600. Timestep calls use floating input types, so they do not prove the newly fused nonfloating conversion executes. CuTe normalization is unchanged in this source.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {
+      "glm_compat_source_sha256": "a049abd02c58ec7e1df4ca449b6dd6b5603971bf47bac93c6095f03b618a6c91",
+      "glm_compat_bootstrap_sha256": "3c45bb1b17b3aa4a0419b53f27b4f58f4ac61b326952e32adcab8c2866c75520"
+    },
+    "validation_condition_note": "Both arms use the identical validation-only two-RHS-clone GLM compatibility patch; clone overhead is included in these timings. Production model source is unchanged.",
+    "public_directory": "models/glm-image-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "black-forest-labs/FLUX.2-klein-base-4B",
+    "model_key": "flux2-klein",
+    "quality": "lossless",
+    "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 6.325,
+          "candidate": 6.405,
+          "reduction_pct": -1.264822134387353
+        },
+        "worker_e2e_s": {
+          "baseline": 6.138362983474508,
+          "candidate": 6.122678884072229,
+          "reduction_pct": 0.25550948102128956
+        },
+        "denoise_s": {
+          "baseline": 6.010242207208648,
+          "candidate": 5.9953778139315546,
+          "reduction_pct": 0.24731770808280412
+        },
+        "decode_s": {
+          "baseline": 0.09127784357406199,
+          "candidate": 0.09124832809902728,
+          "reduction_pct": 0.032335859261141686
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 6.33,
+          "candidate": 6.3149999999999995,
+          "reduction_pct": 0.23696682464455873
+        },
+        "worker_e2e_s": {
+          "baseline": 6.143263791454956,
+          "candidate": 6.127822376554832,
+          "reduction_pct": 0.25135523110048585
+        },
+        "denoise_s": {
+          "baseline": 6.00821990519762,
+          "candidate": 6.001162478234619,
+          "reduction_pct": 0.11746286045382953
+        },
+        "decode_s": {
+          "baseline": 0.09155932138673961,
+          "candidate": 0.09123517549596727,
+          "reduction_pct": 0.35402828009523474
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      -1.264822134387353,
+      0.23696682464455873
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "black-forest-labs/FLUX.2-klein-base-4B",
+      "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+      "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 50,
+      "guidance": 4,
+      "seed": 42
+    },
+    "abba": "full-model-results-v29/flux2-klein-lossless-eeef3e32-abba.json",
+    "media_audit": "full-model-results-v29/flux2-klein-lossless-eeef3e32-media-audit/evidence.json",
+    "device_proof": "full-model-results-v29/flux2-klein-lossless-eeef3e32-dispatch.json",
+    "preview": "full-model-results-v29/flux2-klein-lossless-eeef3e32-media-audit/flux2-klein-lossless-eeef3e32-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after PNGs in both qualities: identical neon city street and wet-road reflections.",
+    "actual_changed_branch_evidence": "Modified LayerNorm cached/pipe paths observed 3000/1000 times; residual row/flat paths 3000/1000; shared QKNorm/RoPE 1000. One-pass RMS and packed SiLU are unchanged in this source.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/flux2-klein-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "black-forest-labs/FLUX.2-klein-base-4B",
+    "model_key": "flux2-klein",
+    "quality": "high",
+    "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 6.385,
+          "candidate": 6.37,
+          "reduction_pct": 0.23492560689114614
+        },
+        "worker_e2e_s": {
+          "baseline": 6.198680283967406,
+          "candidate": 6.186792597873136,
+          "reduction_pct": 0.19177769379421128
+        },
+        "denoise_s": {
+          "baseline": 6.022325747646391,
+          "candidate": 6.009534538490698,
+          "reduction_pct": 0.21239650081519806
+        },
+        "decode_s": {
+          "baseline": 0.14085335610434413,
+          "candidate": 0.14153809007257223,
+          "reduction_pct": -0.4861325190724252
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 6.38,
+          "candidate": 6.375,
+          "reduction_pct": 0.07836990595611118
+        },
+        "worker_e2e_s": {
+          "baseline": 6.196671098470688,
+          "candidate": 6.186776219401509,
+          "reduction_pct": 0.15968055931871727
+        },
+        "denoise_s": {
+          "baseline": 6.017715584021062,
+          "candidate": 6.006430528592318,
+          "reduction_pct": 0.18753055492866352
+        },
+        "decode_s": {
+          "baseline": 0.1418460386339575,
+          "candidate": 0.14374420791864395,
+          "reduction_pct": -1.3381898451071939
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.23492560689114614,
+      0.07836990595611118
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "black-forest-labs/FLUX.2-klein-base-4B",
+      "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+      "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 50,
+      "guidance": 4,
+      "seed": 42
+    },
+    "abba": "full-model-results-v29/flux2-klein-high-eeef3e32-abba.json",
+    "media_audit": "full-model-results-v29/flux2-klein-high-eeef3e32-media-audit/evidence.json",
+    "device_proof": "full-model-results-v29/flux2-klein-high-eeef3e32-dispatch.json",
+    "preview": "full-model-results-v29/flux2-klein-high-eeef3e32-media-audit/flux2-klein-high-eeef3e32-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after PNGs in both qualities: identical neon city street and wet-road reflections.",
+    "actual_changed_branch_evidence": "Modified LayerNorm cached/pipe paths observed 3000/1000 times; residual row/flat paths 3000/1000; shared QKNorm/RoPE 1000. One-pass RMS and packed SiLU are unchanged in this source. High quality additionally executes the changed GroupNorm static statistics kernel 18 times.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/flux2-klein-high",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Qwen/Qwen-Image-2.1",
+    "model_key": "qwen-image21",
+    "quality": "lossless",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 4.57,
+          "candidate": 4.57,
+          "reduction_pct": 0.0
+        },
+        "worker_e2e_s": {
+          "baseline": 4.356000762665644,
+          "candidate": 4.354074297472835,
+          "reduction_pct": 0.04422554764730586
+        },
+        "denoise_s": {
+          "baseline": 4.218213296029717,
+          "candidate": 4.216460163006559,
+          "reduction_pct": 0.041561033075492096
+        },
+        "decode_s": {
+          "baseline": 0.0886515888851136,
+          "candidate": 0.08916127029806376,
+          "reduction_pct": -0.5749264275575144
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 4.575,
+          "candidate": 4.7,
+          "reduction_pct": -2.73224043715847
+        },
+        "worker_e2e_s": {
+          "baseline": 4.362062629079446,
+          "candidate": 4.3533014305867255,
+          "reduction_pct": 0.20084990147355253
+        },
+        "denoise_s": {
+          "baseline": 4.222047848859802,
+          "candidate": 4.214755040127784,
+          "reduction_pct": 0.17273155096968776
+        },
+        "decode_s": {
+          "baseline": 0.09043706790544093,
+          "candidate": 0.08884989912621677,
+          "reduction_pct": 1.754998051112921
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.0,
+      -2.73224043715847
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Qwen/Qwen-Image-2.1",
+      "revision": "790c92633540aa0cb11d9abf19eb46d861714758",
+      "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/Qwen--Qwen-Image-2.1/models--Qwen--Qwen-Image-2.1/snapshots/790c92633540aa0cb11d9abf19eb46d861714758",
+      "cli_model_path": "${KDA_ROOT}/model-cache/remaining-native/Qwen--Qwen-Image-2.1/models--Qwen--Qwen-Image-2.1/snapshots/790c92633540aa0cb11d9abf19eb46d861714758",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/Qwen--Qwen-Image-2.1",
+      "prompt": "A raccoon wearing a small red scarf, standing beside a wooden cabin in a snowy forest.",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 40,
+      "guidance": 1.0,
+      "seed": 42,
+      "media_extension": "png",
+      "extra_args": [
+        "--pipeline-class-name=QwenImage21Pipeline",
+        "--model-id=Qwen/Qwen-Image-2.1"
+      ]
+    },
+    "abba": "full-model-results-v30/qwen-image21-lossless-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v30/qwen-image21-lossless-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v30/qwen-image21-lossless-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v30/qwen-image21-lossless-da15e6fa-media-audit/qwen-image21-lossless-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after PNGs: identical red-scarf raccoon in front of a snowy cabin and forest.",
+    "actual_changed_branch_evidence": "Modified plain QKNorm/complex-RoPE executes1344times (first eight-row launch uses256threads); modified KV packing1280times; LayerNorm cached/pipe2600/64, modified residual2624 and contiguous DupUp3D4. Standalone RMS, complex RoPE and SiLU calls do not indicate modifications to those unchanged families.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/qwen-image21-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+    "model_key": "wan21",
+    "quality": "lossless",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 46.489999999999995,
+          "candidate": 46.35,
+          "reduction_pct": 0.301140030113989
+        },
+        "worker_e2e_s": {
+          "baseline": 46.22113246424124,
+          "candidate": 46.07701532961801,
+          "reduction_pct": 0.3117992289235342
+        },
+        "denoise_s": {
+          "baseline": 44.613036361988634,
+          "candidate": 44.49729792098515,
+          "reduction_pct": 0.25942740158815647
+        },
+        "decode_s": {
+          "baseline": 1.2576912380754948,
+          "candidate": 1.2314828182570636,
+          "reduction_pct": 2.0838516660523907
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 46.57,
+          "candidate": 46.405,
+          "reduction_pct": 0.354305346789777
+        },
+        "worker_e2e_s": {
+          "baseline": 46.280637938994914,
+          "candidate": 46.13731682812795,
+          "reduction_pct": 0.30967833904079584
+        },
+        "denoise_s": {
+          "baseline": 44.66538305906579,
+          "candidate": 44.55743161193095,
+          "reduction_pct": 0.24168928987373023
+        },
+        "decode_s": {
+          "baseline": 1.2636849542614073,
+          "candidate": 1.2337463763542473,
+          "reduction_pct": 2.3691488773527642
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.301140030113989,
+      0.354305346789777
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+      "revision": "0fad780a534b6463e45facd96134c9f345acfa5b",
+      "prompt": "A curious raccoon walks through a sunlit forest.",
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "steps": 50,
+      "guidance": 3,
+      "seed": 42,
+      "fps": 16
+    },
+    "abba": "full-model-results-v30/wan21-lossless-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v30/wan21-lossless-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v30/wan21-lossless-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v30/wan21-lossless-da15e6fa-media-audit/wan21-lossless-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic four-frame before/after contact sheet: identical raccoon on a mossy forest floor, including head turns, tail and foliage.",
+    "actual_changed_branch_evidence": "Modified scale/shift row kernel3000, causal cache row kernel670 and vector nearest-upsample20/63 for lossless/high. Modified norm-SiLU post kernels569 device launches.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/wan21-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+    "model_key": "wan21",
+    "quality": "high",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 45.545,
+          "candidate": 45.394999999999996,
+          "reduction_pct": 0.3293446042375797
+        },
+        "worker_e2e_s": {
+          "baseline": 45.27241555904038,
+          "candidate": 45.12115398445167,
+          "reduction_pct": 0.33411421219937715
+        },
+        "denoise_s": {
+          "baseline": 43.8152178497985,
+          "candidate": 43.724905646638945,
+          "reduction_pct": 0.20612063020923935
+        },
+        "decode_s": {
+          "baseline": 1.1046337387524545,
+          "candidate": 1.0470672436058521,
+          "reduction_pct": 5.211364919164658
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 45.54,
+          "candidate": 45.445,
+          "reduction_pct": 0.20860781730346697
+        },
+        "worker_e2e_s": {
+          "baseline": 45.2657824375201,
+          "candidate": 45.172946244012564,
+          "reduction_pct": 0.2050913261814884
+        },
+        "denoise_s": {
+          "baseline": 43.81245081173256,
+          "candidate": 43.775717687327415,
+          "reduction_pct": 0.08384174755023945
+        },
+        "decode_s": {
+          "baseline": 1.1032396794762462,
+          "candidate": 1.048789381282404,
+          "reduction_pct": 4.935491281431429
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.3293446042375797,
+      0.20860781730346697
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+      "revision": "0fad780a534b6463e45facd96134c9f345acfa5b",
+      "prompt": "A curious raccoon walks through a sunlit forest.",
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "steps": 50,
+      "guidance": 3,
+      "seed": 42,
+      "fps": 16
+    },
+    "abba": "full-model-results-v30/wan21-high-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v30/wan21-high-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v30/wan21-high-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v30/wan21-high-da15e6fa-media-audit/wan21-high-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic four-frame before/after contact sheet: identical raccoon on a mossy forest floor, including head turns, tail and foliage.",
+    "actual_changed_branch_evidence": "Modified scale/shift row kernel3000, causal cache row kernel670 and vector nearest-upsample20/63 for lossless/high. Modified Wan RMSNorm+SiLU609 device launches.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/wan21-high",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "black-forest-labs/FLUX.2-dev",
+    "model_key": "flux2-fp8",
+    "quality": "lossless",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 15.600000000000001,
+          "candidate": 15.55,
+          "reduction_pct": 0.32051282051282504
+        },
+        "worker_e2e_s": {
+          "baseline": 15.287821989040822,
+          "candidate": 15.270109353819862,
+          "reduction_pct": 0.11586107709559415
+        },
+        "denoise_s": {
+          "baseline": 15.145176665857434,
+          "candidate": 15.127018198603764,
+          "reduction_pct": 0.11989604119049783
+        },
+        "decode_s": {
+          "baseline": 0.09331843466497958,
+          "candidate": 0.09379874519072473,
+          "reduction_pct": -0.5147005813690569
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 15.49,
+          "candidate": 15.47,
+          "reduction_pct": 0.12911555842478745
+        },
+        "worker_e2e_s": {
+          "baseline": 15.300737302517518,
+          "candidate": 15.276738648535684,
+          "reduction_pct": 0.15684638921214608
+        },
+        "denoise_s": {
+          "baseline": 15.155951925553381,
+          "candidate": 15.134136201813817,
+          "reduction_pct": 0.14394162667395682
+        },
+        "decode_s": {
+          "baseline": 0.09528259607031941,
+          "candidate": 0.0930429098661989,
+          "reduction_pct": 2.350572188931133
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.32051282051282504,
+      0.12911555842478745
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "black-forest-labs/FLUX.2-dev",
+      "revision": "26afe3a78bb242c0a8bb181dcc8937bb16e5c66c",
+      "prompt": "A raccoon wearing a small red scarf, standing beside a wooden cabin in a snowy forest.",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 50,
+      "guidance": 4.0,
+      "seed": 42,
+      "extra_args": [
+        "--pipeline-class-name=Flux2Pipeline",
+        "--transformer-path=${MODEL_CACHE}/models--lmsys--flux2-dev-modelopt-fp8-sglang-transformer/snapshots/9d0935766ff7b2709e072e32f8062ff034ff929f"
+      ],
+      "transformer_revision": "9d0935766ff7b2709e072e32f8062ff034ff929f",
+      "media_extension": "png"
+    },
+    "abba": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-media-audit/flux2-fp8-lossless-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after PNGs: identical red-scarf raccoon beside a snow-covered wooden cabin.",
+    "actual_changed_branch_evidence": "Dedicated modified FP8 LayerNorm4000 launches with eight-warps/block256; modified residual flat4000 and shared QKNorm/RoPE800. One-pass RMS and packed SiLU remain unchanged.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/flux2-fp8-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "BestWishYsh/Helios-Distilled",
+    "model_key": "helios-distilled",
+    "quality": "lossless",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 48.175,
+          "candidate": 48.144999999999996,
+          "reduction_pct": 0.06227296315516583
+        },
+        "worker_e2e_s": {
+          "baseline": 47.92698218091391,
+          "candidate": 47.74754149350338,
+          "reduction_pct": 0.3744043109853734
+        },
+        "denoise_s": {
+          "baseline": 45.818131756270304,
+          "candidate": 45.692304459633306,
+          "reduction_pct": 0.27462336811622384
+        },
+        "decode_s": {
+          "baseline": 1.8012407766655087,
+          "candidate": 1.7532399853225797,
+          "reduction_pct": 2.6648736784534153
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 48.120000000000005,
+          "candidate": 47.995000000000005,
+          "reduction_pct": 0.25976724854530336
+        },
+        "worker_e2e_s": {
+          "baseline": 47.872131783282384,
+          "candidate": 47.74673856678419,
+          "reduction_pct": 0.2619336382717454
+        },
+        "denoise_s": {
+          "baseline": 45.76344970311038,
+          "candidate": 45.688637061510235,
+          "reduction_pct": 0.16347684032889273
+        },
+        "decode_s": {
+          "baseline": 1.8003946284297854,
+          "candidate": 1.7554627456702292,
+          "reduction_pct": 2.4956685634384237
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.06227296315516583,
+      0.25976724854530336
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "BestWishYsh/Helios-Distilled",
+      "revision": "b991c0379a018f4de3227d95468237f56066f5bb",
+      "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/BestWishYsh--Helios-Distilled/models--BestWishYsh--Helios-Distilled/snapshots/b991c0379a018f4de3227d95468237f56066f5bb",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/BestWishYsh--Helios-Distilled",
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise.",
+      "width": 640,
+      "height": 384,
+      "frames": 99,
+      "steps": 10,
+      "guidance": 1.0,
+      "fps": 24,
+      "seed": 42,
+      "media_extension": "mp4",
+      "extra_args": [
+        "--pipeline-class-name=HeliosPyramidPipeline",
+        "--model-id=BestWishYsh/Helios-Distilled"
+      ],
+      "cli_model_path": "${KDA_ROOT}/model-cache/remaining-native/BestWishYsh--Helios-Distilled/models--BestWishYsh--Helios-Distilled/snapshots/b991c0379a018f4de3227d95468237f56066f5bb",
+      "helios_cpu_repro": true
+    },
+    "abba": "full-model-results-v31/helios-distilled-lossless-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v31/helios-distilled-lossless-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v31/helios-distilled-lossless-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v31/helios-distilled-lossless-da15e6fa-media-audit/helios-distilled-lossless-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic baseline/candidate contact sheets at frames0,32,65,98: the same white boat, shoreline, ripples and reflections are present in both. Both sources already show clipped-looking bright highlights and coarse colored edges; exact equivalence is not a claim of high visual quality.",
+    "actual_changed_branch_evidence": "Modified vector Q/K RoPE4800, norm_xwb1600/norm_pinned3200, structured CUDA causal cat/pad384 and modified norm-SiLU post711. Unchanged CuTe norm also executes. Capture could not install an unrelated sparse-linear-attention diagnostic hook; raw device trace still proves these modified branches.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {
+      "validation_repro_source_sha256": "9d15b5eaf0ab5a2d4024e6a6d103fc2fcac14c506f71b77121175920d1e13506"
+    },
+    "validation_condition_note": "Both arms seed only the default CPU RNG from the request seed around Helios chunked denoising and restore its prior state. Two full baseline controls established reproducibility first. Original uncontrolled failures are retained. No production model/RNG code is changed.",
+    "public_directory": "models/helios-distilled-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "meituan-longcat/LongCat-Image",
+    "model_key": "longcat-image",
+    "quality": "lossless",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 8.864999999999998,
+          "candidate": 8.875,
+          "reduction_pct": -0.11280315848845533
+        },
+        "worker_e2e_s": {
+          "baseline": 8.685151965124533,
+          "candidate": 8.695347087457776,
+          "reduction_pct": -0.11738565282659744
+        },
+        "denoise_s": {
+          "baseline": 6.6721068429760635,
+          "candidate": 6.661614881595597,
+          "reduction_pct": 0.15725109965096012
+        },
+        "decode_s": {
+          "baseline": 0.08937892178073525,
+          "candidate": 0.08940933551639318,
+          "reduction_pct": -0.03402786143755625
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 8.86,
+          "candidate": 8.855,
+          "reduction_pct": 0.05643340857786688
+        },
+        "worker_e2e_s": {
+          "baseline": 8.681523234816268,
+          "candidate": 8.674479492474347,
+          "reduction_pct": 0.0811348671356727
+        },
+        "denoise_s": {
+          "baseline": 6.674657566472888,
+          "candidate": 6.671367634786293,
+          "reduction_pct": 0.04928989470741631
+        },
+        "decode_s": {
+          "baseline": 0.09075667196884751,
+          "candidate": 0.09024826949462295,
+          "reduction_pct": 0.5601819273398192
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      -0.11280315848845533,
+      0.05643340857786688
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "meituan-longcat/LongCat-Image",
+      "revision": "d2ea50b79a930074c37b9b97ce45e3b2ea8cf4d8",
+      "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/meituan-longcat--LongCat-Image/models--meituan-longcat--LongCat-Image/snapshots/d2ea50b79a930074c37b9b97ce45e3b2ea8cf4d8",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/meituan-longcat--LongCat-Image",
+      "prompt": "A raccoon wearing a small red scarf, standing beside a wooden cabin in a snowy forest.",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 50,
+      "guidance": 4.5,
+      "seed": 42,
+      "media_extension": "png",
+      "extra_args": [
+        "--pipeline-class-name=LongCatImagePipeline"
+      ]
+    },
+    "abba": "full-model-results-v30/longcat-image-lossless-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v30/longcat-image-lossless-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v30/longcat-image-lossless-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v30/longcat-image-lossless-da15e6fa-media-audit/longcat-image-lossless-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after images: identical red-scarf raccoon, snow-covered wooden cabin, trees and snow details.",
+    "actual_changed_branch_evidence": "Modified cached LayerNorm4000 and pipelined LayerNorm2000; residual row4000/flat2000; shared QKNorm/RoPE4000. Raw launches and block shapes retained.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/longcat-image-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Qwen/Qwen-Image",
+    "model_key": "qwen-image",
+    "quality": "lossless",
+    "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 12.4,
+          "candidate": 12.4,
+          "reduction_pct": 0.0
+        },
+        "worker_e2e_s": {
+          "baseline": 12.232674348168075,
+          "candidate": 12.232354113366455,
+          "reduction_pct": 0.002617864193108372
+        },
+        "denoise_s": {
+          "baseline": 12.146557730389759,
+          "candidate": 12.148586084367707,
+          "reduction_pct": -0.016699002490834426
+        },
+        "decode_s": {
+          "baseline": 0.0591812371276319,
+          "candidate": 0.057498435489833355,
+          "reduction_pct": 2.843471545161131
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 12.385000000000002,
+          "candidate": 12.4,
+          "reduction_pct": -0.1211142511102042
+        },
+        "worker_e2e_s": {
+          "baseline": 12.216547193005681,
+          "candidate": 12.22970051667653,
+          "reduction_pct": -0.1076680952731051
+        },
+        "denoise_s": {
+          "baseline": 12.130784032167867,
+          "candidate": 12.147292100125924,
+          "reduction_pct": -0.13608409740278596
+        },
+        "decode_s": {
+          "baseline": 0.059323925292119384,
+          "candidate": 0.05649802973493934,
+          "reduction_pct": 4.76350063362284
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.0,
+      -0.1211142511102042
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "seed": 42,
+      "steps": 50,
+      "frames": 1,
+      "width": 1024,
+      "height": 1024,
+      "guidance": 4.0,
+      "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+      "model": "Qwen/Qwen-Image",
+      "revision": "75e0b4be04f60ec59a75f475837eced720f823b6"
+    },
+    "abba": "full-model-results-v30/qwen-image-lossless-da15e6fa-abba.json",
+    "media_audit": "full-model-results-v30/qwen-image-lossless-da15e6fa-media-audit/evidence.json",
+    "device_proof": "full-model-results-v30/qwen-image-lossless-da15e6fa-dispatch.json",
+    "preview": "full-model-results-v30/qwen-image-lossless-da15e6fa-media-audit/qwen-image-lossless-da15e6fa-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after images: identical blue and magenta neon city at night, wet street reflections, signs and human silhouette.",
+    "actual_changed_branch_evidence": "Modified Qwen QKV epilogue6000 launches with96-thread blocks; cached LayerNorm modulation100. Raw traces distinguish the changed device entry.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/qwen-image-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "model_key": "sana-video",
+    "quality": "lossless",
+    "candidate_commit": "3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 38.614999999999995,
+          "candidate": 37.68,
+          "reduction_pct": 2.4213388579567403
+        },
+        "worker_e2e_s": {
+          "baseline": 38.28418010333553,
+          "candidate": 37.32921740459278,
+          "reduction_pct": 2.4944055120552147
+        },
+        "denoise_s": {
+          "baseline": 35.564241209300235,
+          "candidate": 34.67446730216034,
+          "reduction_pct": 2.5018779450500883
+        },
+        "decode_s": {
+          "baseline": 2.3733370846603066,
+          "candidate": 2.315196211915463,
+          "reduction_pct": 2.4497520019649888
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 38.66,
+          "candidate": 37.715,
+          "reduction_pct": 2.444386963269512
+        },
+        "worker_e2e_s": {
+          "baseline": 38.298669412964955,
+          "candidate": 37.381436481839046,
+          "reduction_pct": 2.3949472532207743
+        },
+        "denoise_s": {
+          "baseline": 35.57550455443561,
+          "candidate": 34.72220363537781,
+          "reduction_pct": 2.3985630836299987
+        },
+        "decode_s": {
+          "baseline": 2.3748514053877443,
+          "candidate": 2.316089879255742,
+          "reduction_pct": 2.4743243303009277
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      2.4213388579567403,
+      2.444386963269512
+    ],
+    "significant_speedup": true,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+      "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+      "prompt": "A curious raccoon walks through a sunlit forest. motion score: 30.",
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "steps": 50,
+      "guidance": 6,
+      "seed": 42,
+      "fps": 16,
+      "local_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/sana-video-native",
+      "extra_args": [
+        "--pipeline-class-name=SanaVideoPipeline"
+      ],
+      "cli_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1"
+    },
+    "abba": "full-model-results-v43-sana/sana-video-lossless-3bae5dde-abba.json",
+    "media_audit": "full-model-results-v43-sana/sana-video-lossless-3bae5dde-media-audit/evidence.json",
+    "device_proof": "full-model-results-v43-sana/sana-video-lossless-3bae5dde-dispatch.json",
+    "preview": "full-model-results-v43-sana/sana-video-lossless-3bae5dde-media-audit/sana-video-lossless-3bae5dde-r1-b1/comparison.png",
+    "visual_inspection": "Matching raccoon walking through a sunlit forest; inspected frames0/26/53/80.",
+    "actual_changed_branch_evidence": "The separate device trace observes the vectorized FP64 interleaved RoPE branch as well as existing convolution postprocessing. Trace counts are not per-request invocation claims.",
+    "all_eight_denoise_step_counts": 50,
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "request_summary": "832×480,81 frames,50 steps,seed42,CFG6,16fps",
+    "recorded_denoise_step_counts": [
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "video_preview": "full-model-results-v43-sana/sana-video-lossless-3bae5dde-media-audit/sana-video-lossless-3bae5dde-r1-b1/comparison.gif",
+    "public_directory": "models/sana-video-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "jdopensource/JoyAI-Image-Edit-Diffusers",
+    "model_key": "joy-image-edit",
+    "quality": "lossless",
+    "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 27.855,
+          "candidate": 27.869999999999997,
+          "reduction_pct": -0.053850296176618254
+        },
+        "worker_e2e_s": {
+          "baseline": 27.669515277259052,
+          "candidate": 27.682127451058477,
+          "reduction_pct": -0.045581477207123404
+        },
+        "denoise_s": {
+          "baseline": 27.32500637904741,
+          "candidate": 27.34067877708003,
+          "reduction_pct": -0.057355514634529106
+        },
+        "decode_s": {
+          "baseline": 0.06744443206116557,
+          "candidate": 0.06746167014352977,
+          "reduction_pct": -0.02555894065290412
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 27.85,
+          "candidate": 27.865000000000002,
+          "reduction_pct": -0.05385996409335931
+        },
+        "worker_e2e_s": {
+          "baseline": 27.65955282887444,
+          "candidate": 27.67425383394584,
+          "reduction_pct": -0.05314982914711073
+        },
+        "denoise_s": {
+          "baseline": 27.31815380253829,
+          "candidate": 27.331003924133256,
+          "reduction_pct": -0.04703876289682313
+        },
+        "decode_s": {
+          "baseline": 0.06712813675403595,
+          "candidate": 0.06706737633794546,
+          "reduction_pct": 0.09051408102256812
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      -0.053850296176618254,
+      -0.05385996409335931
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "jdopensource/JoyAI-Image-Edit-Diffusers",
+      "revision": "4b41fb25d961f37668750178ccbb380da326201c",
+      "prompt": "Turn the neon city into a snowy dawn while preserving the buildings and camera viewpoint.",
+      "seed": 42,
+      "cli_config": {
+        "backend": "sglang",
+        "num_gpus": 1,
+        "tp_size": 1,
+        "ulysses_degree": 1,
+        "performance_mode": "manual",
+        "enable_torch_compile": false,
+        "dit_cpu_offload": false,
+        "dit_layerwise_offload": false,
+        "vae_cpu_offload": false,
+        "text_encoder_cpu_offload": false,
+        "quality": "lossless",
+        "warmup_mode": "request",
+        "seed": 42,
+        "save_output": true,
+        "output_file_name": "sample",
+        "model_path": "jdopensource/JoyAI-Image-Edit-Diffusers",
+        "revision": "4b41fb25d961f37668750178ccbb380da326201c",
+        "prompt": "Turn the neon city into a snowy dawn while preserving the buildings and camera viewpoint.",
+        "negative_prompt": "",
+        "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+        "height": 1024,
+        "width": 1024,
+        "num_frames": 1,
+        "num_inference_steps": 40,
+        "guidance_scale": 4.0,
+        "warmup_resolutions": [
+          "1024x1024"
+        ],
+        "warmup_num_frames": 1
+      },
+      "media_extension": "png"
+    },
+    "abba": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-abba.json",
+    "media_audit": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-media-audit/evidence.json",
+    "device_proof": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-dispatch.json",
+    "preview": "full-model-results-v36/joy-image-edit-lossless-9436dcf3-media-audit/joy-image-edit-lossless-9436dcf3-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic before/after image: identical snow-covered city street at sunset, buildings, cars, signs and pedestrians.",
+    "actual_changed_branch_evidence": "Modified flat joint-QKV concatenation3200 launches and norm-SiLU post29. Input edit image hash is identical across all eight requests.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "recorded_denoise_step_counts": [
+      40,
+      40,
+      40,
+      40,
+      40,
+      40,
+      40,
+      40
+    ],
+    "public_directory": "models/joy-image-edit-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "hunyuanvideo-community/HunyuanVideo",
+    "model_key": "hunyuanvideo",
+    "quality": "lossless",
+    "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 68.98,
+          "candidate": 68.735,
+          "reduction_pct": 0.3551754131632423
+        },
+        "worker_e2e_s": {
+          "baseline": 68.72784444363788,
+          "candidate": 68.47562349052168,
+          "reduction_pct": 0.3669851064848018
+        },
+        "denoise_s": {
+          "baseline": 64.00653491262347,
+          "candidate": 63.75449555250816,
+          "reduction_pct": 0.39377129297714414
+        },
+        "decode_s": {
+          "baseline": 4.677296481793746,
+          "candidate": 4.674162702867761,
+          "reduction_pct": 0.06699979225570263
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 69.025,
+          "candidate": 68.735,
+          "reduction_pct": 0.4201376312930188
+        },
+        "worker_e2e_s": {
+          "baseline": 68.77212817245163,
+          "candidate": 68.47613456705585,
+          "reduction_pct": 0.43039762366165446
+        },
+        "denoise_s": {
+          "baseline": 64.05412833951414,
+          "candidate": 63.751492561539635,
+          "reduction_pct": 0.4724688100826271
+        },
+        "decode_s": {
+          "baseline": 4.675384955480695,
+          "candidate": 4.680497872876003,
+          "reduction_pct": -0.10935821208294354
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.3551754131632423,
+      0.4201376312930188
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "hunyuanvideo-community/HunyuanVideo",
+      "revision": "e8c2aaa66fe3742a32c11a6766aecbf07c56e773",
+      "prompt": "A cat and a dog baking a cake together in a kitchen. The cat is carefully measuring flour, while the dog is stirring the batter with a wooden spoon. The kitchen is cozy, with sunlight streaming through the window.",
+      "width": 960,
+      "height": 544,
+      "frames": 65,
+      "steps": 30,
+      "guidance": 1,
+      "seed": 42,
+      "fps": 24
+    },
+    "abba": "full-model-results-v36/hunyuanvideo-lossless-9436dcf3-abba.json",
+    "media_audit": "full-model-results-v36/hunyuanvideo-lossless-9436dcf3-media-audit/evidence.json",
+    "device_proof": "full-model-results-v36/hunyuanvideo-lossless-9436dcf3-dispatch.json",
+    "preview": "full-model-results-v36/hunyuanvideo-lossless-9436dcf3-media-audit/hunyuanvideo-lossless-9436dcf3-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic frames0/21/42/64: identical person mixing a bowl beside a cat and dog in a sunlit kitchen.",
+    "actual_changed_branch_evidence": "Replacement constant-spatial GroupNorm apply549 device launches. All eight full videos are exact; the earlier fused-finalize candidate's failure is retained separately.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "recorded_denoise_step_counts": [
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30
+    ],
+    "public_directory": "models/hunyuanvideo-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "model_key": "sana-video",
+    "quality": "high",
+    "candidate_commit": "3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 36.445,
+          "candidate": 35.505,
+          "reduction_pct": 2.5792289751680553
+        },
+        "worker_e2e_s": {
+          "baseline": 36.11335047218017,
+          "candidate": 35.17532532918267,
+          "reduction_pct": 2.5974470126224056
+        },
+        "denoise_s": {
+          "baseline": 33.40545608033426,
+          "candidate": 32.520976731553674,
+          "reduction_pct": 2.6477092444227366
+        },
+        "decode_s": {
+          "baseline": 2.3608487867750227,
+          "candidate": 2.312917910516262,
+          "reduction_pct": 2.0302391464993166
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 36.595,
+          "candidate": 35.495,
+          "reduction_pct": 3.005875119551855
+        },
+        "worker_e2e_s": {
+          "baseline": 36.09581341757439,
+          "candidate": 35.16267342399806,
+          "reduction_pct": 2.585175135912034
+        },
+        "denoise_s": {
+          "baseline": 33.386438362067565,
+          "candidate": 32.511939119547606,
+          "reduction_pct": 2.619324748079548
+        },
+        "decode_s": {
+          "baseline": 2.361474644392729,
+          "candidate": 2.3120666809845716,
+          "reduction_pct": 2.0922504302756493
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      2.5792289751680553,
+      3.005875119551855
+    ],
+    "significant_speedup": true,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+      "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+      "prompt": "A curious raccoon walks through a sunlit forest. motion score: 30.",
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "steps": 50,
+      "guidance": 6,
+      "seed": 42,
+      "fps": 16,
+      "local_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/sana-video-native",
+      "extra_args": [
+        "--pipeline-class-name=SanaVideoPipeline"
+      ],
+      "cli_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1"
+    },
+    "abba": "full-model-results-v43-sana/sana-video-high-3bae5dde-abba.json",
+    "media_audit": "full-model-results-v43-sana/sana-video-high-3bae5dde-media-audit/evidence.json",
+    "device_proof": "full-model-results-v43-sana/sana-video-high-3bae5dde-dispatch.json",
+    "preview": "full-model-results-v43-sana/sana-video-high-3bae5dde-media-audit/sana-video-high-3bae5dde-r1-b1/comparison.png",
+    "visual_inspection": "Matching raccoon walking through a sunlit forest; inspected frames0/26/53/80.",
+    "actual_changed_branch_evidence": "The separate device trace observes the vectorized FP64 interleaved RoPE branch as well as existing convolution postprocessing. Trace counts are not per-request invocation claims.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "recorded_denoise_step_counts": [
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "request_summary": "832×480,81 frames,50 steps,seed42,CFG6,16fps",
+    "video_preview": "full-model-results-v43-sana/sana-video-high-3bae5dde-media-audit/sana-video-high-3bae5dde-r1-b1/comparison.gif",
+    "public_directory": "models/sana-video-high",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "hunyuanvideo-community/HunyuanVideo",
+    "model_key": "hunyuanvideo",
+    "quality": "high",
+    "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot; final published-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 68.275,
+          "candidate": 68.02000000000001,
+          "reduction_pct": 0.37348956426216834
+        },
+        "worker_e2e_s": {
+          "baseline": 68.02604721533135,
+          "candidate": 67.76797891641036,
+          "reduction_pct": 0.37936688883905484
+        },
+        "denoise_s": {
+          "baseline": 63.293877868913114,
+          "candidate": 63.04900996689685,
+          "reduction_pct": 0.38687454499692525
+        },
+        "decode_s": {
+          "baseline": 4.687816617777571,
+          "candidate": 4.674686290090904,
+          "reduction_pct": 0.28009473828121606
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 68.25,
+          "candidate": 68.12,
+          "reduction_pct": 0.1904761904761838
+        },
+        "worker_e2e_s": {
+          "baseline": 67.97395762591623,
+          "candidate": 67.8669580728747,
+          "reduction_pct": 0.15741256913476703
+        },
+        "denoise_s": {
+          "baseline": 63.2420390881598,
+          "candidate": 63.146943755447865,
+          "reduction_pct": 0.15036727797370916
+        },
+        "decode_s": {
+          "baseline": 4.688509747385979,
+          "candidate": 4.67701054061763,
+          "reduction_pct": 0.24526357814996663
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.37348956426216834,
+      0.1904761904761838
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "hunyuanvideo-community/HunyuanVideo",
+      "revision": "e8c2aaa66fe3742a32c11a6766aecbf07c56e773",
+      "prompt": "A cat and a dog baking a cake together in a kitchen. The cat is carefully measuring flour, while the dog is stirring the batter with a wooden spoon. The kitchen is cozy, with sunlight streaming through the window.",
+      "width": 960,
+      "height": 544,
+      "frames": 65,
+      "steps": 30,
+      "guidance": 1,
+      "seed": 42,
+      "fps": 24
+    },
+    "abba": "full-model-results-v36/hunyuanvideo-high-9436dcf3-abba.json",
+    "media_audit": "full-model-results-v36/hunyuanvideo-high-9436dcf3-media-audit/evidence.json",
+    "device_proof": "full-model-results-v36/hunyuanvideo-high-9436dcf3-dispatch.json",
+    "preview": "full-model-results-v36/hunyuanvideo-high-9436dcf3-media-audit/hunyuanvideo-high-9436dcf3-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic frames0/21/42/64: identical person mixing a bowl beside a cat and dog in a sunlit kitchen.",
+    "actual_changed_branch_evidence": "Replacement constant-spatial GroupNorm apply549 device launches. No changed Hunyuan QKV/RoPE device branch is claimed from this trace.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "recorded_denoise_step_counts": [
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30
+    ],
+    "public_directory": "models/hunyuanvideo-high",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree",
+    "model_key": "fasth3-vsa",
+    "quality": "lossless",
+    "candidate_commit": "3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 17.880000000000003,
+          "candidate": 18.285,
+          "reduction_pct": -2.265100671140926
+        },
+        "worker_e2e_s": {
+          "baseline": 17.243778988020495,
+          "candidate": 17.65269828820601,
+          "reduction_pct": -2.371401886266338
+        },
+        "denoise_s": {
+          "baseline": 11.694624186959118,
+          "candidate": 11.674599804449826,
+          "reduction_pct": 0.17122724244205056
+        },
+        "decode_s": {
+          "baseline": 4.382739410037175,
+          "candidate": 4.381637580925599,
+          "reduction_pct": 0.025140192206105506
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 18.08,
+          "candidate": 18.064999999999998,
+          "reduction_pct": 0.08296460176991466
+        },
+        "worker_e2e_s": {
+          "baseline": 17.436833245446905,
+          "candidate": 17.423581375274807,
+          "reduction_pct": 0.07599929405506357
+        },
+        "denoise_s": {
+          "baseline": 11.891940156696364,
+          "candidate": 11.868925705552101,
+          "reduction_pct": 0.19352982642873195
+        },
+        "decode_s": {
+          "baseline": 4.384866102831438,
+          "candidate": 4.389353566337377,
+          "reduction_pct": -0.10233980697930459
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      -2.265100671140926,
+      0.08296460176991466
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree",
+      "revision": "b65818d41939b5085451074fe8ca8b799f8d4921",
+      "seed": 42,
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "cli_config": {
+        "backend": "sglang",
+        "num_gpus": 1,
+        "tp_size": 1,
+        "ulysses_degree": 1,
+        "performance_mode": "manual",
+        "enable_torch_compile": false,
+        "dit_cpu_offload": false,
+        "dit_layerwise_offload": false,
+        "vae_cpu_offload": false,
+        "text_encoder_cpu_offload": false,
+        "quality": "lossless",
+        "warmup_mode": "off",
+        "seed": 42,
+        "save_output": true,
+        "output_file_name": "sample",
+        "model_path": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e",
+        "revision": "b65818d41939b5085451074fe8ca8b799f8d4921",
+        "layerwise_offload_components": [
+          "text_encoder"
+        ],
+        "attention_backend": "fa",
+        "attention_backend_config": "{\"VSA_sparsity\": 0.9}",
+        "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+        "task": "t2va",
+        "conditions": [],
+        "target": {
+          "short_edge": 768,
+          "aspect_ratio": "16:9",
+          "duration_seconds": 4.0
+        },
+        "num_inference_steps": 5,
+        "flow_shift": 12.0,
+        "audio_flow_shift": 3.0,
+        "pipeline_class_name": "FastH3Pipeline",
+        "component_attention_backends": {
+          "transformer": "video_sparse_attn_h3"
+        }
+      },
+      "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/fasth3/hub",
+      "native_cache_root": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache",
+      "local_model_path": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e"
+    },
+    "request_summary": "1344×768,107 frames; original target768p/16:9/4s, configured5 schedule points and4 executed denoise steps; warmup off",
+    "recorded_denoise_step_counts": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "abba": "full-model-results-v42/fasth3-vsa-lossless-3bae5dde-abba.json",
+    "media_audit": "full-model-results-v42/fasth3-vsa-lossless-3bae5dde-media-audit/evidence.json",
+    "device_proof": "full-model-results-v42/fasth3-vsa-lossless-3bae5dde-dispatch.json",
+    "preview": "full-model-results-v42/fasth3-vsa-lossless-3bae5dde-media-audit/fasth3-vsa-lossless-3bae5dde-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic frames0/35/70/106: the same covered wooden motorboat and sunrise lake in both rows.",
+    "actual_changed_branch_evidence": "The separate device profile observes indexed modulation, shared QKNorm/RoPE and the newly integrated mask-free scaled-residual kernel. All eight MP4s, including encoded audio, are byte-identical. Warmup remains off. Trace counts are not per-request invocation claims.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "video_preview": "full-model-results-v42/fasth3-vsa-lossless-3bae5dde-media-audit/fasth3-vsa-lossless-3bae5dde-r1-b1/comparison.gif",
+    "historical_snapshot_evidence": "full-model-results-v36/fasth3-vsa-lossless-9436dcf3-abba.json",
+    "public_directory": "models/fasth3-vsa-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "baidu/ERNIE-Image-Turbo",
+    "model_key": "ernie-image-turbo",
+    "quality": "lossless",
+    "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 8.79,
+          "candidate": 7.85,
+          "reduction_pct": 10.693970420932873
+        },
+        "worker_e2e_s": {
+          "baseline": 8.573712467681617,
+          "candidate": 7.635997614590451,
+          "reduction_pct": 10.937092381227583
+        },
+        "denoise_s": {
+          "baseline": 1.1197135006077588,
+          "candidate": 1.1090501330327243,
+          "reduction_pct": 0.9523299995263637
+        },
+        "decode_s": {
+          "baseline": 0.12275230209343135,
+          "candidate": 0.12318599433638155,
+          "reduction_pct": -0.3533068101811253
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 7.915,
+          "candidate": 7.895,
+          "reduction_pct": 0.2526847757422674
+        },
+        "worker_e2e_s": {
+          "baseline": 7.698451597010717,
+          "candidate": 7.678989301202819,
+          "reduction_pct": 0.2528079258880473
+        },
+        "denoise_s": {
+          "baseline": 1.1166857180651277,
+          "candidate": 1.1097091916017234,
+          "reduction_pct": 0.6247529050064747
+        },
+        "decode_s": {
+          "baseline": 0.12237269408069551,
+          "candidate": 0.12341084447689354,
+          "reduction_pct": -0.8483513450422632
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      10.693970420932873,
+      0.2526847757422674
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "baidu/ERNIE-Image-Turbo",
+      "revision": "bc68c81e2a1730a394d5fc9fae70713dee940140",
+      "prompt": "A curious raccoon walks through a sunlit forest.",
+      "width": 1024,
+      "height": 1024,
+      "frames": 1,
+      "steps": 8,
+      "guidance": 1.0,
+      "seed": 42,
+      "extra_args": [
+        "--pipeline-class-name=ErnieImagePipeline"
+      ],
+      "ernie_pe_repro_mode": "seeded"
+    },
+    "request_summary": "1024×1024,1 frame,8 steps; symmetric prompt-enhancer RNG seed/restore condition",
+    "recorded_denoise_step_counts": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "abba": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-abba.json",
+    "media_audit": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-media-audit/evidence.json",
+    "device_proof": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-dispatch.json",
+    "preview": "full-model-results-v39-ernie/ernie-image-turbo-lossless-9436dcf3-media-audit/ernie-image-turbo-lossless-9436dcf3-r1-b1/comparison.png",
+    "visual_inspection": "Viewed authentic1024-square image: identical raccoon walking through a sunlit forest.",
+    "actual_changed_branch_evidence": "Shared QKNorm/RoPE288 and flat residual288 profiled launches. No specialized ERNIE RMSNorm device branch is claimed. The eight request prompt-enhancements match; the eight warmups separately match; all16 calls restore CPU/CUDA RNG. The original unseeded failure remains archived.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {
+      "validation_repro_source_sha256": "d20b7eb348fcdfffc6b0f1ee35303558d31dae13dae490946d0c11d7a6beedd0"
+    },
+    "public_directory": "models/ernie-image-turbo-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Lightricks/LTX-2.3",
+    "model_key": "ltx23",
+    "quality": "lossless",
+    "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 44.165000000000006,
+          "candidate": 43.95,
+          "reduction_pct": 0.48681082304993406
+        },
+        "worker_e2e_s": {
+          "baseline": 43.32298182789236,
+          "candidate": 43.080564042087644,
+          "reduction_pct": 0.5595593275822127
+        },
+        "denoise_s": {
+          "baseline": 42.31744151888415,
+          "candidate": 42.071988937910646,
+          "reduction_pct": 0.5800269868961071
+        },
+        "decode_s": {
+          "baseline": 0.8915926869958639,
+          "candidate": 0.89379867259413,
+          "reduction_pct": -0.2474207819827439
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 44.065,
+          "candidate": 43.864999999999995,
+          "reduction_pct": 0.45387495744922923
+        },
+        "worker_e2e_s": {
+          "baseline": 43.20723695564084,
+          "candidate": 43.00613982183859,
+          "reduction_pct": 0.46542465561662394
+        },
+        "denoise_s": {
+          "baseline": 42.199541934998706,
+          "candidate": 41.99481752817519,
+          "reduction_pct": 0.48513419206980823
+        },
+        "decode_s": {
+          "baseline": 0.8915749995503575,
+          "candidate": 0.8977145073004067,
+          "reduction_pct": -0.6886137176508463
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.48681082304993406,
+      0.45387495744922923
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Lightricks/LTX-2.3",
+      "revision": "7caa482d5cd10a2eae6b34cb48f093ebc45a263e",
+      "local_model_path": "${KDA_ROOT}/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+      "prompt": "A beautiful sunset over the ocean",
+      "width": 768,
+      "height": 512,
+      "frames": 121,
+      "steps": 30,
+      "guidance": 3,
+      "seed": 42,
+      "fps": 24,
+      "extra_args": [
+        "--pipeline-class-name=LTX2Pipeline"
+      ],
+      "cli_model_path": "${KDA_ROOT}/validation/model-cache/ltx23/native-cache/materialized_models/Lightricks__LTX-2.3-c24cea94ab17c493",
+      "native_cache_root": "${KDA_ROOT}/validation/model-cache/ltx23/native-cache"
+    },
+    "request_summary": "768×512,121 frames,30 steps,24fps; symmetric deterministic audio decode",
+    "recorded_denoise_step_counts": [
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30
+    ],
+    "abba": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-abba.json",
+    "media_audit": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-media-audit/evidence.json",
+    "device_proof": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-dispatch.json",
+    "preview": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-media-audit/ltx23-lossless-9436dcf3-r1-b1/comparison.png",
+    "video_preview": "full-model-results-v39-ltx/ltx23-lossless-9436dcf3-media-audit/ltx23-lossless-9436dcf3-r1-b1/comparison.gif",
+    "visual_inspection": "Viewed authentic frames0/40/80/120: matching ocean sunset and a dog walking along the beach.",
+    "actual_changed_branch_evidence": "The separate device profile contains tiled nine-way Ada values, flat scale/shift modulation and both optimized residual kernels. Profile event counts are not converted to per-request call counts. All eight complete MP4 files, including encoded audio streams, are byte-identical.",
+    "instrumentation_limitations": "Three capture-install records report missing raw_launch_capture for the unrelated sparse-linear-attention module. Those records and raw files are preserved. They do not establish SLA coverage; LTX changed branches are independently present in device events. Uninstrumented ABBA requests are separate.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {
+      "validation_repro_source_sha256": "5e0b9920624b2ee636b6850fe31e67309ac19b61100b153c73243db631d21ad4"
+    },
+    "public_directory": "models/ltx23-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "MiniMaxAI/MiniMax-H3",
+    "model_key": "minimax-h3",
+    "quality": "lossless",
+    "candidate_commit": "9436dcf3248d41ca7931def3a0868da13e8650e0",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 64.39500000000001,
+          "candidate": 63.955,
+          "reduction_pct": 0.683282863576383
+        },
+        "worker_e2e_s": {
+          "baseline": 63.76362352189608,
+          "candidate": 63.315498241456226,
+          "reduction_pct": 0.7027914282286198
+        },
+        "denoise_s": {
+          "baseline": 61.18970089685172,
+          "candidate": 60.80089393700473,
+          "reduction_pct": 0.6354124209601961
+        },
+        "decode_s": {
+          "baseline": 1.953934389166534,
+          "candidate": 1.8616518243215978,
+          "reduction_pct": 4.7229101118538575
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 65.25999999999999,
+          "candidate": 63.915,
+          "reduction_pct": 2.060986821942985
+        },
+        "worker_e2e_s": {
+          "baseline": 64.61400802899152,
+          "candidate": 63.286508752265945,
+          "reduction_pct": 2.054506936220305
+        },
+        "denoise_s": {
+          "baseline": 62.141984310233966,
+          "candidate": 60.784295537509024,
+          "reduction_pct": 2.184817217852099
+        },
+        "decode_s": {
+          "baseline": 1.856515963561833,
+          "candidate": 1.864701768150553,
+          "reduction_pct": -0.44092293033749436
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.683282863576383,
+      2.060986821942985
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "MiniMaxAI/MiniMax-H3",
+      "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+      "seed": 42,
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "media_extension": "mp4",
+      "native_cache_root": "${KDA_ROOT}/model-cache/minimax-h3-native/materialized",
+      "cli_config": {
+        "backend": "sglang",
+        "num_gpus": 4,
+        "tp_size": 1,
+        "ulysses_degree": 4,
+        "encoder_parallel": "auto",
+        "performance_mode": "manual",
+        "enable_torch_compile": false,
+        "dit_cpu_offload": false,
+        "dit_layerwise_offload": false,
+        "vae_cpu_offload": false,
+        "text_encoder_cpu_offload": false,
+        "quality": "lossless",
+        "warmup_mode": "off",
+        "seed": 42,
+        "save_output": true,
+        "output_file_name": "sample",
+        "model_path": "MiniMaxAI/MiniMax-H3",
+        "revision": "42ed227ee7df40d41602854ae760620d6eb651fe",
+        "model_variant": "fl2va",
+        "attention_backend": "fa",
+        "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+        "task": "t2va",
+        "conditions": [],
+        "target": {
+          "short_edge": 768,
+          "aspect_ratio": "16:9",
+          "duration_seconds": 4.0
+        },
+        "num_inference_steps": 50,
+        "flow_shift": 12.0,
+        "audio_flow_shift": 3.0,
+        "pipeline_class_name": "MiniMaxH3Pipeline"
+      }
+    },
+    "request_summary": "768p/16:9 target,107 frames;50 schedule points,49 executed steps;4 H200,Ulysses4,warmup off",
+    "recorded_denoise_step_counts": [
+      49,
+      49,
+      49,
+      49,
+      49,
+      49,
+      49,
+      49
+    ],
+    "abba": "full-model-results-v36/minimax-h3-lossless-9436dcf3-abba.json",
+    "media_audit": "full-model-results-v36/minimax-h3-lossless-9436dcf3-media-audit/evidence.json",
+    "device_proof": "full-model-results-v36/minimax-h3-lossless-9436dcf3-dispatch.json",
+    "preview": "full-model-results-v36/minimax-h3-lossless-9436dcf3-media-audit/minimax-h3-lossless-9436dcf3-r1-b1/comparison.png",
+    "video_preview": "full-model-results-v36/minimax-h3-lossless-9436dcf3-media-audit/minimax-h3-lossless-9436dcf3-r1-b1/comparison.gif",
+    "visual_inspection": "Viewed authentic frames0/35/70/106: matching wooden boat on a lake at sunrise.",
+    "actual_changed_branch_evidence": "The separate device profile contains indexed scale/shift, indexed gate, shared QKNorm/RoPE and optimized Ulysses QKV packing. All eight complete MP4 files, including encoded audio streams, are byte-identical. This9436 snapshot predates newly integrated scaled-residual and pending USP changes; final-source validation remains necessary.",
+    "instrumentation_limitations": "No capture installation error records.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/minimax-h3-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "OpenVDN/vdn-minimax-h3",
+    "model_key": "vdn-h3",
+    "quality": "lossless",
+    "candidate_commit": "620955f604199168eff2abdc8f8c198061fe2cec",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 16.86,
+          "candidate": 16.325,
+          "reduction_pct": 3.173190984578886
+        },
+        "worker_e2e_s": {
+          "baseline": 16.143783123930916,
+          "candidate": 15.636427991557866,
+          "reduction_pct": 3.1427276275841836
+        },
+        "denoise_s": {
+          "baseline": 13.286323242122307,
+          "candidate": 13.018328851088881,
+          "reduction_pct": 2.0170696297963735
+        },
+        "decode_s": {
+          "baseline": 1.9709833965171129,
+          "candidate": 1.9612216085661203,
+          "reduction_pct": 0.49527499664596125
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 16.39,
+          "candidate": 16.365000000000002,
+          "reduction_pct": 0.15253203172665392
+        },
+        "worker_e2e_s": {
+          "baseline": 15.694374951068312,
+          "candidate": 15.66686180070974,
+          "reduction_pct": 0.1753058050693493
+        },
+        "denoise_s": {
+          "baseline": 13.093968051951379,
+          "candidate": 13.045293119037524,
+          "reduction_pct": 0.3717355405231858
+        },
+        "decode_s": {
+          "baseline": 1.9601231631822884,
+          "candidate": 1.9685086815152317,
+          "reduction_pct": -0.42780568540036584
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      3.173190984578886,
+      0.15253203172665392
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "OpenVDN/vdn-minimax-h3",
+      "revision": "50744d80bde8c1adbc5f37089f125e0e436bf7b0",
+      "seed": 42,
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "media_extension": "mp4",
+      "native_cache_root": "${KDA_ROOT}/model-cache/vdn-h3-native/materialized",
+      "cli_config": {
+        "backend": "sglang",
+        "num_gpus": 4,
+        "tp_size": 1,
+        "ulysses_degree": 4,
+        "encoder_parallel": "auto",
+        "performance_mode": "manual",
+        "enable_torch_compile": false,
+        "dit_cpu_offload": false,
+        "dit_layerwise_offload": false,
+        "vae_cpu_offload": false,
+        "text_encoder_cpu_offload": false,
+        "quality": "lossless",
+        "warmup_mode": "off",
+        "seed": 42,
+        "save_output": true,
+        "output_file_name": "sample",
+        "model_path": "OpenVDN/vdn-minimax-h3",
+        "revision": "50744d80bde8c1adbc5f37089f125e0e436bf7b0",
+        "attention_backend": "hybrid_window_attn_h3",
+        "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+        "task": "t2va",
+        "conditions": [],
+        "target": {
+          "short_edge": 768,
+          "aspect_ratio": "16:9",
+          "duration_seconds": 5.0
+        },
+        "num_inference_steps": 9,
+        "flow_shift": 12.0,
+        "audio_flow_shift": 3.0,
+        "pipeline_class_name": "VDNH3Pipeline"
+      },
+      "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/OpenVDN--vdn-minimax-h3/models--OpenVDN--vdn-minimax-h3/snapshots/50744d80bde8c1adbc5f37089f125e0e436bf7b0",
+      "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/OpenVDN--vdn-minimax-h3"
+    },
+    "request_summary": "1344×768,124 frames;9 schedule points,8 actual updates;4 H200,Ulysses4,warmup off",
+    "recorded_denoise_step_counts": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "abba": "full-model-results-v44/vdn-h3-lossless-620955f6-abba.json",
+    "media_audit": "full-model-results-v44/vdn-h3-lossless-620955f6-media-audit/evidence.json",
+    "device_proof": "full-model-results-v44/vdn-h3-lossless-620955f6-dispatch.json",
+    "preview": "full-model-results-v44/vdn-h3-lossless-620955f6-media-audit/vdn-h3-lossless-620955f6-r1-b1/comparison.png",
+    "video_preview": "full-model-results-v44/vdn-h3-lossless-620955f6-media-audit/vdn-h3-lossless-620955f6-r1-b1/comparison.gif",
+    "visual_inspection": "Viewed matching open wooden motorboat at frames0/41/82/123.",
+    "actual_changed_branch_evidence": "Device trace observes the new USP streaming merge-heads kernel with vec8, plus VDN factors/gather and indexed modulation. Profile event counts are not per-request invocation claims.",
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "instrumentation_records": [],
+    "public_directory": "models/vdn-h3-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "Lightricks/LTX-2",
+    "model_key": "ltx2",
+    "quality": "lossless",
+    "candidate_commit": "620955f604199168eff2abdc8f8c198061fe2cec",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 24.134999999999998,
+          "candidate": 22.759999999999998,
+          "reduction_pct": 5.697120364615704
+        },
+        "worker_e2e_s": {
+          "baseline": 22.29884069156833,
+          "candidate": 21.866446162573993,
+          "reduction_pct": 1.9390897265696614
+        },
+        "denoise_s": {
+          "baseline": 20.778205254347995,
+          "candidate": 20.79068931331858,
+          "reduction_pct": -0.0600824701545052
+        },
+        "decode_s": {
+          "baseline": 1.4130489823874086,
+          "candidate": 0.967429275624454,
+          "reduction_pct": 31.53604102315409
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 22.71,
+          "candidate": 22.725,
+          "reduction_pct": -0.06605019815059696
+        },
+        "worker_e2e_s": {
+          "baseline": 21.813888045027852,
+          "candidate": 21.81315787648782,
+          "reduction_pct": 0.0033472645432282245
+        },
+        "denoise_s": {
+          "baseline": 20.761160011636093,
+          "candidate": 20.770130067132413,
+          "reduction_pct": -0.04320594557959499
+        },
+        "decode_s": {
+          "baseline": 0.9450519850943238,
+          "candidate": 0.9358480221126229,
+          "reduction_pct": 0.9739107611929166
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      5.697120364615704,
+      -0.06605019815059696
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "model": "Lightricks/LTX-2",
+      "revision": "47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+      "prompt": "A beautiful sunset over the ocean",
+      "width": 768,
+      "height": 512,
+      "frames": 121,
+      "steps": 30,
+      "guidance": 3,
+      "seed": 42,
+      "fps": 24,
+      "extra_args": [
+        "--pipeline-class-name=LTX2Pipeline"
+      ],
+      "local_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+      "cli_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub/models--Lightricks--LTX-2/snapshots/47da56e2ad66ce4125a9922b4a8826bf407f9d0a",
+      "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/hub",
+      "native_cache_root": "${KDA_ROOT}/validation/model-cache/remaining-v44-ltx2/native-cache"
+    },
+    "request_summary": "768×512,121 frames,30 steps,seed42,CFG3,24fps; symmetric deterministic audio decode",
+    "recorded_denoise_step_counts": [
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30,
+      30
+    ],
+    "abba": "full-model-results-v45-ltx/ltx2-lossless-620955f6-abba.json",
+    "media_audit": "full-model-results-v45-ltx/ltx2-lossless-620955f6-media-audit/evidence.json",
+    "device_proof": "full-model-results-v45-ltx/ltx2-lossless-620955f6-dispatch.json",
+    "preview": "full-model-results-v45-ltx/ltx2-lossless-620955f6-media-audit/ltx2-lossless-620955f6-r1-b1/comparison.png",
+    "video_preview": "full-model-results-v45-ltx/ltx2-lossless-620955f6-media-audit/ltx2-lossless-620955f6-r1-b1/comparison.gif",
+    "visual_inspection": "Viewed actual matching ocean sunset frames0/40/80/120.",
+    "actual_changed_branch_evidence": "Device trace observes the changed flat scale/shift kernel. Three unrelated SLA capture-install errors are retained; they do not establish SLA use or missing LTX device evidence. Profile event counts are not per-request invocation claims.",
+    "instrumentation_records": [
+      {
+        "file": "install-428249.jsonl",
+        "record": {
+          "module": "sglang.kernels.ops.diffusion.attention.sparse_linear_attn_triton",
+          "error": "ModuleNotFoundError(\"No module named 'raw_launch_capture'\")"
+        }
+      },
+      {
+        "file": "install-428202.jsonl",
+        "record": {
+          "module": "sglang.kernels.ops.diffusion.attention.sparse_linear_attn_triton",
+          "error": "ModuleNotFoundError(\"No module named 'raw_launch_capture'\")"
+        }
+      },
+      {
+        "file": "install-428248.jsonl",
+        "record": {
+          "module": "sglang.kernels.ops.diffusion.attention.sparse_linear_attn_triton",
+          "error": "ModuleNotFoundError(\"No module named 'raw_launch_capture'\")"
+        }
+      }
+    ],
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {
+      "validation_repro_source_sha256": "5e0b9920624b2ee636b6850fe31e67309ac19b61100b153c73243db631d21ad4"
+    },
+    "public_directory": "models/ltx2-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  },
+  {
+    "model": "robbyant/lingbot-video-moe-30b-a3b",
+    "model_key": "lingbot-video-moe",
+    "quality": "lossless",
+    "candidate_commit": "620955f604199168eff2abdc8f8c198061fe2cec",
+    "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+    "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+    "groups": {
+      "1": {
+        "client_saved_e2e_s": {
+          "baseline": 57.485,
+          "candidate": 57.370000000000005,
+          "reduction_pct": 0.2000521875271721
+        },
+        "worker_e2e_s": {
+          "baseline": 57.3063450162299,
+          "candidate": 57.195324897998944,
+          "reduction_pct": 0.19373093537811822
+        },
+        "denoise_s": {
+          "baseline": 55.84390945988707,
+          "candidate": 55.74322636448778,
+          "reduction_pct": 0.18029378024046014
+        },
+        "decode_s": {
+          "baseline": 0.9354144250974059,
+          "candidate": 0.9046800239011645,
+          "reduction_pct": 3.285645417862886
+        }
+      },
+      "2": {
+        "client_saved_e2e_s": {
+          "baseline": 57.455,
+          "candidate": 57.31,
+          "reduction_pct": 0.2523714211121678
+        },
+        "worker_e2e_s": {
+          "baseline": 57.28340609394945,
+          "candidate": 57.143848459934816,
+          "reduction_pct": 0.24362663383834124
+        },
+        "denoise_s": {
+          "baseline": 55.82348543195985,
+          "candidate": 55.719006936997175,
+          "reduction_pct": 0.18715867372706493
+        },
+        "decode_s": {
+          "baseline": 0.9360937410965562,
+          "candidate": 0.904892569873482,
+          "reduction_pct": 3.3331246490895894
+        }
+      }
+    },
+    "saved_request_reduction_pct": [
+      0.2000521875271721,
+      0.2523714211121678
+    ],
+    "significant_speedup": false,
+    "all_eight_outputs_byte_and_pixel_exact": true,
+    "request": {
+      "seed": 42,
+      "steps": 40,
+      "frames": 81,
+      "width": 480,
+      "height": 480,
+      "guidance": 6.0,
+      "prompt": "{\"comprehensive_description\":{\"scene_content_description\":\"A small silver robot arm on a white table slowly reaches toward a red cube. The background is a plain, softly lit laboratory wall.\",\"camera_movement_description\":\"The camera is static at eye level, medium shot, with the robot arm centered and in sharp focus.\"},\"camera_info\":{\"color\":\"Neutral\",\"frame_size\":\"Medium\",\"shot_type_angle\":\"Eye level\",\"lens_size\":\"Medium\",\"composition\":\"Center\",\"lighting\":\"Soft light\",\"lighting_type\":\"Artificial light\"},\"world_knowledge\":[],\"prominent_elements\":[{\"name\":\"robot arm\",\"description\":\"A small silver robot arm with a two-finger gripper.\",\"actions\":[{\"timestamp\":\"[0.0s - 1.0s]\",\"action\":\"reaches toward the red cube\"}],\"location\":\"center of the frame\",\"relative_size\":\"dominant\",\"shape_and_color\":\"articulated silver metal arm\",\"texture\":\"brushed metal\",\"appearance_details\":\"two-finger gripper, visible joints\",\"relationship\":\"reaching toward the red cube on the table\",\"orientation\":\"upright, base on the table\",\"pose\":\"reaching\",\"expression\":\"\",\"clothing\":\"\",\"gender\":\"\",\"skin_tone_and_texture\":\"\"}]}",
+      "model": "robbyant/lingbot-video-moe-30b-a3b",
+      "revision": "f2e538f64afe00cc4ae674db2aeb52e2945edfd5",
+      "fps": 16,
+      "extra_args": [
+        "--text-encoder-cpu-offload=true"
+      ],
+      "local_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/hub/models--robbyant--lingbot-video-moe-30b-a3b/snapshots/f2e538f64afe00cc4ae674db2aeb52e2945edfd5",
+      "cli_model_path": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/hub/models--robbyant--lingbot-video-moe-30b-a3b/snapshots/f2e538f64afe00cc4ae674db2aeb52e2945edfd5",
+      "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/hub",
+      "native_cache_root": "${KDA_ROOT}/validation/model-cache/remaining-v44-lingbot-video-moe/native-cache"
+    },
+    "request_summary": "480×480,81 frames,40 steps,seed42,CFG6,16fps; original structured caption",
+    "recorded_denoise_step_counts": [
+      40,
+      40,
+      40,
+      40,
+      40,
+      40,
+      40,
+      40
+    ],
+    "abba": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-abba.json",
+    "media_audit": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-media-audit/evidence.json",
+    "device_proof": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-dispatch.json",
+    "preview": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-media-audit/lingbot-video-moe-lossless-620955f6-r1-b1/comparison.png",
+    "video_preview": "full-model-results-v45-remaining/lingbot-video-moe-lossless-620955f6-media-audit/lingbot-video-moe-lossless-620955f6-r1-b1/comparison.gif",
+    "visual_inspection": "Viewed matching robot-arm/red-cube scene at frames0/26/53/80.",
+    "actual_changed_branch_evidence": "Device trace observes group-limited TopK and both changed norm-SiLU post branches. Profile event counts are not per-request invocation claims.",
+    "instrumentation_records": [],
+    "source_manifests_stable": true,
+    "runtime_versions_stable": true,
+    "validation_conditions": {},
+    "public_directory": "models/lingbot-video-moe-lossless",
+    "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+  "model_key": "sana-video",
+  "quality": "high",
+  "candidate_commit": "3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot and disclosed request conditions; final publication-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 36.445,
+        "candidate": 35.505,
+        "reduction_pct": 2.5792289751680553
+      },
+      "worker_e2e_s": {
+        "baseline": 36.11335047218017,
+        "candidate": 35.17532532918267,
+        "reduction_pct": 2.5974470126224056
+      },
+      "denoise_s": {
+        "baseline": 33.40545608033426,
+        "candidate": 32.520976731553674,
+        "reduction_pct": 2.6477092444227366
+      },
+      "decode_s": {
+        "baseline": 2.3608487867750227,
+        "candidate": 2.312917910516262,
+        "reduction_pct": 2.0302391464993166
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 36.595,
+        "candidate": 35.495,
+        "reduction_pct": 3.005875119551855
+      },
+      "worker_e2e_s": {
+        "baseline": 36.09581341757439,
+        "candidate": 35.16267342399806,
+        "reduction_pct": 2.585175135912034
+      },
+      "denoise_s": {
+        "baseline": 33.386438362067565,
+        "candidate": 32.511939119547606,
+        "reduction_pct": 2.619324748079548
+      },
+      "decode_s": {
+        "baseline": 2.361474644392729,
+        "candidate": 2.3120666809845716,
+        "reduction_pct": 2.0922504302756493
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    2.5792289751680553,
+    3.005875119551855
+  ],
+  "significant_speedup": true,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "prompt": "A curious raccoon walks through a sunlit forest. motion score: 30.",
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "steps": 50,
+    "guidance": 6,
+    "seed": 42,
+    "fps": 16,
+    "local_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1",
+    "hf_hub_cache": "${KDA_ROOT}/model-cache/sana-video-native",
+    "extra_args": [
+      "--pipeline-class-name=SanaVideoPipeline"
+    ],
+    "cli_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1"
+  },
+  "abba": "full-model-results-v43-sana/sana-video-high-3bae5dde-abba.json",
+  "media_audit": "full-model-results-v43-sana/sana-video-high-3bae5dde-media-audit/evidence.json",
+  "device_proof": "full-model-results-v43-sana/sana-video-high-3bae5dde-dispatch.json",
+  "preview": "full-model-results-v43-sana/sana-video-high-3bae5dde-media-audit/sana-video-high-3bae5dde-r1-b1/comparison.png",
+  "visual_inspection": "Matching raccoon walking through a sunlit forest; inspected frames0/26/53/80.",
+  "actual_changed_branch_evidence": "The separate device trace observes the vectorized FP64 interleaved RoPE branch as well as existing convolution postprocessing. Trace counts are not per-request invocation claims.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "recorded_denoise_step_counts": [
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50,
+    50
+  ],
+  "request_summary": "832×480,81 frames,50 steps,seed42,CFG6,16fps",
+  "video_preview": "full-model-results-v43-sana/sana-video-high-3bae5dde-media-audit/sana-video-high-3bae5dde-r1-b1/comparison.gif",
+  "public_directory": "models/sana-video-high",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

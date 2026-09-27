@@ -1,0 +1,91 @@
+{
+  "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+  "request": {
+    "model": "Efficient-Large-Model/SANA-WM_bidirectional",
+    "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+    "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+    "seed": 42,
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "request",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+      "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+      "pipeline_class_name": "SanaWMPipeline",
+      "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+      "negative_prompt": "",
+      "height": 704,
+      "width": 1280,
+      "num_frames": 49,
+      "fps": 16,
+      "num_inference_steps": 20,
+      "guidance_scale": 4.5,
+      "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+      "warmup_resolutions": [
+        "1280x704"
+      ],
+      "warmup_num_frames": 49
+    },
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/sana-wm/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache",
+    "media_extension": "mp4"
+  },
+  "diagnostic_only": true,
+  "profile_timing_not_used": true,
+  "trace": "${KDA_ROOT}/consolidated/full-model-results-v26/sana-wm-eeef3e32-device-capture/traces/809284bf-9a4d-425b-9d20-e504cdbef72d-full_stages-global-rank0.trace.json.gz",
+  "trace_sha256": "1771491015238375cd43cd2e5e1126ef784189bd9daf2cbe2ee359608a8761c3",
+  "kernel_counts": {
+    "_fused_qk_inv_rms_kernel": 300,
+    "_phase_a_z_kernel": 300,
+    "_phase_a_kv_kernel": 600,
+    "_phase_b_dtile_kernel": 600,
+    "_phase_c_kernel": 600,
+    "_epilogue_div_kernel": 300,
+    "_bias_silu_nchw_kernel": 400,
+    "_bias_glu_kernel": 400
+  },
+  "actual_private_epilogue_observed": true,
+  "facade_records": 330,
+  "facade_shapes": [
+    [
+      2,
+      6160,
+      3,
+      20,
+      112
+    ]
+  ],
+  "source_files_sha256": "59b9b9f6ca129fd9263289e218d176fdacab527e335e9156e5f378aa188a17cd",
+  "time": 1790459868.6600602,
+  "facade_eps": [
+    1e-08
+  ],
+  "callable_counts_including_warmup": {
+    "sglang.kernels.ops.diffusion.attention.sana_wm_gdn_triton.fused_qk_inv_rms": 330,
+    "sglang.kernels.ops.diffusion.attention.sana_wm_gdn_triton.prepare_rope_tables": 15,
+    "sglang.kernels.ops.diffusion.attention.sana_wm_gdn_triton.fused_bigdn_func": 330,
+    "sglang.kernels.ops.diffusion.attention.sana_wm_gdn_chunkwise_triton.cam_scan_bidi_chunkwise": 330,
+    "sglang.kernels.ops.diffusion.activation.sana_conv_post_triton.fused_bias_silu": 440,
+    "sglang.kernels.ops.diffusion.activation.sana_conv_post_triton.fused_bias_glu": 440
+  },
+  "count_scope": "Device counts are from the full 20-step profiled request; callable capture includes synthetic warmup. 330 BiGDN calls comprise30warmup and300profiled request calls;440bias-SiLU calls comprise40warmup and400profiled request calls.",
+  "modified_families_with_device_execution": [
+    "sana_conv_post",
+    "sanawm_qk_inv_rms",
+    "sanawm_bigdn"
+  ],
+  "unchanged_context": "The GLU and shared camera/state scan paths remain original. Their observations do not count as modified device branches."
+}

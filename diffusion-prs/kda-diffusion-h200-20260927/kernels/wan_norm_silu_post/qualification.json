@@ -1,0 +1,43 @@
+{
+  "family": "wan_norm_silu_post",
+  "path": "python/sglang/kernels/ops/diffusion/norm/wan_norm_silu_post.py",
+  "source_sha256": "f57cf972c34a4f56e9489db58af5fb2c969ef5c35123778a1623da8da8e80312",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/elementwise/wan_norm_silu_post.cuh": "dd8192366fa67318c346ec86e0896f60cea8ab7a2c3089a0314252af37127dd4"
+  },
+  "tested_commit": "6bb4fa5d629f43908ce6abfd3ee8115a0a5d9c2d",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 19,
+      "geomean": 1.1672694468489544,
+      "native_geomean": 1.2061809932064267,
+      "worst": 0.9397916666666666
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 19,
+      "geomean": 1.166883313841837,
+      "native_geomean": 1.2047890646162995,
+      "worst": 0.9466666666666668
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 19,
+      "geomean": 1.1656055632775102,
+      "native_geomean": 1.2053885391443746,
+      "worst": 0.9275512316290622
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v17/wan_norm_silu_post",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-diffusion-combined/python/sglang/kernels/jit/csrc/elementwise/wan_norm_silu_post.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v17/wan_norm_silu_post/isolated_wan_norm_silu_post.cuh",
+      "namespace": "kda_independent_wan_norm_silu_post",
+      "isolated_sha256": "55cce127d72ebc3077158c9d69462fcef51913bb42c187d43206bf6f4803ac5c",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ]
+}

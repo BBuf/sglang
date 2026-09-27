@@ -1,0 +1,82 @@
+{
+  "model": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_key": "flux2-klein",
+  "quality": "high",
+  "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; final published-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 6.385,
+        "candidate": 6.37,
+        "reduction_pct": 0.23492560689114614
+      },
+      "worker_e2e_s": {
+        "baseline": 6.198680283967406,
+        "candidate": 6.186792597873136,
+        "reduction_pct": 0.19177769379421128
+      },
+      "denoise_s": {
+        "baseline": 6.022325747646391,
+        "candidate": 6.009534538490698,
+        "reduction_pct": 0.21239650081519806
+      },
+      "decode_s": {
+        "baseline": 0.14085335610434413,
+        "candidate": 0.14153809007257223,
+        "reduction_pct": -0.4861325190724252
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 6.38,
+        "candidate": 6.375,
+        "reduction_pct": 0.07836990595611118
+      },
+      "worker_e2e_s": {
+        "baseline": 6.196671098470688,
+        "candidate": 6.186776219401509,
+        "reduction_pct": 0.15968055931871727
+      },
+      "denoise_s": {
+        "baseline": 6.017715584021062,
+        "candidate": 6.006430528592318,
+        "reduction_pct": 0.18753055492866352
+      },
+      "decode_s": {
+        "baseline": 0.1418460386339575,
+        "candidate": 0.14374420791864395,
+        "reduction_pct": -1.3381898451071939
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.23492560689114614,
+    0.07836990595611118
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "black-forest-labs/FLUX.2-klein-base-4B",
+    "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "prompt": "A futuristic cyberpunk city at night, neon lights reflecting on wet streets",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "steps": 50,
+    "guidance": 4,
+    "seed": 42
+  },
+  "abba": "full-model-results-v29/flux2-klein-high-eeef3e32-abba.json",
+  "media_audit": "full-model-results-v29/flux2-klein-high-eeef3e32-media-audit/evidence.json",
+  "device_proof": "full-model-results-v29/flux2-klein-high-eeef3e32-dispatch.json",
+  "preview": "full-model-results-v29/flux2-klein-high-eeef3e32-media-audit/flux2-klein-high-eeef3e32-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic before/after PNGs in both qualities: identical neon city street and wet-road reflections.",
+  "actual_changed_branch_evidence": "Modified LayerNorm cached/pipe paths observed 3000/1000 times; residual row/flat paths 3000/1000; shared QKNorm/RoPE 1000. One-pass RMS and packed SiLU are unchanged in this source. High quality additionally executes the changed GroupNorm static statistics kernel 18 times.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "public_directory": "models/flux2-klein-high",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

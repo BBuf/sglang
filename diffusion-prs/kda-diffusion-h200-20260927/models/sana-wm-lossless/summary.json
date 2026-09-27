@@ -1,0 +1,113 @@
+{
+  "model": "Efficient-Large-Model/SANA-WM_bidirectional",
+  "model_key": "sana-wm",
+  "quality": "lossless",
+  "candidate_commit": "eeef3e32fa67177ea2b8fb49ee5777d0d4e1e080",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; verify executed source before final publication",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 9.76,
+        "candidate": 9.684999999999999,
+        "reduction_pct": 0.7684426229508307
+      },
+      "worker_e2e_s": {
+        "baseline": 9.383907324168831,
+        "candidate": 9.295255932491273,
+        "reduction_pct": 0.944717254924623
+      },
+      "denoise_s": {
+        "baseline": 8.927954072831199,
+        "candidate": 8.839091697707772,
+        "reduction_pct": 0.9953274221452914
+      },
+      "decode_s": {
+        "baseline": 0.29225585982203484,
+        "candidate": 0.2934437869116664,
+        "reduction_pct": -0.40646818522473055
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 9.77,
+        "candidate": 9.705,
+        "reduction_pct": 0.6653019447287565
+      },
+      "worker_e2e_s": {
+        "baseline": 9.389938484644517,
+        "candidate": 9.301178717054427,
+        "reduction_pct": 0.9452646333651767
+      },
+      "denoise_s": {
+        "baseline": 8.931511134142056,
+        "candidate": 8.846984390402213,
+        "reduction_pct": 0.9463879344753551
+      },
+      "decode_s": {
+        "baseline": 0.2928572059608996,
+        "candidate": 0.2929718289524317,
+        "reduction_pct": -0.03913954965048429
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.7684426229508307,
+    0.6653019447287565
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "frames_per_video": 49,
+  "request": {
+    "model": "Efficient-Large-Model/SANA-WM_bidirectional",
+    "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+    "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+    "seed": 42,
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "request",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+      "revision": "e96271d77398def8ebb9fc595e7c0056dc625ab7",
+      "pipeline_class_name": "SanaWMPipeline",
+      "prompt": "A slow cinematic camera move through the neon city, with light snowfall drifting between the buildings.",
+      "negative_prompt": "",
+      "height": 704,
+      "width": 1280,
+      "num_frames": 49,
+      "fps": 16,
+      "num_inference_steps": 20,
+      "guidance_scale": 4.5,
+      "image_path": "${KDA_ROOT}/validation/artifacts/zimage-high-baseline-control-1/sample.png",
+      "warmup_resolutions": [
+        "1280x704"
+      ],
+      "warmup_num_frames": 49
+    },
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache/materialized_models/Efficient-Large-Model__SANA-WM_bidirectional-52a6a685c34c85a4",
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/sana-wm/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/sana-wm/native-cache",
+    "media_extension": "mp4"
+  },
+  "abba": "full-model-results-v26/sana-wm-eeef3e32-abba.json",
+  "media_audit": "full-model-results-v26/sana-wm-eeef3e32-media-audit/evidence.json",
+  "device_proof": "sana-wm-device-proof-v29.json",
+  "preview": "full-model-results-v26/sana-wm-eeef3e32-media-audit/sana-wm-eeef3e32-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v26/sana-wm-eeef3e32-media-audit/sana-wm-eeef3e32-r1-b1/comparison.gif",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "public_directory": "models/sana-wm-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

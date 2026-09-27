@@ -1,0 +1,45 @@
+{
+  "family": "vdn_delta_factors",
+  "path": "python/sglang/kernels/ops/diffusion/attention/vdn_delta_factors_jit.py",
+  "source_sha256": "6d61b061126258833f8ffafb62c7cfc1a049dcad87346d355363ff03ba91dac2",
+  "dependent_sources_sha256": {
+    "python/sglang/kernels/jit/csrc/diffusion/vdn_delta_factors.cuh": "ef97c85efc924c83955afe5dd69266fa647fdae9f3a72920e52a56d42d056221"
+  },
+  "tested_commit": "7a69cc734dec008a556731ba49ebb2205247ba45",
+  "same_module_bytes_in_current_tree": true,
+  "results": [
+    {
+      "repeat": "repeat-1",
+      "cases": 3,
+      "geomean": 1.0039688993716709,
+      "native_geomean": 1.0096503150086373,
+      "worst": 1.0009515032554577
+    },
+    {
+      "repeat": "repeat-2",
+      "cases": 3,
+      "geomean": 1.0043924730437763,
+      "native_geomean": 1.0097442143727162,
+      "worst": 1.0015491866769946
+    },
+    {
+      "repeat": "repeat-3",
+      "cases": 3,
+      "geomean": 1.0046565885443195,
+      "native_geomean": 1.0096473740349452,
+      "worst": 1.0011466940927523
+    }
+  ],
+  "evidence_directory": "consolidated/kernel-validation-v39/vdn_delta_factors",
+  "cpp_namespace_isolation": [
+    {
+      "original": "${KDA_ROOT}/pr-vdn-delta-v39/python/sglang/kernels/jit/csrc/diffusion/vdn_delta_factors.cuh",
+      "isolated": "${KDA_ROOT}/consolidated/kernel-validation-v39/vdn_delta_factors/isolated_vdn_delta_factors.cuh",
+      "namespace": "kda_independent_vdn_delta_factors",
+      "isolated_sha256": "e15047e76462389fe40455c848ee2c6008af0f364a43c6c3e3bd46181a93c45b",
+      "transform": "Add one nested namespace inside sglang; kernel and host statements unchanged"
+    }
+  ],
+  "frozen_submission": "616029bbe56b453c",
+  "validation_note": "Original-budget616029bbe56b453c;13 unchanged tests,27 sealed-source records and38 production stream/Graph/two-device/fullgraph/concurrent-host records pass. Suite gain is about0.4%, captured native about1%; no model speed claim."
+}

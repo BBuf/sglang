@@ -1,0 +1,88 @@
+{
+  "model": "black-forest-labs/FLUX.2-dev",
+  "model_key": "flux2-fp8",
+  "quality": "lossless",
+  "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; final published-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 15.600000000000001,
+        "candidate": 15.55,
+        "reduction_pct": 0.32051282051282504
+      },
+      "worker_e2e_s": {
+        "baseline": 15.287821989040822,
+        "candidate": 15.270109353819862,
+        "reduction_pct": 0.11586107709559415
+      },
+      "denoise_s": {
+        "baseline": 15.145176665857434,
+        "candidate": 15.127018198603764,
+        "reduction_pct": 0.11989604119049783
+      },
+      "decode_s": {
+        "baseline": 0.09331843466497958,
+        "candidate": 0.09379874519072473,
+        "reduction_pct": -0.5147005813690569
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 15.49,
+        "candidate": 15.47,
+        "reduction_pct": 0.12911555842478745
+      },
+      "worker_e2e_s": {
+        "baseline": 15.300737302517518,
+        "candidate": 15.276738648535684,
+        "reduction_pct": 0.15684638921214608
+      },
+      "denoise_s": {
+        "baseline": 15.155951925553381,
+        "candidate": 15.134136201813817,
+        "reduction_pct": 0.14394162667395682
+      },
+      "decode_s": {
+        "baseline": 0.09528259607031941,
+        "candidate": 0.0930429098661989,
+        "reduction_pct": 2.350572188931133
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.32051282051282504,
+    0.12911555842478745
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "black-forest-labs/FLUX.2-dev",
+    "revision": "26afe3a78bb242c0a8bb181dcc8937bb16e5c66c",
+    "prompt": "A raccoon wearing a small red scarf, standing beside a wooden cabin in a snowy forest.",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "steps": 50,
+    "guidance": 4.0,
+    "seed": 42,
+    "extra_args": [
+      "--pipeline-class-name=Flux2Pipeline",
+      "--transformer-path=${MODEL_CACHE}/models--lmsys--flux2-dev-modelopt-fp8-sglang-transformer/snapshots/9d0935766ff7b2709e072e32f8062ff034ff929f"
+    ],
+    "transformer_revision": "9d0935766ff7b2709e072e32f8062ff034ff929f",
+    "media_extension": "png"
+  },
+  "abba": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-abba.json",
+  "media_audit": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-media-audit/evidence.json",
+  "device_proof": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-dispatch.json",
+  "preview": "full-model-results-v30/flux2-fp8-lossless-da15e6fa-media-audit/flux2-fp8-lossless-da15e6fa-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic before/after PNGs: identical red-scarf raccoon beside a snow-covered wooden cabin.",
+  "actual_changed_branch_evidence": "Dedicated modified FP8 LayerNorm4000 launches with eight-warps/block256; modified residual flat4000 and shared QKNorm/RoPE800. One-pass RMS and packed SiLU remain unchanged.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {},
+  "public_directory": "models/flux2-fp8-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

@@ -1,0 +1,95 @@
+{
+  "model": "BestWishYsh/Helios-Distilled",
+  "model_key": "helios-distilled",
+  "quality": "lossless",
+  "candidate_commit": "da15e6faea2ccdc474b8bafc202e27061bdd7bc4",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "status": "complete for immutable snapshot; final published-source check pending",
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 48.175,
+        "candidate": 48.144999999999996,
+        "reduction_pct": 0.06227296315516583
+      },
+      "worker_e2e_s": {
+        "baseline": 47.92698218091391,
+        "candidate": 47.74754149350338,
+        "reduction_pct": 0.3744043109853734
+      },
+      "denoise_s": {
+        "baseline": 45.818131756270304,
+        "candidate": 45.692304459633306,
+        "reduction_pct": 0.27462336811622384
+      },
+      "decode_s": {
+        "baseline": 1.8012407766655087,
+        "candidate": 1.7532399853225797,
+        "reduction_pct": 2.6648736784534153
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 48.120000000000005,
+        "candidate": 47.995000000000005,
+        "reduction_pct": 0.25976724854530336
+      },
+      "worker_e2e_s": {
+        "baseline": 47.872131783282384,
+        "candidate": 47.74673856678419,
+        "reduction_pct": 0.2619336382717454
+      },
+      "denoise_s": {
+        "baseline": 45.76344970311038,
+        "candidate": 45.688637061510235,
+        "reduction_pct": 0.16347684032889273
+      },
+      "decode_s": {
+        "baseline": 1.8003946284297854,
+        "candidate": 1.7554627456702292,
+        "reduction_pct": 2.4956685634384237
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    0.06227296315516583,
+    0.25976724854530336
+  ],
+  "significant_speedup": false,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "request": {
+    "model": "BestWishYsh/Helios-Distilled",
+    "revision": "b991c0379a018f4de3227d95468237f56066f5bb",
+    "local_model_path": "${KDA_ROOT}/model-cache/remaining-native/BestWishYsh--Helios-Distilled/models--BestWishYsh--Helios-Distilled/snapshots/b991c0379a018f4de3227d95468237f56066f5bb",
+    "hf_hub_cache": "${KDA_ROOT}/model-cache/remaining-native/BestWishYsh--Helios-Distilled",
+    "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise.",
+    "width": 640,
+    "height": 384,
+    "frames": 99,
+    "steps": 10,
+    "guidance": 1.0,
+    "fps": 24,
+    "seed": 42,
+    "media_extension": "mp4",
+    "extra_args": [
+      "--pipeline-class-name=HeliosPyramidPipeline",
+      "--model-id=BestWishYsh/Helios-Distilled"
+    ],
+    "cli_model_path": "${KDA_ROOT}/model-cache/remaining-native/BestWishYsh--Helios-Distilled/models--BestWishYsh--Helios-Distilled/snapshots/b991c0379a018f4de3227d95468237f56066f5bb",
+    "helios_cpu_repro": true
+  },
+  "abba": "full-model-results-v31/helios-distilled-lossless-da15e6fa-abba.json",
+  "media_audit": "full-model-results-v31/helios-distilled-lossless-da15e6fa-media-audit/evidence.json",
+  "device_proof": "full-model-results-v31/helios-distilled-lossless-da15e6fa-dispatch.json",
+  "preview": "full-model-results-v31/helios-distilled-lossless-da15e6fa-media-audit/helios-distilled-lossless-da15e6fa-r1-b1/comparison.png",
+  "visual_inspection": "Viewed authentic baseline/candidate contact sheets at frames0,32,65,98: the same white boat, shoreline, ripples and reflections are present in both. Both sources already show clipped-looking bright highlights and coarse colored edges; exact equivalence is not a claim of high visual quality.",
+  "actual_changed_branch_evidence": "Modified vector Q/K RoPE4800, norm_xwb1600/norm_pinned3200, structured CUDA causal cat/pad384 and modified norm-SiLU post711. Unchanged CuTe norm also executes. Capture could not install an unrelated sparse-linear-attention diagnostic hook; raw device trace still proves these modified branches.",
+  "source_manifests_stable": true,
+  "runtime_versions_stable": true,
+  "validation_conditions": {
+    "validation_repro_source_sha256": "9d15b5eaf0ab5a2d4024e6a6d103fc2fcac14c506f71b77121175920d1e13506"
+  },
+  "validation_condition_note": "Both arms seed only the default CPU RNG from the request seed around Helios chunked denoising and restore its prior state. Two full baseline controls established reproducibility first. Original uncontrolled failures are retained. No production model/RNG code is changed.",
+  "public_directory": "models/helios-distilled-lossless",
+  "validation_scope": "This exact immutable snapshot and request; not blanket final-head model coverage."
+}

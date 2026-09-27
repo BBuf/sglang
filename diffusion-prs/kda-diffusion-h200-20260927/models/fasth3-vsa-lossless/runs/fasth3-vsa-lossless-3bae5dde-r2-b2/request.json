@@ -1,0 +1,84 @@
+{
+  "input_media": null,
+  "source_sha": "3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2",
+  "repo": "${KDA_ROOT}/consolidated/model-sources/3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2",
+  "sglang_file": "${KDA_ROOT}/consolidated/model-sources/3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2/python/sglang/__init__.py",
+  "request": {
+    "model": "FastVideo/FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree",
+    "revision": "b65818d41939b5085451074fe8ca8b799f8d4921",
+    "seed": 42,
+    "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+    "cli_config": {
+      "backend": "sglang",
+      "num_gpus": 1,
+      "tp_size": 1,
+      "ulysses_degree": 1,
+      "performance_mode": "manual",
+      "enable_torch_compile": false,
+      "dit_cpu_offload": false,
+      "dit_layerwise_offload": false,
+      "vae_cpu_offload": false,
+      "text_encoder_cpu_offload": false,
+      "quality": "lossless",
+      "warmup_mode": "off",
+      "seed": 42,
+      "save_output": true,
+      "output_file_name": "sample",
+      "model_path": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e",
+      "revision": "b65818d41939b5085451074fe8ca8b799f8d4921",
+      "layerwise_offload_components": [
+        "text_encoder"
+      ],
+      "attention_backend": "fa",
+      "attention_backend_config": "{\"VSA_sparsity\": 0.9}",
+      "prompt": "A cinematic view of a small wooden boat drifting across a calm lake at sunrise, with gentle ripples and birds calling in the distance.",
+      "task": "t2va",
+      "conditions": [],
+      "target": {
+        "short_edge": 768,
+        "aspect_ratio": "16:9",
+        "duration_seconds": 4.0
+      },
+      "num_inference_steps": 5,
+      "flow_shift": 12.0,
+      "audio_flow_shift": 3.0,
+      "pipeline_class_name": "FastH3Pipeline",
+      "component_attention_backends": {
+        "transformer": "video_sparse_attn_h3"
+      }
+    },
+    "hf_hub_cache": "${KDA_ROOT}/validation/model-cache/fasth3/hub",
+    "native_cache_root": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache",
+    "local_model_path": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e"
+  },
+  "quality": "lossless",
+  "gpu": "7",
+  "command": [
+    "sglang",
+    "generate",
+    "--backend=sglang",
+    "--model-path=${KDA_ROOT}/validation/model-cache/fasth3/native-cache/materialized_models/FastVideo__FastVideo-FastH3-4-step-Preview-v1-VSA-DataFree-f1843bcd96bf8f6e",
+    "--revision=b65818d41939b5085451074fe8ca8b799f8d4921",
+    "--config=${KDA_ROOT}/consolidated/full-model-results-v42/fasth3-vsa-lossless-3bae5dde-r2-b2/native-config.json",
+    "--output-file-path=${KDA_ROOT}/consolidated/full-model-results-v42/fasth3-vsa-lossless-3bae5dde-r2-b2/sample.mp4",
+    "--perf-dump-path=${KDA_ROOT}/consolidated/full-model-results-v42/fasth3-vsa-lossless-3bae5dde-r2-b2/perf.json"
+  ],
+  "diagnostic": false,
+  "captured": false,
+  "profiled": false,
+  "shadow_baseline": null,
+  "glm_overlap_compat": false,
+  "glm_compat_source_sha256": null,
+  "glm_compat_bootstrap_sha256": null,
+  "deterministic_audio_decode": false,
+  "validation_repro_source_sha256": null,
+  "environment": {
+    "PYTHONPATH": "${KDA_ROOT}/consolidated/model-sources/3bae5ddec651e0ecd5a9b78ffebc3fbcb3adf9d2/python",
+    "CUDA_VISIBLE_DEVICES": "7",
+    "HF_HUB_CACHE": "${KDA_ROOT}/validation/model-cache/fasth3/hub",
+    "HF_HUB_OFFLINE": "1",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "1",
+    "SGLANG_DIFFUSION_CACHE_ROOT": "${KDA_ROOT}/validation/model-cache/fasth3/native-cache"
+  }
+}
