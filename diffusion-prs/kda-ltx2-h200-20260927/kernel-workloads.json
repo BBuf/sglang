@@ -1,0 +1,542 @@
+[
+  {
+    "op": "ltx2_qknorm_split_rope_cuda",
+    "kwargs": {
+      "eps": 1e-06,
+      "num_heads": 4,
+      "head_dim": 64,
+      "q": {
+        "shape": [
+          1,
+          1,
+          256
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_weight": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_cos": {
+        "shape": [
+          1,
+          4,
+          1,
+          32
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          128,
+          32,
+          128,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "q_sin": {
+        "shape": [
+          1,
+          4,
+          1,
+          32
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          128,
+          32,
+          128,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k": {
+        "shape": [
+          1,
+          1,
+          256
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_weight": {
+        "shape": [
+          256
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_cos": {
+        "shape": [
+          1,
+          4,
+          1,
+          32
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          128,
+          32,
+          128,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k_sin": {
+        "shape": [
+          1,
+          4,
+          1,
+          32
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          128,
+          32,
+          128,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "allow_sm90": true
+    },
+    "origin": "Current source/test contract; regenerated values",
+    "id": "reopt_sm90__ltx2_qknorm_split_rope_0",
+    "function": "sglang.kernels.kda_kernels.ltx2_qknorm_split_rope_jit.ltx2_qknorm_split_rope_cuda",
+    "axes": {
+      "elements": 256
+    },
+    "size_class": "small"
+  },
+  {
+    "op": "ltx2_qknorm_split_rope_cuda",
+    "kwargs": {
+      "eps": 1e-06,
+      "num_heads": 4,
+      "head_dim": 128,
+      "q": {
+        "shape": [
+          1,
+          17,
+          512
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_weight": {
+        "shape": [
+          512
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_cos": {
+        "shape": [
+          1,
+          4,
+          17,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4352,
+          64,
+          256,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "q_sin": {
+        "shape": [
+          1,
+          4,
+          17,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4352,
+          64,
+          256,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k": {
+        "shape": [
+          1,
+          17,
+          512
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_weight": {
+        "shape": [
+          512
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_cos": {
+        "shape": [
+          1,
+          4,
+          17,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4352,
+          64,
+          256,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k_sin": {
+        "shape": [
+          1,
+          4,
+          17,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4352,
+          64,
+          256,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "allow_sm90": true
+    },
+    "origin": "Current source/test contract; regenerated values",
+    "id": "reopt_sm90__ltx2_qknorm_split_rope_1",
+    "function": "sglang.kernels.kda_kernels.ltx2_qknorm_split_rope_jit.ltx2_qknorm_split_rope_cuda",
+    "axes": {
+      "elements": 8704
+    },
+    "size_class": "small"
+  },
+  {
+    "op": "ltx2_qknorm_split_rope_cuda",
+    "kwargs": {
+      "eps": 1e-06,
+      "num_heads": 32,
+      "head_dim": 128,
+      "q": {
+        "shape": [
+          1,
+          256,
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_cos": {
+        "shape": [
+          1,
+          32,
+          256,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          524288,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "q_sin": {
+        "shape": [
+          1,
+          32,
+          256,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          524288,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k": {
+        "shape": [
+          1,
+          256,
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_cos": {
+        "shape": [
+          1,
+          32,
+          256,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          524288,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k_sin": {
+        "shape": [
+          1,
+          32,
+          256,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          524288,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "allow_sm90": true
+    },
+    "origin": "Current source/test contract; regenerated values",
+    "id": "reopt_sm90__ltx2_qknorm_split_rope_2",
+    "function": "sglang.kernels.kda_kernels.ltx2_qknorm_split_rope_jit.ltx2_qknorm_split_rope_cuda",
+    "axes": {
+      "elements": 1048576
+    },
+    "size_class": "large"
+  },
+  {
+    "op": "ltx2_qknorm_split_rope_cuda",
+    "kwargs": {
+      "eps": 1e-06,
+      "num_heads": 32,
+      "head_dim": 128,
+      "q": {
+        "shape": [
+          1,
+          2048,
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_cos": {
+        "shape": [
+          1,
+          32,
+          2048,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4194304,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "q_sin": {
+        "shape": [
+          1,
+          32,
+          2048,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4194304,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k": {
+        "shape": [
+          1,
+          2048,
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_cos": {
+        "shape": [
+          1,
+          32,
+          2048,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4194304,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k_sin": {
+        "shape": [
+          1,
+          32,
+          2048,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          4194304,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "allow_sm90": true
+    },
+    "origin": "Current source/test contract; regenerated values",
+    "id": "reopt_sm90__ltx2_qknorm_split_rope_3",
+    "function": "sglang.kernels.kda_kernels.ltx2_qknorm_split_rope_jit.ltx2_qknorm_split_rope_cuda",
+    "axes": {
+      "elements": 8388608
+    },
+    "size_class": "large"
+  },
+  {
+    "op": "ltx2_qknorm_split_rope_cuda",
+    "kwargs": {
+      "eps": 1e-06,
+      "num_heads": 32,
+      "head_dim": 128,
+      "q": {
+        "shape": [
+          1,
+          8192,
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "q_cos": {
+        "shape": [
+          1,
+          32,
+          8192,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          16777216,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "q_sin": {
+        "shape": [
+          1,
+          32,
+          8192,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          16777216,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k": {
+        "shape": [
+          1,
+          8192,
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_weight": {
+        "shape": [
+          4096
+        ],
+        "dtype": "torch.bfloat16"
+      },
+      "k_cos": {
+        "shape": [
+          1,
+          32,
+          8192,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          16777216,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "k_sin": {
+        "shape": [
+          1,
+          32,
+          8192,
+          64
+        ],
+        "dtype": "torch.bfloat16",
+        "stride": [
+          16777216,
+          64,
+          2048,
+          1
+        ],
+        "storage_offset": 0
+      },
+      "allow_sm90": true
+    },
+    "origin": "Current source/test contract; regenerated values",
+    "id": "reopt_sm90__ltx2_qknorm_split_rope_4",
+    "function": "sglang.kernels.kda_kernels.ltx2_qknorm_split_rope_jit.ltx2_qknorm_split_rope_cuda",
+    "axes": {
+      "elements": 33554432
+    },
+    "size_class": "large"
+  }
+]
