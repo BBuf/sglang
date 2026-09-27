@@ -1,0 +1,34 @@
+{
+  "task": "residual_gate_add",
+  "submission": "9ae938bc87e94373",
+  "kimi_commit": "a422e9969345fa02556c3b5940d406f9f55c45c4",
+  "source": "accepted/residual_gate_add/9ae938bc87e94373/artifact/solution/kernel.py",
+  "source_sha256": "a9e4781519dd6d36784572db05f35fc0935519f04455038c888235902498fde3",
+  "destination": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+  "copied_kernel_asts": [
+    "_round16_f32",
+    "_store16",
+    "_rga_flat",
+    "_rga_row",
+    "_rga_flat_m1",
+    "_rga_transposed"
+  ],
+  "mechanical_changes": "Rename artifact host helpers to existing public guard helpers. Keep custom-op/fake/compile boundaries, CUDA device context and original CUDA implementation. Kernel ASTs and shape dispatch unchanged from Kimi.",
+  "integration_sha256": "e5cad549150d6dc8cedfa8c0df6b4babc13c1393d30e8dae91622b166ba89534",
+  "initial_integration_validation": {
+    "three_repeat_manifest": "consolidated/kernel-validation-v8/residual_gate_add/manifest.json",
+    "existing_tests": "consolidated/existing-tests-v8-residual/result.json",
+    "correctness_all_pass": true,
+    "unchanged_tests_passed": 35,
+    "native_model_validation": "pending"
+  },
+  "validation": {
+    "candidate_commit": "76aa0c6c8db3efd275a250a4b9aa07fd13b23a5a",
+    "kernel_suite": "33 original frozen cases, three fresh processes, all ratios >= 1",
+    "sana_native_layouts": "2 captured layouts, three fresh processes, correctness and prepared-input liveness pass",
+    "unchanged_tests_passed": 35,
+    "full_model_validation": "SANA-Video lossless/high each pass two ABBA groups with >= 1.5% saved E2E reduction and all eight videos byte/pixel exact",
+    "kernel_report": "kernel-benchmarks.json",
+    "model_report": "model-benchmarks.json"
+  }
+}

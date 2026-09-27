@@ -1,0 +1,84 @@
+{
+  "model_key": "sana-video",
+  "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+  "quality": "high",
+  "candidate_commit": "76aa0c6c8db3efd275a250a4b9aa07fd13b23a5a",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "request": {
+    "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "prompt": "A curious raccoon walks through a sunlit forest. motion score: 30.",
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "steps": 50,
+    "guidance": 6,
+    "seed": 42,
+    "fps": 16,
+    "local_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1",
+    "hf_hub_cache": "${KDA_ROOT}/model-cache/sana-video-native",
+    "extra_args": [
+      "--pipeline-class-name=SanaVideoPipeline"
+    ],
+    "cli_model_path": "${KDA_ROOT}/model-cache/sana-video-native/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1"
+  },
+  "groups": {
+    "1": {
+      "client_saved_e2e_s": {
+        "baseline": 36.3,
+        "candidate": 35.67,
+        "reduction_pct": 1.7355371900826322
+      },
+      "worker_e2e_s": {
+        "baseline": 35.97678624652326,
+        "candidate": 35.35008868854493,
+        "reduction_pct": 1.7419498053106262
+      },
+      "denoise_s": {
+        "baseline": 33.27764773159288,
+        "candidate": 32.650780762778595,
+        "reduction_pct": 1.8837478353950885
+      },
+      "decode_s": {
+        "baseline": 2.3539073502179235,
+        "candidate": 2.3545068411622196,
+        "reduction_pct": -0.025467907402584092
+      }
+    },
+    "2": {
+      "client_saved_e2e_s": {
+        "baseline": 36.295,
+        "candidate": 35.7,
+        "reduction_pct": 1.6393442622950787
+      },
+      "worker_e2e_s": {
+        "baseline": 35.9701644142624,
+        "candidate": 35.37257595965639,
+        "reduction_pct": 1.6613447959917134
+      },
+      "denoise_s": {
+        "baseline": 33.2699003519956,
+        "candidate": 32.67271007806994,
+        "reduction_pct": 1.7949866624407886
+      },
+      "decode_s": {
+        "baseline": 2.355096756480634,
+        "candidate": 2.355181250721216,
+        "reduction_pct": -0.0035877184387215675
+      }
+    }
+  },
+  "saved_request_reduction_pct": [
+    1.7355371900826322,
+    1.6393442622950787
+  ],
+  "significant_speedup": true,
+  "all_eight_outputs_byte_and_pixel_exact": true,
+  "frames_per_video": 81,
+  "abba": "full-model-results-v49b-strict/sana-video-high-76aa0c6c-abba.json",
+  "media_audit": "full-model-results-v49b-strict/sana-video-high-76aa0c6c-media-audit/evidence.json",
+  "device_proof": "full-model-results-v49b-strict/sana-video-high-76aa0c6c-dispatch.json",
+  "preview": "full-model-results-v49b-strict/sana-video-high-76aa0c6c-media-audit/sana-video-high-76aa0c6c-r1-b1/comparison.png",
+  "video_preview": "full-model-results-v49b-strict/sana-video-high-76aa0c6c-media-audit/sana-video-high-76aa0c6c-r1-b1/comparison.gif",
+  "validation_scope": "This exact isolated PR head and full saved request; does not claim improvement for every model or shape."
+}

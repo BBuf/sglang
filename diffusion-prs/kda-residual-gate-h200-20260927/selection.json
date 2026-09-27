@@ -1,0 +1,209 @@
+{
+  "user_policy": "Remove entire kernel families with regressions or unclear speedup; retain only no-regression kernels with repeated material end-to-end improvement. No per-shape salvage.",
+  "e2e_gate": "Both independent ABBA groups reduce saved-request E2E by at least 1.5%; outputs exact and actual changed device branch verified.",
+  "candidate_commit": "76aa0c6c8db3efd275a250a4b9aa07fd13b23a5a",
+  "baseline_commit": "c842d32b0ab45753178c5f6420662d7812766aca",
+  "families": [
+    {
+      "family": "groupnorm_channels_last",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9857199523998413
+    },
+    {
+      "family": "h3_indexed_modulation",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0
+    },
+    {
+      "family": "hunyuan_qkv_rope_pack",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9901960784313726
+    },
+    {
+      "family": "ltx2_ada_values",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.1434294871794872
+    },
+    {
+      "family": "rotate_half_rope",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.1005677210056772
+    },
+    {
+      "family": "wan_nearest_upsample",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.8987542468856171
+    },
+    {
+      "family": "wan_rmsnorm_silu",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9488372093023256
+    },
+    {
+      "family": "wan_scale_shift",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9834350479511771
+    },
+    {
+      "family": "zimage_native_rmsnorm",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0
+    },
+    {
+      "family": "zimage_qk_rmsnorm",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.222222222222222
+    },
+    {
+      "family": "joint_qkv_cat",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0413324464269411
+    },
+    {
+      "family": "sana_conv_post",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9746192893401017
+    },
+    {
+      "family": "modulate_scale_shift",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0118453865336658
+    },
+    {
+      "family": "residual_gate_add",
+      "decision": "retained: fresh kernel suites and isolated full-request E2E gates passed",
+      "previous_worst_ratio": 1.0013427324605573
+    },
+    {
+      "family": "inplace_qknorm_rope",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.015625
+    },
+    {
+      "family": "timestep_embedding",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9574468085106385
+    },
+    {
+      "family": "sanawm_qk_inv_rms",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9583333333333333
+    },
+    {
+      "family": "group_limited_topk",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0085614278506558
+    },
+    {
+      "family": "qwen_qkv_epilogue",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0678511738511067
+    },
+    {
+      "family": "ernie_rmsnorm_modulate",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.976842105263158
+    },
+    {
+      "family": "wan_norm_silu_post",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9275512316290622
+    },
+    {
+      "family": "causal_conv3d_cat_pad",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9848558866634097
+    },
+    {
+      "family": "norm_infer",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0067289315617038
+    },
+    {
+      "family": "helios_qk_rope",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9534883720930233
+    },
+    {
+      "family": "ulysses_qkv_pack",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.006890170450247
+    },
+    {
+      "family": "dup_up3d_add",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.1630434782608696
+    },
+    {
+      "family": "glm_qk_head_layernorm",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.584045113816106
+    },
+    {
+      "family": "layernorm_modulate",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.061298076923077
+    },
+    {
+      "family": "layernorm_modulate_fp8",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0636451482770592
+    },
+    {
+      "family": "vdn_gather_linear_state",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 8.698548758985487
+    },
+    {
+      "family": "wan_causal_cache",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0484039153688318
+    },
+    {
+      "family": "sanawm_bigdn",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.6845702082221035
+    },
+    {
+      "family": "qknorm_complex_rope",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0348710497638938
+    },
+    {
+      "family": "qknorm_complex_rope_kv",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9981664224302843
+    },
+    {
+      "family": "groupnorm_nchw",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9622641509433962
+    },
+    {
+      "family": "mxfp8_producers",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 2.1243611584327087
+    },
+    {
+      "family": "vdn_delta_factors",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0009515032554577
+    },
+    {
+      "family": "interleaved_rope_fp64",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.9266447368421052
+    },
+    {
+      "family": "scaled_residual_add",
+      "decision": "removed: no repeated material model E2E gain established",
+      "previous_worst_ratio": 1.0
+    },
+    {
+      "family": "usp_merge_heads",
+      "decision": "removed: measured case regression",
+      "previous_worst_ratio": 0.984375
+    }
+  ],
+  "fresh_validation_pending": false
+}
