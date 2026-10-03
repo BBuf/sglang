@@ -1,0 +1,93 @@
+SGLang Diffusion kernel 清理方案与审计记录
+2026-10-03
+基线：sgl-project/sglang main 5916999afbc595de62dffca077fd8249634b4e74
+分支：bbuf/diffusion-kernel-cleanup-20261003
+
+目标
+在保留有效输入的数值结果、输出 stride、backend 选择和调优配置的前提下，缩短调用路径，移除不可达实现，使 dispatch 和输入验证各司其职。截图是问题背景；不是直接照抄其中“删除检查”的建议。
+
+盘点范围
+inventory.json 收录 118 个文件、23,831 行、74 个 can_use/try 入口。这是源码盘点规模，不等于修改了所有文件，也不表示已经验证所有模型和硬件。
+包括 ops/diffusion 的 facade、common、norm、modulate、rope、activation、layout、attention、quantization、routing、sites、ext 的 Python 文件；diffusion JIT CUDA；7 个 diffusion KDA Python 实现及其 CUDA 文件。另沿调用链读取了 Helios、LTX-2、LingBot、FLUX/LongCat 的相关模型入口、parallel_conv、layernorm 与 custom-op/JIT 支撑代码。
+
+设计原则
+1. dispatch 只回答实现能力问题。平台、dtype、内存布局、向量对齐、固定 head_dim、广播模式、数值契约都可能是必要条件。不要把它们当成“过度防御”一律删除。
+2. 输入契约由 implementation 验证。JIT CUDA 使用 TensorMatcher/CHECK_HOST；Triton 使用 Python launcher。错误的 shape/device 不应被当成优化不可用而隐藏。
+3. 不在验证前丢掉 shape 信息。flatten 后相同 numel 不能证明原始 batch/sequence/head 维度一致。
+4. 每条热路径只保留一次必要的选择。直接 kernel API 不需要调用与上层完全相同的 can_use；cached module factory 承担 dtype specialization 检查。
+5. 已选择的实现失败，应报告原始异常；不能把任意异常记录成该 device/dtype 永久禁用。已知不支持的平台在选择时返回 eager。
+6. BitExactFusionGate/QualityGatedFusion 是数值与请求质量策略，不是普通的异常兜底。保留 reduction 顺序、cast 边界、首次验证、quality tier、compile/capture 限制。
+7. 不为这次清理新建通用 dispatcher、validator registry 或更复杂的继承结构。使用现有模块和 C++ host launcher。
+
+本 PR 的具体改动
+A. residual_gate_add
+- #42240 已把 contiguous 恢复为 JIT CUDA，transposed dense 走 Triton。
+- 删除不可达的 contiguous Triton 三个 kernel 及其调度树，以及不可达的 transposed CUDA kernel/host wrapper。
+- transposed launcher 直接启动原来的 _rga_transposed，不再重复判定布局。
+- 16/32/64 tile、4/8 warps、FP16/BF16 舍入 PTX、FP32 分支、stride 与 grid 限制保留。
+- 保留 FP32 公共 wrapper 的 eager 语义，以及不支持的广播/布局的 eager 路径。
+- 删除每 device/dtype 的异常禁用集合，增加明确的 ROCm 排除。
+
+B. Helios Q/K RoPE
+- can_use 保留 dtype、contiguous、pair alignment、非空，以及 paired Q/K、完整 frequency shape 等选择条件；eager 原本支持广播 frequency（包括 rotary pair 维度广播）和不同 Q/K head 数，必须保留这些 fallback。
+- 直接 kernel API 的 rank、Q/K 形状、frequency 形状和同设备约束由 C++ launcher 验证；predicate 不再重复 rank/device 检查。
+- C++ 同时接受旧的 [N,H,D]/[N,2D] 和模型原始 [B,S,H,D]/[B,S,2D]，复用同一 device kernel。
+- 模型直接传入原始 tensor；不再构造三个 view。
+- 支持 dtype、原地修改契约、TP fallback 和 torch.compile 路径保持。
+
+C. modulate_scale_shift
+- 公开 CUDA API 直接成为原有 custom op 的 Python 入口，保留 op_name/fake implementation。
+- 删除 wrapper 中的重复 can_use 和全异常永久禁用集合。
+- 保留真实广播/布局能力检查；这些条件不能一概当作非法输入，因为 eager 支持更多广播。
+- ROCm 明确使用 eager，不依赖 CUDA 编译失败触发 fallback。
+
+D. USP merge heads
+- 合并只做重复检查的中间 wrapper。
+- predicate 保留 CUDA/HIP、dtype、layout 和非空选择；错误 rank 由实现中的 shape unpack 或原生 permute 报错。
+- 保留 compile fallback 和 scalar/vectorized launcher 选择。
+
+E. causal Conv3D cache+pad
+- dtype 检查移入 cache_once module factory。
+- 删除仅 eager 执行的重复 shape/layout/platform 检查；C++ launcher 原有 TensorMatcher、padding/vector-width 检查继续生效。
+- 保留公开 can_use 给 parallel_conv 做真实的 kernel 能力选择。
+
+F. 开发规则
+- 修改 ops/diffusion/README.md 中强制每个 kernel 添加 predicate 的要求。
+- 说明 input validation、backend selection、quality policy 的边界。
+- 修正 residual-gate 已过时的 CUDA transposed 描述。
+
+其他目录的处理结论
+norm / reduction：保留原有 CUDA/aten/FlashInfer reduction 树、BF16 cast、PTX rounding；不把“bit-exact”实现机械合并成数学上等价的简短实现。
+CuTe-DSL / FlyDSL / XPU：布局与广播检查连接到编译 specialization；需分别运行相应设备后才移除或重构。当前 PR 不改它们的 launcher。
+complex RoPE / packed QKV：prefix、token stride、weight/cache layout 是数据访问契约；多处 Python flatten 会抹去原 shape。后续迁移应先补 C++ 原形状验证，不能只删 predicate。
+LTX-2 / LTX-2.5：SM90/SM100 的数值路径和 quality gate 不同。保留它们的选择与 runtime verification；本 PR 不改变其 numerical policy。
+MXFP8 / NVFP4：swizzled scale layout、group size、架构、fast-math 与依赖版本会改变输出表示。不能以减少判断为由放宽支持集。
+activation / layout：纯数据移动也必须保留 output alias/stride、partial rotary、broadcast 等契约。GELU/SiLU 的 cast 顺序属于正确性条件。
+attention / routing：GDN 的 tuning table、power-of-two group、top-k tie/order、scan state 等是算法条件；另行性能优化，不能混入本轮机械清理。
+common / sites：平台 plugin 的 lazy resolution、first-sight 数值验证与 graph capture guard 保留。不要把它们与普通 kernel 的异常禁用集合混为一谈。
+ext：独立 C++ rasterizer/inpaint 构建链；不与 TVM-FFI kernel facade 合并。
+
+验证设计
+- 使用独立 rx H200 devbox，固定 GPU 0；baseline/candidate 同镜像同依赖同随机种子。
+- 原有 test_helios_qk_rope.py、test_modulate.py、test_layout.py 完整运行；现有 suite 自带 CUDA graph、torch.compile、dtype、storage-offset、广播、stride 覆盖。
+- 新增：batched Helios、broadcast/unpaired fallback；同 numel 不同 batch/sequence 的非法 frequency；错误 rank/shape/device；输入拒绝前不能改写 Q/K；actual residual backend 选择；异常传播后后续请求仍可运行；ROCm 不进入 CUDA-only 实现。
+- 另检查 facade/import 边界，以及模型 fast-path/site 用例。
+- 相同 30 个 workload 做 A-B-B-A 对比，记录 CUDA graph device 时间和同步的 eager 调用时间；记录原始输出 SHA256/shape/stride。
+- Active kernel AST/device-source hash 检查作为补充证据，不替代 GPU 正确性与性能测试。
+- 不用旧 PR 的性能数字为本 PR 背书；不将 kernel/method 测试冒称为完整模型图像/视频 E2E。
+
+可观察的行为变化
+- CUDA backend 选中后，build/launch/OOM 等异常向调用者传播，用户可以看到原始错误；不再因一次异常永久切换 eager。
+- Helios/USP 错误输入在实现边界报错，predicate 不再承诺对任意坏输入返回 False。
+- 有效 CUDA 模型输入仍调用原来的活跃 device kernel。
+
+历史 review 证据
+本次扫描全部 40,110 个 review episode。相关路径/关键词匹配 154 个 inline thread / 60 个 PR；另扫描 diffusion PR conversation，匹配 1,195 个 PR。按最终全部修改路径再扫描一次，匹配 2 个 thread / 2 个 PR（当前目录结构晚于语料时间，所以另用旧 layer 路径补充）。
+直接适用的维护者倾向：fallback 不要在 model/kernel 双层重复；清理注释掉的代码和复杂 custom-op 包装；GPU correctness/compile/capture 与真实执行路径必须有证据。历史语料截止 2026-07-27，当前代码和 #41305/#42240 使用实时 GitHub/main 检查。
+
+最终结果
+提交：d72626e74d1405ffc763b61c91fc3d164fd1d826
+12 个文件，新增 293 行、删除 495 行，净减少 202 行。
+H200：kernel 1190 passed；integration 180 passed / 1 skipped。
+最终 30 workload A-B-B-A：output/shape/stride 全部一致；CUDA graph 延迟 -0.41% 到 +0.25%。
+pre-commit 全部通过。无完整模型 E2E、AMD、多卡或 Blackwell 性能验证。
