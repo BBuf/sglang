@@ -1,0 +1,616 @@
+python/sglang/kernels/ops/diffusion/attention/vdn_delta_factors_jit.py:74
+def can_use_vdn_delta_factors(
+    device: torch.device, dtype: torch.dtype, head_dim: int
+) -> bool:
+    """The register inverse is specialized to FP32, 128-wide heads on SM80+."""
+    return (
+        device.type == "cuda"
+        and not torch.version.hip
+        and dtype is torch.float32
+        and head_dim == HEAD_DIM
+        and torch.cuda.get_device_capability(device)[0] >= 8
+    )
+
+python/sglang/kernels/ops/diffusion/attention/vdn_linear_branch_triton.py:52
+def can_use_vdn_temporal_conv_act(x: torch.Tensor, heads: int, head_dim: int) -> bool:
+    """x [T, S, heads * head_dim] bf16 on CUDA, power-of-two head_dim."""
+    return (
+        _cuda_bf16_rows(x)
+        and x.ndim == 3
+        and x.shape[-1] == heads * head_dim
+        and _pow2_head_dim(head_dim)
+        and not torch.compiler.is_compiling()
+    )
+
+python/sglang/kernels/ops/diffusion/attention/vdn_linear_branch_triton.py:63
+def can_use_vdn_silu_l2norm(tokens: torch.Tensor) -> bool:
+    """tokens [N, H, d] bf16 on CUDA (any row/head strides), power-of-two d."""
+    return (
+        _cuda_bf16_rows(tokens)
+        and tokens.ndim == 3
+        and _pow2_head_dim(tokens.shape[-1])
+        and not torch.compiler.is_compiling()
+    )
+
+python/sglang/kernels/ops/diffusion/attention/vdn_linear_branch_triton.py:73
+def can_use_vdn_frame_stats_prep(key: torch.Tensor, value: torch.Tensor) -> bool:
+    """key/value [F * S, H, d] bf16 on CUDA with matching shapes."""
+    return (
+        _cuda_bf16_rows(key)
+        and _cuda_bf16_rows(value)
+        and key.ndim == 3
+        and key.shape == value.shape
+        and _pow2_head_dim(key.shape[-1])
+        and not torch.compiler.is_compiling()
+    )
+
+python/sglang/kernels/ops/diffusion/attention/vdn_linear_branch_triton.py:85
+def can_use_vdn_gather_linear_state(prefix: torch.Tensor) -> bool:
+    """prefix/suffix [F, H, dv, dk] fp32 on CUDA, power-of-two dk."""
+    return (
+        prefix.is_cuda
+        and prefix.dtype == torch.float32
+        and prefix.ndim == 4
+        and _pow2_head_dim(prefix.shape[-1])
+        and not torch.compiler.is_compiling()
+    )
+
+python/sglang/kernels/ops/diffusion/attention/vdn_linear_branch_triton.py:96
+def can_use_vdn_linear_epilogue(readout: torch.Tensor) -> bool:
+    """readout [F, H, S, d] bf16 on CUDA, power-of-two d."""
+    return (
+        _cuda_bf16_rows(readout)
+        and readout.ndim == 4
+        and _pow2_head_dim(readout.shape[-1])
+        and not torch.compiler.is_compiling()
+    )
+
+python/sglang/kernels/ops/diffusion/layout/nearest_upsample_nhwc_triton.py:110
+def can_use_nearest_upsample_nhwc(x: torch.Tensor, scale_factor, mode: str) -> bool:
+    """True when ``F.interpolate(x, scale_factor=..., mode=...)`` is a plain
+    integer-factor gather on a dense channels_last 4D tensor whose result is
+    value- and layout-identical to aten's. Never raises."""
+    return (
+        isinstance(x, torch.Tensor)
+        and x.is_cuda
+        and not (torch.is_grad_enabled() and x.requires_grad)
+        and mode in ("nearest", "nearest-exact")
+        and x.dim() == 4
+        and x.numel() > 0
+        and x.dtype in _SUPPORTED_DTYPES
+        and _canonical_nhwc(x)
+        and _integer_scale(scale_factor) is not None
+    )
+
+python/sglang/kernels/ops/diffusion/layout/usp_relayout_jit.py:53
+def can_use_usp_merge_heads(x: torch.Tensor) -> bool:
+    return (
+        torch.version.hip is None
+        and x.is_cuda
+        and x.dtype in _SUPPORTED_DTYPES
+        and x.numel() > 0
+        and x.is_contiguous()
+    )
+
+python/sglang/kernels/ops/diffusion/modulate/modulate_scale_shift_jit.py:68
+def can_use_modulate_scale_shift_cuda(
+    x: torch.Tensor, scale: torch.Tensor, shift: torch.Tensor
+) -> bool:
+    if (
+        torch.version.hip is not None
+        or x.dtype not in _SUPPORTED_DTYPES
+        or scale.dtype != x.dtype
+        or shift.dtype != x.dtype
+        or not (x.is_cuda and scale.is_cuda and shift.is_cuda)
+        or not (x.device == scale.device == shift.device)
+        or x.dim() != 3
+        or scale.dim() != 2
+        or shift.shape != scale.shape
+        or scale.shape != (x.shape[0], x.shape[-1])
+        or not (x.is_contiguous() and scale.is_contiguous() and shift.is_contiguous())
+        or x.numel() == 0
+    ):
+        return False
+    vec = _ALIGN_BYTES // x.element_size()
+    return (
+        x.shape[-1] % vec == 0 and _aligned(x) and _aligned(scale) and _aligned(shift)
+    )
+
+python/sglang/kernels/ops/diffusion/norm/channel_rmsnorm_preserve_reduction.py:38
+def can_use_channel_rmsnorm(x, weight):
+    return (
+        x.is_cuda
+        and torch.version.hip is None
+        and x.dtype in (torch.bfloat16, torch.float16)
+        and x.ndim in (4, 5)
+        and x.numel() > 0
+        and x.is_contiguous()
+        and weight.device == x.device
+        and weight.dtype == x.dtype
+        and weight.shape == (x.shape[1],) + (1,) * (x.ndim - 2)
+        and weight.is_contiguous()
+    )
+
+python/sglang/kernels/ops/diffusion/norm/flux2_gated_resnorm_jit.py:76
+def can_use_flux2_gated_resnorm(
+    residual: torch.Tensor,
+    update: torch.Tensor,
+    gate: torch.Tensor,
+    scale: torch.Tensor,
+    shift: torch.Tensor,
+) -> bool:
+    return can_defer_flux2_gated_residual(residual, update, gate) and all(
+        _row_bf16(tensor, residual.device) is not None for tensor in (scale, shift)
+    )
+
+python/sglang/kernels/ops/diffusion/norm/group_norm_silu_twopass_triton.py:189
+def can_use_group_norm_silu_4d(
+    x: torch.Tensor,
+    weight: torch.Tensor,
+    bias: torch.Tensor,
+    num_groups: int,
+) -> bool:
+    """Whether :func:`group_norm_silu_4d` supports this channels_last input."""
+    if x.dim() != 4 or not _twopass_supported(x, weight, bias, num_groups):
+        return False
+    _, c, h, w = x.shape
+    # c > 1 and a non-trivial spatial extent make the channels_last check
+    # unambiguous (degenerate shapes are contiguous in both formats).
+    return (
+        c > 1
+        and (h > 1 or w > 1)
+        and x.is_contiguous(memory_format=torch.channels_last)
+    )
+
+python/sglang/kernels/ops/diffusion/norm/group_norm_silu_twopass_triton.py:208
+def can_use_group_norm_silu_rows(
+    x3: torch.Tensor,
+    weight: torch.Tensor,
+    bias: torch.Tensor,
+    num_groups: int,
+) -> bool:
+    """Whether :func:`group_norm_silu_rows` supports this (N, L, C) input."""
+    return (
+        x3.dim() == 3
+        and x3.is_contiguous()
+        and _twopass_supported(x3, weight, bias, num_groups)
+    )
+
+python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py:168
+def can_use_fused_rmsnorm_scale_shift(dtype: torch.dtype, hidden: int) -> bool:
+    """Select the BF16 FlashInfer reduction replicated by this kernel."""
+    return (
+        is_cuda() and dtype is torch.bfloat16 and _threads_per_row(hidden) is not None
+    )
+
+python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_triton.py:108
+def can_use_rmsnorm_scale_shift_per_token(
+    x: torch.Tensor,
+    weight: torch.Tensor,
+    scale: torch.Tensor,
+    shift: torch.Tensor,
+) -> bool:
+    return (
+        x.is_cuda
+        and x.dim() == 3
+        and x.is_contiguous()
+        and x.dtype in (torch.float16, torch.bfloat16, torch.float32)
+        and weight.is_cuda
+        and weight.dim() == 1
+        and weight.numel() == x.shape[-1]
+        and scale.shape == x.shape
+        and shift.shape == x.shape
+        and scale.dtype == shift.dtype
+        and scale.dtype in (torch.float16, torch.bfloat16, torch.float32)
+        # rows must be contiguous (stride(1) == 1); row stride may differ
+        # (non-contiguous chunk views of the [B, S, 6D] modulation tensor).
+        and scale.stride(0) == shift.stride(0)
+        and scale.stride(2) == 1
+        and shift.stride(2) == 1
+        and x.numel() > 0
+    )
+
+python/sglang/kernels/ops/diffusion/norm/scale_residual_norm_scale_shift_triton.py:76
+def can_use_fused_scale_residual_norm_scale_shift_triton(
+    *,
+    residual: torch.Tensor,
+    x: torch.Tensor,
+    gate: torch.Tensor | int,
+    shift: torch.Tensor,
+    scale: torch.Tensor,
+    weight: torch.Tensor | None,
+    bias: torch.Tensor | None,
+) -> bool:
+    if x.device.type != "xpu" or x.dtype not in (torch.bfloat16, torch.float16):
+        return False
+    if x.dim() != 3 or x.shape[0] != 1 or not x.is_contiguous():
+        return False
+    for operand in (residual, gate, shift, scale, weight, bias):
+        if isinstance(operand, torch.Tensor) and (
+            operand.device != x.device or not operand.is_contiguous()
+        ):
+            return False
+    if residual.shape != x.shape or residual.dtype != x.dtype:
+        return False
+    hidden = x.shape[-1]
+    if hidden > MAX_FUSED_HIDDEN:
+        return False
+    if isinstance(gate, torch.Tensor):
+        if gate.dim() not in (3, 4) or gate.shape[0] != 1 or gate.shape[-1] != hidden:
+            return False
+        if gate.dim() == 3:
+            if gate.shape[1] != 1:
+                return False
+        elif gate.shape[2] != 1 or x.shape[1] % gate.shape[1] != 0:
+            return False
+    elif gate != 1:
+        return False
+    for modulation in (scale, shift):
+        if not isinstance(modulation, torch.Tensor):
+            return False
+        if modulation.numel() not in (1, hidden):
+            return False
+    if (weight is None) != (bias is None):
+        return False
+    if weight is not None and (weight.numel() != hidden or bias.numel() != hidden):
+        return False
+    return True
+
+python/sglang/kernels/ops/diffusion/norm/wan_norm_silu_post.py:22
+def can_use_wan_norm_silu_post(x, denominator, gamma, bias=None):
+    if (
+        not x.is_cuda
+        or torch.version.hip is not None
+        or torch.is_grad_enabled()
+        or x.requires_grad
+        or x.ndim != 5
+        or x.numel() == 0
+        or x.dtype not in (torch.bfloat16, torch.float32)
+        or x.shape[1] % 4
+        or (x.shape[2] * x.shape[3] * x.shape[4]) % 4
+        or not (
+            x.is_contiguous() or x.is_contiguous(memory_format=torch.channels_last_3d)
+        )
+        or x.data_ptr() % 16
+        or denominator.dtype != torch.float32
+        or denominator.device != x.device
+        or denominator.shape != (x.shape[0], 1, *x.shape[2:])
+        or not denominator.is_contiguous()
+        or denominator.data_ptr() % 16
+        or gamma.dtype not in (torch.bfloat16, torch.float32)
+        or gamma.device != x.device
+        or gamma.numel() != x.shape[1]
+        or not gamma.is_contiguous()
+        or gamma.data_ptr() % 16
+    ):
+        return False
+    return bias is None or (
+        bias.device == x.device
+        and bias.dtype == gamma.dtype
+        and bias.numel() == x.shape[1]
+        and bias.is_contiguous()
+        and bias.data_ptr() % 16 == 0
+    )
+
+python/sglang/kernels/ops/diffusion/norm/wan_rmsnorm_silu_triton.py:125
+def can_use_wan_rmsnorm_silu(
+    x: torch.Tensor,
+    gamma: torch.Tensor,
+    bias: torch.Tensor | None,
+) -> bool:
+    return (
+        x.is_cuda
+        and not torch.is_grad_enabled()
+        and not x.requires_grad
+        and x.dtype in _SUPPORTED_DTYPES
+        and x.ndim == 5
+        and x.numel() > 0
+        and 0 < x.shape[1] <= _MAX_CHANNELS
+        and x.is_contiguous(memory_format=torch.channels_last_3d)
+        # Size-one channel tensors can satisfy the memory-format predicate
+        # while retaining channel-first strides, so require dense rows too.
+        and x.stride(1) == 1
+        and _affine_supported(x, gamma)
+        and (bias is None or _affine_supported(x, bias))
+    )
+
+python/sglang/kernels/ops/diffusion/norm/zimage_qk_rmsnorm_triton.py:119
+def can_use_qk_rmsnorm_native(
+    x: torch.Tensor, weight: torch.Tensor, head_dim: int
+) -> bool:
+    return (
+        x.is_cuda
+        and weight.is_cuda
+        and x.device == weight.device
+        and x.dtype == weight.dtype == torch.bfloat16
+        and x.numel() > 0
+        and head_dim == 128
+        and weight.shape == (head_dim,)
+        and weight.is_contiguous()
+        and _qk_head_token_stride(x, head_dim) is not None
+    )
+
+python/sglang/kernels/ops/diffusion/quantization/mxfp8_swizzled_triton.py:184
+def can_use_mxfp8_swizzled(x: torch.Tensor) -> bool:
+    """Row-major bf16 CUDA 2D tensor with K % 32 == 0, outside torch.compile."""
+    return (
+        x.is_cuda
+        and x.ndim == 2
+        and x.dtype == torch.bfloat16
+        and x.stride(-1) == 1
+        and x.shape[-1] % 32 == 0
+        and not torch.compiler.is_compiling()
+    )
+
+python/sglang/kernels/ops/diffusion/quantization/mxfp8_swizzled_triton.py:233
+def can_use_silu_mul_mxfp8(hidden: torch.Tensor) -> bool:
+    return can_use_mxfp8_swizzled(hidden) and (hidden.shape[-1] // 2) % 32 == 0
+
+python/sglang/kernels/ops/diffusion/rope/flux2_qknorm_rope_triton.py:8
+def can_use_flux2_strided_qknorm_rope(q, k, q_weight, k_weight, cache) -> bool:
+    if (
+        torch.compiler.is_compiling()
+        or torch.is_grad_enabled()
+        or torch.version.hip is not None
+        or not q.is_cuda
+        or torch.cuda.get_device_capability(q.device) != (9, 0)
+        or q.ndim != 4
+        or q.shape[-2:] != (24, 128)
+        or q.numel() == 0
+        or q.is_contiguous()
+        or k.shape != q.shape
+        or k.stride() != q.stride()
+        or q.stride(-1) != 1
+        or q.stride(-2) != 128
+        or q.stride(0) != q.shape[1] * q.stride(1)
+        or q.stride(1) < 24 * 128
+    ):
+        return False
+    if any(
+        t.device != q.device or t.dtype != torch.bfloat16
+        for t in (q, k, q_weight, k_weight)
+    ):
+        return False
+    if any(t.shape != (128,) or not t.is_contiguous() for t in (q_weight, k_weight)):
+        return False
+    return (
+        isinstance(cache, torch.Tensor)
+        and cache.device == q.device
+        and cache.dtype == torch.float32
+        and cache.ndim == 2
+        and cache.shape[0] >= q.shape[1]
+        and cache.shape[1] == 128
+        and cache.is_contiguous()
+    )
+
+python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_jit.py:54
+def can_use_qknorm_complex_rope_cuda(dtype: torch.dtype, head_dim: int) -> bool:
+    """The CUDA reduction is specialized to BF16, 128-wide heads."""
+    return dtype is torch.bfloat16 and head_dim == _HEAD_DIM
+
+python/sglang/kernels/ops/diffusion/rope/qknorm_rope_jit.py:135
+def can_use_fused_inplace_qknorm_rope(
+    head_dim: int,
+    rope_dim: int,
+    is_neox: bool,
+    dtype: torch.dtype,
+    cache_dtype: torch.dtype = torch.float32,
+    round_norm_before_rope: bool = False,
+    pack_kv: bool = False,
+    cache_has_full_width: bool = False,
+) -> bool:
+    return _can_use_fused_qknorm_rope(
+        head_dim,
+        rope_dim,
+        is_neox,
+        dtype,
+        cache_dtype,
+        round_norm_before_rope,
+        pack_kv,
+        cache_has_full_width,
+    )
+
+python/sglang/kernels/ops/diffusion/routing/group_limited_topk_triton.py:100
+def can_use_group_limited_topk(
+    scores_for_choice: torch.Tensor,
+    n_group: int,
+    topk_group: int,
+    top_k: int,
+) -> bool:
+    """Return whether the fused CUDA path supports this routing problem."""
+    if not scores_for_choice.is_cuda or torch.version.hip is not None:
+        return False
+    if scores_for_choice.ndim != 2 or scores_for_choice.dtype != torch.float32:
+        return False
+    if not scores_for_choice.is_contiguous() or scores_for_choice.shape[0] == 0:
+        return False
+
+    num_experts = scores_for_choice.shape[1]
+    if n_group <= 1 or num_experts == 0 or num_experts % n_group != 0:
+        return False
+    experts_per_group = num_experts // n_group
+    if experts_per_group < 2 or experts_per_group & (experts_per_group - 1):
+        return False
+    return 0 < topk_group <= n_group and 0 < top_k <= topk_group * experts_per_group
+
+python/sglang/kernels/ops/diffusion/sites/fused_linear_gelu_site.py:126
+def can_use_linear_gelu_static(linear: Any) -> bool:
+    """Input-independent guards: whether ``linear`` may ever use the epilogue."""
+    return _static_reject_reason(linear) is None
+
+python/sglang/kernels/ops/diffusion/sites/fused_linear_gelu_site.py:131
+def can_use_linear_gelu(linear: Any, x: torch.Tensor) -> bool:
+    """Whether ``gelu(linear(x))`` can use the fused cublasLt epilogue now."""
+    if not (x.is_cuda and x.dtype in (torch.bfloat16, torch.float16)):
+        return False
+    arch = get_jit_cuda_arch()
+    if arch.major * 10 + arch.minor >= 120:
+        # The cublasLt GELU epilogue selected by current SM120 PyTorch/CUDA
+        # builds is slower than GEMM + the native GELU kernel for the FLUX
+        # production shape (1, 512, 3072 -> 12288).  Keep quality-gated sites
+        # on their existing eager path on RTX 5090; SM90 dispatch is unchanged.
+        return False
+    if getattr(linear, "weight", None) is None or x.dtype != linear.weight.dtype:
+        return False
+    return can_use_linear_gelu_static(linear)
+
+python/sglang/kernels/ops/diffusion/sites/fused_ln_modulate_site.py:53
+def can_use_ln_modulate(
+    x: torch.Tensor, scale: torch.Tensor, shift: torch.Tensor
+) -> bool:
+    """Per-call guard: the folded affine is a [D] row, so batch must be 1."""
+    return (
+        x.is_cuda
+        and x.dtype in _SUPPORTED_DTYPES
+        and scale.dtype == x.dtype
+        and shift.dtype == x.dtype
+        and x.dim() == 3
+        and x.shape[0] == 1
+        and scale.dim() == 2
+        and scale.shape == shift.shape
+        and scale.shape == (1, x.shape[-1])
+        and x.numel() > 0
+    )
+
+python/sglang/kernels/kda_kernels/causal_conv3d_cat_pad_jit.py:110
+def can_use_fused_causal_conv3d_cat_pad_cuda(
+    x: torch.Tensor,
+    cache_x: torch.Tensor,
+    padding: list[int] | tuple[int, ...],
+) -> bool:
+    if x.dtype not in _SUPPORTED_DTYPES:
+        return False
+    pad_w_left, pad_w_right, pad_h_top, pad_h_bottom, pad_d_left, pad_d_right = padding
+    cache_t = cache_x.shape[2]
+    depth_left = pad_d_left - cache_t
+    if depth_left < 0 or pad_d_right != 0:
+        return False
+    out_numel = (
+        x.shape[0]
+        * x.shape[1]
+        * (x.shape[2] + cache_t + depth_left + pad_d_right)
+        * (x.shape[3] + pad_h_top + pad_h_bottom)
+        * (x.shape[4] + pad_w_left + pad_w_right)
+    )
+    elem_size = 4 if x.dtype == torch.float32 else 2
+    vec_elems = 16 // elem_size
+    return out_numel % vec_elems == 0
+
+python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py:410
+def can_use_fused_layernorm_modulate(dtype: torch.dtype, hidden: int) -> bool:
+    """Select the BF16 vectorized LayerNorm reduction replicated below."""
+    return (
+        is_cuda() and dtype is torch.bfloat16 and 0 < hidden <= 8192 and hidden % 4 == 0
+    )
+
+python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py:608
+def can_use_fused_qk_head_layernorm(dtype: torch.dtype, head_dim: int) -> bool:
+    """Select the BF16 per-head LayerNorm reduction."""
+    return (
+        is_cuda()
+        and dtype is torch.bfloat16
+        and 0 < head_dim <= 128
+        and head_dim % 4 == 0
+    )
+
+python/sglang/kernels/kda_kernels/ltx2_qknorm_split_rope_jit.py:155
+def can_use_ltx2_qknorm_split_rope_cuda(
+    q: torch.Tensor,
+    q_cos: torch.Tensor,
+    q_sin: torch.Tensor,
+    q_weight: torch.Tensor,
+    k: torch.Tensor,
+    k_cos: torch.Tensor,
+    k_sin: torch.Tensor,
+    k_weight: torch.Tensor,
+    *,
+    num_heads: int,
+    head_dim: int,
+    allow_sm90: bool = False,
+) -> bool:
+    return (
+        (_is_sm100_or_newer(q) or (allow_sm90 and _is_sm90(q)))
+        and _supported_side(
+            q,
+            q_cos,
+            q_sin,
+            q_weight,
+            num_heads=num_heads,
+            head_dim=head_dim,
+        )
+        and _supported_side(
+            k,
+            k_cos,
+            k_sin,
+            k_weight,
+            num_heads=num_heads,
+            head_dim=head_dim,
+        )
+    )
+
+python/sglang/kernels/kda_kernels/qwen38_qsa_sm121/__init__.py:19
+def can_use_qwen38_qsa_sm121(
+    q: torch.Tensor,
+    k: torch.Tensor,
+    v: torch.Tensor,
+    cu_seqlens_q: torch.Tensor,
+    cu_seqlens_k: torch.Tensor,
+    max_seqlen_k: int,
+) -> bool:
+    """Return whether this call matches the captured Qwen3.8 SM121 contract."""
+    if not q.is_cuda or q.ndim != 3 or q.dtype != torch.bfloat16:
+        return False
+    batch, num_q_heads, head_dim = q.shape
+    if not (0 < batch <= _MAX_BATCH) or head_dim != 256:
+        return False
+    if k.ndim != 3 or v.shape != k.shape or k.dtype != q.dtype or v.dtype != q.dtype:
+        return False
+    num_kv_heads = k.shape[1]
+    if (num_q_heads, num_kv_heads) not in _SUPPORTED_HEAD_TOPOLOGIES:
+        return False
+    if k.shape[2] != head_dim or not (0 < max_seqlen_k <= _MAX_SELECTED_KV):
+        return False
+    if not q.is_contiguous() or not k.is_contiguous() or not v.is_contiguous():
+        return False
+    if q.device != k.device or q.device != v.device:
+        return False
+    if cu_seqlens_q.device != q.device or cu_seqlens_k.device != q.device:
+        return False
+    if cu_seqlens_q.dtype != torch.int32 or cu_seqlens_k.dtype != torch.int32:
+        return False
+    if cu_seqlens_q.ndim != 1 or cu_seqlens_k.ndim != 1:
+        return False
+    if not cu_seqlens_q.is_contiguous() or not cu_seqlens_k.is_contiguous():
+        return False
+    if cu_seqlens_q.numel() != batch + 1 or cu_seqlens_k.numel() != batch + 1:
+        return False
+    properties = torch.cuda.get_device_properties(q.device)
+    return (properties.major, properties.minor) == (12, 1)
+
+python/sglang/kernels/kda_kernels/residual_gate_add_jit.py:230
+def can_use_residual_gate_add_cuda(
+    residual: torch.Tensor, update: torch.Tensor, gate: torch.Tensor
+) -> bool:
+    return (
+        torch.version.hip is None
+        and residual.dtype in _SUPPORTED_DTYPES
+        and residual.dtype == update.dtype
+        and residual.dtype == gate.dtype
+        and residual.is_cuda
+        and update.is_cuda
+        and gate.is_cuda
+        and residual.device == update.device == gate.device
+        and residual.dim() >= 2
+        and residual.numel() > 0
+        and update.shape == residual.shape
+        and (
+            gate.shape == residual.shape
+            or _is_row_broadcast_gate(residual, gate)
+            or _is_per_token_gate(residual, gate)
+        )
+        and (
+            (residual.is_contiguous() and update.is_contiguous())
+            or _is_transposed_dense_residual(residual, update, gate)
+        )
+        and gate.is_contiguous()
+    )

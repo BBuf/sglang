@@ -1,3 +1,5 @@
+> The expanded revision and final B200 validation are in [v2](v2/README.md). The evidence below applies only to the initial commit `d72626e74d` and its narrower scope.
+
 # Diffusion kernel cleanup: design and validation
 
 Candidate: `d72626e74d1405ffc763b61c91fc3d164fd1d826`  
