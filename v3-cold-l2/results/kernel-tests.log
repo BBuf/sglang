@@ -1,0 +1,445 @@
+................................................sss..................... [  2%]
+......................................................... [  4%]
+............................................................ssssssssssss [  6%]
+ssssssssssssssssss..........................................................ssssssssssssssssssss.................s...................F. [ 10%]
+........................................................................ [ 13%]
+........................................................................ [ 15%]
+........................................................................ [ 17%]
+........................................................................ [ 20%]
+........................................................................ [ 22%]
+........................................................................ [ 24%]
+........................................................................ [ 27%]
+........................................................................ [ 29%]
+........................................................................ [ 31%]
+........................................................................ [ 34%]
+........................................................................ [ 36%]
+........................................................................ [ 38%]
+........................................................................ [ 40%]
+........................................................................ [ 43%]
+........................................................................ [ 45%]
+........................................................................ [ 47%]
+........................................................................ [ 50%]
+......ssssssssssssssssssssss............................................ [ 52%]
+........s............................................................... [ 54%]
+........................................................................ [ 57%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+........................................................................ [ 64%]
+........................................................................ [ 66%]
+........................................................................ [ 68%]
+........................................................................ [ 71%]
+........................................................................ [ 73%]
+........................................................................ [ 75%]
+........................................................................ [ 78%]
+........................................................................ [ 80%]
+........................................................................ [ 82%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+........................................................................ [ 89%]
+........................................................................ [ 92%]
+......................................................................FF [ 94%]
+....F..ssssssssssss..................................................... [ 96%]
+........................................................ [ 98%]
+................................................                         [100%]
+=================================== FAILURES ===================================
+_____________________ test_ernie_qknorm_rope_is_bit_exact ______________________
+
+    def test_ernie_qknorm_rope_is_bit_exact():
+        torch.manual_seed(1)
+        ernie_image._ERNIE_QKNORM_ROPE.disabled = False
+        ernie_image._ERNIE_QKNORM_ROPE.verified = False
+        batch, seq, heads, head_dim = 1, 257, 32, 128
+        q = torch.randn(batch, seq, heads, head_dim, device="cuda", dtype=torch.bfloat16)
+        k = torch.randn_like(q)
+        q_norm = RMSNorm(head_dim, eps=1e-6).to(device="cuda", dtype=torch.bfloat16)
+        k_norm = RMSNorm(head_dim, eps=1e-6).to(device="cuda", dtype=torch.bfloat16)
+        cos = torch.randn(seq, head_dim, device="cuda", dtype=torch.bfloat16)
+        sin = torch.randn_like(cos)
+        cache = torch.cat((cos, sin), dim=-1).contiguous()
+        positions = torch.arange(seq, device="cuda", dtype=torch.long)
+    
+        q_ref, k_ref = _ernie_qknorm_rope_reference(
+            q.clone(), k.clone(), q_norm, k_norm, head_dim, cos, sin
+        )
+        q_out, k_out = _ernie_qknorm_rope(
+            q,
+            k,
+            q_norm,
+            k_norm,
+            head_dim,
+            cos,
+            sin,
+            cache,
+            positions,
+        )
+    
+        assert torch.equal(q_out, q_ref)
+        assert torch.equal(k_out, k_ref)
+>       assert ernie_image._ERNIE_QKNORM_ROPE.verified
+E       assert False
+E        +  where False = <sglang.kernels.ops.diffusion.sites.bitexact_gate.BitExactFusionGate object at 0x782cfc150800>.verified
+E        +    where <sglang.kernels.ops.diffusion.sites.bitexact_gate.BitExactFusionGate object at 0x782cfc150800> = ernie_image._ERNIE_QKNORM_ROPE
+
+test/registered/kernels/ops/diffusion/test_model_fast_paths.py:880: AssertionError
+------------------------------ Captured log call -------------------------------
+WARNING  sglang.multimodal_gen.runtime.models.dits.ernie_image:logging_utils.py:284 ERNIE fused QKNorm+RoPE fast path is not bit-exact on this platform; falling back to split kernels. Correctness is preserved because the eager reference output is used. A platform-specific reference kernel or reduction-order change may have caused this fallback.
+________________ test_qknorm_rope_preserves_split_bf16_rounding ________________
+
+    def test_qknorm_rope_preserves_split_bf16_rounding() -> None:
+        from sgl_kernel import rotary_embedding
+    
+        from sglang.kernels.ops.layernorm.norm import fused_inplace_qknorm
+    
+        num_tokens, num_heads, head_dim, rope_dim = 257, 28, 128, 96
+        inner_dim = num_heads * head_dim
+        qkv = torch.randn(
+            num_tokens,
+            3 * inner_dim,
+            device=DEVICE,
+            dtype=DTYPE,
+        )
+        q_weight = torch.randn(head_dim, device=DEVICE, dtype=DTYPE)
+        k_weight = torch.randn(head_dim, device=DEVICE, dtype=DTYPE)
+        positions = torch.arange(num_tokens, device=DEVICE, dtype=torch.int64)
+        cos_sin_cache = create_cos_sin_cache(rope_dim, num_tokens).to(DTYPE)
+    
+        qkv_ref, qkv_fused = qkv.clone(), qkv.clone()
+        q_ref, k_ref, _ = qkv_ref.split(inner_dim, dim=-1)
+        q_fused, k_fused, _ = qkv_fused.split(inner_dim, dim=-1)
+        q_ref = q_ref.view(num_tokens, num_heads, head_dim)
+        k_ref = k_ref.view(num_tokens, num_heads, head_dim)
+        q_fused = q_fused.view(num_tokens, num_heads, head_dim)
+        k_fused = k_fused.view(num_tokens, num_heads, head_dim)
+    
+        fused_inplace_qknorm(q_ref, k_ref, q_weight, k_weight, eps=1e-5)
+        rotary_embedding(
+            positions,
+            q_ref.view(num_tokens, -1),
+            k_ref.view(num_tokens, -1),
+            head_dim,
+            cos_sin_cache,
+            True,
+        )
+        fused_inplace_qknorm_rope(
+            q_fused,
+            k_fused,
+            q_weight,
+            k_weight,
+            cos_sin_cache,
+            positions,
+            is_neox=True,
+            eps=1e-5,
+            rope_dim=rope_dim,
+            round_norm_before_rope=True,
+        )
+    
+>       assert torch.equal(q_ref, q_fused)
+E       AssertionError: assert False
+E        +  where False = <built-in method equal of type object at 0x78304fff4f20>(tensor([[[-3.6133e-02, -3.4485e-03, -1.7578e-01,  ...,  4.5000e+00,\n           1.9727e-01,  1.3672e-02],\n         [-1....2480e-02,  4.6875e-01,  ..., -2.0996e-01,\n           4.4922e-02, -2.3926e-02]]], device='cuda:0', dtype=torch.bfloat16), tensor([[[-3.6133e-02, -3.4485e-03, -1.7578e-01,  ...,  4.5000e+00,\n           1.9727e-01,  1.3672e-02],\n         [-1....2480e-02,  4.6875e-01,  ..., -2.0996e-01,\n           4.4922e-02, -2.3926e-02]]], device='cuda:0', dtype=torch.bfloat16))
+E        +    where <built-in method equal of type object at 0x78304fff4f20> = torch.equal
+
+test/registered/kernels/ops/diffusion/test_rope.py:246: AssertionError
+_______________ test_qknorm_rope_preserves_full_width_neox_cache _______________
+
+    def test_qknorm_rope_preserves_full_width_neox_cache() -> None:
+        from sglang.kernels.ops.layernorm.norm import fused_inplace_qknorm
+    
+        num_tokens, num_heads, head_dim = 257, 32, 128
+        q = torch.randn(num_tokens, num_heads, head_dim, device=DEVICE, dtype=DTYPE)
+        k = torch.randn_like(q)
+        q_weight = torch.randn(head_dim, device=DEVICE, dtype=DTYPE)
+        k_weight = torch.randn(head_dim, device=DEVICE, dtype=DTYPE)
+        positions = torch.arange(num_tokens, device=DEVICE, dtype=torch.int64)
+        cos = torch.randn(num_tokens, head_dim, device=DEVICE, dtype=DTYPE)
+        sin = torch.randn_like(cos)
+        cache = torch.cat((cos, sin), dim=-1).contiguous()
+    
+        q_ref, k_ref = q.clone(), k.clone()
+        fused_inplace_qknorm(q_ref, k_ref, q_weight, k_weight, eps=1e-6)
+        half = head_dim // 2
+        q1, q2 = q_ref[..., :half], q_ref[..., half:]
+        k1, k2 = k_ref[..., :half], k_ref[..., half:]
+        q_ref = torch.cat((-q2, q1), dim=-1) * sin[:, None, :] + q_ref * cos[:, None, :]
+        k_ref = torch.cat((-k2, k1), dim=-1) * sin[:, None, :] + k_ref * cos[:, None, :]
+    
+        fused_inplace_qknorm_rope(
+            q,
+            k,
+            q_weight,
+            k_weight,
+            cache,
+            positions,
+            is_neox=True,
+            eps=1e-6,
+            round_norm_before_rope=True,
+            cache_has_full_width=True,
+        )
+    
+>       assert torch.equal(q, q_ref)
+E       AssertionError: assert False
+E        +  where False = <built-in method equal of type object at 0x78304fff4f20>(tensor([[[-1.5918e-01,  2.2500e+00, -1.8848e-01,  ...,  2.3750e+00,\n          -9.6094e-01,  1.2305e-01],\n         [-4....8242e-01,  9.3262e-02,  ..., -2.5977e-01,\n           5.5859e-01,  9.1016e-01]]], device='cuda:0', dtype=torch.bfloat16), tensor([[[-1.5918e-01,  2.2500e+00, -1.8945e-01,  ...,  2.3750e+00,\n          -9.5703e-01,  1.2305e-01],\n         [-4....8242e-01,  9.3262e-02,  ..., -2.5977e-01,\n           5.5859e-01,  9.1406e-01]]], device='cuda:0', dtype=torch.bfloat16))
+E        +    where <built-in method equal of type object at 0x78304fff4f20> = torch.equal
+
+test/registered/kernels/ops/diffusion/test_rope.py:284: AssertionError
+____________ test_qknorm_rope_pack_kv_preserves_split_bf16_rounding ____________
+
+    def test_qknorm_rope_pack_kv_preserves_split_bf16_rounding() -> None:
+        from sgl_kernel import rotary_embedding
+    
+        from sglang.kernels.ops.layernorm.norm import fused_inplace_qknorm
+    
+        batch_size = 1
+        prefix_tokens, suffix_tokens = 17, 1024
+        num_q_heads, num_kv_heads, head_dim = 32, 8, 64
+        num_heads = num_q_heads + 2 * num_kv_heads
+        qkv = torch.randn(
+            batch_size,
+            suffix_tokens,
+            num_heads,
+            head_dim,
+            device=DEVICE,
+            dtype=DTYPE,
+        )
+        prefix_qkv = torch.randn(
+            batch_size,
+            prefix_tokens,
+            num_heads,
+            head_dim,
+            device=DEVICE,
+            dtype=DTYPE,
+        )
+        k_prefix = prefix_qkv[:, :, num_q_heads : num_q_heads + num_kv_heads]
+        v_prefix = prefix_qkv[:, :, num_q_heads + num_kv_heads :]
+        q_weight = torch.randn(head_dim, device=DEVICE, dtype=DTYPE)
+        k_weight = torch.randn(head_dim, device=DEVICE, dtype=DTYPE)
+        positions = torch.arange(
+            batch_size * suffix_tokens, device=DEVICE, dtype=torch.int64
+        )
+        cos_sin_cache = create_cos_sin_cache(head_dim, batch_size * suffix_tokens).to(DTYPE)
+    
+        qkv_ref = qkv.clone()
+        q_ref = qkv_ref[:, :, :num_q_heads]
+        k_ref = qkv_ref[:, :, num_q_heads : num_q_heads + num_kv_heads]
+        v_ref = qkv_ref[:, :, num_q_heads + num_kv_heads :]
+        fused_inplace_qknorm(
+            q_ref.view(-1, num_q_heads, head_dim),
+            k_ref.view(-1, num_kv_heads, head_dim),
+            q_weight,
+            k_weight,
+            eps=1e-6,
+        )
+        rotary_embedding(
+            positions,
+            q_ref.view(-1, num_q_heads * head_dim),
+            k_ref.view(-1, num_kv_heads * head_dim),
+            head_dim,
+            cos_sin_cache,
+            True,
+        )
+        packed_k_ref = torch.cat([k_prefix, k_ref], dim=1)
+        packed_v_ref = torch.cat([v_prefix, v_ref], dim=1)
+    
+        qkv_fused = qkv.clone()
+        q_fused = qkv_fused[:, :, :num_q_heads]
+        k_fused = qkv_fused[:, :, num_q_heads : num_q_heads + num_kv_heads]
+        v_fused = qkv_fused[:, :, num_q_heads + num_kv_heads :]
+        packed_kv = torch.empty(
+            2,
+            batch_size,
+            prefix_tokens + suffix_tokens,
+            num_kv_heads,
+            head_dim,
+            device=DEVICE,
+            dtype=DTYPE,
+        )
+        fused_qknorm_rope_pack_kv(
+            q_fused,
+            k_fused,
+            v_fused,
+            k_prefix,
+            v_prefix,
+            packed_kv,
+            q_weight,
+            k_weight,
+            cos_sin_cache,
+            positions,
+            is_neox=True,
+            rope_dim=head_dim,
+            round_norm_before_rope=True,
+        )
+    
+>       assert torch.equal(q_ref, q_fused)
+E       AssertionError: assert False
+E        +  where False = <built-in method equal of type object at 0x78304fff4f20>(tensor([[[[ 3.3203e-02,  7.3828e-01, -2.5195e-01,  ..., -1.8359e-01,\n           -3.6328e-01, -1.1063e-03],\n          [...56e-01,  9.9609e-02,  ..., -2.7148e-01,\n           -1.6211e-01,  1.4941e-01]]]], device='cuda:0', dtype=torch.bfloat16), tensor([[[[ 3.3203e-02,  7.3828e-01, -2.5195e-01,  ..., -1.8359e-01,\n           -3.6328e-01, -1.1063e-03],\n          [...47e-01,  9.9609e-02,  ..., -2.7148e-01,\n           -1.6113e-01,  1.4941e-01]]]], device='cuda:0', dtype=torch.bfloat16))
+E        +    where <built-in method equal of type object at 0x78304fff4f20> = torch.equal
+
+test/registered/kernels/ops/diffusion/test_rope.py:569: AssertionError
+=============================== warnings summary ===============================
+../../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3446
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3446: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2326
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2326: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:903
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:903: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:905
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:905: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:215
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:215: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+../../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+registered/kernels/ops/diffusion/test_lingbot_modulation.py: 4 warnings
+registered/kernels/ops/diffusion/test_norm.py: 84 warnings
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/diffusion/norm/cutedsl_common/reduce.py:19: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator is deprecated; use cutlass.memory.SmemAllocator instead. It will be removed in a future release.
+    smem = cutlass.utils.SmemAllocator()
+
+registered/kernels/ops/diffusion/test_model_fast_paths.py::test_ernie_norm_scale_shift_is_bit_exact[shape0]
+registered/kernels/ops/diffusion/test_model_fast_paths.py::test_ernie_norm_scale_shift_is_bit_exact[shape2]
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/norm/kernels/rmsnorm.py:267: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator is deprecated; use cutlass.memory.SmemAllocator instead. It will be removed in a future release.
+    smem = cutlass.utils.SmemAllocator()
+
+registered/kernels/ops/diffusion/test_model_fast_paths.py::test_hunyuan_quality_qknorm_matches_rmsnorm
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/norm/kernels/rmsnorm.py:546: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator is deprecated; use cutlass.memory.SmemAllocator instead. It will be removed in a future release.
+    smem = cutlass.utils.SmemAllocator()
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:2102: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:236: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    self.smem_capacity = utils.get_smem_capacity_in_bytes("sm_100")
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:486: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    self.a_major_mode = utils.LayoutEnum.from_tensor(a_tensor).mma_major_mode()
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:487: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    self.b_major_mode = utils.LayoutEnum.from_tensor(b_tensor).mma_major_mode()
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:488: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    self.c_layout = utils.LayoutEnum.from_tensor(c_tensor)
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/_mlir_helpers/op.py:493: DeprecationWarning: make_blockscaled_trivial_tiled_mma with ab_dtype is deprecated, use the overload with separate a_dtype and b_dtype instead
+    res_or_list = opFunc(*args, **kwargs, loc=loc)
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:2233: DeprecationWarning: Migrated to examples/CuTeDSL/helpers/static_persistent_tile_scheduler.py (BSD-3). The wheel copy will be removed in a future release.
+    tile_sched_params = utils.PersistentTileSchedulerParams(
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py: 42 warnings
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/_mlir_helpers/op.py:493: DeprecationWarning: FastDivmodDivisor is deprecated in favor of cute.FastDivmodDivisorV2 / cute.fast_divmod_create_divisor_v2. V2 additionally carries the scalar divisor across kernel boundaries (2 MLIR values per object instead of 1), so '.divisor' is readable inside kernels; arithmetic (divmod, //, %) is unchanged.
+    res_or_list = opFunc(*args, **kwargs, loc=loc)
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py: 20 warnings
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/utils/static_persistent_tile_scheduler.py:312: DeprecationWarning: Migrated to examples/CuTeDSL/helpers/static_persistent_tile_scheduler.py (BSD-3). The wheel copy will be removed in a future release.
+    new_params = PersistentTileSchedulerParams(*(tuple(obj_list)), loc=self._loc)
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:791: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator is deprecated; use cutlass.memory.SmemAllocator instead. It will be removed in a future release.
+    smem = utils.SmemAllocator()
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:826: DeprecationWarning: cutlass.utils.tmem_allocator.TmemAllocator is deprecated; use cutlass.memory.TmemAllocator instead. It will be removed in a future release.
+    tmem = utils.TmemAllocator(
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/cute/core.py:5905: DeprecationWarning: Using `struct.scalar` as pointer is deprecated.
+    return [self.value]
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/memory/tmem.py:420: DeprecationWarning: cutlass.utils.tmem_allocator.TmemAllocator is deprecated; use cutlass.memory.TmemAllocator instead. It will be removed in a future release.
+    return type(self)(
+
+registered/kernels/ops/diffusion/test_nvfp4_scaled_mm.py::test_flux2_fused_nvfp4_swiglu_quant_matches_unfused
+  /scratch/cold-l2/candidate-reviewed/python/sglang/kernels/ops/quantization/nvfp4_gemm_swiglu_nvfp4_quant.py:1485: DeprecationWarning: The 'alignment' parameter of CooperativeGroup's constructor is deprecated and will be removed in a subsequent release, please remove it from your code.
+    c_producer_group = pipeline.CooperativeGroup(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test/registered/kernels/ops/diffusion/test_model_fast_paths.py::test_ernie_qknorm_rope_is_bit_exact
+FAILED test/registered/kernels/ops/diffusion/test_rope.py::test_qknorm_rope_preserves_split_bf16_rounding
+FAILED test/registered/kernels/ops/diffusion/test_rope.py::test_qknorm_rope_preserves_full_width_neox_cache
+FAILED test/registered/kernels/ops/diffusion/test_rope.py::test_qknorm_rope_pack_kv_preserves_split_bf16_rounding
+4 failed, 3011 passed, 89 skipped, 212 warnings, 40 subtests passed in 269.16s (0:04:29)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

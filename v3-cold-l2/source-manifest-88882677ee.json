@@ -1,0 +1,274 @@
+{
+  "base": "5916999afbc595de62dffca077fd8249634b4e74",
+  "note": "Helios static_assert permits FP32; comparison normalizes only that type assertion. Device math, indexing and launches audited separately.",
+  "kernels": [
+    {
+      "path": "python/sglang/kernels/jit/csrc/diffusion/gelu_tanh_cat.cuh",
+      "kernel": "gelu_tanh_cat_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/jit/csrc/diffusion/helios_qk_rope.cuh",
+      "kernel": "helios_qk_rope_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/jit/csrc/diffusion/interleaved_rope_fp64.cuh",
+      "kernel": "interleaved_rope_fp64_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/jit/csrc/diffusion/ltx25_decoder_rope.cuh",
+      "kernel": "ltx25_decoder_rope_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/jit/csrc/diffusion/qknorm_complex_rope.cuh",
+      "kernel": "kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/jit/csrc/diffusion/vdn_delta_factors.cuh",
+      "kernel": "__launch_bounds__",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/csrc/diffusion/residual_gate_add.cuh",
+      "kernel": "residual_gate_add_transposed_kernel",
+      "status": "removed"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/csrc/diffusion/residual_gate_add.cuh",
+      "kernel": "residual_gate_add_scalar_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/csrc/diffusion/residual_gate_add.cuh",
+      "kernel": "residual_gate_add_broadcast_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/csrc/diffusion/residual_gate_add.cuh",
+      "kernel": "residual_gate_add_vec_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_push_vec4",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_fold_halves",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_qk_ln_head_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_qk_ln_head_one",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_rcp4",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_layernorm_modulate_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_fold_tree_32",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_split_halves",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_welford_push",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py",
+      "kernel": "_welford_combine",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "kernel": "_round16_f32",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "kernel": "_rga_flat",
+      "status": "removed"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "kernel": "_rga_flat_m1",
+      "status": "removed"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "kernel": "_store16",
+      "status": "removed"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "kernel": "_rga_row",
+      "status": "removed"
+    },
+    {
+      "path": "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py",
+      "kernel": "_rga_transposed",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/activation/sana_conv_post_triton.py",
+      "kernel": "_bias_glu_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/activation/sana_conv_post_triton.py",
+      "kernel": "_bias_silu_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py",
+      "kernel": "_silu_mul_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py",
+      "kernel": "_packed_silu_mul_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/layout/joint_qkv_cat_triton.py",
+      "kernel": "_joint_qkv_cat_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/modulate/wan_temb_table_slices_triton.py",
+      "kernel": "_temb_table_slices_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_preserve_reduction.py",
+      "kernel": "_square_fp32_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_preserve_reduction.py",
+      "kernel": "_rmsnorm_finish_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py",
+      "kernel": "_rmsnorm_scale_shift_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py",
+      "kernel": "_fold_adjacent",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/rope/complex_rope_triton.py",
+      "kernel": "_complex_rope_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_kv_triton.py",
+      "kernel": "_qknorm_complex_rope_kv_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_triton.py",
+      "kernel": "_qknorm_complex_rope_rows",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_triton.py",
+      "kernel": "_qknorm_complex_rope_onepass_kernel",
+      "status": "unchanged"
+    },
+    {
+      "path": "python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_bitexact.py",
+      "kernel": "_rope_rotate_half_kernel",
+      "status": "unchanged"
+    }
+  ],
+  "files": {
+    "python/sglang/kernels/jit/csrc/diffusion/gelu_tanh_cat.cuh": "1ad3d72dac98453ede2edfeab8421896dc8fa38ee74bc31ab644a6e8bfff009f",
+    "python/sglang/kernels/jit/csrc/diffusion/helios_qk_rope.cuh": "c03f8a8e92d21850312e5401510f96a90891c8ab3b66dd6b4fb58915c06eb202",
+    "python/sglang/kernels/jit/csrc/diffusion/interleaved_rope_fp64.cuh": "a18ec00bcf28f6ca62f0f0a5908ec3cb75c1357598614bc494876b130baccc8c",
+    "python/sglang/kernels/jit/csrc/diffusion/ltx25_decoder_rope.cuh": "3214096d91412d57ae5273ebb9f6d07cf99d2d4baac6fd58bb08425ae1bc37d8",
+    "python/sglang/kernels/jit/csrc/diffusion/qknorm_complex_rope.cuh": "d4c49d9b3a4dc2a8ff287068d6bac1776d1565d3bf357d60f5913779cc1f8d1e",
+    "python/sglang/kernels/jit/csrc/diffusion/vdn_delta_factors.cuh": "37a19851bc75e43ecb7c622a51c41d0e0c4404947e22083d22c3f7cf4e990847",
+    "python/sglang/kernels/kda_kernels/causal_conv3d_cat_pad_jit.py": "18174cb2aff78068c0a58b27c977ba26fb9b58a4ec52fa0cef632348c26115b4",
+    "python/sglang/kernels/kda_kernels/csrc/diffusion/residual_gate_add.cuh": "afdeadb5d55c70744a33cc646ba7b20c7343237cdf185b931b3c3acc991c8b02",
+    "python/sglang/kernels/kda_kernels/layernorm_modulate_triton.py": "5362d1fe8a5b44eba99cb452738b278a4e2c7ae30bfd558087af3ae17937e96d",
+    "python/sglang/kernels/kda_kernels/residual_gate_add_jit.py": "bb154fe2a19f02ac5476ebbe983f0760a993eb1019a6a1341b7d1393b4373900",
+    "python/sglang/kernels/ops/diffusion/README.md": "753aeced6e105a10915bb6c36274950d00903608d8b6cc1c0496bd8367ae6131",
+    "python/sglang/kernels/ops/diffusion/__init__.py": "78ca9f4c9848d0bc50aadc5a9232fc2466d9d483c8f4512b3a753bbaff3d6777",
+    "python/sglang/kernels/ops/diffusion/activation/gelu_tanh_cat_jit.py": "9bd53bc323612d797eba26d0a1fe8c2ce072bc9ed7ad528c75d1fa8114422c1e",
+    "python/sglang/kernels/ops/diffusion/activation/sana_conv_post_triton.py": "5160e08e6551a078603b1cacd3d0a99828ee963856bef2e93c279eadbca7395e",
+    "python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py": "0d62d37df2a4341e1f07be009d39163ec58c5406284dc8481492042996ec044b",
+    "python/sglang/kernels/ops/diffusion/attention/vdn_delta_factors_jit.py": "58310a47aeb53e45c02f7c5afa450235f734aeb74b593f7b93b86f6cdb45d73c",
+    "python/sglang/kernels/ops/diffusion/layout/joint_qkv_cat_triton.py": "b343afb1686464b79fcfae531f1e55ccf7e62e4f33650fabb7083a011f50a551",
+    "python/sglang/kernels/ops/diffusion/layout/usp_relayout_jit.py": "7d4c5256c52a4d0a46c2d3ade8d8a22da497dd7c3a4d65073d425753cec6f4b8",
+    "python/sglang/kernels/ops/diffusion/modulate/modulate_scale_shift_jit.py": "dcbce5b2978f460ba98f0b6e6c647b9432c055e3c1221efbde7029e6341e3bec",
+    "python/sglang/kernels/ops/diffusion/modulate/wan_temb_table_slices_triton.py": "758b5f4b425c9908534dd64cddb8827b4529036913369f5cadef7deb1a2b7376",
+    "python/sglang/kernels/ops/diffusion/norm/rmsnorm_preserve_reduction.py": "06ebdfe3affadf5f674069d9152c4df575f1c95903007685614e5192a8f6da2a",
+    "python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py": "94c4c1d798ba5ccbbfb16f00c1a5af6af56762a7dbd19802c1d9f78c6bff75a7",
+    "python/sglang/kernels/ops/diffusion/rope/complex_rope_triton.py": "e8fd8135d04745e391eae84baf685d7117c390e6378bed924e4797b416fbc1ea",
+    "python/sglang/kernels/ops/diffusion/rope/helios_qk_rope_jit.py": "eb0fc1909d0072949cb9dc759ca6d0b3f419ffb5d7fd58fcd1120df2c3248ffe",
+    "python/sglang/kernels/ops/diffusion/rope/interleaved_rope_fp64_jit.py": "6d8b1905bdf501bbad8664ebf62b15a0dbf0a6d4ae9d45698572bc76f102d8a1",
+    "python/sglang/kernels/ops/diffusion/rope/ltx25_decoder_rope_jit.py": "ba3fdda0b959937a40ccda53299d1aea3119fdab9611b5914af7c22137ec55e9",
+    "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_jit.py": "8d0834ddbd0c1f7182f836e1b7adf277810078d36dd8cc3b5b3595cc190064e7",
+    "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_kv_triton.py": "d284253003390c65b516040d7112869c2c5bff0f1d0fd9548d0587c7f6cc58e0",
+    "python/sglang/kernels/ops/diffusion/rope/qknorm_complex_rope_triton.py": "e272770027589e125bc22924a12f6e39e4100c9face226877928918e8bc60e33",
+    "python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_bitexact.py": "8431c2b2927e246bbedf38d83d84689aee464fd1f76f6d42cbdce1ef3f253876",
+    "python/sglang/kernels/ops/diffusion/sites/ltx2_rmsnorm_modulate_site.py": "270f2ce6df4ce3a539d280f296b0f8129fd4f88f5cfb511ceda07ff7a02ccbe6",
+    "python/sglang/multimodal_gen/runtime/models/decoders/ltx_2_5_diffusion_decoder.py": "ab72eecd604715fc8dbe30bd668c8df5b5cf7291bd40887ed39f0a54f845800c",
+    "python/sglang/multimodal_gen/runtime/models/dits/ernie_image.py": "174e5e58729bf5f43f07308d2d79c461720e46ff167e5267d957d2ea968b5fa5",
+    "python/sglang/multimodal_gen/runtime/models/dits/flux.py": "dc606692e8c868e30adbb7893882fd4c79ae40ba232c0902897a938a165543a5",
+    "python/sglang/multimodal_gen/runtime/models/dits/flux3.py": "684780f6898199a29760c34f57ed6322ce00343c9c5f49fdf2904f2ce3e8efd1",
+    "python/sglang/multimodal_gen/runtime/models/dits/flux_2.py": "1f01db2478c308dc5b12c27a63437e7f4bf7ba8b8c9c0a0ea3734043231ff5db",
+    "python/sglang/multimodal_gen/runtime/models/dits/glm_image.py": "4d9f3783cbf6aeff36147f2c882f2fddf46c9188a8e36c87bf74b6e503705d3c",
+    "python/sglang/multimodal_gen/runtime/models/dits/helios.py": "a186abc37205673cb9ab75d57c70484f3ad6b4db23a7a814567ea7942e3a9ff6",
+    "python/sglang/multimodal_gen/runtime/models/dits/ideogram.py": "6a15333bdff0aa40678f7398aac68d7433c287b1d74d29e882aad6425cbcc98e",
+    "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py": "9799652518122f849072a9fd8c518fe376850ec618eb377bf3858b88631bb3c6",
+    "python/sglang/multimodal_gen/runtime/models/dits/longcat_image.py": "cc2d212ea43fca19ac6e23dd813248ca4829a9aca067f8671b85a36db7fd0e69",
+    "python/sglang/multimodal_gen/runtime/models/dits/ltx_2.py": "3fbbb0aed2e2ce1ad1bb4704dac1635ce3a972fa99bd17129e1819a5dcc8a885",
+    "python/sglang/multimodal_gen/runtime/models/dits/minimax_h3_vdn.py": "58ccc1d24b374caa6d988a798477d4b6e679953402ef939f9515a97a7a888dc0",
+    "python/sglang/multimodal_gen/runtime/models/dits/qwen_image.py": "bfa65d34f433e74cf3b63868f1c9ef51cdedacbb8f1685045dfca6828d2028b8",
+    "python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py": "5ffe92b9adb9239ebea9e7cf6cfae54ce81332de70f6485c17bae7ea02deb5b2",
+    "python/sglang/multimodal_gen/runtime/models/dits/sana.py": "9b6e848dd60b253752270a3aa402c7b88f6a9c1dc325323926c62618875e1989",
+    "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py": "83eb7a7b6b68a309ae52ac1c5ebbe257e1e7dc6a525e4bac7177a4e9950bb13a",
+    "python/sglang/multimodal_gen/runtime/models/dits/wanvideo.py": "690d87755e1ae9f069789f507a0fc5e90891338cc7f2e2bc878dbf97d2bc6a51",
+    "test/registered/kernels/ops/diffusion/test_activation.py": "9421d1c99d8e490a973ff39ac69d74d8e5b75d701bb2b7e811bf4ea6520442ce",
+    "test/registered/kernels/ops/diffusion/test_complex_rope.py": "e8bd2f221349f980f71d95d69710fe4c47940deb15e8f21be13f1ff4525bf804",
+    "test/registered/kernels/ops/diffusion/test_helios_qk_rope.py": "bd87eec0ea4957e3aead5a8b74484070f3a8905d07bcc7f65fb9283cac147266",
+    "test/registered/kernels/ops/diffusion/test_interleaved_rope_fp64.py": "cdb533bf78b0f3287fbb0437837c726985478aa4fbcdbc1e1f78f3ea87899fe7",
+    "test/registered/kernels/ops/diffusion/test_joint_qkv_cat.py": "16a9bfd8fa0ce7de0e1c53e517683c4e3847b133ad592f87c69e471565505f05",
+    "test/registered/kernels/ops/diffusion/test_layernorm_modulate.py": "690cb83babee63074ad27ded8560d61a4fbd943c8477585a8e09cb868ed11d1a",
+    "test/registered/kernels/ops/diffusion/test_layout.py": "caed501cf3313567ea7fd9209bcaf25e8e4260a69105d4f0c2b6a210c6744e05",
+    "test/registered/kernels/ops/diffusion/test_ltx25_decoder_rope.py": "ad8c89d57449953db195b3d82f990ec521ac95846a93bc9a552a176e96b60db8",
+    "test/registered/kernels/ops/diffusion/test_model_fast_paths.py": "7ebe3e934e0caef9f75684a5fcd7883a9a30e41670fee29e4332f78b943e4c46",
+    "test/registered/kernels/ops/diffusion/test_modulate.py": "5af71a9cb087c6524c7c99fe0025a55b631583d3e2383359a36218c6c3b8269d",
+    "test/registered/kernels/ops/diffusion/test_rmsnorm_preserve_reduction.py": "133ff63611d730810557753c0cc469b765d42666d6e4abd64d399db8b070c95c",
+    "test/registered/kernels/ops/diffusion/test_sana_wm_conv_post.py": "06ae014ed65aa7ee79e1c83f0858ca378ef8448df1d2ae5a23e2f52295e3888c",
+    "test/registered/kernels/ops/diffusion/test_vdn_delta_factors.py": "82043dd53129f6868d2bc27f96f3fdf48b37f9b8e901fd1d485fbcd5aa4bd088"
+  }
+}

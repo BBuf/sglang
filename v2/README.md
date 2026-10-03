@@ -1,3 +1,5 @@
+> Superseded by [v3 cold-L2 validation](../v3-cold-l2/README.md). The rotating-input benchmark below does not guarantee cold L2 for small cases. v3 also fixes CPU fallback gating and duplicate Ideogram validation.
+
 # Expanded diffusion kernel cleanup
 
 Baseline: `5916999afbc595de62dffca077fd8249634b4e74`. GPU-tested runtime snapshot: `b10ade0673645d8515b7b74abac732f71486c6b2`. [Implementation PR](https://github.com/sgl-project/sglang/pull/42391).

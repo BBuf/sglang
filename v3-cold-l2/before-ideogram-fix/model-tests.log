@@ -1,0 +1,392 @@
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [  1%]
+sssssssssssssssssssssss.................................... [  3%]
+........................................................................ [  5%]
+........................................................................ [  7%]
+........................................................................ [  8%]
+............ss............................................sssss......... [ 10%]
+.................................................................... [ 12%]
+..................................................................... [ 14%]
+........................................................................ [ 16%]
+................xx.x................s................................... [ 17%]
+............................................................... [ 19%]
+........................................................................ [ 21%]
+........................................................................ [ 23%]
+.............................................................. [ 24%]
+................................. [ 25%]
+.......................................................... [ 27%]
+.............................................................. [ 28%]
+...................................................... [ 29%]
+...................................................................... [ 31%]
+........................................................................ [ 33%]
+......................................................sssssssss......... [ 35%]
+..................................................................... [ 37%]
+........................................................................ [ 39%]
+........................................................................ [ 40%]
+........................................................................ [ 42%]
+........................................................................ [ 44%]
+........................................................................ [ 46%]
+........................................................................ [ 48%]
+........................................................................ [ 50%]
+........................................................................................................................................... [ 53%]
+........................................................................ [ 55%]
+................................................................... [ 57%]
+..........................................................................................................................s....... [ 60%]
+............................................................... [ 62%]
+........................................................................ [ 63%]
+........................................................................ [ 65%]
+.............................................................................................................................. [ 68%]
+...s.................................................................... [ 70%]
+..........................ssssssssss.................................. [ 72%]
+........................................................................ [ 74%]
+............................................................................s............................................ [ 77%]
+........................................................................ [ 79%]
+............................................................ [ 80%]
+........................................................................................................... [ 83%]
+....................................................................................................................... [ 86%]
+..s...................sF...ss........................ [ 87%]
+............................sss...................................... [ 89%]
+........................................................................ [ 91%]
+...........s........................................................................................................ [ 94%]
+.............................................................. [ 96%]
+............................................................ [ 97%]
+........................................................................ [ 99%]
+.......................                                              [100%]
+=================================== FAILURES ===================================
+____________ TestSubBlockNumerics.test_ragged_tail_reproduces_dense ____________
+
+self = <test_subblock_sparse_attention.TestSubBlockNumerics testMethod=test_ragged_tail_reproduces_dense>
+
+    def test_ragged_tail_reproduces_dense(self):
+        """A sequence that is not a multiple of the 64-token block."""
+        device = torch.device("cuda")
+        seq_len = self.seq_len + 37
+        q, k, v = _structured_qkv(seq_len, device)
+        impl = self._impl(sparsity=1e-6)
+        with _patch_step(20):
+            out = impl.forward(q, k, v, None)
+        ref = _dense_reference(q, k, v, HEAD_DIM**-0.5)
+>       self.assertGreater(_cosine(out, ref), 0.999)
+E       AssertionError: nan not greater than 0.999
+
+python/sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py:375: AssertionError
+----------------------------- Captured stdout call -----------------------------
+[10-03 16:56:38] SubBlock sparse attention active: Sq=8229 Sk=8229 heads=4 keeping 129/129 key blocks per query block (sparsity 0.0000)
+------------------------------ Captured log call -------------------------------
+INFO     sglang.multimodal_gen.runtime.layers.attention.backends.subblock_sparse_attn:logging_utils.py:284 SubBlock sparse attention active: Sq=8229 Sk=8229 heads=4 keeping 129/129 key blocks per query block (sparsity 0.0000)
+=============================== warnings summary ===============================
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3446
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3446: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2326
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2326: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:903
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:903: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:905
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:905: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:215
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:215: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/availability.py:136: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+../../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+../../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1488
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:24
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:24: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+../../../opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/copy_utils.py:12
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/copy_utils.py:12: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+sglang/multimodal_gen/test/unit/test_consistency_metrics.py::test_pixel_metrics_identical_image
+sglang/multimodal_gen/test/unit/test_consistency_metrics.py::test_compare_with_gt_passes_for_identical_image
+sglang/multimodal_gen/test/unit/test_consistency_metrics.py::test_compare_with_gt_uses_worst_frame_for_video
+  /opt/sglang/lib/python3.12/site-packages/skimage/metrics/simple_metrics.py:168: RuntimeWarning: divide by zero encountered in scalar divide
+    return 10 * np.log10((data_range**2) / err)
+
+sglang/multimodal_gen/test/unit/test_disagg_extra_tensors.py::test_qwen21_conditioning_survives_disagg_transfer[False]
+  /scratch/cold-l2/candidate-final/python/sglang/multimodal_gen/runtime/disaggregation/transport/codec.py:194: UserWarning: The given buffer is not writable, and PyTorch does not support non-writable tensors. This means you can write to the underlying (supposedly non-writable) buffer using the tensor. You may want to copy the buffer to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:1556.)
+    else torch.frombuffer(buf, dtype=dtype).reshape(desc.shape).clone()
+
+sglang/multimodal_gen/test/unit/test_flux3_action.py::test_vae_attention_fallback_uses_natten_windows[grid0-kernel0-causal0]
+sglang/multimodal_gen/test/unit/test_flux3_action.py::test_vae_attention_fallback_uses_natten_windows[grid1-kernel1-causal1]
+sglang/multimodal_gen/test/unit/test_flux3_action.py::test_vae_attention_fallback_uses_natten_windows[grid2-kernel2-causal2]
+  /scratch/cold-l2/candidate-final/python/sglang/multimodal_gen/runtime/models/vaes/flux3_neighborhood_attention.py:82: DeprecationWarning: _compile flag on create_block_mask was originally added to work around a torch.compile limitation. That limitation has since been addressed. So, to compile create_block_mask, we suggest doing torch.compile(create_block_mask). This still works for now, but will be removed in the future.
+    mask = create_block_mask(
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:15: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum, block_copy
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:562: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    layout_c: cutlass.utils.LayoutEnum,
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd.py:18: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm90.py:13: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm90.py:17: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /opt/sglang/lib/python3.12/site-packages/quack/sm90_utils.py:11: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:37: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 18) cannot be converted to a JitArgument for function 'cutlass___call___sglangkernelsopsattentionflash_attncuteflash_fwd_sm100FlashAttentionForwardSm100_object_at__Tensorgmemoi64i641_Tensorgmemoi64i641_Tensorgmemoi64i641_Tensorgmemoi64'. Its type `<class 'sglang.kernels.ops.attention.flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'sglang.kernels.ops.attention.flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+    exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:945: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    q_major_mode = tcgen05.OperandMajorMode.K
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:946: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    k_major_mode = tcgen05.OperandMajorMode.K
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:947: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    v_major_mode = tcgen05.OperandMajorMode.MN
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:948: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    self.o_layout = cutlass.utils.LayoutEnum.from_tensor(mO)
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:951: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    p_major_mode = tcgen05.OperandMajorMode.K
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py: 4 warnings
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 8 warnings
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/_mlir_helpers/op.py:493: DeprecationWarning: make_trivial_tiled_mma with ab_dtype is deprecated, use the overload with separate a_dtype and b_dtype instead
+    res_or_list = opFunc(*args, **kwargs, loc=loc)
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py: 4 warnings
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 8 warnings
+  <string>:11: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:1754: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator is deprecated; use cutlass.memory.SmemAllocator instead. It will be removed in a future release.
+    smem = cutlass.utils.SmemAllocator()
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_window_matches_masked_dense
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py::test_decomposed_passes_are_arithmetic_neutral
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /scratch/cold-l2/candidate-final/python/sglang/kernels/ops/attention/flash_attn/cute/flash_fwd_sm100.py:1770: DeprecationWarning: cutlass.utils.tmem_allocator.TmemAllocator is deprecated; use cutlass.memory.TmemAllocator instead. It will be removed in a future release.
+    tmem = cutlass.utils.TmemAllocator(
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py: 18 warnings
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 45 warnings
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/cute/core.py:5905: DeprecationWarning: Using `struct.scalar` as pointer is deprecated.
+    return [self.value]
+
+sglang/multimodal_gen/test/unit/test_hybrid_window_h3_attention.py: 18 warnings
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 36 warnings
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/memory/tmem.py:420: DeprecationWarning: cutlass.utils.tmem_allocator.TmemAllocator is deprecated; use cutlass.memory.TmemAllocator instead. It will be removed in a future release.
+    return type(self)(
+
+sglang/multimodal_gen/test/unit/test_lora_format_adapter.py::TestLoRAFormatAdapter::test_lora_format_adapter_all_formats
+  /opt/sglang/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py:206: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+    warnings.warn(
+
+sglang/multimodal_gen/test/unit/test_qwen_image21_cuda.py::test_diffusers_lora_matches_weight_delta_and_restores_base[dynamic]
+  /opt/sglang/lib/python3.12/site-packages/torch/_inductor/compile_fx.py:321: UserWarning: TensorFloat32 tensor cores for float32 matrix multiplication available but not enabled. Consider setting `torch.set_float32_matmul_precision('high')` for better performance.
+    warnings.warn(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 11 warnings
+  /scratch/cold-l2/candidate-final/python/sglang/multimodal_gen/runtime/layers/attention/backends/subblock_sparse_attn.py:232: DeprecationWarning: bsa_attn_blk64_fwd is deprecated and will be removed in a future release. Use bsa_attn_sm100_blk64_fwd instead.
+    out = load_bsa_attn_blk64_fwd()(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /usr/lib/python3.12/contextlib.py:137: UserWarning: blk64 CuTe-DSL Constexpr/TVM-FFI compat shim (constexpr_tvm_ffi_converter_patched) was written against nvidia-cutlass-dsl==4.7.0; found 4.8.0. Verify _convert_single_arg's signature/behavior still matches before trusting this shim.
+    return next(self.gen)
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:514: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    q_major_mode = tcgen05.OperandMajorMode.K
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:515: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    k_major_mode = tcgen05.OperandMajorMode.K
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:516: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    v_major_mode = tcgen05.OperandMajorMode.MN
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:517: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    self.o_layout = cutlass.utils.LayoutEnum.from_tensor(mO)
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:520: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    p_major_mode = tcgen05.OperandMajorMode.K
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/_mlir_helpers/op.py:493: DeprecationWarning: FastDivmodDivisor is deprecated in favor of cute.FastDivmodDivisorV2 / cute.fast_divmod_create_divisor_v2. V2 additionally carries the scalar divisor across kernel boundaries (2 MLIR values per object instead of 1), so '.divisor' is readable inside kernels; arithmetic (divmod, //, %) is unchanged.
+    res_or_list = opFunc(*args, **kwargs, loc=loc)
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:947: DeprecationWarning: cutlass.utils.smem_allocator.SmemAllocator is deprecated; use cutlass.memory.SmemAllocator instead. It will be removed in a future release.
+    smem = cutlass.utils.SmemAllocator()
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_sm100.py:963: DeprecationWarning: cutlass.utils.tmem_allocator.TmemAllocator is deprecated; use cutlass.memory.TmemAllocator instead. It will be removed in a future release.
+    tmem = cutlass.utils.TmemAllocator(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/block_sparse_tile_scheduler.py:128: DeprecationWarning: Migrated to examples/CuTeDSL/helpers/dynamic_persistent_tile_scheduler.py (BSD-3). The wheel copy will be removed in a future release.
+    cutlass_params = ClcDynamicPersistentTileSchedulerParams(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_full_budget_reproduces_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_head_chunks_match_one_call
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/utils/dynamic_persistent_tile_scheduler.py:421: DeprecationWarning: Migrated to examples/CuTeDSL/helpers/dynamic_persistent_tile_scheduler.py (BSD-3). The wheel copy will be removed in a future release.
+    return ClcDynamicPersistentTileScheduler(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 48 warnings
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/utils/dynamic_persistent_tile_scheduler.py:359: DeprecationWarning: Migrated to examples/CuTeDSL/helpers/dynamic_persistent_tile_scheduler.py (BSD-3). The wheel copy will be removed in a future release.
+    return ClcDynamicPersistentTileScheduler(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 24 warnings
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/mma_sm100_desc.py:175: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    Major.K if op.a_major_mode == tcgen05.OperandMajorMode.K else Major.MN,
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 24 warnings
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/mma_sm100_desc.py:176: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    Major.K if op.b_major_mode == tcgen05.OperandMajorMode.K else Major.MN,
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 12 warnings
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_helpers.py:643: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    if const_expr(op.a_major_mode == tcgen05.OperandMajorMode.K)
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py: 24 warnings
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/cute_dsl/sparse/sm100_blk64/bsa_fwd_helpers.py:659: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    if const_expr(op.b_major_mode == tcgen05.OperandMajorMode.K)
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/base_dsl/dsl.py:2300: UserWarning: Argument aux_data (position 18) cannot be converted to a JitArgument for function 'cutlass___call___sglangkernelsopsattentionflash_attncuteflash_fwd_sm100FlashAttentionForwardSm100_object_at__Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tensorgmemoi64i64i641_Tenso'. Its type `<class 'sglang.kernels.ops.attention.flash_attn.cute.utils.AuxData'>` is not supported. If the value is known at compile time, annotate it: `aux_data: Constexpr`. Otherwise, implement the `JitArgument` or `DynamicExpression` protocol for type `<class 'sglang.kernels.ops.attention.flash_attn.cute.utils.AuxData'>`, or register a custom argument adapter.
+    exe_args, func_types, adapted_args = self.generate_mlir_function_types(
+
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_skipped_step_is_bitwise_dense
+  /opt/sglang/lib/python3.12/site-packages/nvidia_cutlass_dsl/dsl_packages/cutlass/cute/core.py:5926: DeprecationWarning: Using `struct.scalar` as pointer is deprecated.
+    [llvm_ptr_ty], [self.value], loc=loc, ip=ip
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED python/sglang/multimodal_gen/test/unit/test_subblock_sparse_attention.py::TestSubBlockNumerics::test_ragged_tail_reproduces_dense
+1 failed, 3787 passed, 133 skipped, 3 xfailed, 403 warnings, 351 subtests passed in 1268.85s (0:21:08)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+[rank0]:[W1003 16:58:39.102883366 ProcessGroupNCCL.cpp:1624] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+[rank0]:[W1003 16:58:41.132357508 CudaIPCTypes.cpp:16] Producer process has been terminated before all shared CUDA tensors released. See Note [Sharing CUDA tensors]

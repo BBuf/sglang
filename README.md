@@ -1,4 +1,4 @@
-> The expanded revision and final B200 validation are in [v2](v2/README.md). The evidence below applies only to the initial commit `d72626e74d` and its narrower scope.
+> Latest revision and explicit per-call cold-L2 validation: [v3](v3-cold-l2/README.md). [v2](v2/README.md) preserves the earlier expanded revision; the evidence below applies only to the initial `d72626e74d` scope.
 
 # Diffusion kernel cleanup: design and validation
 
