@@ -1,8 +1,10 @@
 # Expanded diffusion kernel cleanup
 
-Baseline: `5916999afbc595de62dffca077fd8249634b4e74`. Final candidate: `b10ade0673645d8515b7b74abac732f71486c6b2`. [Implementation PR](https://github.com/sgl-project/sglang/pull/42391).
+Baseline: `5916999afbc595de62dffca077fd8249634b4e74`. GPU-tested runtime snapshot: `b10ade0673645d8515b7b74abac732f71486c6b2`. [Implementation PR](https://github.com/sgl-project/sglang/pull/42391).
 
 This revision removes 17 tensor capability predicates and narrows five selectors to scalar algorithm configuration. Native CUDA host launchers validate original tensor shapes and relationships. Triton launchers own their validation. Numerical verification, platform choices and layout-dependent algorithms remain. The [design and remaining audit](design-review.md) distinguish what changed from specialized paths still requiring further work.
+
+Current PR head `f99140e5f1` removes input-validation-only tests, capability assertions and unused test imports. Runtime code is unchanged. The GPU test counts and manifest below describe the archived snapshot before these test deletions; they are not new-run counts for the reduced test suite.
 
 ## Source and hardware
 
