@@ -22,11 +22,12 @@ No device arithmetic or launch tuning changed in either fix. The source-body com
 | Final: 84 cold-L2 workloads, four GPU-event runs and four eager runs | **All output bytes, shapes and strides identical to baseline** |
 | Final: 7 additional model-helper workloads, four eager runs | **All outputs identical**; Ernie/Ideogram numerical fusion gates verified |
 | Full local model unit suite at CPU-fix revision `88882677ee` | 3787 passed, 133 skipped, 3 xfailed, 351 subtests passed; 1 baseline failure |
+| Final `290c078825`: full model-unit CI | [Passed](https://github.com/sgl-project/sglang/actions/runs/37139995184/job/111252398758) |
 | Full model CI at `88882677ee` | [3787 passed, 134 skipped, 3 xfailed, 351 subtests passed](https://github.com/sgl-project/sglang/actions/runs/37137003091/job/111243696751) |
 
 The four kernel failures are `test_ernie_qknorm_rope_is_bit_exact` and the three split-BF16-rounding/full-width-NeoX/packed-KV cases in `test_rope.py`; baseline reproduces them in this environment. The local model-suite failure is `TestSubBlockNumerics.test_ragged_tail_reproduces_dense` (NaN cosine). Running its entire file separately on baseline and `88882677ee` gives the same **1 failed, 24 passed, 3 skipped**, with 19 subtests passed. This is not counted as a passing check.
 
-The full model-suite result predates the final two-file Ideogram fix. Final-head coverage for those files consists of the existing 11 model tests, the full kernel suites, actual helper benchmarks and explicit compile/graph replay checks; fresh CI was triggered for the final head. The source manifests verify 1,612 kernel/model/test files for each full benchmark tree.
+The full model-suite result predates the final two-file Ideogram fix. Final-head coverage for those files consists of the existing 11 model tests, the full kernel suites, actual helper benchmarks and explicit compile/graph replay checks; the final-head full model-unit CI has now also passed. The source manifests verify 1,612 kernel/model/test files for each full benchmark tree.
 
 ## Cold-L2 method
 
@@ -83,4 +84,4 @@ Nsight summaries include 121 calls per operator/grid (110 cold graph replays plu
 This validates measured B200 shapes/layouts and the listed model helpers. It is not a universal guarantee for arbitrary inputs, all architectures, multi-GPU execution or full checkpoint denoising throughput. [Final-head lint](https://github.com/sgl-project/sglang/actions/runs/37139994854) passed; [fresh final-head CI](https://github.com/sgl-project/sglang/actions/runs/37139995184) was triggered and its snapshot is recorded separately.
 
 
-Final-head CI snapshot: B200 diffusion, RTX 5090 diffusion and component accuracy passed. The 4-GPU JIT job failed in the unchanged DSV4.1 sparse-indexer test `test_prefill_tail_rebuilds_the_last_rows` (overlap 501, required 501.76, row 14). Both its test file and the attention subtree are unchanged by this PR. This particular CI failure has not been reproduced on baseline. A job-only rerun was attempted, but GitHub refused while the parent workflow was still running (HTTP 403). **CI is not all green**; see [the recorded snapshot](ci-summary.json).
+Final-head CI snapshot: full model unit tests, B200 diffusion, RTX 5090 diffusion and component accuracy passed. The 4-GPU JIT job failed in the unchanged DSV4.1 sparse-indexer test `test_prefill_tail_rebuilds_the_last_rows` (overlap 501, required 501.76, row 14). Both its test file and the attention subtree are unchanged by this PR. This particular CI failure has not been reproduced on baseline. A job-only rerun was attempted, but GitHub refused while the parent workflow was still running (HTTP 403). **CI is not all green**; see [the recorded snapshot](ci-summary.json).

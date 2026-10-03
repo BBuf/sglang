@@ -40,13 +40,13 @@ Both runs pass 40 subtests. The failures are the existing Ernie QKNorm/RoPE gate
 - Existing Ideogram, Ernie RoPE/GeGLU and Wan model tests: **11 passed**.
 - Ideogram fullgraph compilation and CUDA Graph replay with replacement inputs: passed for both tested shapes, including B=2.
 - 84 cold-L2 workloads plus 7 additional model helpers: output bytes, shapes and strides match baseline in every A/B repetition.
-- The previous CPU-fix revision `88882677ee` passed the full model-unit CI (3787 passed, 134 skipped, 3 xfailed, 351 subtests). Its local run additionally executes one sparse-attention ragged-tail case that fails with NaN; the same failure reproduces in the unchanged baseline. The final two-file Ideogram change is covered by the tests/benchmarks above and fresh CI.
+- The previous CPU-fix revision `88882677ee` passed the full model-unit CI (3787 passed, 134 skipped, 3 xfailed, 351 subtests). Its local run additionally executes one sparse-attention ragged-tail case that fails with NaN; the same failure reproduces in the unchanged baseline. The final two-file Ideogram change is covered by the tests/benchmarks above, and the [final-head full model-unit CI](https://github.com/sgl-project/sglang/actions/runs/37139995184/job/111252398758) has also passed.
 
 Validation found and fixed two PR regressions: a CPU call disabling Wan's process-wide CUDA fusion gate, and Ideogram performing model-side checks plus the new launcher checks. No input-legality tests were added. Existing numerical, layout, graph, compilation and backend-selection coverage is retained.
 
 [Full cold-L2 report, source manifests, raw samples, profiling evidence and reproduction scripts](https://github.com/BBuf/sglang/tree/bbuf/diffusion-kernel-cleanup-evidence-20261003/v3-cold-l2). [Final-head lint](https://github.com/sgl-project/sglang/actions/runs/37139994854) passed; [final-head CI](https://github.com/sgl-project/sglang/actions/runs/37139995184) is enabled and running.
 
-CI is not all green: the [4-GPU JIT job](https://github.com/sgl-project/sglang/actions/runs/37139995184/job/111252444845) failed in the unchanged DSV4.1 sparse-indexer overlap test (501 vs required 501.76). Its test and attention code are unchanged by this PR; this failure has not been baseline-reproduced. GitHub rejected a job-only rerun while the parent workflow remains active. Final-head B200/5090 diffusion and component-accuracy jobs have passed.
+CI is not all green: the [4-GPU JIT job](https://github.com/sgl-project/sglang/actions/runs/37139995184/job/111252444845) failed in the unchanged DSV4.1 sparse-indexer overlap test (501 vs required 501.76). Its test and attention code are unchanged by this PR; this failure has not been baseline-reproduced. GitHub rejected a job-only rerun while the parent workflow remains active. Final-head full model-unit, B200/5090 diffusion and component-accuracy jobs have passed.
 
 ## Speed Tests and Profiling
 
