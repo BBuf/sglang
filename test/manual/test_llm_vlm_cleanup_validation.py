@@ -12,7 +12,7 @@ import tempfile
 import time
 
 BASE = "35f3c96ff4794a4de15daf12caad371084a037ee"
-HEAD = "adcd644960e2e8d8b1a2e6dc2cc0cf9a34323d16"
+HEAD = "35bc03557c454add71b2805e8c221e68362336b1"
 ROOT = Path(subprocess.check_output(["git", "rev-parse", "--show-toplevel"], text=True).strip())
 os.chdir(ROOT)
 assert subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip() == HEAD
@@ -65,6 +65,11 @@ try:
     old_kimi = baseline("baseline_kimi", "python/sglang/srt/models/kimi_k3_vl.py")
 finally:
     sys.modules["sglang.kernels.ops.attention.vision_rope"] = new_rope
+
+for mod in (old_rope, new_rope):
+    assert mod.precompile_fused_qk_complex_rope(num_heads=12, head_dim=128, dtype=torch.bfloat16, device=torch.device("cuda"))
+    assert not mod.precompile_fused_qk_complex_rope(num_heads=12, head_dim=128, dtype=torch.bfloat16, device=torch.device("cpu"))
+print("ROPE_PRECOMPILE_PARITY", "implicit CUDA device and CPU fallback", flush=True)
 
 torch.manual_seed(20261004)
 random.seed(20261004)
