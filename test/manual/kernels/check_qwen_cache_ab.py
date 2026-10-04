@@ -53,7 +53,7 @@ try:
         else:
             entry['metrics']=[]
             print(proc.stdout[-5000:],flush=True)
-        entry['cold_request']=[line for line in proc.stdout.splitlines() if line.startswith('COLD_REQUEST')]
+        entry['cold_request']=[line for line in proc.stdout.splitlines() if 'COLD_REQUEST' in line]
         print('AB_RESULT',json.dumps(entry),flush=True)
         results.append(entry)
     (TASK/'results.json').write_text(json.dumps(results,indent=2))
