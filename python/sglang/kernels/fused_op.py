@@ -109,6 +109,7 @@ BACKEND_METHODS: Dict[KernelBackend, str] = {
     KernelBackend.FLYDSL: "forward_flydsl",
     KernelBackend.HELION: "forward_helion",
     KernelBackend.KDA: "forward_kda",
+    KernelBackend.LOW_LATENCY: "forward_low_latency",
     KernelBackend.FLASHINFER: "forward_flashinfer",
     KernelBackend.DEEPGEMM: "forward_deepgemm",
     KernelBackend.AITER: "forward_aiter",
@@ -124,6 +125,7 @@ _METHOD_BACKEND_LABELS: Dict[str, str] = {
 # explicitly when wanted. Per-op priority overrides this (see BaseFusedOp).
 DEFAULT_PRIORITY: Tuple[KernelBackend, ...] = (
     KernelBackend.KDA,
+    KernelBackend.LOW_LATENCY,
     KernelBackend.AOT,
     KernelBackend.JIT,
     KernelBackend.FLASHINFER,
@@ -427,6 +429,9 @@ class BaseFusedOp(nn.Module, ABC):
 
     def forward_kda(self, *args, **kwargs):
         raise NotImplementedError(f"{self._op_label()}: no KDA backend")
+
+    def forward_low_latency(self, *args, **kwargs):
+        raise NotImplementedError(f"{self._op_label()}: no low-latency backend")
 
     def forward_flashinfer(self, *args, **kwargs):
         raise NotImplementedError(f"{self._op_label()}: no flashinfer backend")

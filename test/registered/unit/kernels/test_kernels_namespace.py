@@ -202,6 +202,21 @@ def test_operator_and_test_groups_agree():
         assert actual <= groups, actual - groups
 
 
+def test_backend_directories_register_their_backend():
+    """Kernels in a backend directory are listed by backend, so the two must agree."""
+    directory_backends = {
+        "sglang.kernels.kda_kernels.": KernelBackend.KDA,
+        "sglang.kernels.low_latency_kernels.": KernelBackend.LOW_LATENCY,
+    }
+    for spec in K.registry.all_specs():
+        expected = next(
+            (b for p, b in directory_backends.items() if spec.target.startswith(p)),
+            None,
+        )
+        if expected is not None or spec.backend in directory_backends.values():
+            assert spec.backend is expected, spec
+
+
 def test_inventory_targets_survive_module_moves():
     """Moving a module without its lazy target otherwise breaks only on first call."""
     root = Path(K.__file__).resolve().parents[3] / "python"
