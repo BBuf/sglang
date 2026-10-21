@@ -206,7 +206,7 @@ def test_backend_directories_register_their_backend():
     """Kernels in a backend directory are listed by backend, so the two must agree."""
     directory_backends = {
         "sglang.kernels.kda_kernels.": KernelBackend.KDA,
-        "sglang.kernels.low_latency_kernels.": KernelBackend.LOW_LATENCY,
+        "sglang.kernels.plugin_kernels.": KernelBackend.PLUGIN,
     }
     for spec in K.registry.all_specs():
         expected = next(
