@@ -1,0 +1,61 @@
+{
+  "arm": "sgl",
+  "source_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_repo": "/task/candidates/moss-qkv",
+  "args": {
+    "arm": "sgl",
+    "run_id": "moss-qkv-final-paired1-07-candidate_cudnn",
+    "allowed_gpu_pids": [
+      46116
+    ],
+    "repeats": 4,
+    "warmups": 8,
+    "configuration_label": "native-eager-qkv-high-transformer-cudnn-final-head",
+    "repo": "/task/candidates/moss-qkv",
+    "expected_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+    "expected_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "quality": "high"
+  },
+  "physical_gpus": [
+    0
+  ],
+  "allowed_process_commands": {
+    "46116": "sgl_diffusion::scheduler                                                                                                                 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "5025043d914c5299bb21083ca0cf559c39eb1ce91a458fbc687017a9aec29d0c",
+  "torch": "2.14.1+cu130",
+  "driver": "595.84",
+  "harness_sha256": "f814f6f302a841135b68c5a14b4899450bfb6721f345722780f3d09cc3de84d8",
+  "initial_gpu_state": {
+    "monotonic": 5441384.484412411,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          46116
+        ],
+        "memory_bytes": 28445179904,
+        "gpu_util_percent": 0,
+        "power_mw": 87854,
+        "temperature_c": 49,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 34976,
+        "temperature_c": 21,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident native-eager-qkv-high-transformer-cudnn-final-head; fixed prompt and seed; conditioning cache warm"
+}

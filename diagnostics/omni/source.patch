@@ -1,0 +1,15 @@
+diff --git a/vllm_omni/diffusion/models/mossimage/pipeline_mossimage.py b/vllm_omni/diffusion/models/mossimage/pipeline_mossimage.py
+index cbcc44f52897895afb271e7b5d29b9bc49c622e3..82aa73e8ab70a4a66ce1ee55eec4e260307cb701 100644
+--- a/vllm_omni/diffusion/models/mossimage/pipeline_mossimage.py
++++ b/vllm_omni/diffusion/models/mossimage/pipeline_mossimage.py
+@@ -252,6 +252,10 @@ class MOSSImagePipeline(nn.Module, SkipLayerGuidanceMixin, DiffusionPipelineProf
+         self.default_sample_size = _DEFAULT_RESOLUTION // 16
+         self._interrupt = False
+         self.setup_diffusion_pipeline_profiler(
++            profiler_targets=[
++                "predict_noise_with_slg", "scheduler_step_maybe_with_cfg",
++                "text_encoder.forward", "vae.decode",
++            ],
+             enable_diffusion_pipeline_profiler=od_config.enable_diffusion_pipeline_profiler
+         )
+ 

@@ -1,0 +1,878 @@
+{
+  "protocol": {
+    "id": "moss-qkv-final-paired1",
+    "created_at": "2026-10-26T16:45:15.062942+00:00",
+    "order": [
+      "main_cudnn",
+      "candidate_cudnn",
+      "omni",
+      "omni",
+      "candidate_cudnn",
+      "main_cudnn",
+      "main_cudnn",
+      "candidate_cudnn",
+      "omni",
+      "omni",
+      "candidate_cudnn",
+      "main_cudnn"
+    ],
+    "quality": "high",
+    "warmups": 8,
+    "repeats": 4,
+    "qualify_each_block": true,
+    "candidate_head_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+    "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "configuration_labels": {
+      "main_cudnn": "native-eager-high-transformer-cudnn",
+      "candidate_cudnn": "native-eager-qkv-high-transformer-cudnn-final-head",
+      "omni": "native-regional-compile-emulate-precision-casts"
+    },
+    "quality_references": {
+      "main_cudnn": [
+        "sgl-moss-moss-cleanup-cudnn-screen1-01-main_cudnn",
+        "omni-moss-compile-casts-restart"
+      ],
+      "candidate_cudnn": [
+        "sgl-moss-moss-cleanup-cudnn-screen1-01-main_cudnn",
+        "omni-moss-compile-casts-restart"
+      ],
+      "omni": [
+        "sgl-moss-moss-cleanup-cudnn-screen1-01-main_cudnn",
+        "sgl-moss-moss-cleanup-cudnn-screen1-02-candidate_cudnn"
+      ]
+    },
+    "purpose": "Two repeated symmetric A-B-C-C-B-A cycles. For any two arms the relative sequence is ABBA. 4 fresh processes and16 measured requests per arm,8thermalwarmups/process. Each process first passes frozen3prompt numericquality, short-long-text-short repeatability and all benchmark outputs equal its qualified short image. No profiler, one physicalGPU0, GPU1mustidle. Stop+retainfailure ifquality/resource/sourcevalidationfails.",
+    "analysis_contract": "For each cycle pair left adjacent A/B and B/C, then mirrored right B/A and C/B; compute block median ratios, geomean across4 temporalpairs, show everypair and block, no dropping failures. HTTP E2Eprimary; native SGLdenoisestage separately; Omni native denoise instrumentation separately. Report p50/p95,throughput,peakNVML,startup,warmup,quality,allrawoutputs. No targetclaimeduntilanalysis."
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "config": "main_cudnn",
+      "name": "moss-qkv-final-paired1-00-main_cudnn",
+      "p50_seconds": 14.70821405062452,
+      "http_seconds": [
+        14.70547494199127,
+        14.705389431677759,
+        14.71095315925777,
+        14.711358819156885
+      ],
+      "denoise_seconds": [
+        14.490507306531072,
+        14.493441944010556,
+        14.495516336522996,
+        14.497531587257981
+      ],
+      "engine_total_seconds": [
+        14.667197808623314,
+        14.669896816834807,
+        14.672139269299805,
+        14.674562054686248
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34581446656,
+      "launch_to_ready_seconds": 56.054315112531185,
+      "quality_pass": true,
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "output_sha256": "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+      "warmup_http_seconds": [
+        14.610962871462107,
+        14.644625728018582,
+        14.67135033942759,
+        14.680513955652714,
+        14.690149859525263,
+        14.698729305528104,
+        14.704302984289825,
+        14.706849691458046
+      ],
+      "measured_cv_percent": 0.022497307241831434,
+      "temperature_c_range": [
+        62,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2332,
+        2407
+      ],
+      "mean_sampled_power_w": 595.01585,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 1,
+      "config": "candidate_cudnn",
+      "name": "moss-qkv-final-paired1-01-candidate_cudnn",
+      "p50_seconds": 14.507460329215974,
+      "http_seconds": [
+        14.511798682622612,
+        14.506681184284389,
+        14.508239474147558,
+        14.505122657865286
+      ],
+      "denoise_seconds": [
+        14.294811102561653,
+        14.293906038627028,
+        14.29249917063862,
+        14.293130756355822
+      ],
+      "engine_total_seconds": [
+        14.471657603047788,
+        14.470527227036655,
+        14.469157122075558,
+        14.469975306652486
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34659041280,
+      "launch_to_ready_seconds": 54.045043968595564,
+      "quality_pass": true,
+      "source_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+      "output_sha256": "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+      "warmup_http_seconds": [
+        14.430746010504663,
+        14.45751410536468,
+        14.47693448420614,
+        14.48861998040229,
+        14.500731931999326,
+        14.49943568278104,
+        14.505298411473632,
+        14.505969853140414
+      ],
+      "measured_cv_percent": 0.01969751069070664,
+      "temperature_c_range": [
+        64,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2317,
+        2407
+      ],
+      "mean_sampled_power_w": 595.1540677966102,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 2,
+      "config": "omni",
+      "name": "moss-qkv-final-paired1-02-omni",
+      "p50_seconds": 14.8350615282543,
+      "http_seconds": [
+        14.83806770388037,
+        14.826633303426206,
+        14.832055352628231,
+        14.839003413915634
+      ],
+      "denoise_seconds": [],
+      "engine_total_seconds": [
+        14.71277666091919,
+        14.710186958312988,
+        14.713719844818115,
+        14.717665910720825
+      ],
+      "queue_seconds": [
+        0.0005041612312197685,
+        0.00023082830011844635,
+        0.00046527478843927383,
+        0.000505262054502964
+      ],
+      "peak_gpu_memory_bytes": 34900213760,
+      "launch_to_ready_seconds": 32.017957794480026,
+      "quality_pass": true,
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "output_sha256": "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+      "warmup_http_seconds": [
+        14.749427309259772,
+        14.7857182379812,
+        14.80300287809223,
+        14.80625422578305,
+        14.816630027256906,
+        14.818849742412567,
+        14.831477225758135,
+        14.821638126857579
+      ],
+      "measured_cv_percent": 0.03884606140130512,
+      "temperature_c_range": [
+        58,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2310,
+        2422
+      ],
+      "mean_sampled_power_w": 588.1701229508196,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 3,
+      "config": "omni",
+      "name": "moss-qkv-final-paired1-03-omni",
+      "p50_seconds": 14.823555291630328,
+      "http_seconds": [
+        14.819197736680508,
+        14.824723882600665,
+        14.82238670065999,
+        14.827142568305135
+      ],
+      "denoise_seconds": [],
+      "engine_total_seconds": [
+        14.704527616500854,
+        14.708619832992554,
+        14.706029415130615,
+        14.711538553237915
+      ],
+      "queue_seconds": [
+        0.0004075821489095688,
+        0.0002706283703446388,
+        0.000521407462656498,
+        0.00038427673280239105
+      ],
+      "peak_gpu_memory_bytes": 34900213760,
+      "launch_to_ready_seconds": 32.01683954615146,
+      "quality_pass": true,
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "output_sha256": "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+      "warmup_http_seconds": [
+        14.740300543606281,
+        14.768110778182745,
+        14.798480874858797,
+        14.81137299630791,
+        14.810874346643686,
+        14.823517464101315,
+        14.824160994030535,
+        14.823506607674062
+      ],
+      "measured_cv_percent": 0.022857168067460708,
+      "temperature_c_range": [
+        58,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2310,
+        2422
+      ],
+      "mean_sampled_power_w": 588.695606557377,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 4,
+      "config": "candidate_cudnn",
+      "name": "moss-qkv-final-paired1-04-candidate_cudnn",
+      "p50_seconds": 14.509950735606253,
+      "http_seconds": [
+        14.514478266239166,
+        14.506053037010133,
+        14.513848434202373,
+        14.505932353436947
+      ],
+      "denoise_seconds": [
+        14.289050542749465,
+        14.289651679806411,
+        14.29045219346881,
+        14.292736290954053
+      ],
+      "engine_total_seconds": [
+        14.46630350034684,
+        14.466831422410905,
+        14.467455097474158,
+        14.469751468859613
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34659041280,
+      "launch_to_ready_seconds": 56.04238204751164,
+      "quality_pass": true,
+      "source_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+      "output_sha256": "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+      "warmup_http_seconds": [
+        14.425120741128922,
+        14.454577178694308,
+        14.471554100513458,
+        14.484585317783058,
+        14.48961912561208,
+        14.493902493268251,
+        14.502172552980483,
+        14.505085463635623
+      ],
+      "measured_cv_percent": 0.032560742955779244,
+      "temperature_c_range": [
+        61,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2317,
+        2415
+      ],
+      "mean_sampled_power_w": 594.9148050847458,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 5,
+      "config": "main_cudnn",
+      "name": "moss-qkv-final-paired1-05-main_cudnn",
+      "p50_seconds": 14.714618446305394,
+      "http_seconds": [
+        14.712998346425593,
+        14.70877278316766,
+        14.716238546185195,
+        14.718330876901746
+      ],
+      "denoise_seconds": [
+        14.496976015157998,
+        14.497085201554,
+        14.497955006547272,
+        14.503048895858228
+      ],
+      "engine_total_seconds": [
+        14.673436160199344,
+        14.673918215557933,
+        14.67432701587677,
+        14.67995489295572
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34581446656,
+      "launch_to_ready_seconds": 56.0427187141031,
+      "quality_pass": true,
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "output_sha256": "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+      "warmup_http_seconds": [
+        14.631859665736556,
+        14.661267348565161,
+        14.677669887430966,
+        14.692816029302776,
+        14.702354625798762,
+        14.708897115662694,
+        14.705877845175564,
+        14.706450818106532
+      ],
+      "measured_cv_percent": 0.028312742868232002,
+      "temperature_c_range": [
+        63,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2332,
+        2400
+      ],
+      "mean_sampled_power_w": 595.0752875000001,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 6,
+      "config": "main_cudnn",
+      "name": "moss-qkv-final-paired1-06-main_cudnn",
+      "p50_seconds": 14.716495767235756,
+      "http_seconds": [
+        14.722503990866244,
+        14.710990006104112,
+        14.717583709396422,
+        14.71540782507509
+      ],
+      "denoise_seconds": [
+        14.50064702425152,
+        14.500090265646577,
+        14.503625981509686,
+        14.503535764291883
+      ],
+      "engine_total_seconds": [
+        14.677192813716829,
+        14.676209683530033,
+        14.679823842830956,
+        14.67996986862272
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34581446656,
+      "launch_to_ready_seconds": 56.040533502586186,
+      "quality_pass": true,
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "output_sha256": "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+      "warmup_http_seconds": [
+        14.63649335782975,
+        14.671754523180425,
+        14.683321423828602,
+        14.693399110808969,
+        14.706754861399531,
+        14.707157033495605,
+        14.708486450836062,
+        14.709645818918943
+      ],
+      "measured_cv_percent": 0.03252078823425258,
+      "temperature_c_range": [
+        63,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2325,
+        2407
+      ],
+      "mean_sampled_power_w": 594.8856625,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 7,
+      "config": "candidate_cudnn",
+      "name": "moss-qkv-final-paired1-07-candidate_cudnn",
+      "p50_seconds": 14.510581281036139,
+      "http_seconds": [
+        14.514572638086975,
+        14.507216908037663,
+        14.510611709207296,
+        14.51055085286498
+      ],
+      "denoise_seconds": [
+        14.29204123094678,
+        14.294584133662283,
+        14.293009113520384,
+        14.297081527300179
+      ],
+      "engine_total_seconds": [
+        14.468481620773673,
+        14.471190717071295,
+        14.469829112291336,
+        14.473938287235796
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34659041280,
+      "launch_to_ready_seconds": 56.052022475749254,
+      "quality_pass": true,
+      "source_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+      "output_sha256": "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+      "warmup_http_seconds": [
+        14.425207329913974,
+        14.461844424717128,
+        14.47153471596539,
+        14.487333595752716,
+        14.496230081655085,
+        14.498923941515386,
+        14.50378698669374,
+        14.503533695824444
+      ],
+      "measured_cv_percent": 0.02073303446537981,
+      "temperature_c_range": [
+        60,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2317,
+        2407
+      ],
+      "mean_sampled_power_w": 594.9307627118644,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 8,
+      "config": "omni",
+      "name": "moss-qkv-final-paired1-08-omni",
+      "p50_seconds": 14.824323979672045,
+      "http_seconds": [
+        14.824588861316442,
+        14.826259753666818,
+        14.824059098027647,
+        14.821573165245354
+      ],
+      "denoise_seconds": [],
+      "engine_total_seconds": [
+        14.706579685211182,
+        14.709901094436646,
+        14.706237554550171,
+        14.703318119049072
+      ],
+      "queue_seconds": [
+        0.00047027599066495895,
+        0.0004352051764726639,
+        0.0004304954782128334,
+        0.00035922881215810776
+      ],
+      "peak_gpu_memory_bytes": 34900213760,
+      "launch_to_ready_seconds": 32.01630631648004,
+      "quality_pass": true,
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "output_sha256": "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+      "warmup_http_seconds": [
+        14.745650807395577,
+        14.781866311095655,
+        14.787106226198375,
+        14.807129554450512,
+        14.810151061043143,
+        14.814301928505301,
+        14.816671742126346,
+        14.822916182689369
+      ],
+      "measured_cv_percent": 0.013085419657094985,
+      "temperature_c_range": [
+        59,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2310,
+        2422
+      ],
+      "mean_sampled_power_w": 588.5455327868852,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 9,
+      "config": "omni",
+      "name": "moss-qkv-final-paired1-09-omni",
+      "p50_seconds": 14.844333488959819,
+      "http_seconds": [
+        14.845835697837174,
+        14.839329971000552,
+        14.854645965620875,
+        14.842831280082464
+      ],
+      "denoise_seconds": [],
+      "engine_total_seconds": [
+        14.72091794013977,
+        14.717686414718628,
+        14.731018781661987,
+        14.719809770584106
+      ],
+      "queue_seconds": [
+        0.00047162454575300217,
+        0.00039869174361228943,
+        0.00047161057591438293,
+        0.0005829371511936188
+      ],
+      "peak_gpu_memory_bytes": 34900213760,
+      "launch_to_ready_seconds": 32.01603345759213,
+      "quality_pass": true,
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "output_sha256": "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+      "warmup_http_seconds": [
+        14.759373835287988,
+        14.78854222688824,
+        14.805096290074289,
+        14.819146708585322,
+        14.83079112879932,
+        14.819230299443007,
+        14.836338149383664,
+        14.831148414872587
+      ],
+      "measured_cv_percent": 0.044144945989260984,
+      "temperature_c_range": [
+        59,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2310,
+        2422
+      ],
+      "mean_sampled_power_w": 588.0980040983607,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 10,
+      "config": "candidate_cudnn",
+      "name": "moss-qkv-final-paired1-10-candidate_cudnn",
+      "p50_seconds": 14.50949545064941,
+      "http_seconds": [
+        14.504680049605668,
+        14.509503648616374,
+        14.514087395742536,
+        14.509487252682447
+      ],
+      "denoise_seconds": [
+        14.291329492814839,
+        14.295060149393976,
+        14.295658549293876,
+        14.293594814836979
+      ],
+      "engine_total_seconds": [
+        14.467923157848418,
+        14.471869634464383,
+        14.473361146636307,
+        14.47061896044761
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34659041280,
+      "launch_to_ready_seconds": 56.04964543879032,
+      "quality_pass": true,
+      "source_sha": "d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+      "output_sha256": "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+      "warmup_http_seconds": [
+        14.425775985233486,
+        14.454057455994189,
+        14.472934388555586,
+        14.482581609860063,
+        14.492608326487243,
+        14.496638919226825,
+        14.501304285600781,
+        14.503415456973016
+      ],
+      "measured_cv_percent": 0.026472976279280823,
+      "temperature_c_range": [
+        63,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2317,
+        2407
+      ],
+      "mean_sampled_power_w": 595.0505211864407,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    },
+    {
+      "index": 11,
+      "config": "main_cudnn",
+      "name": "moss-qkv-final-paired1-11-main_cudnn",
+      "p50_seconds": 14.71377519518137,
+      "http_seconds": [
+        14.714398632757366,
+        14.714766033925116,
+        14.713151757605374,
+        14.712318577803671
+      ],
+      "denoise_seconds": [
+        14.502694807946682,
+        14.50450520310551,
+        14.50084138661623,
+        14.500325615517795
+      ],
+      "engine_total_seconds": [
+        14.679713395424187,
+        14.680965756997466,
+        14.67723023146391,
+        14.676743642427027
+      ],
+      "queue_seconds": [],
+      "peak_gpu_memory_bytes": 34581446656,
+      "launch_to_ready_seconds": 56.043726929463446,
+      "quality_pass": true,
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "output_sha256": "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+      "warmup_http_seconds": [
+        14.635319950059056,
+        14.673296171240509,
+        14.685531015507877,
+        14.698220659047365,
+        14.707936371676624,
+        14.716702588833869,
+        14.713464465923607,
+        14.722410403192043
+      ],
+      "measured_cv_percent": 0.0076758348752023345,
+      "temperature_c_range": [
+        63,
+        71
+      ],
+      "sm_clock_mhz_range": [
+        2325,
+        2400
+      ],
+      "mean_sampled_power_w": 595.0286208333333,
+      "ownership_check": "All archived warmup/measured NVML samples: expected GPU UUID0, only recorded owned PIDs; GPU1 no processes."
+    }
+  ],
+  "aggregates": {
+    "main_cudnn": {
+      "process_count": 4,
+      "measured_request_count": 16,
+      "http_p50_seconds": 14.713075052015483,
+      "http_p95_seconds": 14.71937415539287,
+      "sequential_requests_per_second": 0.06796634244785862,
+      "denoise_p50_seconds": 14.500207940582186,
+      "denoise_definition": "SGL native denoising stage includes scheduler; Omni denoise requires separate native instrumentation",
+      "engine_total_p50_seconds": 14.67647666297853,
+      "peak_gpu_memory_bytes": 34581446656,
+      "process_launch_to_ready_seconds": [
+        56.054315112531185,
+        56.0427187141031,
+        56.040533502586186,
+        56.043726929463446
+      ],
+      "process_output_sha256": [
+        "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+        "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+        "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f",
+        "3fdf7cc01d32a8d88fae937fd9854160e6214cbd4e14a6849f891ac1e366896f"
+      ],
+      "thermal_warmup_total_http_seconds": [
+        117.40748473536223,
+        117.48719333577901,
+        117.51701258029789,
+        117.55288162548095
+      ],
+      "measured_block_cv_percent": [
+        0.022497307241831434,
+        0.028312742868232002,
+        0.03252078823425258,
+        0.0076758348752023345
+      ],
+      "capture_cost_seconds": null,
+      "capture_note": "SGL BCG disabled. Omni regional compile is native; process launch-to-ready plus request warmup recorded separately, no isolated cold compile estimate."
+    },
+    "candidate_cudnn": {
+      "process_count": 4,
+      "measured_request_count": 16,
+      "http_p50_seconds": 14.50949545064941,
+      "http_p95_seconds": 14.514501859201118,
+      "sequential_requests_per_second": 0.06892010585948447,
+      "denoise_p50_seconds": 14.293069934938103,
+      "denoise_definition": "SGL native denoising stage includes scheduler; Omni denoise requires separate native instrumentation",
+      "engine_total_p50_seconds": 14.469902209471911,
+      "peak_gpu_memory_bytes": 34659041280,
+      "process_launch_to_ready_seconds": [
+        54.045043968595564,
+        56.04238204751164,
+        56.052022475749254,
+        56.04964543879032
+      ],
+      "process_output_sha256": [
+        "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+        "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+        "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437",
+        "9edd1088b643b72e549fbec3f73c98e98571735a149fb09042be98cc373c5437"
+      ],
+      "thermal_warmup_total_http_seconds": [
+        115.86525045987219,
+        115.82661697361618,
+        115.84839477203786,
+        115.82931642793119
+      ],
+      "measured_block_cv_percent": [
+        0.01969751069070664,
+        0.032560742955779244,
+        0.02073303446537981,
+        0.026472976279280823
+      ],
+      "capture_cost_seconds": null,
+      "capture_note": "SGL BCG disabled. Omni regional compile is native; process launch-to-ready plus request warmup recorded separately, no isolated cold compile estimate."
+    },
+    "omni": {
+      "process_count": 4,
+      "measured_request_count": 16,
+      "http_p50_seconds": 14.82688793586567,
+      "http_p95_seconds": 14.8480382647831,
+      "sequential_requests_per_second": 0.06742283214263244,
+      "denoise_p50_seconds": null,
+      "denoise_definition": "SGL native denoising stage includes scheduler; Omni denoise requires separate native instrumentation",
+      "engine_total_p50_seconds": 14.710862755775452,
+      "peak_gpu_memory_bytes": 34900213760,
+      "process_launch_to_ready_seconds": [
+        32.017957794480026,
+        32.01683954615146,
+        32.01630631648004,
+        32.01603345759213
+      ],
+      "process_output_sha256": [
+        "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+        "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+        "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538",
+        "bfa32ee320426fc1625e7b50d7a518746b45ce09b7ec76925aeb04281e3fa538"
+      ],
+      "thermal_warmup_total_http_seconds": [
+        118.43299777340144,
+        118.40032460540533,
+        118.38579381350428,
+        118.48966705333441
+      ],
+      "measured_block_cv_percent": [
+        0.03884606140130512,
+        0.022857168067460708,
+        0.013085419657094985,
+        0.044144945989260984
+      ],
+      "capture_cost_seconds": null,
+      "capture_note": "SGL BCG disabled. Omni regional compile is native; process launch-to-ready plus request warmup recorded separately, no isolated cold compile estimate."
+    }
+  },
+  "paired": {
+    "main_over_candidate": {
+      "pairs": [
+        {
+          "numerator_block": 0,
+          "denominator_block": 1,
+          "speedup": 1.013837964526724
+        },
+        {
+          "numerator_block": 5,
+          "denominator_block": 4,
+          "speedup": 1.0141053346374844
+        },
+        {
+          "numerator_block": 6,
+          "denominator_block": 7,
+          "speedup": 1.0141906435181014
+        },
+        {
+          "numerator_block": 11,
+          "denominator_block": 10,
+          "speedup": 1.014079038463244
+        }
+      ],
+      "geometric_mean_speedup": 1.0140532368293105,
+      "all_pairs_faster": true,
+      "min_pair_speedup": 1.013837964526724,
+      "max_pair_speedup": 1.0141906435181014,
+      "descriptive_pair_bootstrap_95_interval": [
+        1.0139048004450202,
+        1.0141627411029313
+      ],
+      "interval_caveat": "Only4 temporal process pairs; exploratory resampling of pairs, not a claim of broad workload uncertainty."
+    },
+    "omni_over_candidate": {
+      "pairs": [
+        {
+          "numerator_block": 2,
+          "denominator_block": 1,
+          "speedup": 1.0225815678005739
+        },
+        {
+          "numerator_block": 3,
+          "denominator_block": 4,
+          "speedup": 1.0216130682824798
+        },
+        {
+          "numerator_block": 8,
+          "denominator_block": 7,
+          "speedup": 1.0216216492337171
+        },
+        {
+          "numerator_block": 9,
+          "denominator_block": 10,
+          "speedup": 1.0230771662218912
+        }
+      ],
+      "geometric_mean_speedup": 1.0222231682520084,
+      "all_pairs_faster": true,
+      "min_pair_speedup": 1.0216130682824798,
+      "max_pair_speedup": 1.0230771662218912,
+      "descriptive_pair_bootstrap_95_interval": [
+        1.021617358749089,
+        1.0228293369942758
+      ],
+      "interval_caveat": "Only4 temporal process pairs; exploratory resampling of pairs, not a claim of broad workload uncertainty."
+    },
+    "omni_over_main": {
+      "pairs": [
+        {
+          "numerator_block": 2,
+          "denominator_block": 0,
+          "speedup": 1.0086242610552976
+        },
+        {
+          "numerator_block": 3,
+          "denominator_block": 5,
+          "speedup": 1.0074033075150708
+        },
+        {
+          "numerator_block": 8,
+          "denominator_block": 6,
+          "speedup": 1.0073270304386153
+        },
+        {
+          "numerator_block": 9,
+          "denominator_block": 11,
+          "speedup": 1.0088732016118613
+        }
+      ],
+      "geometric_mean_speedup": 1.0080567085888343,
+      "all_pairs_faster": true,
+      "min_pair_speedup": 1.0073270304386153,
+      "max_pair_speedup": 1.0088732016118613,
+      "descriptive_pair_bootstrap_95_interval": [
+        1.0073651682548863,
+        1.008748723654338
+      ],
+      "interval_caveat": "Only4 temporal process pairs; exploratory resampling of pairs, not a claim of broad workload uncertainty."
+    }
+  },
+  "scope": "Only frozen MOSS Base1024\u00b2/50/CFG3 batch1 concurrency1 hot conditioning. Not the full81entrymatrix; no BCG claim.",
+  "omitted_from_end_to_end_timing": "Server startup/thermal warmups and client PNG decode/write are excluded; HTTP fullresponse bytes included.",
+  "note": "Every planned block retained. Profiler-free timing. Native Omni denoise diagnostic and final media/review remain separate gates."
+}

@@ -1,0 +1,29 @@
+{
+  "config": "omni-forward",
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "77dd31e4ec32c402d1ad5912c6e17fc0947ddcfb198b4c42564d4812e38bebac",
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "MOSS_CANDIDATE_SHA=d752066eaa6f5091fa4c8daa2ba1d5d43a3928cd",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/moss-qkv-final-omni-forward-profile1-omni-forward",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/moss-qkv-final-omni-forward-profile1-omni-forward/server.pid; exec sh /task/launch_omni_moss_forward_diagnostic.sh"
+  ],
+  "profile_dir": "/task/outputs/profiles/moss-qkv-final-omni-forward-profile1-omni-forward",
+  "primary_benchmark": false,
+  "native_pipeline_instrumentation": true,
+  "runner_sha256": "5fd61e2094914371ab4b1f00d9599fa219750984da18af33f11236dab746daad",
+  "launch_to_ready_seconds": 34.17700768634677,
+  "gpu_container_pids": [
+    [
+      9686
+    ],
+    []
+  ]
+}

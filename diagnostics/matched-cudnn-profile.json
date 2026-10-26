@@ -1,0 +1,135 @@
+{
+  "caveat": "Diagnostic completeGPUsteps2-4 only, not anE2Eperformanceestimator. Whole traces contain different outside-step work and must not be compared by total sums.",
+  "arms": {
+    "main": {
+      "mean_gpu_step_ms": 289.527236,
+      "steps": [
+        {
+          "step": "ProfilerStep#2",
+          "gpu_annotation_ms": 289.620378,
+          "gemm": {
+            "calls": 502,
+            "sum_ms": 214.84901899999977
+          },
+          "bf16_copy": {
+            "calls": 9,
+            "sum_ms": 0.014464
+          },
+          "norm_rope": {
+            "calls": 166,
+            "sum_ms": 2.4560109999999984
+          },
+          "cudnn_attention": {
+            "calls": 83,
+            "sum_ms": 53.68378500000001
+          }
+        },
+        {
+          "step": "ProfilerStep#3",
+          "gpu_annotation_ms": 289.438969,
+          "gemm": {
+            "calls": 502,
+            "sum_ms": 214.81656099999995
+          },
+          "bf16_copy": {
+            "calls": 9,
+            "sum_ms": 0.014785
+          },
+          "norm_rope": {
+            "calls": 166,
+            "sum_ms": 2.453164
+          },
+          "cudnn_attention": {
+            "calls": 83,
+            "sum_ms": 53.685767999999996
+          }
+        },
+        {
+          "step": "ProfilerStep#4",
+          "gpu_annotation_ms": 289.522361,
+          "gemm": {
+            "calls": 502,
+            "sum_ms": 214.92612800000006
+          },
+          "bf16_copy": {
+            "calls": 9,
+            "sum_ms": 0.014529
+          },
+          "norm_rope": {
+            "calls": 166,
+            "sum_ms": 2.455023
+          },
+          "cudnn_attention": {
+            "calls": 83,
+            "sum_ms": 53.700042
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "mean_gpu_step_ms": 285.5020383333333,
+      "steps": [
+        {
+          "step": "ProfilerStep#2",
+          "gpu_annotation_ms": 285.46653999999995,
+          "gemm": {
+            "calls": 336,
+            "sum_ms": 209.34656100000007
+          },
+          "bf16_copy": {
+            "calls": 9,
+            "sum_ms": 0.014723
+          },
+          "norm_rope": {
+            "calls": 166,
+            "sum_ms": 4.638771000000003
+          },
+          "cudnn_attention": {
+            "calls": 83,
+            "sum_ms": 53.52552800000002
+          }
+        },
+        {
+          "step": "ProfilerStep#3",
+          "gpu_annotation_ms": 285.283915,
+          "gemm": {
+            "calls": 336,
+            "sum_ms": 209.2371910000002
+          },
+          "bf16_copy": {
+            "calls": 9,
+            "sum_ms": 0.014496
+          },
+          "norm_rope": {
+            "calls": 166,
+            "sum_ms": 4.645588999999998
+          },
+          "cudnn_attention": {
+            "calls": 83,
+            "sum_ms": 53.49412800000001
+          }
+        },
+        {
+          "step": "ProfilerStep#4",
+          "gpu_annotation_ms": 285.75566,
+          "gemm": {
+            "calls": 336,
+            "sum_ms": 209.79305100000008
+          },
+          "bf16_copy": {
+            "calls": 9,
+            "sum_ms": 0.014527
+          },
+          "norm_rope": {
+            "calls": 166,
+            "sum_ms": 4.635771000000002
+          },
+          "cudnn_attention": {
+            "calls": 83,
+            "sum_ms": 53.60747400000001
+          }
+        }
+      ]
+    }
+  }
+}

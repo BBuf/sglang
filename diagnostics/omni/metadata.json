@@ -1,0 +1,61 @@
+{
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "77dd31e4ec32c402d1ad5912c6e17fc0947ddcfb198b4c42564d4812e38bebac",
+  "source_repo": "/task/diagnostics/omni-moss-forward-profile",
+  "args": {
+    "arm": "omni",
+    "run_id": "moss-qkv-final-omni-forward-profile1",
+    "allowed_gpu_pids": [
+      9686
+    ],
+    "repeats": 4,
+    "warmups": 4,
+    "configuration_label": "diagnostic-only-native-forward-profiler-targets",
+    "repo": "/task/diagnostics/omni-moss-forward-profile",
+    "expected_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+    "expected_diff_sha256": "77dd31e4ec32c402d1ad5912c6e17fc0947ddcfb198b4c42564d4812e38bebac",
+    "quality": "high"
+  },
+  "physical_gpus": [
+    0
+  ],
+  "allowed_process_commands": {
+    "9686": "/usr/bin/python /usr/local/bin/vllm serve /task/cache/common/MOSS-Image-Base --omni --num-gpus 1 --host 127.0.0.1 --port 31031 --enable-diffusion-pipeline-profiler "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "5025043d914c5299bb21083ca0cf559c39eb1ce91a458fbc687017a9aec29d0c",
+  "torch": "2.13.0+cu130",
+  "driver": "595.84",
+  "harness_sha256": "f814f6f302a841135b68c5a14b4899450bfb6721f345722780f3d09cc3de84d8",
+  "initial_gpu_state": {
+    "monotonic": 5450079.286547506,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          9686
+        ],
+        "memory_bytes": 34900213760,
+        "gpu_util_percent": 0,
+        "power_mw": 86865,
+        "temperature_c": 47,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 32751,
+        "temperature_c": 20,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident diagnostic-only-native-forward-profiler-targets; fixed prompt and seed; conditioning cache warm"
+}
