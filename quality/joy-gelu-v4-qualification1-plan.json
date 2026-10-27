@@ -1,0 +1,60 @@
+{
+  "id": "joy-gelu-v4-qualification1",
+  "created_at": "2026-10-27T00:38:45.277770+00:00",
+  "purpose": "Qualify broadened native-bucket candidate and high/lossless restoration on actual frozen inputs. No primary timing claims.",
+  "baseline_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "omni_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "candidate_head_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "candidate_diff_sha256": "d471fa9e3522b44bf2c567c5e60ceb264818204437775f32712df31573b77aa8",
+  "label": "gelu-v4",
+  "order": [
+    {
+      "source": "main",
+      "shapes": [
+        "wide",
+        "tall"
+      ],
+      "qualities": [
+        "high",
+        "lossless"
+      ]
+    },
+    {
+      "source": "pr",
+      "shapes": [
+        "square",
+        "wide",
+        "tall"
+      ],
+      "qualities": [
+        "high",
+        "lossless"
+      ]
+    },
+    {
+      "source": "omni",
+      "shapes": [
+        "wide",
+        "tall"
+      ],
+      "qualities": [
+        "high"
+      ],
+      "regional_compile": true
+    }
+  ],
+  "contracts": {
+    "square": {
+      "path": "/task/inputs/joy-workloads.json",
+      "sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b"
+    },
+    "wide": {
+      "path": "/task/inputs/joy-workloads-wide.json",
+      "sha256": "620b852487bac78106ef31c6b066183dd2ffea583044425755d8b14bfb5ab76d"
+    },
+    "tall": {
+      "path": "/task/inputs/joy-workloads-tall.json",
+      "sha256": "118ff91e61127ae0ac0911b95ef04eb7258898eaa6a9094a186e6cef2a4cc790"
+    }
+  }
+}

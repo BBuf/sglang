@@ -1,0 +1,138 @@
+{
+  "plan": {
+    "id": "joy-gelu-v1-aa1",
+    "created_at": "2026-10-26T22:04:59.887893+00:00",
+    "purpose": "First prospective profiler-free A/A noise run, frozen main high only. Do not start until complete main/pr quality passes; no candidate speedup claim from this plan.",
+    "order": [
+      "main",
+      "main"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 6,
+    "qualify_each_block": true,
+    "quality_references": {
+      "main": [
+        "sgl-joy-gelu-v1-main-high",
+        "omni-joy-eager-initial1",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "main": "resident eager cuDNN 1024square 30steps CFG4 batch1 concurrency1 high"
+    },
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "aa_acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    },
+    "candidate_diff_sha256": "f451e9f2d8342dc690c370045222b6a6ef4b2b8d498572354debb7ebb4003938",
+    "candidate_head_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "omni_reference_note": "Native default regionalcompile now numericallyqualified on all4requests; addedreferencebefore anyAAdata. This plan stillmeasuresmainonly."
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "config": "main",
+      "name": "joy-gelu-v1-aa1-00-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.9988918164745,
+        35.99763451330364,
+        35.99933167267591,
+        35.992536441423,
+        36.008343825116754,
+        36.0037499750033
+      ],
+      "p50_seconds": 35.9991117445752,
+      "p95_seconds": 36.00719536258839,
+      "cv_percent": 0.0150419322844314,
+      "denoise_seconds": [
+        35.60985631681979,
+        35.610965189523995,
+        35.620125928893685,
+        35.61498038470745,
+        35.62162759993225,
+        35.620071183890104
+      ],
+      "denoise_p50_seconds": 35.61752578429878,
+      "engine_total_p50_seconds": 35.94556509004906,
+      "sequential_requests_per_second": 0.02777771498933983,
+      "peak_gpu_memory_bytes": 63148851200,
+      "launch_to_ready_seconds": 80.08271313644946,
+      "warmup_http_seconds": [
+        35.84494679328054,
+        35.97052022628486
+      ],
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2415
+      ],
+      "temperature_c_range": [
+        61,
+        72
+      ]
+    },
+    {
+      "index": 1,
+      "config": "main",
+      "name": "joy-gelu-v1-aa1-01-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.98567204363644,
+        36.00398955587298,
+        35.99397605843842,
+        35.994593487121165,
+        35.993257185444236,
+        35.98511152155697
+      ],
+      "p50_seconds": 35.99361662194133,
+      "p95_seconds": 36.001640538685024,
+      "cv_percent": 0.019246016102272695,
+      "denoise_seconds": [
+        35.60387330595404,
+        35.61488907132298,
+        35.61810900643468,
+        35.61485662870109,
+        35.61137476935983,
+        35.614540255628526
+      ],
+      "denoise_p50_seconds": 35.61469844216481,
+      "engine_total_p50_seconds": 35.94016778236255,
+      "sequential_requests_per_second": 0.02778336019417784,
+      "peak_gpu_memory_bytes": 63148851200,
+      "launch_to_ready_seconds": 80.07544223871082,
+      "warmup_http_seconds": [
+        35.836258463561535,
+        35.964823436923325
+      ],
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2392
+      ],
+      "temperature_c_range": [
+        61,
+        71
+      ]
+    }
+  ],
+  "all_planned_blocks_present": true,
+  "scope": "Frozen Joy1024square30stepsCFG4BF16, GPU0,batch1,concurrency1,high. Shortprompt primary timing; long/Chinese quality only. Not fullmatrix.",
+  "source_and_ownership_audit_pass": true,
+  "aa": {
+    "block_median_relative_difference": 0.00015266936611535442,
+    "max_within_block_cv_percent": 0.019246016102272695,
+    "acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    },
+    "passed": true
+  }
+}

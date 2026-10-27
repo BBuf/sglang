@@ -1,0 +1,130 @@
+{
+  "created_at": "2026-10-27T01:13:03.703342+00:00",
+  "all_pass": true,
+  "visual_review_pass": true,
+  "output_count": 48,
+  "patch_sha256": "d471fa9e3522b44bf2c567c5e60ceb264818204437775f32712df31573b77aa8",
+  "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+  "qualification_source_note": "The48outputs ran on the exact v4 patch at the frozen baseline before it was committed. The final commit diff is byte-identical. Each forthcoming primary process requalifies actual final HEAD outputs before timing.",
+  "numeric_audit": "evidence/qualification/joy-gelu-v4-numeric-audit.json",
+  "visual_reviews": [
+    "evidence/qualification/joy-gelu-v4-main-visual-review.json",
+    "evidence/qualification/joy-gelu-v4-pr-visual-review.json",
+    "evidence/qualification/joy-gelu-v4-omni-visual-review.json",
+    "evidence/qualification/joy-gelu-v1-visual-review.json",
+    "evidence/qualification/joy-omni-compile-qualification-summary.json"
+  ],
+  "comparisons": [
+    {
+      "candidate": "sgl-joy-gelu-v4-wide-main-lossless",
+      "reference": "sgl-joy-gelu-v4-wide-main-high",
+      "pixel_identical": true,
+      "min_ssim": 1.0,
+      "min_psnr_db": null,
+      "worst_ssim_prompt": "00-edit-short"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-tall-main-lossless",
+      "reference": "sgl-joy-gelu-v4-tall-main-high",
+      "pixel_identical": true,
+      "min_ssim": 1.0,
+      "min_psnr_db": null,
+      "worst_ssim_prompt": "00-edit-short"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-square-pr-high",
+      "reference": "sgl-joy-gelu-v1-main-high",
+      "pixel_identical": false,
+      "min_ssim": 0.9981337585449634,
+      "min_psnr_db": 55.23273754545971,
+      "worst_ssim_prompt": "01-edit-long"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-square-pr-high",
+      "reference": "omni-joy-compile-probe1-omni_compile-high",
+      "pixel_identical": false,
+      "min_ssim": 0.995885439631688,
+      "min_psnr_db": 46.14027212696263,
+      "worst_ssim_prompt": "01-edit-long"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-square-pr-lossless",
+      "reference": "sgl-joy-gelu-v1-main-lossless",
+      "pixel_identical": true,
+      "min_ssim": 1.0,
+      "min_psnr_db": null,
+      "worst_ssim_prompt": "00-edit-short"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-wide-pr-high",
+      "reference": "sgl-joy-gelu-v4-wide-main-high",
+      "pixel_identical": false,
+      "min_ssim": 0.998059118722737,
+      "min_psnr_db": 55.673464183530726,
+      "worst_ssim_prompt": "00-edit-short"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-wide-pr-lossless",
+      "reference": "sgl-joy-gelu-v4-wide-main-lossless",
+      "pixel_identical": true,
+      "min_ssim": 1.0,
+      "min_psnr_db": null,
+      "worst_ssim_prompt": "00-edit-short"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-tall-pr-high",
+      "reference": "sgl-joy-gelu-v4-tall-main-high",
+      "pixel_identical": false,
+      "min_ssim": 0.9982723938553596,
+      "min_psnr_db": 56.10906346681151,
+      "worst_ssim_prompt": "01-edit-long"
+    },
+    {
+      "candidate": "sgl-joy-gelu-v4-tall-pr-lossless",
+      "reference": "sgl-joy-gelu-v4-tall-main-lossless",
+      "pixel_identical": true,
+      "min_ssim": 1.0,
+      "min_psnr_db": null,
+      "worst_ssim_prompt": "00-edit-short"
+    },
+    {
+      "candidate": "omni-joy-gelu-v4-wide-omni-high",
+      "reference": "sgl-joy-gelu-v4-wide-main-high",
+      "pixel_identical": false,
+      "min_ssim": 0.9950026904456705,
+      "min_psnr_db": 46.58983862714752,
+      "worst_ssim_prompt": "01-edit-long"
+    },
+    {
+      "candidate": "omni-joy-gelu-v4-wide-omni-high",
+      "reference": "sgl-joy-gelu-v4-wide-pr-high",
+      "pixel_identical": false,
+      "min_ssim": 0.9950266548727678,
+      "min_psnr_db": 46.533329507866775,
+      "worst_ssim_prompt": "01-edit-long"
+    },
+    {
+      "candidate": "omni-joy-gelu-v4-tall-omni-high",
+      "reference": "sgl-joy-gelu-v4-tall-main-high",
+      "pixel_identical": false,
+      "min_ssim": 0.9967273987348566,
+      "min_psnr_db": 50.17429881062229,
+      "worst_ssim_prompt": "01-edit-long"
+    },
+    {
+      "candidate": "omni-joy-gelu-v4-tall-omni-high",
+      "reference": "sgl-joy-gelu-v4-tall-pr-high",
+      "pixel_identical": false,
+      "min_ssim": 0.9967388221611074,
+      "min_psnr_db": 50.215306743186126,
+      "worst_ssim_prompt": "01-edit-long"
+    }
+  ],
+  "square_precleanup_v1_vs_v4_pngs_identical": true,
+  "limitations": [
+    "Only frozen three edit prompts and short repeat per shape are qualified.",
+    "Long-prompt object scale/lighting changes on square and glossier darker cobalt on non-square are shared baseline behavior.",
+    "Omni fixed-seed images vary slightly; every forthcoming warmup/measured image must pass numerical quality checks.",
+    "Tall is quality-only; no timing or BCG performance claim follows from this review."
+  ]
+}

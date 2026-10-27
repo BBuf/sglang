@@ -1,0 +1,54 @@
+{
+  "status": "local_cleanup_static_checks_passed_gpu_retest_pending",
+  "precleanup_production_sha256": "bfb9fc50c2061569f405f382159fbe008653cda866dfa3073e1c3144df9a0819",
+  "cleanup_production_sha256": "00e03bd32d242bd0489b4da00564895f8cd15faa2a69a369767aa43d36a85db8",
+  "non_import_ast_identical": true,
+  "full_patch_sha256": "3696774d7385a2888ccc9964544a16e6123e338bb1ab1e1e5eeb43967108469c",
+  "checks": [
+    {
+      "command": [
+        "isort",
+        "--check-only",
+        "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py",
+        "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruff",
+        "check",
+        "--select=F401,F821,F823,UP037",
+        "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py",
+        "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py"
+      ],
+      "exit_code": 0,
+      "stdout": "1 file already formatted\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "limitation": "Remote production-only v1 is still running the precleanup ABBA. Cleanup has not been uploaded, timed, or GPU-tested."
+}

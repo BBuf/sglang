@@ -1,0 +1,55 @@
+{
+  "arm": "sgl",
+  "source": "pr",
+  "repo": "/task/candidates/joy-image-gelu",
+  "label": "gelu-final-square-profile1",
+  "benchmark": false,
+  "profile_directory": "/task/outputs/profiles/joy-gelu-final-square-profile1-pr",
+  "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/candidates/joy-image-gelu",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/joy-gelu-final-square-profile1-pr",
+    "-e",
+    "JOY_CANDIDATE_SHA=4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-gelu-final-square-profile1-pr/server.pid; exec sh /task/launch_sgl_joy_candidate.sh"
+  ],
+  "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "contract": "/task/inputs/joy-workloads.json",
+  "contract_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+  "runner_sha256": "315f64002ad635a476faa84b830e65728e07ce0c77ba5119d14fd07c06f078d3",
+  "launch_to_ready_seconds": 80.07851140294224,
+  "server_container_pid": 72324,
+  "gpu_processes_before_requests": "2938929, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 59008 MiB",
+  "qualification_commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_joy_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "gelu-final-square-profile1-pr-high",
+      "--quality",
+      "high",
+      "--profile",
+      "--contract",
+      "/task/inputs/joy-workloads.json"
+    ]
+  ],
+  "traces": [
+    {
+      "path": "/data/xyzhang/diffusion-rtx6000-20261026/outputs/profiles/joy-gelu-final-square-profile1-pr/8b9c3a7f-c0eb-49aa-89c4-69b6b1c14e3b-3_steps-global-rank0.trace.json.gz",
+      "sha256": "64de8d6a9d490b87dbd4e0442a75f8b9e984297b7bc69da8619823fb055e0e94",
+      "bytes": 14516807
+    }
+  ],
+  "status": "profile_generated_not_primary_timing"
+}

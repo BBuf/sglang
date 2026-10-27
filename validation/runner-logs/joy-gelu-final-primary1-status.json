@@ -1,0 +1,114 @@
+{
+  "status": "raw_primary_complete_audit_and_final_diagnostics_pending",
+  "protocol": {
+    "id": "joy-gelu-final-primary1",
+    "created_at": "2026-10-27T01:05:25.320220+00:00",
+    "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "required_quality_review": "joy-gelu-v4-complete-quality-review.json",
+    "square_aa": "joy-gelu-v1-aa1-analysis.json",
+    "plans": [
+      "joy-gelu-final-wide-aa1-plan.json",
+      "joy-gelu-final-cleanup1-plan.json",
+      "joy-gelu-final-square-paired1-plan.json",
+      "joy-gelu-final-wide-paired1-plan.json"
+    ],
+    "exclusions": "Tall is quality-only; profiler/Omni denoise diagnostics run separately. No new PR counted by completing this protocol."
+  },
+  "completed": [
+    "joy-gelu-final-wide-aa1",
+    "joy-gelu-final-cleanup1",
+    "joy-gelu-final-square-paired1",
+    "joy-gelu-final-wide-paired1"
+  ],
+  "screens": [
+    {
+      "plan": "joy-gelu-final-wide-aa1",
+      "medians": [
+        30.442256109789014,
+        30.45522627281025
+      ],
+      "primary_audit_pending": true,
+      "aa_relative": 0.0004260578773944701,
+      "aa_max_cv_percent": 0.028440326337541694
+    },
+    {
+      "plan": "joy-gelu-final-cleanup1",
+      "medians": [
+        35.30494864843786,
+        35.28767037205398,
+        35.30427217949182,
+        35.295125124044716
+      ],
+      "primary_audit_pending": true,
+      "pairs": {
+        "precleanup_over_final": {
+          "ratios": [
+            1.0004896406082266,
+            0.9997409079728199
+          ],
+          "geometric_mean": 1.0001152042235277
+        }
+      }
+    },
+    {
+      "plan": "joy-gelu-final-square-paired1",
+      "medians": [
+        36.005150080658495,
+        35.2977854241617,
+        37.714243861380965,
+        37.721247092820704,
+        35.30600293632597,
+        36.01353219570592
+      ],
+      "primary_audit_pending": true,
+      "pairs": {
+        "main_over_candidate": {
+          "ratios": [
+            1.020039916045628,
+            1.0200399139108434
+          ],
+          "geometric_mean": 1.0200399149782358
+        },
+        "omni_over_candidate": {
+          "ratios": [
+            1.068459208082929,
+            1.0684088810860466
+          ],
+          "geometric_mean": 1.0684340442881655
+        }
+      },
+      "main_endpoint_relative_difference": 0.00023280322477892135
+    },
+    {
+      "plan": "joy-gelu-final-wide-paired1",
+      "medians": [
+        30.469431878533214,
+        29.868530380073935,
+        31.817322047427297,
+        31.82701352238655,
+        29.87605712702498,
+        30.475421133451164
+      ],
+      "primary_audit_pending": true,
+      "pairs": {
+        "main_over_candidate": {
+          "ratios": [
+            1.0201182144154022,
+            1.0200616836377656
+          ],
+          "geometric_mean": 1.020089948634985
+        },
+        "omni_over_candidate": {
+          "ratios": [
+            1.0652456496036193,
+            1.0653016690611692
+          ],
+          "geometric_mean": 1.065273658964158
+        }
+      },
+      "main_endpoint_relative_difference": 0.00019656601875039925
+    }
+  ],
+  "active_plan": null,
+  "active_block": null
+}

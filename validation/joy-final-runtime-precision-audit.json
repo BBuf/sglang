@@ -1,0 +1,1923 @@
+{
+  "created_at": "2026-10-27T03:55:01.413529+00:00",
+  "status": "final raw runtime audit complete",
+  "main_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "candidate_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+  "omni_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "component_policy": "BF16 DiT/text encoder/VAE, no quantization; each native implementation retains its own mixed-precision operations.",
+  "shapes": {
+    "square": {
+      "final_profile_analysis": "evidence/profiles/joy-gelu-final-square-matched-profile-analysis.json",
+      "final_profile_analysis_sha256": "dd5cd2ec5d603982105ff75830637576445ec915e5f8d0b3e0fedf645b1bffb2",
+      "profile_audit_sha256": "7e7b1ec2baae9e7df80d44cd6216ec280684fdb1b50e465d91e3e0c9d7709a94",
+      "main_trace_sha256": "5396308c4c969c243de87ca1e6f8b2764b28b24f7d079d32823fb233c69120c5",
+      "candidate_trace_sha256": "64de8d6a9d490b87dbd4e0442a75f8b9e984297b7bc69da8619823fb055e0e94",
+      "sgl_main_candidate_tail_identical": true,
+      "sgl_tail_cpu_ops": [
+        {
+          "name": "aten::t",
+          "input_types": [
+            "c10::BFloat16"
+          ],
+          "input_dims": [
+            [
+              64,
+              4096
+            ]
+          ]
+        },
+        {
+          "name": "aten::transpose",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              64,
+              4096
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "input_dims": [
+            [
+              64,
+              4096
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::addmm",
+          "input_types": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              64
+            ],
+            [
+              8192,
+              4096
+            ],
+            [
+              4096,
+              64
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::view",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              8192,
+              64
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::reshape",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              1,
+              8192,
+              64
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::view",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              1,
+              8192,
+              64
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::permute",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              1,
+              8192,
+              1,
+              2,
+              2,
+              16
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              8192,
+              1,
+              2,
+              2,
+              16
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::slice",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              8192,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              8192,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::sub",
+          "input_types": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::mul",
+          "input_types": [
+            "c10::BFloat16",
+            "double"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::add",
+          "input_types": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::clamp_min",
+          "input_types": [
+            "float",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              1,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::div",
+          "input_types": [
+            "float",
+            "float"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              1,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              4096,
+              1,
+              1,
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "aten::mul",
+          "input_types": [
+            "c10::BFloat16",
+            "float"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              4096,
+              1,
+              1,
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "aten::to",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::select",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::select",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::sub",
+          "input_types": [
+            "float",
+            "float",
+            "Scalar"
+          ],
+          "input_dims": [
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::mul",
+          "input_types": [
+            "float",
+            "float"
+          ],
+          "input_dims": [
+            [],
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "aten::add",
+          "input_types": [
+            "float",
+            "float",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::to",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              4096,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        }
+      ],
+      "fused_input_types": [
+        [
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "Scalar",
+          "Scalar",
+          "Scalar"
+        ]
+      ],
+      "omni_audit": "evidence/benchmarks/joy-gelu-final-square-omni-denoise1-audit.json",
+      "omni_audit_sha256": "54528148ceff982d673c93b57aa5f3827c4bf2400b1a48493eec43ad7c3cec21",
+      "omni_scheduler_signatures": [
+        {
+          "cuda_autocast": false,
+          "model_output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              128,
+              128
+            ]
+          },
+          "result": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              128,
+              128
+            ]
+          },
+          "sample": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              128,
+              128
+            ]
+          }
+        }
+      ],
+      "omni_request_precision_signatures": [
+        {
+          "cuda_autocast": false,
+          "inputs": {
+            "cfg_normalize": {
+              "type": "bool"
+            },
+            "do_true_cfg": {
+              "type": "bool"
+            },
+            "image_latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1,
+                16,
+                1,
+                128,
+                128
+              ]
+            },
+            "latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                2,
+                16,
+                1,
+                128,
+                128
+              ]
+            },
+            "negative_prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1033,
+                4096
+              ]
+            },
+            "negative_prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                1033
+              ]
+            },
+            "prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1053,
+                4096
+              ]
+            },
+            "prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                1053
+              ]
+            },
+            "timesteps": {
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "shape": [
+                30
+              ]
+            },
+            "true_cfg_scale": {
+              "type": "float"
+            }
+          },
+          "output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              128,
+              128
+            ]
+          }
+        },
+        {
+          "cuda_autocast": false,
+          "inputs": {
+            "cfg_normalize": {
+              "type": "bool"
+            },
+            "do_true_cfg": {
+              "type": "bool"
+            },
+            "image_latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1,
+                16,
+                1,
+                128,
+                128
+              ]
+            },
+            "latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                2,
+                16,
+                1,
+                128,
+                128
+              ]
+            },
+            "negative_prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1033,
+                4096
+              ]
+            },
+            "negative_prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                1033
+              ]
+            },
+            "prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1079,
+                4096
+              ]
+            },
+            "prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                1079
+              ]
+            },
+            "timesteps": {
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "shape": [
+                30
+              ]
+            },
+            "true_cfg_scale": {
+              "type": "float"
+            }
+          },
+          "output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              128,
+              128
+            ]
+          }
+        },
+        {
+          "cuda_autocast": false,
+          "inputs": {
+            "cfg_normalize": {
+              "type": "bool"
+            },
+            "do_true_cfg": {
+              "type": "bool"
+            },
+            "image_latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1,
+                16,
+                1,
+                128,
+                128
+              ]
+            },
+            "latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                2,
+                16,
+                1,
+                128,
+                128
+              ]
+            },
+            "negative_prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1033,
+                4096
+              ]
+            },
+            "negative_prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                1033
+              ]
+            },
+            "prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1113,
+                4096
+              ]
+            },
+            "prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                1113
+              ]
+            },
+            "timesteps": {
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "shape": [
+                30
+              ]
+            },
+            "true_cfg_scale": {
+              "type": "float"
+            }
+          },
+          "output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              128,
+              128
+            ]
+          }
+        }
+      ],
+      "all_ten_real_requests_and_300_scheduler_steps_audited": true,
+      "unchanged_contract_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+      "native_omni_denoise_p50_seconds": 37.128589500000004
+    },
+    "wide": {
+      "final_profile_analysis": "evidence/profiles/joy-gelu-final-wide-matched-profile-analysis.json",
+      "final_profile_analysis_sha256": "52f771188bbed86381abb48a648302ce156a01187052b2840021d53f5cc07a3a",
+      "profile_audit_sha256": "cd7b1a551b21be9380292e0c15cc1b0077b2fc5b2c9cc2411bf6ef9708c87721",
+      "main_trace_sha256": "6cd62341d2917ea26ee068059f99e213d3840091fc0a65f74866ce23d662b04c",
+      "candidate_trace_sha256": "d70edf836220e6cfffac2fbcb6221992acfe0c8322e1ac8fcf0e766f8c7f0b33",
+      "sgl_main_candidate_tail_identical": true,
+      "sgl_tail_cpu_ops": [
+        {
+          "name": "aten::t",
+          "input_types": [
+            "c10::BFloat16"
+          ],
+          "input_dims": [
+            [
+              64,
+              4096
+            ]
+          ]
+        },
+        {
+          "name": "aten::transpose",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              64,
+              4096
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "input_dims": [
+            [
+              64,
+              4096
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::addmm",
+          "input_types": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              64
+            ],
+            [
+              7168,
+              4096
+            ],
+            [
+              4096,
+              64
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::view",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              7168,
+              64
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::reshape",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              1,
+              7168,
+              64
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::view",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              1,
+              7168,
+              64
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::permute",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList"
+          ],
+          "input_dims": [
+            [
+              1,
+              7168,
+              1,
+              2,
+              2,
+              16
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              7168,
+              1,
+              2,
+              2,
+              16
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::slice",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              7168,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "c10::BFloat16",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              7168,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::sub",
+          "input_types": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::mul",
+          "input_types": [
+            "c10::BFloat16",
+            "double"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::add",
+          "input_types": [
+            "c10::BFloat16",
+            "c10::BFloat16",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::linalg_vector_norm",
+          "input_types": [
+            "c10::BFloat16",
+            "Scalar",
+            "ScalarList",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::clamp_min",
+          "input_types": [
+            "float",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              1,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::div",
+          "input_types": [
+            "float",
+            "float"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              1,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              3584,
+              1,
+              1,
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "aten::mul",
+          "input_types": [
+            "c10::BFloat16",
+            "float"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              3584,
+              1,
+              1,
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "aten::to",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::select",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::select",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::as_strided",
+          "input_types": [
+            "float",
+            "ScalarList",
+            "ScalarList",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              31
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::sub",
+          "input_types": [
+            "float",
+            "float",
+            "Scalar"
+          ],
+          "input_dims": [
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "name": "aten::mul",
+          "input_types": [
+            "float",
+            "float"
+          ],
+          "input_dims": [
+            [],
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "aten::add",
+          "input_types": [
+            "float",
+            "float",
+            "Scalar"
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            []
+          ]
+        },
+        {
+          "name": "aten::to",
+          "input_types": [
+            "float",
+            "Scalar",
+            "Scalar",
+            "Scalar",
+            ""
+          ],
+          "input_dims": [
+            [
+              1,
+              3584,
+              16,
+              1,
+              2,
+              2
+            ],
+            [],
+            [],
+            [],
+            []
+          ]
+        }
+      ],
+      "fused_input_types": [
+        [
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "Scalar",
+          "Scalar",
+          "Scalar"
+        ]
+      ],
+      "omni_audit": "evidence/benchmarks/joy-gelu-final-wide-omni-denoise1-audit.json",
+      "omni_audit_sha256": "b17ab59bedd6f63d3a9ef73a0bb307c4df947a81e89c6a76e8d770b46c029150",
+      "omni_scheduler_signatures": [
+        {
+          "cuda_autocast": false,
+          "model_output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              64,
+              224
+            ]
+          },
+          "result": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              64,
+              224
+            ]
+          },
+          "sample": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              64,
+              224
+            ]
+          }
+        }
+      ],
+      "omni_request_precision_signatures": [
+        {
+          "cuda_autocast": false,
+          "inputs": {
+            "cfg_normalize": {
+              "type": "bool"
+            },
+            "do_true_cfg": {
+              "type": "bool"
+            },
+            "image_latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1,
+                16,
+                1,
+                64,
+                224
+              ]
+            },
+            "latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                2,
+                16,
+                1,
+                64,
+                224
+              ]
+            },
+            "negative_prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                905,
+                4096
+              ]
+            },
+            "negative_prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                905
+              ]
+            },
+            "prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                925,
+                4096
+              ]
+            },
+            "prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                925
+              ]
+            },
+            "timesteps": {
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "shape": [
+                30
+              ]
+            },
+            "true_cfg_scale": {
+              "type": "float"
+            }
+          },
+          "output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              64,
+              224
+            ]
+          }
+        },
+        {
+          "cuda_autocast": false,
+          "inputs": {
+            "cfg_normalize": {
+              "type": "bool"
+            },
+            "do_true_cfg": {
+              "type": "bool"
+            },
+            "image_latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1,
+                16,
+                1,
+                64,
+                224
+              ]
+            },
+            "latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                2,
+                16,
+                1,
+                64,
+                224
+              ]
+            },
+            "negative_prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                905,
+                4096
+              ]
+            },
+            "negative_prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                905
+              ]
+            },
+            "prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                951,
+                4096
+              ]
+            },
+            "prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                951
+              ]
+            },
+            "timesteps": {
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "shape": [
+                30
+              ]
+            },
+            "true_cfg_scale": {
+              "type": "float"
+            }
+          },
+          "output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              64,
+              224
+            ]
+          }
+        },
+        {
+          "cuda_autocast": false,
+          "inputs": {
+            "cfg_normalize": {
+              "type": "bool"
+            },
+            "do_true_cfg": {
+              "type": "bool"
+            },
+            "image_latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                1,
+                16,
+                1,
+                64,
+                224
+              ]
+            },
+            "latents": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                2,
+                16,
+                1,
+                64,
+                224
+              ]
+            },
+            "negative_prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                905,
+                4096
+              ]
+            },
+            "negative_prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                905
+              ]
+            },
+            "prompt_embeds": {
+              "device": "cuda:0",
+              "dtype": "torch.bfloat16",
+              "shape": [
+                1,
+                985,
+                4096
+              ]
+            },
+            "prompt_embeds_mask": {
+              "device": "cuda:0",
+              "dtype": "torch.int64",
+              "shape": [
+                1,
+                985
+              ]
+            },
+            "timesteps": {
+              "device": "cuda:0",
+              "dtype": "torch.float32",
+              "shape": [
+                30
+              ]
+            },
+            "true_cfg_scale": {
+              "type": "float"
+            }
+          },
+          "output": {
+            "device": "cuda:0",
+            "dtype": "torch.bfloat16",
+            "shape": [
+              1,
+              2,
+              16,
+              1,
+              64,
+              224
+            ]
+          }
+        }
+      ],
+      "all_ten_real_requests_and_300_scheduler_steps_audited": true,
+      "unchanged_contract_sha256": "620b852487bac78106ef31c6b066183dd2ffea583044425755d8b14bfb5ab76d",
+      "native_omni_denoise_p50_seconds": 31.2797225
+    }
+  },
+  "resolution_of_frozen_latents_and_solver_audit_placeholder": {
+    "frozen_contracts_modified": false,
+    "sgl": "Final main/PR matched trace tails are identical: BF16 projection and CFG arithmetic, FP32 norm normalization and solver update.",
+    "omni": "All ten real requests per shape: CUDA autocast off, BF16 scheduler model_output/sample/result. Installed scheduler upcasts sample to FP32 internally, then returns model_output.dtype.",
+    "comparison_scope": "Same BF16 component/no-quantization workload and resources, native mixed precision; not operator-by-operator precision identity.",
+    "candidate_lowers_precision_outside_mlp": false,
+    "scalar_observer_limit": "Metadata observer records bool/float scalar type, not scalar value. CFG4 is established by archived request and native alias resolution; negative branches are present in all actual request metadata.",
+    "diagnostic_startup": "One native two-step dummy call retained separately from the ten thirty-step requests per process."
+  },
+  "other_native_differences": [
+    "VAE reference latent: native SGL argmax vs Omni posterior sample without forwarding request generator. Cause of image repeat variation is not experimentally isolated.",
+    "CFG clamp floor1e-12 in SGL vs1e-6 in Omni; no claim that this clamp is active on measured samples.",
+    "Both retain native library defaults; SGL logs explicitly enable cuDNN TF32 and BF16 reduced-precision reductions. This is high-quality BF16 comparison, not a strict all-FP32 arithmetic claim."
+  ],
+  "quality_scope": "All final independent primary outputs and separate diagnostics pass the frozen cross-framework gates. Final square/wide primary minimum SSIM 0.995885/0.994935, PSNR 46.0557/46.5333 dB. These comparisons do not establish identical intermediate arithmetic or isolate the cause of native Omni repeat variation.",
+  "primary_performance_unmodified": true,
+  "denoise_caveat": "Omni denoise is a separate synchronized native-profiler diagnostic with metadata observer overhead; primary HTTP performance is profiler-free."
+}

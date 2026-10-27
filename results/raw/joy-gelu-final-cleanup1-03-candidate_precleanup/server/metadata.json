@@ -1,0 +1,150 @@
+{
+  "plan": {
+    "id": "joy-gelu-final-cleanup1",
+    "created_at": "2026-10-27T01:05:25.319131+00:00",
+    "purpose": "Same-GPU temporally balanced precleanup-v1 vs final-head square model retest. Final eligibility also covers the original8192shape.",
+    "order": [
+      "candidate_precleanup",
+      "candidate",
+      "candidate",
+      "candidate_precleanup"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "qualify_each_block": true,
+    "quality_references": {
+      "candidate_precleanup": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "candidate": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "candidate_precleanup": "native resident eager cuDNN original v1 full source",
+      "candidate": "native resident eager cuDNN committed image GELU candidate"
+    },
+    "contract": "/task/inputs/joy-workloads.json",
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "omni_short_quality_reference": "/task/outputs/qualification/sgl-joy-gelu-v1-main-high/00-edit-short/output.png",
+    "byte_identical_quality_reference": {
+      "candidate": "sgl-joy-gelu-v4-square-pr-high",
+      "candidate_precleanup": "sgl-joy-gelu-v1-pr-high"
+    },
+    "scope": "square, same frozen input/checkpoint, 30steps CFG4 BF16, GPU0 batch1/concurrency1; short primary, long/Chinese quality only",
+    "primary_performance_evidence": true,
+    "candidate_sources": {
+      "candidate_precleanup": {
+        "candidate_head_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "candidate_diff_sha256": "cc1b771b4d08c2d29e8766bd2b418f6877b125b19ec8a4f0155cb855f10f5da6"
+      }
+    },
+    "pair_indices": {
+      "precleanup_over_final": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    },
+    "cleanup_acceptance": {
+      "max_after_over_before_each_pair": 1.001,
+      "note": "Prospective 0.1% screening ceiling; disclose actual ratios and measured noise. Passing is not automatic publication qualification."
+    }
+  },
+  "index": 3,
+  "config": "candidate_precleanup",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "JOY_CANDIDATE_SHA=af21e2b989e482cfdce39689126562f2209d53ac",
+    "-e",
+    "SGL_REPO=/task/candidates/joy-image-gelu-precleanup",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-gelu-final-cleanup1-03-candidate_precleanup/server.pid; exec sh /task/launch_sgl_joy_candidate.sh"
+  ],
+  "runner_sha256": "9b4f69f2b6cf668b9f39e7ffd112dde91c88f68b950edb0ec8fb51ce9f81595f",
+  "launch_to_ready_seconds": 80.07933368626982,
+  "server_container_pid": 68750,
+  "gpu_container_pids": [
+    [
+      68782
+    ],
+    []
+  ],
+  "qualification_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/submit_joy_candidate_qualification.py",
+    "sgl",
+    "--label",
+    "joy-gelu-final-cleanup1-03-candidate_precleanup",
+    "--quality",
+    "high",
+    "--contract",
+    "/task/inputs/joy-workloads.json"
+  ],
+  "quality_gate_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/compare_moss_qualification.py",
+    "sgl-joy-joy-gelu-final-cleanup1-03-candidate_precleanup",
+    "--root",
+    "/task/outputs/qualification",
+    "--fail-on-quality",
+    "--reference",
+    "sgl-joy-gelu-v1-main-high",
+    "--reference",
+    "sgl-joy-gelu-v4-square-pr-high",
+    "--reference",
+    "omni-joy-compile-probe1-omni_compile-high"
+  ],
+  "benchmark_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/bench_joy_serving.py",
+    "sgl",
+    "--run-id",
+    "joy-gelu-final-cleanup1-03-candidate_precleanup",
+    "--repo",
+    "/task/candidates/joy-image-gelu-precleanup",
+    "--allowed-gpu-pids",
+    "68782",
+    "--quality",
+    "high",
+    "--configuration-label",
+    "native resident eager cuDNN original v1 full source",
+    "--warmups",
+    "2",
+    "--repeats",
+    "4",
+    "--expected-diff-sha256",
+    "cc1b771b4d08c2d29e8766bd2b418f6877b125b19ec8a4f0155cb855f10f5da6",
+    "--expected-sha",
+    "af21e2b989e482cfdce39689126562f2209d53ac",
+    "--contract",
+    "/task/inputs/joy-workloads.json"
+  ],
+  "capture_lines": []
+}

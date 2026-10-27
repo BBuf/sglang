@@ -1,0 +1,55 @@
+{
+  "arm": "sgl",
+  "source": "main",
+  "repo": "/task/repos/sglang",
+  "label": "gelu-final-wide-profile1",
+  "benchmark": false,
+  "profile_directory": "/task/outputs/profiles/joy-gelu-final-wide-profile1-main",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/repos/sglang",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/joy-gelu-final-wide-profile1-main",
+    "-e",
+    "JOY_CANDIDATE_SHA=af21e2b989e482cfdce39689126562f2209d53ac",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-gelu-final-wide-profile1-main/server.pid; exec sh /task/launch_sgl_joy_candidate.sh"
+  ],
+  "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "contract": "/task/inputs/joy-workloads-wide.json",
+  "contract_sha256": "620b852487bac78106ef31c6b066183dd2ffea583044425755d8b14bfb5ab76d",
+  "runner_sha256": "315f64002ad635a476faa84b830e65728e07ce0c77ba5119d14fd07c06f078d3",
+  "launch_to_ready_seconds": 80.08775004465133,
+  "server_container_pid": 72527,
+  "gpu_processes_before_requests": "2956574, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 59008 MiB",
+  "qualification_commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_joy_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "gelu-final-wide-profile1-main-high",
+      "--quality",
+      "high",
+      "--profile",
+      "--contract",
+      "/task/inputs/joy-workloads-wide.json"
+    ]
+  ],
+  "traces": [
+    {
+      "path": "/data/xyzhang/diffusion-rtx6000-20261026/outputs/profiles/joy-gelu-final-wide-profile1-main/015a0c57-1350-4a66-acde-410f1abc65b5-3_steps-global-rank0.trace.json.gz",
+      "sha256": "6cd62341d2917ea26ee068059f99e213d3840091fc0a65f74866ce23d662b04c",
+      "bytes": 14092483
+    }
+  ],
+  "status": "profile_generated_not_primary_timing"
+}

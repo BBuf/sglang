@@ -1,0 +1,284 @@
+{
+  "plan": {
+    "id": "joy-gelu-final-cleanup1",
+    "created_at": "2026-10-27T01:05:25.319131+00:00",
+    "purpose": "Same-GPU temporally balanced precleanup-v1 vs final-head square model retest. Final eligibility also covers the original8192shape.",
+    "order": [
+      "candidate_precleanup",
+      "candidate",
+      "candidate",
+      "candidate_precleanup"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "qualify_each_block": true,
+    "quality_references": {
+      "candidate_precleanup": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "candidate": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "candidate_precleanup": "native resident eager cuDNN original v1 full source",
+      "candidate": "native resident eager cuDNN committed image GELU candidate"
+    },
+    "contract": "/task/inputs/joy-workloads.json",
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "omni_short_quality_reference": "/task/outputs/qualification/sgl-joy-gelu-v1-main-high/00-edit-short/output.png",
+    "byte_identical_quality_reference": {
+      "candidate": "sgl-joy-gelu-v4-square-pr-high",
+      "candidate_precleanup": "sgl-joy-gelu-v1-pr-high"
+    },
+    "scope": "square, same frozen input/checkpoint, 30steps CFG4 BF16, GPU0 batch1/concurrency1; short primary, long/Chinese quality only",
+    "primary_performance_evidence": true,
+    "candidate_sources": {
+      "candidate_precleanup": {
+        "candidate_head_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "candidate_diff_sha256": "cc1b771b4d08c2d29e8766bd2b418f6877b125b19ec8a4f0155cb855f10f5da6"
+      }
+    },
+    "pair_indices": {
+      "precleanup_over_final": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    },
+    "cleanup_acceptance": {
+      "max_after_over_before_each_pair": 1.001,
+      "note": "Prospective 0.1% screening ceiling; disclose actual ratios and measured noise. Passing is not automatic publication qualification."
+    }
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "config": "candidate_precleanup",
+      "name": "joy-gelu-final-cleanup1-00-candidate_precleanup",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "cc1b771b4d08c2d29e8766bd2b418f6877b125b19ec8a4f0155cb855f10f5da6",
+      "http_seconds": [
+        35.284967170096934,
+        35.296640194021165,
+        35.31582645699382,
+        35.31325710285455
+      ],
+      "p50_seconds": 35.30494864843786,
+      "p95_seconds": 35.31544105387293,
+      "cv_percent": 0.041209179330890446,
+      "denoise_seconds": [
+        34.9068640852347,
+        34.91880650166422,
+        34.93074341118336,
+        34.93111730366945
+      ],
+      "denoise_p50_seconds": 34.92477495642379,
+      "engine_total_p50_seconds": 35.25171375647187,
+      "sequential_requests_per_second": 0.028326467166383044,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 84.08433081489056,
+      "warmup_http_seconds": [
+        35.15843740478158,
+        35.25742129422724
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.31203910149634,
+        35.31825891043991,
+        35.31785819865763,
+        35.28524658083916
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2242,
+        2407
+      ],
+      "temperature_c_range": [
+        62,
+        72
+      ]
+    },
+    {
+      "index": 1,
+      "config": "candidate",
+      "name": "joy-gelu-final-cleanup1-01-candidate",
+      "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.28254806343466,
+        35.28452130779624,
+        35.29081943631172,
+        35.308353026397526
+      ],
+      "p50_seconds": 35.28767037205398,
+      "p95_seconds": 35.30572298788466,
+      "cv_percent": 0.033258886602516725,
+      "denoise_seconds": [
+        34.901421995833516,
+        34.913326614536345,
+        34.92019229847938,
+        34.932773377746344
+      ],
+      "denoise_p50_seconds": 34.91675945650786,
+      "engine_total_p50_seconds": 35.24239602033049,
+      "sequential_requests_per_second": 0.028335386336241563,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 80.08219781238586,
+      "warmup_http_seconds": [
+        35.14950755238533,
+        35.267387099564075
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.33340563811362,
+        35.321942551992834,
+        35.32102006394416,
+        35.290266847237945
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2242,
+        2407
+      ],
+      "temperature_c_range": [
+        59,
+        72
+      ]
+    },
+    {
+      "index": 2,
+      "config": "candidate",
+      "name": "joy-gelu-final-cleanup1-02-candidate",
+      "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.28694609645754,
+        35.297961241565645,
+        35.31058311741799,
+        35.316070675849915
+      ],
+      "p50_seconds": 35.30427217949182,
+      "p95_seconds": 35.315247542085125,
+      "cv_percent": 0.03698416660371416,
+      "denoise_seconds": [
+        34.90895054023713,
+        34.920527124777436,
+        34.932999898679554,
+        34.92817610874772
+      ],
+      "denoise_p50_seconds": 34.92435161676258,
+      "engine_total_p50_seconds": 35.25049457652494,
+      "sequential_requests_per_second": 0.028326292606318616,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 80.0825255671516,
+      "warmup_http_seconds": [
+        35.13773081731051,
+        35.25534440763295
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.32568942010403,
+        35.33568267337978,
+        35.32727739401162,
+        35.3052619881928
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2415
+      ],
+      "temperature_c_range": [
+        62,
+        72
+      ]
+    },
+    {
+      "index": 3,
+      "config": "candidate_precleanup",
+      "name": "joy-gelu-final-cleanup1-03-candidate_precleanup",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "cc1b771b4d08c2d29e8766bd2b418f6877b125b19ec8a4f0155cb855f10f5da6",
+      "http_seconds": [
+        35.27560319099575,
+        35.29146205075085,
+        35.30034565087408,
+        35.29878819733858
+      ],
+      "p50_seconds": 35.295125124044716,
+      "p95_seconds": 35.30011203284376,
+      "cv_percent": 0.03206048729966374,
+      "denoise_seconds": [
+        34.89891054108739,
+        34.91352347377688,
+        34.921459342353046,
+        34.921024966053665
+      ],
+      "denoise_p50_seconds": 34.91727421991527,
+      "engine_total_p50_seconds": 35.24478708067909,
+      "sequential_requests_per_second": 0.02833539491596688,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 80.07933368626982,
+      "warmup_http_seconds": [
+        35.142396138980985,
+        35.261919929645956
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.31608733627945,
+        35.32827787939459,
+        35.324397942982614,
+        35.2969903126359
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2242,
+        2407
+      ],
+      "temperature_c_range": [
+        60,
+        72
+      ]
+    }
+  ],
+  "all_planned_blocks_present": true,
+  "scope": "Frozen Joy 1024x1024, 30 steps, CFG 4.0, precision {'dit': 'bf16', 'text_encoder': 'bf16', 'vae': 'bf16', 'latents_and_solver': 'audit_runtime_before_performance'}, GPU0, batch1, concurrency1, high. Short prompt primary timing; long/Chinese quality only. Not full matrix.",
+  "source_and_ownership_audit_pass": true,
+  "paired": {
+    "precleanup_over_final": {
+      "pair_indices": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "ratios": [
+        1.0004896406082266,
+        0.9997409079728199
+      ],
+      "geometric_mean": 1.0001152042235277,
+      "all_pairs_faster": false
+    }
+  }
+}

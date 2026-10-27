@@ -1,0 +1,107 @@
+{
+  "plan": {
+    "id": "joy-gelu-v1-aa1",
+    "created_at": "2026-10-26T22:04:59.887893+00:00",
+    "purpose": "First prospective profiler-free A/A noise run, frozen main high only. Do not start until complete main/pr quality passes; no candidate speedup claim from this plan.",
+    "order": [
+      "main",
+      "main"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 6,
+    "qualify_each_block": true,
+    "quality_references": {
+      "main": [
+        "sgl-joy-gelu-v1-main-high",
+        "omni-joy-eager-initial1",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "main": "resident eager cuDNN 1024square 30steps CFG4 batch1 concurrency1 high"
+    },
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "aa_acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    },
+    "candidate_diff_sha256": "f451e9f2d8342dc690c370045222b6a6ef4b2b8d498572354debb7ebb4003938",
+    "candidate_head_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "omni_reference_note": "Native default regionalcompile now numericallyqualified on all4requests; addedreferencebefore anyAAdata. This plan stillmeasuresmainonly."
+  },
+  "index": 0,
+  "config": "main",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/repos/sglang",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-gelu-v1-aa1-00-main/server.pid; exec sh /task/launch_sgl_joy_candidate.sh"
+  ],
+  "runner_sha256": "a006beae0c4a9c79b5327f19f64cdce5e8746867b1dde45db26d59a6046f8534",
+  "launch_to_ready_seconds": 80.08271313644946,
+  "server_container_pid": 62783,
+  "gpu_container_pids": [
+    [
+      62815
+    ],
+    []
+  ],
+  "qualification_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/submit_joy_candidate_qualification.py",
+    "sgl",
+    "--label",
+    "joy-gelu-v1-aa1-00-main",
+    "--quality",
+    "high"
+  ],
+  "quality_gate_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/compare_moss_qualification.py",
+    "sgl-joy-joy-gelu-v1-aa1-00-main",
+    "--root",
+    "/task/outputs/qualification",
+    "--fail-on-quality",
+    "--reference",
+    "sgl-joy-gelu-v1-main-high",
+    "--reference",
+    "omni-joy-eager-initial1",
+    "--reference",
+    "omni-joy-compile-probe1-omni_compile-high"
+  ],
+  "benchmark_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/bench_joy_serving.py",
+    "sgl",
+    "--run-id",
+    "joy-gelu-v1-aa1-00-main",
+    "--repo",
+    "/task/repos/sglang",
+    "--allowed-gpu-pids",
+    "62815",
+    "--quality",
+    "high",
+    "--configuration-label",
+    "resident eager cuDNN 1024square 30steps CFG4 batch1 concurrency1 high",
+    "--warmups",
+    "2",
+    "--repeats",
+    "6"
+  ],
+  "capture_lines": []
+}

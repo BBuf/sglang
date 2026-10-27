@@ -1,0 +1,54 @@
+{
+  "status": "raw_diagnostics_complete_final_archive_audit_pending",
+  "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+  "resume_of": "joy-gelu-final-diagnostics-resume1-status.json",
+  "primary_timing": false,
+  "profiles": [
+    "/data/xyzhang/diffusion-rtx6000-20261026/outputs/profiles/joy-gelu-final-square-matched-profile-analysis.json",
+    "/data/xyzhang/diffusion-rtx6000-20261026/outputs/profiles/joy-gelu-final-wide-matched-profile-analysis.json"
+  ],
+  "omni_denoise": [
+    {
+      "shape": "square",
+      "primary_timing": false,
+      "all_calls_accounted_for": true,
+      "metric": "JoyImageEditPipeline.diffuse",
+      "metric_source": "Native synchronized profiler server.log; six decimal seconds. HTTP exposes only queue/stage aggregate metrics.",
+      "observer_records": 11,
+      "native_startup_records": 1,
+      "correlated_request_records": 10,
+      "denoise_seconds": [
+        37.119965,
+        37.12679,
+        37.133067,
+        37.130389
+      ],
+      "denoise_p50_seconds": 37.128589500000004,
+      "worker_pid": 14940,
+      "server_log_sha256": "4777e97e946cabb14c461e4fbc5c6f96ce572c2e8cf11c7e58c8a7771fa45440",
+      "precision_jsonl_sha256": "55828a3afa37110623ad7e8530d84f26ad95af3c5e2a684f12c62ec2b1a96e0c"
+    },
+    {
+      "shape": "wide",
+      "primary_timing": false,
+      "all_calls_accounted_for": true,
+      "metric": "JoyImageEditPipeline.diffuse",
+      "metric_source": "Native synchronized profiler server.log; six decimal seconds. HTTP exposes only queue/stage aggregate metrics.",
+      "observer_records": 11,
+      "native_startup_records": 1,
+      "correlated_request_records": 10,
+      "denoise_seconds": [
+        31.266121,
+        31.279265,
+        31.28018,
+        31.289062
+      ],
+      "denoise_p50_seconds": 31.2797225,
+      "worker_pid": 15663,
+      "server_log_sha256": "f00f4d853d644b195e95240c2cafa13622f967af261c0cd5a1c2d6f30f7dd505",
+      "precision_jsonl_sha256": "df5f8d6ce8abab1ba0d0ae6a80783225c327c19b63579eb408df09eddada443f"
+    }
+  ],
+  "change": "Preserve the one2stepnative startup record separately; correlate every30steprequest and use native synchronizedprofiler log durations omitted by HTTP. No model/observer/primary change or repeated square inference.",
+  "active": null
+}

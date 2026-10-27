@@ -1,0 +1,56 @@
+{
+  "status": "local_cleanup_static_checks_passed_gpu_retest_pending",
+  "precleanup_production_sha256": "bfb9fc50c2061569f405f382159fbe008653cda866dfa3073e1c3144df9a0819",
+  "cleanup_production_sha256": "00e03bd32d242bd0489b4da00564895f8cd15faa2a69a369767aa43d36a85db8",
+  "non_import_ast_identical": true,
+  "full_patch_sha256": "41bca43bf5a04a6ec0b737881339354174a0a706fdc65d7f9d7568a6537492b6",
+  "checks": [
+    {
+      "command": [
+        "isort",
+        "--check-only",
+        "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py",
+        "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruff",
+        "check",
+        "--select=F401,F821,F823,UP037",
+        "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py",
+        "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+      ],
+      "exit_code": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py"
+      ],
+      "exit_code": 0,
+      "stdout": "1 file already formatted\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "limitation": "Remote production-only v1 is still running the precleanup ABBA. Cleanup has not been uploaded, timed, or GPU-tested.",
+  "additional_test": "Actual torch.compile(..., backend=eager, fullgraph=True) must execute original MLP and not invoke fused operator. Added after full diff review; not GPU-run yet.",
+  "test_sha256": "1a0f3f3e333711045f0d8121d342518fdd17062df8d18fa4bbea1ec55a40177e"
+}

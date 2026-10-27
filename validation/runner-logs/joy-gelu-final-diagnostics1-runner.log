@@ -1,0 +1,23 @@
+{"block": "joy-gelu-final-square-profile1-main", "status": "profile_generated_not_primary_timing"}
+{"block": "joy-gelu-final-square-profile1-pr", "status": "profile_generated_not_primary_timing"}
+Traceback (most recent call last):
+  File "/data/xyzhang/diffusion-rtx6000-20261026/run_joy_final_diagnostics.py", line 45, in <module>
+    target.write_text(json.dumps(dict(shape=shape,main=analyses['main'],candidate=analyses['pr'],
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        standalone_gelu_calls_removed=80,primary_timing=False),indent=2)+'\n')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 810, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 772, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/data/xyzhang/diffusion-rtx6000-20261026/outputs/profiles/joy-gelu-final-square-matched-profile-analysis.json'
+Traceback (most recent call last):
+  File "/data/xyzhang/diffusion-rtx6000-20261026/queue_joy_final_diagnostics.py", line 90, in <module>
+    main()
+    ~~~~^^
+  File "/data/xyzhang/diffusion-rtx6000-20261026/queue_joy_final_diagnostics.py", line 78, in main
+    assert code==0, f'Diagnostics exited {code}'
+           ^^^^^^^
+AssertionError: Diagnostics exited 1

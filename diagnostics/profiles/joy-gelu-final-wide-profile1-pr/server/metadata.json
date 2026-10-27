@@ -1,0 +1,55 @@
+{
+  "arm": "sgl",
+  "source": "pr",
+  "repo": "/task/candidates/joy-image-gelu",
+  "label": "gelu-final-wide-profile1",
+  "benchmark": false,
+  "profile_directory": "/task/outputs/profiles/joy-gelu-final-wide-profile1-pr",
+  "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/candidates/joy-image-gelu",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/joy-gelu-final-wide-profile1-pr",
+    "-e",
+    "JOY_CANDIDATE_SHA=4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-gelu-final-wide-profile1-pr/server.pid; exec sh /task/launch_sgl_joy_candidate.sh"
+  ],
+  "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "contract": "/task/inputs/joy-workloads-wide.json",
+  "contract_sha256": "620b852487bac78106ef31c6b066183dd2ffea583044425755d8b14bfb5ab76d",
+  "runner_sha256": "315f64002ad635a476faa84b830e65728e07ce0c77ba5119d14fd07c06f078d3",
+  "launch_to_ready_seconds": 80.08154549915344,
+  "server_container_pid": 72725,
+  "gpu_processes_before_requests": "2961813, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 59008 MiB",
+  "qualification_commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_joy_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "gelu-final-wide-profile1-pr-high",
+      "--quality",
+      "high",
+      "--profile",
+      "--contract",
+      "/task/inputs/joy-workloads-wide.json"
+    ]
+  ],
+  "traces": [
+    {
+      "path": "/data/xyzhang/diffusion-rtx6000-20261026/outputs/profiles/joy-gelu-final-wide-profile1-pr/b22a286b-0b70-4519-81fa-c00db43308a4-3_steps-global-rank0.trace.json.gz",
+      "sha256": "d70edf836220e6cfffac2fbcb6221992acfe0c8322e1ac8fcf0e766f8c7f0b33",
+      "bytes": 14461139
+    }
+  ],
+  "status": "profile_generated_not_primary_timing"
+}

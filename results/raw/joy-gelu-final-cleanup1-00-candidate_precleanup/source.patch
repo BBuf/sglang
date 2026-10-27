@@ -1,0 +1,198 @@
+diff --git a/docs/docs/sglang-diffusion/fused_kernels.mdx b/docs/docs/sglang-diffusion/fused_kernels.mdx
+index f8a69b3fbe7854fd7eebb32b652cb2b6edddace9..42b947ea006cf629b081bbedb0266f61736ba7c5 100644
+--- a/docs/docs/sglang-diffusion/fused_kernels.mdx
++++ b/docs/docs/sglang-diffusion/fused_kernels.mdx
+@@ -177,6 +177,15 @@ this path. This kernel does not enable model-level BCG support for FLUX.2.
+ | `bias_silu`, `bias_glu` | Triton | bit-exact | Sana GLUMB conv bias + SiLU / GLU post-processing |
+ | `linear_gelu_tanh` | AOT (cublasLt) | not bit-exact, request-gated | bias-add and tanh-GELU folded into the GEMM epilogue |
+ 
++Joy Image Edit opts into this epilogue only at `quality="high"` on SM120,
++including RTX PRO 6000 Blackwell. Its BF16 image MLP uses the fused path for
++batch 1 with 8192 image tokens and a 4096-to-16384 projection, as in the
++1024 x 1024 single-reference editing workload. The smaller text MLP retains
++its separate projection and activation. The epilogue changes BF16 rounding;
++`exact` and `lossless` retain the original image MLP. Quantized projections,
++active dynamic LoRA, other shapes or devices, and `torch.compile` also use
++the original path. This does not add model-level BCG support.
++
+ ### Attention
+ 
+ | Operator | Backend | Notes |
+@@ -243,7 +252,7 @@ Kernels are written against a specific eager chain in a specific model, so cover
+ | Qwen-Image | linear+GELU, select-0/1 LN modulation, added-QKV fusion, QK RMSNorm+RoPE+joint QKV writes, residual norm/modulate+NVFP4 producer |
+ | GLM-Image | LN+modulate, per-head qk LN, residual-gate add, linear+GELU |
+ | ERNIE-Image | RMSNorm+scale/shift, residual-gated variant, rotate-half RoPE, residual-gate add |
+-| Joy Image Edit | Bitwise image/text QKV concatenation; strided image QK-Norm + RoPE on Hopper |
++| Joy Image Edit | Bitwise image/text QKV concatenation; strided image QK-Norm + RoPE on Hopper; image linear+GELU at `quality=high` on SM120 |
+ | Z-Image | BF16-native RMSNorm scale / tanh-residual, per-head QK RMSNorm |
+ | Ideogram 4 | gate RMSNorm, SwiGLU, rotate-half RoPE, modulate, residual-gate add |
+ | LTX-2 | QK-norm + split RoPE, ada-values split, RMSNorm+modulate, modulate, residual-gate add, linear+GELU |
+diff --git a/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py b/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py
+index fb75e56bc0eb3e7525ba2f533d360e2d821398a4..fe31d3321a5c9c9d9d6014a53e640848382344bc 100644
+--- a/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py
++++ b/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py
+@@ -10,9 +10,14 @@ from einops import rearrange
+ 
+ from sglang.kernels.ops import diffusion as diffusion_kernels
+ from sglang.kernels.ops.diffusion.sites.bitexact_gate import BitExactFusionGate
++from sglang.kernels.ops.diffusion.sites.fused_linear_gelu_site import (
++    can_use_linear_gelu_static,
++    fused_linear_gelu_tanh,
++)
+ from sglang.multimodal_gen import envs
+ from sglang.multimodal_gen.configs.models.dits.joy_image import JoyImageDiTConfig
+ from sglang.multimodal_gen.configs.models.fsdp import is_blocks_or_double_blocks
++from sglang.multimodal_gen.configs.sample.sampling_params import quality_allows
+ from sglang.multimodal_gen.runtime.distributed import (
+     divide,
+     get_sp_group,
+@@ -32,6 +37,7 @@ from sglang.multimodal_gen.runtime.layers.linear import (
+     RowParallelLinear,
+ )
+ from sglang.multimodal_gen.runtime.layers.mlp import MLP
++from sglang.multimodal_gen.runtime.layers.lora.linear import BaseLayerWithLoRA
+ from sglang.multimodal_gen.runtime.layers.quantization.configs.base_config import (
+     QuantizationConfig,
+ )
+@@ -244,6 +250,33 @@ class ModulateWan(nn.Module):
+         ]
+ 
+ 
++def _joy_image_mlp(mlp: MLP, x: torch.Tensor, fuse_gelu: bool) -> torch.Tensor:
++    linear = mlp.fc_in
++    # SM120's epilogue wins for the large image projection, but regresses the
++    # smaller text projection. It also removes the intermediate BF16 rounding.
++    if (
++        not fuse_gelu
++        or torch.compiler.is_compiling()
++        or not x.is_cuda
++        or torch.version.hip
++        or x.shape != (1, 8192, 4096)
++        or x.dtype != torch.bfloat16
++        or not x.is_contiguous()
++        or torch.cuda.get_device_capability(x.device) != (12, 0)
++        or not isinstance(mlp.act, nn.GELU)
++        or mlp.act.approximate != "tanh"
++        or (isinstance(linear, BaseLayerWithLoRA) and linear.lora_active)
++        or not can_use_linear_gelu_static(linear)
++        or linear.weight.shape != (16384, 4096)
++        or linear.weight.dtype != x.dtype
++        or linear.weight.device != x.device
++        or linear.bias.device != x.device
++    ):
++        return mlp(x)
++    x = fused_linear_gelu_tanh(x, linear.weight, linear.bias)
++    return mlp.fc_out(x)[0]
++
++
+ class MMDoubleStreamBlock(nn.Module):
+     def __init__(
+         self,
+@@ -370,6 +403,7 @@ class MMDoubleStreamBlock(nn.Module):
+         vis_complex_freqs: Optional[torch.Tensor] = None,
+         txt_complex_freqs: Optional[torch.Tensor] = None,
+         num_replicated_suffix: int = 0,
++        fuse_image_gelu: bool = False,
+     ) -> Tuple[torch.Tensor, torch.Tensor]:
+         """Forward pass through multimodal double stream block."""
+         (
+@@ -465,10 +499,12 @@ class MMDoubleStreamBlock(nn.Module):
+         img = fused_add_gate(img, self.img_attn_proj(img_attn)[0], img_mod1_gate)
+         img = fused_add_gate(
+             img,
+-            self.img_mlp(
++            _joy_image_mlp(
++                self.img_mlp,
+                 self.fused_modulate_img_norm2(
+                     img, shift=img_mod2_shift, scale=img_mod2_scale
+-                )
++                ),
++                fuse_image_gelu,
+             ),
+             img_mod2_gate,
+         )
+@@ -623,6 +659,9 @@ class JoyTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+     ) -> torch.Tensor:
+         """Forward pass through JoyImage Transformer."""
+         forward_batch = get_forward_context().forward_batch
++        fuse_image_gelu = forward_batch is not None and quality_allows(
++            forward_batch.sampling_params.quality, "high"
++        )
+         sequence_shard_enabled = (
+             forward_batch is not None
+             and getattr(forward_batch, "enable_sequence_shard", False)
+@@ -715,6 +754,7 @@ class JoyTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+                 vis_complex_freqs=vis_complex_freqs,
+                 txt_complex_freqs=txt_complex_freqs,
+                 num_replicated_suffix=txt_suffix_len,
++                fuse_image_gelu=fuse_image_gelu,
+             )
+ 
+         if sequence_shard_enabled:
+diff --git a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+index 91b06d6b41c4de84d1003b241b9c8798779eab0d..d52c13e17fe88622ac416090c09025e9fceaed68 100644
+--- a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
++++ b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+@@ -2428,6 +2428,62 @@ def test_moss_image_selected_kernel_rejects_mismatched_operands(monkeypatch, ope
+         assert not moss_image._RMSNORM_FUSION.disabled
+ 
+ 
++# -------------------------------------------------------------------------
++# Joy -- high-mode image MLP epilogue on SM120
++# -------------------------------------------------------------------------
++
++
++@pytest.mark.skipif(
++    not torch.cuda.is_available()
++    or torch.version.hip is not None
++    or torch.cuda.get_device_capability() != (12, 0),
++    reason="Joy's large image GEMM epilogue is enabled on SM120 only",
++)
++@torch.no_grad()
++def test_joy_image_mlp_quality_restore_and_dynamic_lora():
++    from sglang.multimodal_gen.runtime.layers.lora.linear import wrap_with_lora_layer
++    from sglang.multimodal_gen.runtime.layers.mlp import MLP
++    from sglang.multimodal_gen.runtime.models.dits import joy_image
++
++    if not model_parallel_is_initialized():
++        ensure_distributed_env_defaults()
++        maybe_init_distributed_environment_and_model_parallel(tp_size=1, sp_size=1)
++    torch.manual_seed(42)
++    mlp = MLP(4096, 16384).to(device="cuda", dtype=torch.bfloat16)
++    for parameter in mlp.parameters():
++        parameter.normal_(0, 0.01)
++    x = torch.randn(1, 8192, 4096, device="cuda", dtype=torch.bfloat16)
++    reference = mlp(x)
++    with patch.object(
++        joy_image, "fused_linear_gelu_tanh", wraps=joy_image.fused_linear_gelu_tanh
++    ) as fused:
++        torch.testing.assert_close(
++            joy_image._joy_image_mlp(mlp, x, True), reference, atol=2e-2, rtol=2e-2
++        )
++        assert fused.call_count == 1
++        assert torch.equal(joy_image._joy_image_mlp(mlp, x, False), reference)
++        # Smaller text/token counts must keep their original, faster projection.
++        text = x[:, :1053].contiguous()
++        assert torch.equal(joy_image._joy_image_mlp(mlp, text, True), mlp(text))
++        assert fused.call_count == 1
++
++        wrapper = wrap_with_lora_layer(mlp.fc_in, lora_rank=4, lora_alpha=4)
++        wrapper.set_lora_weights(
++            torch.randn(4, 4096, device=x.device, dtype=x.dtype) * 0.02,
++            torch.randn(16384, 4, device=x.device, dtype=x.dtype) * 0.02,
++            merge_weights=False,
++        )
++        mlp.fc_in = wrapper
++        adapted = mlp(x)
++        assert not torch.equal(adapted, reference)
++        assert torch.equal(joy_image._joy_image_mlp(mlp, x, True), adapted)
++        assert fused.call_count == 1
++        wrapper.disable_lora = True
++        joy_image._joy_image_mlp(mlp, x, True)
++        assert fused.call_count == 2
++        assert torch.equal(joy_image._joy_image_mlp(mlp, x, False), reference)
++
++
+ # -------------------------------------------------------------------------
+ # Wan -- fused q/k/v GEMM, FFN residual chain, text K/V once per loop
+ # -------------------------------------------------------------------------

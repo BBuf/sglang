@@ -1,0 +1,158 @@
+{
+  "plan": {
+    "id": "joy-gelu-final-wide-aa1",
+    "created_at": "2026-10-27T01:05:25.318674+00:00",
+    "purpose": "Prospective main A/A for the new wide performance cell, before any paired timing of that cell.",
+    "order": [
+      "main",
+      "main"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 6,
+    "qualify_each_block": true,
+    "quality_references": {
+      "main": [
+        "sgl-joy-gelu-v4-wide-main-high",
+        "sgl-joy-gelu-v4-wide-pr-high",
+        "omni-joy-gelu-v4-wide-omni-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "main": "native resident eager cuDNN main"
+    },
+    "contract": "/task/inputs/joy-workloads-wide.json",
+    "frozen_input_sha256": "620b852487bac78106ef31c6b066183dd2ffea583044425755d8b14bfb5ab76d",
+    "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "omni_short_quality_reference": "/task/outputs/qualification/sgl-joy-gelu-v4-wide-main-high/00-edit-short/output.png",
+    "byte_identical_quality_reference": {
+      "main": "sgl-joy-gelu-v4-wide-main-high"
+    },
+    "scope": "wide, same frozen input/checkpoint, 30steps CFG4 BF16, GPU0 batch1/concurrency1; short primary, long/Chinese quality only",
+    "primary_performance_evidence": true,
+    "aa_acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    }
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "config": "main",
+      "name": "joy-gelu-final-wide-aa1-00-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        30.43024451006204,
+        30.431273811496794,
+        30.44563738722354,
+        30.43994489032775,
+        30.4523911960423,
+        30.444567329250276
+      ],
+      "p50_seconds": 30.442256109789014,
+      "p95_seconds": 30.45070274383761,
+      "cv_percent": 0.028440326337541694,
+      "denoise_seconds": [
+        30.07985050790012,
+        30.08804609719664,
+        30.09663958940655,
+        30.09713815152645,
+        30.101273462176323,
+        30.101522023789585
+      ],
+      "denoise_p50_seconds": 30.0968888704665,
+      "engine_total_p50_seconds": 30.394773403648287,
+      "sequential_requests_per_second": 0.032850781069825405,
+      "peak_gpu_memory_bytes": 61601153024,
+      "launch_to_ready_seconds": 80.08743287809193,
+      "warmup_http_seconds": [
+        30.347345625050366,
+        30.399075225926936
+      ],
+      "prebenchmark_quality_http_seconds": [
+        30.434324676170945,
+        30.441284958273172,
+        30.448623962700367,
+        30.431442100554705
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2257,
+        2400
+      ],
+      "temperature_c_range": [
+        62,
+        72
+      ]
+    },
+    {
+      "index": 1,
+      "config": "main",
+      "name": "joy-gelu-final-wide-aa1-01-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        30.450824659317732,
+        30.442358017899096,
+        30.459788200445473,
+        30.45962788630277,
+        30.4615758061409,
+        30.449863417074084
+      ],
+      "p50_seconds": 30.45522627281025,
+      "p95_seconds": 30.461128904717043,
+      "cv_percent": 0.024803933165358623,
+      "denoise_seconds": [
+        30.09204497653991,
+        30.097551737912,
+        30.111763840541244,
+        30.11542002670467,
+        30.115553638897836,
+        30.105872235260904
+      ],
+      "denoise_p50_seconds": 30.108818037901074,
+      "engine_total_p50_seconds": 30.405300753191113,
+      "sequential_requests_per_second": 0.0328364021838274,
+      "peak_gpu_memory_bytes": 61601153024,
+      "launch_to_ready_seconds": 80.08470786456019,
+      "warmup_http_seconds": [
+        30.356591646559536,
+        30.416893583722413
+      ],
+      "prebenchmark_quality_http_seconds": [
+        30.50923032592982,
+        30.481581911444664,
+        30.477150707505643,
+        30.45523637998849
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2257,
+        2400
+      ],
+      "temperature_c_range": [
+        64,
+        72
+      ]
+    }
+  ],
+  "all_planned_blocks_present": true,
+  "scope": "Frozen Joy 1792x512, 30 steps, CFG 4.0, precision {'dit': 'bf16', 'text_encoder': 'bf16', 'vae': 'bf16', 'latents_and_solver': 'audit_runtime_before_performance'}, GPU0, batch1, concurrency1, high. Short prompt primary timing; long/Chinese quality only. Not full matrix.",
+  "source_and_ownership_audit_pass": true,
+  "aa": {
+    "block_median_relative_difference": 0.0004260578773944701,
+    "max_within_block_cv_percent": 0.028440326337541694,
+    "acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    },
+    "passed": true
+  }
+}

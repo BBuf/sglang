@@ -1,0 +1,664 @@
+{
+  "created_at": "2026-10-27T01:52:28.220555+00:00",
+  "status": "native component precision/source audit; Omni actual runtime dtype observer prepared, not run",
+  "component_precision": "Both native configured DiT/encoder/VAE BF16, no quantization. SGL server logs confirm transformer param_dtype BF16; Omni source explicitly loads encoder/VAE BF16.",
+  "sgl_runtime_evidence": {
+    "trace": "evidence/profiles/joy-gelu-v1-profile1-pr/eda20249-2f6b-4bef-9386-f7868ae41315-3_steps-global-rank0.trace.json.gz",
+    "trace_sha256": "038a32294dd19a7319592727775cf411bfe2eb9e84bbf02143453fb52d79cf35",
+    "step": "ProfilerStep#3",
+    "activation_calls": 80,
+    "activation_input_types": [
+      [
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "c10::BFloat16",
+        "Scalar",
+        "Scalar",
+        "Scalar"
+      ]
+    ],
+    "tail_cpu_ops": [
+      {
+        "name": "aten::t",
+        "input_types": [
+          "c10::BFloat16"
+        ],
+        "input_dims": [
+          [
+            64,
+            4096
+          ]
+        ]
+      },
+      {
+        "name": "aten::transpose",
+        "input_types": [
+          "c10::BFloat16",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            64,
+            4096
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::as_strided",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList",
+          "ScalarList",
+          ""
+        ],
+        "input_dims": [
+          [
+            64,
+            4096
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::addmm",
+        "input_types": [
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            64
+          ],
+          [
+            8192,
+            4096
+          ],
+          [
+            4096,
+            64
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::view",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList"
+        ],
+        "input_dims": [
+          [
+            8192,
+            64
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::reshape",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList"
+        ],
+        "input_dims": [
+          [
+            1,
+            8192,
+            64
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::view",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList"
+        ],
+        "input_dims": [
+          [
+            1,
+            8192,
+            64
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::permute",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList"
+        ],
+        "input_dims": [
+          [
+            1,
+            8192,
+            1,
+            2,
+            2,
+            16
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::as_strided",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList",
+          "ScalarList",
+          ""
+        ],
+        "input_dims": [
+          [
+            1,
+            8192,
+            1,
+            2,
+            2,
+            16
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::slice",
+        "input_types": [
+          "c10::BFloat16",
+          "Scalar",
+          "Scalar",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            8192,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::as_strided",
+        "input_types": [
+          "c10::BFloat16",
+          "ScalarList",
+          "ScalarList",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            8192,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::sub",
+        "input_types": [
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::mul",
+        "input_types": [
+          "c10::BFloat16",
+          "double"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::add",
+        "input_types": [
+          "c10::BFloat16",
+          "c10::BFloat16",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::linalg_vector_norm",
+        "input_types": [
+          "c10::BFloat16",
+          "Scalar",
+          "ScalarList",
+          "Scalar",
+          ""
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::linalg_vector_norm",
+        "input_types": [
+          "c10::BFloat16",
+          "Scalar",
+          "ScalarList",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::linalg_vector_norm",
+        "input_types": [
+          "c10::BFloat16",
+          "Scalar",
+          "ScalarList",
+          "Scalar",
+          ""
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::linalg_vector_norm",
+        "input_types": [
+          "c10::BFloat16",
+          "Scalar",
+          "ScalarList",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::clamp_min",
+        "input_types": [
+          "float",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            1,
+            1,
+            2,
+            2
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::div",
+        "input_types": [
+          "float",
+          "float"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            1,
+            1,
+            2,
+            2
+          ],
+          [
+            1,
+            4096,
+            1,
+            1,
+            2,
+            2
+          ]
+        ]
+      },
+      {
+        "name": "aten::mul",
+        "input_types": [
+          "c10::BFloat16",
+          "float"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [
+            1,
+            4096,
+            1,
+            1,
+            2,
+            2
+          ]
+        ]
+      },
+      {
+        "name": "aten::to",
+        "input_types": [
+          "float",
+          "Scalar",
+          "Scalar",
+          "Scalar",
+          ""
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::select",
+        "input_types": [
+          "float",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            31
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::as_strided",
+        "input_types": [
+          "float",
+          "ScalarList",
+          "ScalarList",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            31
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::select",
+        "input_types": [
+          "float",
+          "Scalar",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            31
+          ],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::as_strided",
+        "input_types": [
+          "float",
+          "ScalarList",
+          "ScalarList",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            31
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::sub",
+        "input_types": [
+          "float",
+          "float",
+          "Scalar"
+        ],
+        "input_dims": [
+          [],
+          [],
+          []
+        ]
+      },
+      {
+        "name": "aten::mul",
+        "input_types": [
+          "float",
+          "float"
+        ],
+        "input_dims": [
+          [],
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ]
+        ]
+      },
+      {
+        "name": "aten::add",
+        "input_types": [
+          "float",
+          "float",
+          "Scalar"
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          []
+        ]
+      },
+      {
+        "name": "aten::to",
+        "input_types": [
+          "float",
+          "Scalar",
+          "Scalar",
+          "Scalar",
+          ""
+        ],
+        "input_dims": [
+          [
+            1,
+            4096,
+            16,
+            1,
+            2,
+            2
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      }
+    ],
+    "observation": "Actual prototype model trace: BF16 projection and CFG subtraction/multiply/add; norm normalization produces float inputs to subsequent multiply and scheduler update. Do not call all intermediates BF16."
+  },
+  "sgl_scheduler_source": {
+    "path": "repos/sglang/python/sglang/multimodal_gen/runtime/models/schedulers/scheduling_flow_match_euler_discrete.py",
+    "sha256": "872d8aa17f22fccf0cedc09b56a7a08d85fca79cf4db5ce1beb155e5cabdb397",
+    "sample_upcast_line": 516,
+    "cast_back_to_model_output_dtype_line": 557
+  },
+  "omni_installed_scheduler_source": {
+    "path": "/usr/local/lib/python3.12/dist-packages/diffusers/schedulers/scheduling_flow_match_euler_discrete.py",
+    "sha256": "1af27be5b2f92b7d139d3c50239be5ce3eafc4a7eddf59c2d30689f8ec31e93d",
+    "matches": [
+      {
+        "line": 484,
+        "text": "sample = sample.to(torch.float32)"
+      },
+      {
+        "line": 511,
+        "text": "prev_sample = sample + dt * model_output"
+      },
+      {
+        "line": 517,
+        "text": "prev_sample = prev_sample.to(model_output.dtype)"
+      }
+    ],
+    "method": "Read installedsource without importingtorch/diffusers or initializingCUDA"
+  },
+  "scheduler_policy": "Both upcast sample toFP32 and cast the update back to model_output.dtype. Actual resulting dtype therefore depends on actual CFG output; final Omni observer must establish it.",
+  "native_differences_to_disclose": [
+    "SGL autocast context and native Omni/compiled internal cast behavior may differ; actual Omni runtime observer pending.",
+    "VAE reference latent: native SGL argmax vs Omni posterior sample without forwarding request generator. Cause of image repeat variation is not experimentally isolated.",
+    "CFG clamp floor1e-12 in SGL vs1e-6 in Omni; no claim that this clamp is active on measured samples.",
+    "Both retain native library defaults; SGL logs explicitly enable cuDNN TF32 and BF16 reduced-precision reductions. This is high-quality BF16 comparison, not a strict all-FP32 arithmetic claim."
+  ],
+  "no_performance_claim": true
+}

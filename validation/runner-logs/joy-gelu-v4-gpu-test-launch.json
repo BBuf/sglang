@@ -1,0 +1,25 @@
+{
+  "pid": 2510411,
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "CUDA_VISIBLE_DEVICES=0",
+    "-e",
+    "FLASHINFER_DISABLE_VERSION_CHECK=1",
+    "-e",
+    "PYTHONPATH=/task/candidates/joy-image-gelu/python",
+    "-w",
+    "/task/candidates/joy-image-gelu",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "-m",
+    "pytest",
+    "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+    "-q",
+    "-k",
+    "test_joy_image_mlp_quality_restore_and_dynamic_lora"
+  ],
+  "log": "/data/xyzhang/diffusion-rtx6000-20261026/joy-gelu-v4-gpu-test.log",
+  "source_diff_sha256": "d471fa9e3522b44bf2c567c5e60ceb264818204437775f32712df31573b77aa8"
+}
