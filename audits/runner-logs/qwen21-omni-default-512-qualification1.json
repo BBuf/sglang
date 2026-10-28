@@ -1,0 +1,41 @@
+{
+  "id": "qwen21-omni-default-512-qualification1",
+  "order": [
+    "omni_default"
+  ],
+  "tasks": [
+    "edit",
+    "t2i"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": false,
+  "contracts": {
+    "t2i": "qwen21-base-t2i-512-workloads.json",
+    "edit": "qwen21-base-edit-512-workloads.json"
+  },
+  "configurations": {
+    "omni_default": {
+      "arm": "omni",
+      "repo": "/task/repos/vllm-omni",
+      "launcher": "launch_omni_qwen21_base_native.sh",
+      "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7"
+    }
+  },
+  "contract_sha256": {
+    "t2i": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2",
+    "edit": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf"
+  },
+  "quality_references": {
+    "omni_default": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high"
+      ]
+    }
+  },
+  "note": "FastestvalidOmniscreen512supplement:defaultcompiledprecision versuscastsenabled. Original1024T2Idefaultfailurekept. Qualifyeditfirst;failureinT2Idoesnotinvalidatecompletededitbutnoautomaticperformanceuntilscopedaudit."
+}

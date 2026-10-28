@@ -1,0 +1,201 @@
+{
+  "plan": {
+    "id": "qwen21-main-high-512-aa1",
+    "order": [
+      "main",
+      "main"
+    ],
+    "tasks": [
+      "t2i",
+      "edit"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "benchmark": true,
+    "contracts": {
+      "t2i": "qwen21-base-t2i-512-workloads.json",
+      "edit": "qwen21-base-edit-512-workloads.json"
+    },
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "launcher": "launch_sgl_qwen21_main_512.sh",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac"
+      }
+    },
+    "contract_sha256": {
+      "t2i": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2",
+      "edit": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf"
+    },
+    "quality_references": {
+      "main": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high",
+          "omni-qwen21-base-t2i-qwen21-base-512-qualification1-01-omni_casts-high"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+          "omni-qwen21-base-edit-qwen21-base-512-qualification1-01-omni_casts-high"
+        ]
+      }
+    },
+    "note": "SameGPUfreshmainA/Aonly after512crossframeworkandcandidatequalityaccepted. NativePNG0. Syncstageprofiling0; separateGPUdenoisediagnosticneeded.",
+    "aa_acceptance": {
+      "max_process_median_relative_difference": 0.005,
+      "max_within_process_cv_percent": 0.5
+    },
+    "main_qualification_references": {
+      "t2i": "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high",
+      "edit": "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high"
+    }
+  },
+  "index": 0,
+  "config": "main",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/repos/sglang",
+    "-e",
+    "QWEN_CANDIDATE_DIFF_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/qwen21-main-high-512-aa1-00-main/server.pid; exec sh /task/launch_sgl_qwen21_main_512.sh"
+  ],
+  "runner_sha256": "1fa35a8263eb4b8dbc2cfb9bd62b711096ce3b305e9dc34524e17230b6aa413e",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "base-t2i-qwen21-main-high-512-aa1-00-main-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-512-workloads.json",
+      "--repo",
+      "/task/repos/sglang",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-t2i-qwen21-main-high-512-aa1-00-main-high",
+      "--reference",
+      "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high",
+      "--reference",
+      "omni-qwen21-base-t2i-qwen21-base-512-qualification1-01-omni_casts-high"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/bench_qwen21_serving.py",
+      "sgl",
+      "--run-id",
+      "qwen21-main-high-512-aa1-00-main-t2i",
+      "--repo",
+      "/task/repos/sglang",
+      "--allowed-gpu-pids",
+      "11103",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "main",
+      "--warmups",
+      "2",
+      "--repeats",
+      "4",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-512-workloads.json"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "base-edit-qwen21-main-high-512-aa1-00-main-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-edit-512-workloads.json",
+      "--repo",
+      "/task/repos/sglang",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-edit-qwen21-main-high-512-aa1-00-main-high",
+      "--reference",
+      "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+      "--reference",
+      "omni-qwen21-base-edit-qwen21-base-512-qualification1-01-omni_casts-high"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/bench_qwen21_serving.py",
+      "sgl",
+      "--run-id",
+      "qwen21-main-high-512-aa1-00-main-edit",
+      "--repo",
+      "/task/repos/sglang",
+      "--allowed-gpu-pids",
+      "11103",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "main",
+      "--warmups",
+      "2",
+      "--repeats",
+      "4",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-edit-512-workloads.json"
+    ]
+  ],
+  "launch_to_ready_seconds": 44.03729540389031,
+  "gpu_container_pids": [
+    [
+      11103
+    ],
+    []
+  ],
+  "status": "complete"
+}

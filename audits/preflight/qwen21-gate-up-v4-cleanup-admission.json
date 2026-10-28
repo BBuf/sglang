@@ -1,0 +1,55 @@
+{
+  "status": "accepted_with_explicit_fresh_process_screen_failures",
+  "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+  "original_screens": [
+    "qwen21-gate-up-v4-512-cleanup1-screen.json",
+    "qwen21-gate-up-v4-512-cleanup2-audit.json"
+  ],
+  "original_combined": "qwen21-gate-up-v4-512-cleanup-combined-review.json",
+  "original_t2i_failed_pair_after_over_before": [
+    1.001338391681991,
+    1.0016877772431283
+  ],
+  "source_equivalence": "qwen21-cleanup-source-equivalence.json",
+  "causal_diagnostics": {
+    "512": {
+      "t2i": {
+        "after_over_before": 0.9997565964547683,
+        "t95_interval": [
+          0.9992770180709069,
+          1.0002364050004589
+        ],
+        "upper_bound_below_predeclared_1_001": true
+      },
+      "edit": {
+        "after_over_before": 1.000049493170728,
+        "t95_interval": [
+          0.9992768662514047,
+          1.0008227174743964
+        ],
+        "upper_bound_below_predeclared_1_001": true
+      }
+    },
+    "1024": {
+      "t2i": {
+        "after_over_before": 1.0000714364919567,
+        "t95_interval": [
+          0.9995449455986892,
+          1.0005982047040802
+        ],
+        "upper_bound_below_predeclared_1_001": true
+      },
+      "edit": {
+        "after_over_before": 1.000068546226971,
+        "t95_interval": [
+          0.9997586223011778,
+          1.0003785662287945
+        ],
+        "upper_bound_below_predeclared_1_001": true
+      }
+    }
+  },
+  "raw_diagnostic_output_count": 144,
+  "conclusion": "No measurable cleanup regression within the prospectively fixed 0.1% bound in each same-process task/shape diagnostic. Both archived native forward functions execute the same math at the measured targets; full production AST differs only in that eligibility predicate. All four per-case descriptive t95 upper bounds are below1.001. Original independent-process failures remain failures, not rewritten or discarded. This supports attribution to between-process variation rather than a measured predicate penalty, without proving zero effect.",
+  "limits": "Fixed-order ABBA quartets cancel first-order temporal drift; intervals are descriptive per case, not familywise equivalence guarantees. Instrumented diagnostic timings do not establish main/candidate or Omni speedup. Final uninstrumented committed-source comparisons remain required."
+}

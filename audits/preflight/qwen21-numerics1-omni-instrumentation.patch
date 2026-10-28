@@ -1,0 +1,37 @@
+diff --git a/vllm_omni/diffusion/models/qwen_image_21/cfg_parallel.py b/vllm_omni/diffusion/models/qwen_image_21/cfg_parallel.py
+index fd87abf76ea14e29c83b228de20afafa3f70028d..787cdbd2ca53939a4d9b64b0d5af147062568db4 100644
+--- a/vllm_omni/diffusion/models/qwen_image_21/cfg_parallel.py
++++ b/vllm_omni/diffusion/models/qwen_image_21/cfg_parallel.py
+@@ -190,7 +190,10 @@ class QwenImage21CFGParallelMixin(CFGParallelMixin, ProgressBarMixin):
+                         output_slice=latents.size(1),
+                     )
+ 
++                    import qwen21_tensor_audit as audit
++                    audit.step(i, "before", sample=latents, noise=noise_pred, timestep=t, model_timestep=timestep / 1000)
+                     latents = self.scheduler_step_maybe_with_cfg(noise_pred, t, latents, do_true_cfg)
++                    audit.step(i, "after", sample=latents)
+ 
+                     pbar.update()
+ 
+diff --git a/vllm_omni/diffusion/models/qwen_image_21/pipeline_qwen_image_21.py b/vllm_omni/diffusion/models/qwen_image_21/pipeline_qwen_image_21.py
+index 6310b19fa00d2d636ac6f4cf6b1d5a90126d091e..fa1d67cd745d98834e09d9573a432f7f5f388bfb 100644
+--- a/vllm_omni/diffusion/models/qwen_image_21/pipeline_qwen_image_21.py
++++ b/vllm_omni/diffusion/models/qwen_image_21/pipeline_qwen_image_21.py
+@@ -678,6 +678,8 @@ class QwenImage21Pipeline(
+ 
+         split_hidden_states = list(self._extract_masked_hidden(hidden_states, model_inputs.attention_mask))
+         split_hidden_states = [e[self._drop_idx :] for e in split_hidden_states]
++        import qwen21_tensor_audit as audit
++        audit.snapshot("text_encoder", hidden=split_hidden_states[0], ids=model_inputs.input_ids[0, model_inputs.attention_mask[0].bool()][self._drop_idx:])
+ 
+         image_pad_mask = [
+             (sample_ids[sample_mask.bool()] == self._img_token_id)
+@@ -990,6 +992,8 @@ class QwenImage21Pipeline(
+             max_sequence_length,
+         )
+ 
++        import qwen21_tensor_audit as audit
++        audit.begin(prompt)
+         self._attention_kwargs = attention_kwargs or {}
+         self._current_timestep = None
+         self._interrupt = False

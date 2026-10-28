@@ -1,0 +1,63 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "9a66f6b371816d10e0bf7a3c7aad7ae03c31d4f59f406c3a5066b3e86cc24d2c",
+  "source_repo": "/task/candidates/qwen21-bf16-gate-up",
+  "args": {
+    "arm": "sgl",
+    "contract": "/task/inputs/qwen21-base-edit-workloads.json",
+    "run_id": "qwen21-gate-up-v1-abba1-01-candidate-edit",
+    "allowed_gpu_pids": [
+      6736
+    ],
+    "repeats": 4,
+    "warmups": 2,
+    "configuration_label": "candidate",
+    "repo": "/task/candidates/qwen21-bf16-gate-up",
+    "expected_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "expected_diff_sha256": "9a66f6b371816d10e0bf7a3c7aad7ae03c31d4f59f406c3a5066b3e86cc24d2c",
+    "quality": "high",
+    "diagnostic_profiler": false
+  },
+  "physical_gpus": [
+    0
+  ],
+  "allowed_process_commands": {
+    "6736": "sgl_diffusion::scheduler                                                                                                                 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc",
+  "torch": "2.14.1+cu130",
+  "driver": "595.84",
+  "harness_sha256": "95d1dedbee5dbedf8d0bc73bd978b06064df424f1ffd0a06204a09b5e3dfade6",
+  "initial_gpu_state": {
+    "monotonic": 5591005.78482607,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          6736
+        ],
+        "memory_bytes": 36624072704,
+        "gpu_util_percent": 0,
+        "power_mw": 89435,
+        "temperature_c": 52,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 33492,
+        "temperature_c": 22,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident candidate; fixed prompt and seed; conditioning cache warm"
+}

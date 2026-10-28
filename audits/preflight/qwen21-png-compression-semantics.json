@@ -1,0 +1,22 @@
+{
+  "found_before_primary_benchmark": true,
+  "frozen_request_initial_qualification": {
+    "sglang_output_compression": 100,
+    "omni_output_compression": 100,
+    "actual_sgl_PNG_zlib_level": 9,
+    "actual_omni_PNG_zlib_level": 0
+  },
+  "equivalent_encoding_policy_for_next_runs": {
+    "sglang_output_compression": 0,
+    "omni_output_compression": 100,
+    "PNG_zlib_level": 0,
+    "pixels_and_alpha": "lossless unchanged; original PNGs preserved",
+    "encoding_implementations": "native SG stored-deflate writer, native Omni PIL encoder; reasonable native implementations retained"
+  },
+  "source_paths": {
+    "sglang": "python/sglang/multimodal_gen/runtime/entrypoints/utils.py::_encode_image_frame",
+    "omni": "vllm_omni/entrypoints/openai/image_api_utils.py::pil_image_to_base64"
+  },
+  "initial_duration_status": "qualification only; initial HTTP numbers are not equivalent-encoding primary comparisons",
+  "existing_PRs": "MOSS/Joy harnesses omit explicit output_compression; no correction to their results inferred from this Qwen-specific request."
+}

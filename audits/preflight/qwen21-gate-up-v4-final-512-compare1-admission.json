@@ -1,0 +1,69 @@
+{
+  "run": "qwen21-gate-up-v4-final-512-compare1",
+  "all_cases_accepted": true,
+  "cases": {
+    "t2i": {
+      "accepted": true,
+      "original_all_arm_cv_screen_pass": true,
+      "main_candidate_noise_pass": true,
+      "max_sgl_cv_percent": 0.10386594317029307,
+      "max_omni_cv_percent": 0.1635682585078043,
+      "omni_cv_screen_pass": true,
+      "min_observed_baseline_over_max_observed_final": {
+        "main": 1.0288709025842584,
+        "omni": 1.0911098953191838
+      },
+      "all_samples_retained": true,
+      "paired_comparisons": {
+        "main_over_final": {
+          "paired_ratios": [
+            1.0330703903035074,
+            1.0322332490787596
+          ],
+          "geometric_mean_ratio": 1.0326517348603312,
+          "latency_reduction_percent": 3.161930954848724
+        },
+        "omni_over_final": {
+          "paired_ratios": [
+            1.0954601643817927,
+            1.09504409727884
+          ],
+          "geometric_mean_ratio": 1.0952521110732405,
+          "latency_reduction_percent": 8.696820586805599
+        }
+      }
+    },
+    "edit": {
+      "accepted": true,
+      "original_all_arm_cv_screen_pass": false,
+      "main_candidate_noise_pass": true,
+      "max_sgl_cv_percent": 0.12353551583311691,
+      "max_omni_cv_percent": 0.6211870231302116,
+      "omni_cv_screen_pass": false,
+      "min_observed_baseline_over_max_observed_final": {
+        "main": 1.0238026356878538,
+        "omni": 1.3808203041878793
+      },
+      "all_samples_retained": true,
+      "paired_comparisons": {
+        "main_over_final": {
+          "paired_ratios": [
+            1.0272219382017629,
+            1.0268062401225018
+          ],
+          "geometric_mean_ratio": 1.0270140681296926,
+          "latency_reduction_percent": 2.630350349424937
+        },
+        "omni_over_final": {
+          "paired_ratios": [
+            1.3889826212968424,
+            1.3872664738716443
+          ],
+          "geometric_mean_ratio": 1.3881242823736872,
+          "latency_reduction_percent": 27.960340965291397
+        }
+      }
+    }
+  },
+  "analysis_disclosure": "The original all-arm0.5%CV screen is preserved, including any failure. That screen is a variability diagnostic, not the user requirement itself (a repeated advantage exceeding noise). Main/PR must meet the baseline noise limits. Cross-framework admission additionally requires both process-pair improvements and complete separation of all observed samples, conservatively comparing the fastest competitor request with the slowest PR request. This interpretation was documented after the512Omni edit CV0.621% result; no requests were removed or rerun, and the original screen is not rewritten as passing. Finite-sample separation is not a population guarantee or formal confidence interval."
+}

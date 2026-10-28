@@ -1,0 +1,25 @@
+{
+  "candidate": "qwen21-bf16-gate-up",
+  "phase": "preliminary_quality_screen",
+  "date": "2026-10-28T10:21:52.925019+00:00",
+  "baseline": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "independent_value": "SM120 high-mode native BF16 target-image gate/up packing, shared storage preserves native names/offload. Reuses existing packed SiLU. Current main only INT8 packing; old broad #40918 closed without merge.",
+  "prior_art": [
+    "https://github.com/sgl-project/sglang/pull/40918",
+    "https://github.com/sgl-project/sglang/pull/44196",
+    "https://github.com/sgl-project/sglang/pull/41339"
+  ],
+  "scope": "SM120 resident BF16 TP1, target batch1 >=4096tokens, high quality only. Prefix projections, exact/lossless, LoRA wrappers, quantized and compile fallback preserved.",
+  "gates": {
+    "candidate_vs_main_high": {
+      "rgb_ssim_min": 0.99,
+      "rgb_psnr_db_min": 40,
+      "alpha_ssim_min": 0.99,
+      "alpha_psnr_db_min": 40
+    },
+    "cross_framework": "unchanged RGB+alpha SSIM.95/PSNR28",
+    "lossless": "pixel_exact_RGBA versus corresponding frozen main"
+  },
+  "performance": "Model A/A before paired main/candidate/valid Omni; microprobe2 supports only ~1.9% MLP speedup4096 and1.1%8192, not model speedup. Require all pairs positive beyond A/A noise; cleanup finalhead retest and real media required.",
+  "no_PR_yet": true
+}

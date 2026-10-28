@@ -1,0 +1,59 @@
+{
+  "id": "qwen21-gate-up-v4-compatibility1",
+  "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+  "cases": [
+    "t2i512",
+    "edit512",
+    "t2i1024",
+    "edit1024"
+  ],
+  "configurations": [
+    "main_eager",
+    "final_eager",
+    "final_bcg"
+  ],
+  "files": [
+    {
+      "path": "run_qwen21_v4_compatibility.py",
+      "sha256": "dc2fb59d6fd66723a0bd7f38002a8e822ba39911cdd12776ad3b4bedecf8593c"
+    },
+    {
+      "path": "submit_qwen21_compatibility.py",
+      "sha256": "5c6feef9a99abd958a8b03316355748cdaa283bbfffb7413c51f8520736fbce6"
+    },
+    {
+      "path": "launch_sgl_qwen21_main_compat.sh",
+      "sha256": "da9dc5f2463ff89fe3b4f36f52f0f47b3855aa5688d27e5c18d39296cf03179c"
+    },
+    {
+      "path": "launch_sgl_qwen21_v4_compat.sh",
+      "sha256": "d7cbe3e04352935993c7433bc25c8bafdd9964d028303e5e7e05c956f357459d"
+    },
+    {
+      "path": "launch_sgl_qwen21_v4_bcg_compat.sh",
+      "sha256": "0b12838ff6e7c47b0b8f4ed5bfb5996108eb001eb5b2162598d9d151774c72f9"
+    },
+    {
+      "path": "instrumentation/qwen21-bcg-observer/sitecustomize.py",
+      "sha256": "592da6608fa449ccbda1721bfe4f8c1aa12729bace17afb158893e97ed3de588"
+    },
+    {
+      "path": "inputs/qwen21-base-t2i-workloads.json",
+      "sha256": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f"
+    },
+    {
+      "path": "inputs/qwen21-base-t2i-512-workloads.json",
+      "sha256": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2"
+    },
+    {
+      "path": "inputs/qwen21-base-edit-workloads.json",
+      "sha256": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+    },
+    {
+      "path": "inputs/qwen21-base-edit-512-workloads.json",
+      "sha256": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf"
+    }
+  ],
+  "primary_timing": false,
+  "note": "Separatemetadataobserver, nativeunchangedsource. High->lossless->exact->high; fullshort/long/Chinese/repeatunderBCG; finalprofilesall4cases. Everyrequestcapture0,highT2I49replaysandactualpackedprofile;otherqualityandeditexpected0replay. AllPNGexactcorrespondingnativebaseline."
+}

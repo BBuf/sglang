@@ -1,0 +1,25 @@
+{
+  "reviewed_actual_originals_and_contact_sheets": true,
+  "reference": "inputs/reference-teapot.png",
+  "panels": [
+    "evidence/media/qwen21-native1/t2i-all-native-RGB-alpha.png",
+    "evidence/media/qwen21-native1/edit-all-native-RGB-alpha.png"
+  ],
+  "t2i": {
+    "status": "failed_numeric_gate_retained",
+    "observations": [
+      "Short and long still life retain the same scene across frameworks, with local silhouette/reflectance differences.",
+      "Chinese cafe poster has correct requested Chinese text in both outputs, but the lower text differs visibly in width/spacing; PSNR 24.78 dB fails the unchanged gate.",
+      "Both frameworks retain native RGBA and the alpha previews are nearly opaque; this does not validate a transparent-background workload."
+    ]
+  },
+  "edit": {
+    "status": "initial_numeric_and_visual_pass",
+    "observations": [
+      "All three prompts recolor the source teapot blue, with long cobalt request visibly darker in both frameworks.",
+      "Source teapot geometry, handle/spout, gray-blue cup, table, window and lighting are preserved; no new discrepancy discerned between frameworks at inspected scale.",
+      "Repeated short outputs are byte-identical within each framework; raw audit covers all requests."
+    ]
+  },
+  "limitation": "Initial configurations only. No primary benchmark, fastest-backend or comprehensive quality claim."
+}

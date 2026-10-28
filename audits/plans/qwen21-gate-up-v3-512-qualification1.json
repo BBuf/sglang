@@ -1,0 +1,44 @@
+{
+  "id": "qwen21-gate-up-v3-512-qualification1",
+  "order": [
+    "candidate"
+  ],
+  "tasks": [
+    "t2i",
+    "edit"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": false,
+  "contracts": {
+    "t2i": "qwen21-base-t2i-512-workloads.json",
+    "edit": "qwen21-base-edit-512-workloads.json"
+  },
+  "configurations": {
+    "candidate": {
+      "arm": "sgl",
+      "repo": "/task/candidates/qwen21-bf16-gate-up-512",
+      "launcher": "launch_sgl_qwen21_candidate_512.sh",
+      "head": "0347585f781c01427e73ddecfee1c91981330482",
+      "diff_sha256": "139e29cf0831d8f3a9dd30cf951d1d5267b22e0ae2ebea835af6de026cf0671f"
+    }
+  },
+  "contract_sha256": {
+    "t2i": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2",
+    "edit": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf"
+  },
+  "quality_references": {
+    "candidate": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high",
+        "omni-qwen21-base-t2i-qwen21-base-512-qualification1-01-omni_casts-high"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+        "omni-qwen21-base-edit-qwen21-base-512-qualification1-01-omni_casts-high"
+      ]
+    }
+  },
+  "note": "V3sameMLPoptimization adds1024targettokens; all3frozenprompts+repeat perT2I/edit; numericandvisualbeforeAA/performance. Strictmain.99SSIM40dBmustbemanuallyauditedbesidescrossframeworkgate."
+}

@@ -1,0 +1,63 @@
+{
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_repo": "/task/repos/vllm-omni",
+  "args": {
+    "arm": "omni",
+    "contract": "/task/inputs/qwen21-base-edit-512-workloads.json",
+    "run_id": "qwen21-gate-up-v4-final-512-compare1-02-omni_default-edit",
+    "allowed_gpu_pids": [
+      4258
+    ],
+    "repeats": 8,
+    "warmups": 6,
+    "configuration_label": "omni_default",
+    "repo": "/task/repos/vllm-omni",
+    "expected_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+    "expected_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "quality": "high",
+    "diagnostic_profiler": false
+  },
+  "physical_gpus": [
+    0
+  ],
+  "allowed_process_commands": {
+    "4258": "/usr/bin/python /usr/local/bin/vllm serve /task/cache/common/Qwen-Image-2.1 --omni --num-gpus 1 --dtype bfloat16 --host 127.0.0.1 --port 31051 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf",
+  "torch": "2.13.0+cu130",
+  "driver": "595.84",
+  "harness_sha256": "95d1dedbee5dbedf8d0bc73bd978b06064df424f1ffd0a06204a09b5e3dfade6",
+  "initial_gpu_state": {
+    "monotonic": 5598859.069618633,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          4258
+        ],
+        "memory_bytes": 40524775424,
+        "gpu_util_percent": 0,
+        "power_mw": 87360,
+        "temperature_c": 48,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 33245,
+        "temperature_c": 21,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident omni_default; fixed prompt and seed; conditioning cache warm"
+}

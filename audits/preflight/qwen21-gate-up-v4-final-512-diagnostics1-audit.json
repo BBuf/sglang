@@ -1,0 +1,271 @@
+{
+  "primary_timing": false,
+  "native_stage_timing": true,
+  "torch_profiler_during_measured_requests": false,
+  "all_raw_audits_pass": true,
+  "checks": {
+    "main": {
+      "tasks": {
+        "t2i": {
+          "denoise_seconds": [
+            2.4260131949558854,
+            2.426961782388389,
+            2.4259063750505447,
+            2.426408126950264
+          ],
+          "denoise_p50_seconds": 2.4262106609530747
+        },
+        "edit": {
+          "denoise_seconds": [
+            2.598661136813462,
+            2.59823218267411,
+            2.599201288074255,
+            2.598938835784793
+          ],
+          "denoise_p50_seconds": 2.5987999862991273
+        }
+      },
+      "correlations": [],
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "raw_audit_pass": true
+    },
+    "final": {
+      "tasks": {
+        "t2i": {
+          "denoise_seconds": [
+            2.332381470128894,
+            2.3331640250980854,
+            2.334166035056114,
+            2.336868979036808
+          ],
+          "denoise_p50_seconds": 2.3336650300771
+        },
+        "edit": {
+          "denoise_seconds": [
+            2.505307408981025,
+            2.505564316175878,
+            2.507556090131402,
+            2.506739594042301
+          ],
+          "denoise_p50_seconds": 2.5061519551090896
+        }
+      },
+      "correlations": [],
+      "source_sha": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "raw_audit_pass": true
+    },
+    "omni_default": {
+      "tasks": {
+        "t2i": {
+          "denoise_seconds": [
+            2.509728,
+            2.508906,
+            2.513321,
+            2.507656
+          ],
+          "denoise_p50_seconds": 2.5093170000000002
+        },
+        "edit": {
+          "denoise_seconds": [
+            3.323987,
+            3.329616,
+            3.327957,
+            3.3302
+          ],
+          "denoise_p50_seconds": 3.3287865
+        }
+      },
+      "correlations": [
+        {
+          "phase": "native_startup",
+          "scheduler_steps": 2,
+          "native_diffuse_seconds": 8.64818,
+          "excluded": true
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/00-image-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.638866,
+          "response_created_gap_seconds": -0.7417263984680176,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/01-image-long",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.643157,
+          "response_created_gap_seconds": -0.5737819671630859,
+          "output_sha256": "18802ca9ec08a98f72965bdab72b546967e2445a2804470074de8af8ea972e0c"
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/02-image-text",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.623063,
+          "response_created_gap_seconds": -0.34053564071655273,
+          "output_sha256": "455762b606078cf856b58cef974be2b0461b9c1d3d8e5d24b761373ff18926a5"
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/03-image-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.513148,
+          "response_created_gap_seconds": 0.0542452335357666,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-t2i/00",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.512705,
+          "response_created_gap_seconds": -0.564957857131958,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-t2i/01",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.51263,
+          "response_created_gap_seconds": -0.17713618278503418,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-t2i/02",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.509728,
+          "response_created_gap_seconds": -0.7874534130096436,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-t2i/03",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.508906,
+          "response_created_gap_seconds": -0.3841104507446289,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-t2i/04",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.513321,
+          "response_created_gap_seconds": 0.008836507797241211,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-t2i/05",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 2.507656,
+          "response_created_gap_seconds": -0.5879607200622559,
+          "output_sha256": "42e9302a485dd3a1c10366dc2d2e7c2594f7b4521b3c9bee78b8278d67aff610"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/00-edit-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 7.125441,
+          "response_created_gap_seconds": -0.45508575439453125,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/01-edit-long",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.505025,
+          "response_created_gap_seconds": -0.2631058692932129,
+          "output_sha256": "bc7908e8c007abdd0fc65e34fa3bd2c13e36fd84910eae7a677d088386962972"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/02-edit-chinese",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.498281,
+          "response_created_gap_seconds": -0.04856729507446289,
+          "output_sha256": "f42c3e8b1914f97e552f2769a118c72b0724301c7c8045a74f67db0eb273bbb2"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high/03-edit-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.328133,
+          "response_created_gap_seconds": -0.6605925559997559,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-edit/00",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.326303,
+          "response_created_gap_seconds": -0.2616848945617676,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-edit/01",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.325766,
+          "response_created_gap_seconds": -0.8795909881591797,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-edit/02",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.323987,
+          "response_created_gap_seconds": -0.48119306564331055,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-edit/03",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.329616,
+          "response_created_gap_seconds": -0.09472393989562988,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-edit/04",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.327957,
+          "response_created_gap_seconds": -0.7050857543945312,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-edit/05",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 3.3302,
+          "response_created_gap_seconds": -0.3167300224304199,
+          "output_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a"
+        }
+      ],
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "raw_audit_pass": true
+    }
+  },
+  "caveat": "Stage scopes are native framework boundaries. SGL adds stage/step synchronization; Omni wraps diffuse with its native timer and a metadata-only Python observer. Both are excluded from primary E2E ratios. Separate Torch profile requests are audited independently."
+}

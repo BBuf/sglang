@@ -1,0 +1,285 @@
+{
+  "primary_timing": false,
+  "native_stage_timing": true,
+  "torch_profiler_during_measured_requests": false,
+  "all_raw_audits_pass": true,
+  "checks": {
+    "main": {
+      "tasks": {
+        "t2i": {
+          "denoise_seconds": [
+            9.342034502886236,
+            9.359536192379892,
+            9.374162435531616,
+            9.384726045653224
+          ],
+          "denoise_p50_seconds": 9.366849313955754
+        },
+        "edit": {
+          "denoise_seconds": [
+            10.7875970704481,
+            10.806857842952013,
+            10.81688401196152,
+            10.822234661318362
+          ],
+          "denoise_p50_seconds": 10.811870927456766
+        }
+      },
+      "correlations": [],
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "raw_audit_pass": true
+    },
+    "final": {
+      "tasks": {
+        "t2i": {
+          "denoise_seconds": [
+            9.254732761532068,
+            9.271572479046881,
+            9.283284296281636,
+            9.293287222273648
+          ],
+          "denoise_p50_seconds": 9.277428387664258
+        },
+        "edit": {
+          "denoise_seconds": [
+            10.685291141271591,
+            10.696596458554268,
+            10.717022686265409,
+            10.725071340799332
+          ],
+          "denoise_p50_seconds": 10.706809572409838
+        }
+      },
+      "correlations": [],
+      "source_sha": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "raw_audit_pass": true
+    },
+    "omni_casts": {
+      "tasks": {
+        "t2i": {
+          "denoise_seconds": [
+            10.189691,
+            10.195026,
+            10.213591,
+            10.219311
+          ],
+          "denoise_p50_seconds": 10.2043085
+        }
+      },
+      "correlations": [
+        {
+          "phase": "native_startup",
+          "scheduler_steps": 2,
+          "native_diffuse_seconds": 10.41315,
+          "excluded": true
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-high/00-image-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.154092,
+          "response_created_gap_seconds": -0.4003744125366211,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-high/01-image-long",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.242596,
+          "response_created_gap_seconds": -0.07472395896911621,
+          "output_sha256": "7343e5858b28a826ba9b94664c2e459cc4cbc5bd0951f165d84b1fcb162bcd64"
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-high/02-image-text",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.240007,
+          "response_created_gap_seconds": -0.7079436779022217,
+          "output_sha256": "c3d67f412601778edd55e0735d1f35f51bc72bcff1e8e159f2e9e7d092054be9"
+        },
+        {
+          "task": "t2i",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-high/03-image-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.152117,
+          "response_created_gap_seconds": -0.18386149406433105,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i/00",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.13946,
+          "response_created_gap_seconds": -0.07963132858276367,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i/01",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.171667,
+          "response_created_gap_seconds": -0.6004059314727783,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i/02",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.189691,
+          "response_created_gap_seconds": -0.12101459503173828,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i/03",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.195026,
+          "response_created_gap_seconds": -0.6456952095031738,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i/04",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.213591,
+          "response_created_gap_seconds": -0.18099689483642578,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        },
+        {
+          "task": "t2i",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i/05",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 10.219311,
+          "response_created_gap_seconds": -0.7336084842681885,
+          "output_sha256": "feb790ed1d5c4c34f6252534a0861c19d7ea32ef55ee94963ab53f6c33d914cd"
+        }
+      ],
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "raw_audit_pass": true
+    },
+    "omni_default": {
+      "tasks": {
+        "edit": {
+          "denoise_seconds": [
+            11.854832,
+            11.872554,
+            11.881646,
+            11.890167
+          ],
+          "denoise_p50_seconds": 11.877099999999999
+        }
+      },
+      "correlations": [
+        {
+          "phase": "native_startup",
+          "scheduler_steps": 2,
+          "native_diffuse_seconds": 8.468194,
+          "excluded": true
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-high/00-edit-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 15.547719,
+          "response_created_gap_seconds": 0.09964442253112793,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-high/01-edit-long",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.954406,
+          "response_created_gap_seconds": -0.4321718215942383,
+          "output_sha256": "8e7909239588d758df75ac033598bb31435dbf25075d0895c91bec517e820053"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-high/02-edit-chinese",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.973359,
+          "response_created_gap_seconds": 0.06517386436462402,
+          "output_sha256": "20e14a1f85044e7b74e59b3943d2c644564ed9d661ca8e14bca1959e1c2864b5"
+        },
+        {
+          "task": "edit",
+          "phase": "qualification",
+          "request": "evidence/qualification/omni-qwen21-base-edit-qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-high/03-edit-short",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.832903,
+          "response_created_gap_seconds": -0.28023433685302734,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-edit/00",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.808587,
+          "response_created_gap_seconds": -0.019426584243774414,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "warmup",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-edit/01",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.840359,
+          "response_created_gap_seconds": -0.36768651008605957,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-edit/02",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.854832,
+          "response_created_gap_seconds": -0.726262092590332,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-edit/03",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.872554,
+          "response_created_gap_seconds": -0.09617376327514648,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-edit/04",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.881646,
+          "response_created_gap_seconds": -0.4844381809234619,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        },
+        {
+          "task": "edit",
+          "phase": "diagnostic",
+          "request": "evidence/benchmarks/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default-edit/05",
+          "scheduler_steps": 50,
+          "native_diffuse_seconds": 11.890167,
+          "response_created_gap_seconds": 0.1274428367614746,
+          "output_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f"
+        }
+      ],
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "raw_audit_pass": true
+    }
+  },
+  "caveat": "Stage scopes are native framework boundaries. SGL adds stage/step synchronization; Omni wraps diffuse with its native timer and a metadata-only Python observer. Both are excluded from primary E2E ratios. Separate Torch profile requests are audited independently."
+}

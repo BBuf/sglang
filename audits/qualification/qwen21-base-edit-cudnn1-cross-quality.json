@@ -1,0 +1,118 @@
+{
+  "candidate": "omni-qwen21-base-edit-native1",
+  "contract_sha256": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc",
+  "thresholds": {
+    "main_candidate_lossless": "pixel_exact_RGBA",
+    "cross_framework": {
+      "rgb_ssim_min": 0.95,
+      "rgb_psnr_db_min": 28,
+      "alpha_ssim_min": 0.95,
+      "alpha_psnr_db_min": 28
+    },
+    "visual": "Inspect actual outputs and editing fidelity, Chinese glyphs, geometry and transparency; retain every failure."
+  },
+  "results": [
+    {
+      "prompt": "00-edit-short",
+      "reference": "sgl-qwen21-base-edit-cudnn1",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f",
+      "reference_sha256": "8d0ab63ad4c626d2192eb142f2db2f8702bea42f66aea29287509554323e7498",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 13,
+        "ssim": 0.9974975440183029,
+        "psnr_db": 52.17746697251269
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 1,
+        "ssim": 0.9993400389005367,
+        "psnr_db": 62.209917608277536
+      },
+      "pass_gate": true
+    },
+    {
+      "prompt": "01-edit-long",
+      "reference": "sgl-qwen21-base-edit-cudnn1",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "8e7909239588d758df75ac033598bb31435dbf25075d0895c91bec517e820053",
+      "reference_sha256": "0fcb86d0e2178217ce48b81937331bcff63a9e2cdfe025cbc8d9c01f7fe2dfb0",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 15,
+        "ssim": 0.9974437263625745,
+        "psnr_db": 52.04455918374262
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 1,
+        "ssim": 0.9993474730409988,
+        "psnr_db": 62.25914385921254
+      },
+      "pass_gate": true
+    },
+    {
+      "prompt": "02-edit-chinese",
+      "reference": "sgl-qwen21-base-edit-cudnn1",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "20e14a1f85044e7b74e59b3943d2c644564ed9d661ca8e14bca1959e1c2864b5",
+      "reference_sha256": "0129d7a33aaf80911b922ea2f5a1194c647c26c3479391876903edf27f8ce9ba",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 12,
+        "ssim": 0.9975285095464823,
+        "psnr_db": 51.741814633756746
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 1,
+        "ssim": 0.9993311714689926,
+        "psnr_db": 62.145451864435124
+      },
+      "pass_gate": true
+    },
+    {
+      "prompt": "03-edit-short",
+      "reference": "sgl-qwen21-base-edit-cudnn1",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "8ff9f7a00e4f262938ae16026f3cb551efa92fea274b6053412dfa0ff388c78f",
+      "reference_sha256": "8d0ab63ad4c626d2192eb142f2db2f8702bea42f66aea29287509554323e7498",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 13,
+        "ssim": 0.9974975440183029,
+        "psnr_db": 52.17746697251269
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 1,
+        "ssim": 0.9993400389005367,
+        "psnr_db": 62.209917608277536
+      },
+      "pass_gate": true
+    }
+  ],
+  "all_pass": true,
+  "visual_review_pending": true
+}

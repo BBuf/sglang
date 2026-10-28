@@ -1,0 +1,58 @@
+{
+  "status": "selected_after_raw_and_quality_audits",
+  "selection": {
+    "t2i512": "omni_default",
+    "edit512": "omni_default",
+    "edit1024": "omni_default",
+    "t2i1024": "omni_casts"
+  },
+  "reason": "Default is 0.318%/0.948% faster in fixed512 screen and ties casts at1024edit (0.00042% difference). Default1024T2I fails unchanged quality gate; native compiled casts is qualified. Preserve default failure. Screening is not an optimization or main/PR claim.",
+  "screen": {
+    "t2i512": {
+      "medians": [
+        2.583366227336228,
+        2.5915717128664255
+      ],
+      "cv_percent": [
+        0.05225087237215897,
+        0.051432333079879926
+      ],
+      "paired_ratios": [
+        0.9968337802540984
+      ],
+      "geometric_mean_ratio": 0.9968337802540984,
+      "latency_reduction_percent": -0.31762765353864353
+    },
+    "edit512": {
+      "medians": [
+        3.5790246576070786,
+        3.6129659698344767
+      ],
+      "cv_percent": [
+        0.09044517218158152,
+        0.2291519224805959
+      ],
+      "paired_ratios": [
+        0.9906056927989961
+      ],
+      "geometric_mean_ratio": 0.9906056927989961,
+      "latency_reduction_percent": -0.9483397147112882
+    },
+    "edit1024": {
+      "medians": [
+        12.339568963740021,
+        12.339620823971927
+      ],
+      "cv_percent": [
+        0.12975198749402148,
+        0.08152650556652662
+      ],
+      "paired_ratios": [
+        0.9999957972588748
+      ],
+      "geometric_mean_ratio": 0.9999957972588748,
+      "latency_reduction_percent": -0.0004202758788318661
+    }
+  },
+  "quality_audit": "evidence/qualification/qwen21-omni-valid-variant-screen1-raw-audit.json"
+}

@@ -1,0 +1,64 @@
+{
+  "status": "numeric_and_raw_pass",
+  "candidate_diff_sha256": "9a66f6b371816d10e0bf7a3c7aad7ae03c31d4f59f406c3a5066b3e86cc24d2c",
+  "results": [
+    {
+      "task": "t2i",
+      "prompt": "00-image-short",
+      "pixel_exact_RGBA": true,
+      "sha256": "595b3fec4043ca23419eba87bff36881367d74b1df2fedfab8eb6945f8ccf136"
+    },
+    {
+      "task": "t2i",
+      "prompt": "01-image-long",
+      "pixel_exact_RGBA": true,
+      "sha256": "62609438abc7f1a6875d229f9479637b3b82a9e4d2d7b414e25567aaad4a8e76"
+    },
+    {
+      "task": "t2i",
+      "prompt": "02-image-text",
+      "pixel_exact_RGBA": true,
+      "sha256": "3f198cb7797b7c1f54be0bf4b2a10180470ad7f03a8f7b2605c617550d5905eb"
+    },
+    {
+      "task": "t2i",
+      "prompt": "03-image-short",
+      "pixel_exact_RGBA": true,
+      "sha256": "595b3fec4043ca23419eba87bff36881367d74b1df2fedfab8eb6945f8ccf136"
+    },
+    {
+      "task": "edit",
+      "prompt": "00-edit-short",
+      "pixel_exact_RGBA": true,
+      "sha256": "b5cfe51483b476881e58e9016cad29560bf41ec2dbe675f0992e0591d2841a9d"
+    },
+    {
+      "task": "edit",
+      "prompt": "01-edit-long",
+      "pixel_exact_RGBA": true,
+      "sha256": "9146cf937adade2e4c7c53708bda15eed0dc339848a06b330a32c43897c0fbab"
+    },
+    {
+      "task": "edit",
+      "prompt": "02-edit-chinese",
+      "pixel_exact_RGBA": true,
+      "sha256": "55d343b8daaf83d3df447336ffdeab860b0756edc7cbe433b04224c2970ed888"
+    },
+    {
+      "task": "edit",
+      "prompt": "03-edit-short",
+      "pixel_exact_RGBA": true,
+      "sha256": "b5cfe51483b476881e58e9016cad29560bf41ec2dbe675f0992e0591d2841a9d"
+    }
+  ],
+  "candidate_main_strict_gate": "All8pixel-exactRGBA, stronger than preregistered .99SSIM40dB",
+  "cross_framework": "Unchanged gates pass vs qualified compiled-casts Omni; see actual quality JSON",
+  "visual_reference": "qwen21-mainhigh1-admission.json, visually reviewed same pixels",
+  "not_performance": true,
+  "visual_review_pass": true,
+  "actual_panels_inspected": [
+    "evidence/media/qwen21-gate-up-v1/t2i-main-candidate.png",
+    "evidence/media/qwen21-gate-up-v1/edit-main-candidate.png"
+  ],
+  "visual_notes": "All three T2I scenes and three editing scenes preserve main geometry/text/color and source fidelity, consistent with exact RGBA proof; native alpha nearly opaque so no transparent-workload claim."
+}

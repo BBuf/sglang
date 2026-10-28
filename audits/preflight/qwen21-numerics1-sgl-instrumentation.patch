@@ -1,0 +1,43 @@
+diff --git a/python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py b/python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py
+index a4c63bc18d8edd1cb08cf94bf346861887d0f6ba..f6211f22310ab5c8d34a94d6bb55314a3d37739d 100644
+--- a/python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py
++++ b/python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py
+@@ -1671,6 +1671,8 @@ class DenoisingStage(PipelineStage):
+         if server_args.comfyui_mode:
+             batch.noise_pred = noise_pred
+ 
++        import qwen21_tensor_audit as audit
++        audit.step(step.step_index, "before", sample=ctx.latents, noise=noise_pred, timestep=step.t_device, model_timestep=timestep)
+         # 5. Advance the scheduler state with the predicted noise.
+         with maybe_nvtx_range("scheduler_step", use_nvtx):
+             latents_dtype = ctx.latents.dtype
+@@ -1685,6 +1687,7 @@ class DenoisingStage(PipelineStage):
+                 latents = latents.to(latents_dtype)
+             ctx.latents = latents
+ 
++        audit.step(step.step_index, "after", sample=ctx.latents)
+         # 6. Re-apply any model-specific latent constraints after the update.
+         ctx.latents = self.post_forward_for_ti2v_task(
+             batch,
+diff --git a/python/sglang/multimodal_gen/runtime/pipelines_core/stages/model_specific_stages/qwen_image21.py b/python/sglang/multimodal_gen/runtime/pipelines_core/stages/model_specific_stages/qwen_image21.py
+index f519b0a1425bb524126262ab60a353ee2661d6b0..233c745d82d3e58ac3dc882a1f487bd23bbcd7cc 100644
+--- a/python/sglang/multimodal_gen/runtime/pipelines_core/stages/model_specific_stages/qwen_image21.py
++++ b/python/sglang/multimodal_gen/runtime/pipelines_core/stages/model_specific_stages/qwen_image21.py
+@@ -153,6 +153,8 @@ class QwenImage21EncodingStage(PipelineStage):
+         valid = inputs.attention_mask[0].bool()
+         hidden = final_hidden[0, valid][self.drop_idx :]
+         ids = inputs.input_ids[0, valid][self.drop_idx :]
++        import qwen21_tensor_audit as audit
++        audit.snapshot("text_encoder", hidden=hidden, ids=ids)
+         return collapse_image_slots(hidden, ids, self.image_token_id)
+ 
+     def forward(self, batch, server_args):
+@@ -209,6 +211,8 @@ class QwenImage21EncodingStage(PipelineStage):
+                         ((latent - mean) / std).flatten(2).transpose(1, 2)
+                     )
+         shapes.append((1, batch.height // 16, batch.width // 16))
++        import qwen21_tensor_audit as audit
++        audit.begin(batch.prompt)
+         prompts = batch.prompt if isinstance(batch.prompt, list) else [batch.prompt]
+         negatives = (
+             batch.negative_prompt

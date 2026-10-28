@@ -1,0 +1,44 @@
+{
+  "id": "qwen21-gate-up-v1-qualification1",
+  "order": [
+    "candidate"
+  ],
+  "tasks": [
+    "t2i",
+    "edit"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": false,
+  "configurations": {
+    "candidate": {
+      "arm": "sgl",
+      "repo": "/task/candidates/qwen21-bf16-gate-up",
+      "launcher": "launch_sgl_qwen21_candidate.sh",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "diff_sha256": "9a66f6b371816d10e0bf7a3c7aad7ae03c31d4f59f406c3a5066b3e86cc24d2c"
+    }
+  },
+  "contract_sha256": {
+    "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+    "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+  },
+  "quality_references": {
+    "candidate": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-mainhigh1",
+        "omni-qwen21-base-t2i-casts1"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-mainhigh1",
+        "omni-qwen21-base-edit-casts1"
+      ]
+    }
+  },
+  "aa_acceptance": {
+    "max_process_median_relative_difference": 0.005,
+    "max_within_process_cv_percent": 0.5
+  },
+  "note": "Initial high candidate quality only. Strict candidate/main high .99SSIM40dB admission checked separately before primary. Lossless/BCG/offload profile pending. No speedup."
+}

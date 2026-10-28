@@ -1,0 +1,38 @@
+{
+  "cpu_only": true,
+  "serving_code_changed": false,
+  "outputs": {
+    "native_sgl": {
+      "exponential_shift_numpy_dtype": "float64",
+      "sigmas_sha256": "d716bc90ca2363a8a7882cea8ff8d8f830c318cc5cc1ad6d66c2f35669ee31e3",
+      "timesteps_sha256": "76b51a0628b396c53ad2c5002ca35376d6b114616c9d7c5ff8e21e598fba166f",
+      "mu": 0.6935483870967741,
+      "shift_terminal": 0.02
+    },
+    "diagnostic_math_exp_only": {
+      "exponential_shift_numpy_dtype": "float32",
+      "sigmas_sha256": "7b10b3f6226d735bc4500c6b1efd32be97e44eba8f9553f42e62be39b2077235",
+      "timesteps_sha256": "c9a1279098197dd50741ea55dfddf0b51efb00c074143a01d9c00769622a4ffa",
+      "mu": 0.6935483870967741,
+      "shift_terminal": 0.02
+    },
+    "diagnostic_math_exp_and_numpy_stretch": {
+      "exponential_shift_numpy_dtype": "float32",
+      "sigmas_sha256": "7b10b3f6226d735bc4500c6b1efd32be97e44eba8f9553f42e62be39b2077235",
+      "timesteps_sha256": "c9a1279098197dd50741ea55dfddf0b51efb00c074143a01d9c00769622a4ffa",
+      "mu": 0.6935483870967741,
+      "shift_terminal": 0.02
+    }
+  },
+  "controlled_variants_reproduce_native_omni_hashes": {
+    "diagnostic_math_exp_only": {
+      "sigmas": true,
+      "timesteps": true
+    },
+    "diagnostic_math_exp_and_numpy_stretch": {
+      "sigmas": true,
+      "timesteps": true
+    }
+  },
+  "interpretation": "The original stretch-only probe did not change the result. This probe changes only the CPU exponential-shift scalar math.exp vs np.exp, with a separate stretch control. See exact native-hash matches and intermediate dtype evidence. No serving code or request/steps modified; full-model RGB/alpha quality remains required."
+}

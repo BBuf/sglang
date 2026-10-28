@@ -1,0 +1,44 @@
+{
+  "id": "qwen21-main-high-bcg-screen1",
+  "order": [
+    "main_bcg"
+  ],
+  "tasks": [
+    "t2i",
+    "edit"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": false,
+  "configurations": {
+    "main_bcg": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_qwen21_main_bcg.sh",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac"
+    }
+  },
+  "contract_sha256": {
+    "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+    "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+  },
+  "quality_references": {
+    "main_bcg": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-mainhigh1",
+        "omni-qwen21-base-t2i-casts1"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-mainhigh1",
+        "omni-qwen21-base-edit-casts1"
+      ]
+    }
+  },
+  "aa_acceptance": {
+    "max_process_median_relative_difference": 0.005,
+    "max_within_process_cv_percent": 0.5
+  },
+  "note": "Frozen native main BCG applicability: explicit high warmup; all original frozen prompts + repeat; separate traces only after every quality gate passes. No primary performance or compatibility claim from a captured marker alone.",
+  "profiles": true
+}

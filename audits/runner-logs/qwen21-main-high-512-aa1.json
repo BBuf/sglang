@@ -1,0 +1,52 @@
+{
+  "id": "qwen21-main-high-512-aa1",
+  "order": [
+    "main",
+    "main"
+  ],
+  "tasks": [
+    "t2i",
+    "edit"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": true,
+  "contracts": {
+    "t2i": "qwen21-base-t2i-512-workloads.json",
+    "edit": "qwen21-base-edit-512-workloads.json"
+  },
+  "configurations": {
+    "main": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_qwen21_main_512.sh",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac"
+    }
+  },
+  "contract_sha256": {
+    "t2i": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2",
+    "edit": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf"
+  },
+  "quality_references": {
+    "main": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high",
+        "omni-qwen21-base-t2i-qwen21-base-512-qualification1-01-omni_casts-high"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+        "omni-qwen21-base-edit-qwen21-base-512-qualification1-01-omni_casts-high"
+      ]
+    }
+  },
+  "note": "SameGPUfreshmainA/Aonly after512crossframeworkandcandidatequalityaccepted. NativePNG0. Syncstageprofiling0; separateGPUdenoisediagnosticneeded.",
+  "aa_acceptance": {
+    "max_process_median_relative_difference": 0.005,
+    "max_within_process_cv_percent": 0.5
+  },
+  "main_qualification_references": {
+    "t2i": "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high",
+    "edit": "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high"
+  }
+}

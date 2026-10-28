@@ -1,0 +1,95 @@
+{
+  "configurations": {
+    "main_eager": {
+      "ready_seconds": 56.052568080835044,
+      "nvml_before_requests_mib": 39782,
+      "warmups": [
+        {
+          "width": 512,
+          "height": 512,
+          "quality": "high",
+          "capture_method_calls": 0,
+          "replays": 0,
+          "seconds": 2.745435766,
+          "entries": 0
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "quality": "high",
+          "capture_method_calls": 0,
+          "replays": 0,
+          "seconds": 10.291828865,
+          "entries": 0
+        }
+      ]
+    },
+    "final_eager": {
+      "ready_seconds": 56.04468392394483,
+      "nvml_before_requests_mib": 39782,
+      "warmups": [
+        {
+          "width": 512,
+          "height": 512,
+          "quality": "high",
+          "capture_method_calls": 0,
+          "replays": 0,
+          "seconds": 2.567779017,
+          "entries": 0
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "quality": "high",
+          "capture_method_calls": 0,
+          "replays": 0,
+          "seconds": 10.48119074,
+          "entries": 0
+        }
+      ]
+    },
+    "final_bcg": {
+      "ready_seconds": 58.04441860690713,
+      "nvml_before_requests_mib": 47480,
+      "warmups": [
+        {
+          "width": 512,
+          "height": 512,
+          "quality": "high",
+          "capture_method_calls": 245,
+          "replays": 49,
+          "seconds": 3.843451865,
+          "entries": 5
+        },
+        {
+          "width": 1024,
+          "height": 1024,
+          "quality": "high",
+          "capture_method_calls": 245,
+          "replays": 49,
+          "seconds": 11.164820516,
+          "entries": 10
+        }
+      ]
+    }
+  },
+  "extra_before_request_nvml_mib": 7698,
+  "ready_difference_seconds": 1.9997346829622984,
+  "caveat": "One diagnostic process per configuration, existing caches; not a statistically established startup delta or BCG E2E speedup. Both shapes warm512then1024; native first-shape QKV fallback noted elsewhere. capture() is an idempotent ensure operation:245 invocations perwarmup do not mean245 fresh captures; persistent entries grow5 then10 and serving invocations arezero.",
+  "actual_logged_capture_entries": 10,
+  "captured_segments_per_entry": 33,
+  "all_captures_before_warmup_complete": true,
+  "server_log_sha256": "a0fec17b749f61dd6bd9d5047d0147f44d1a001c6a6d8a0290d1cbe7e29a61c0",
+  "actual_capture_log_lines": [
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 1024, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (1024, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 64, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 1024, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (1024, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 128, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 1024, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (1024, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 256, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 1024, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (1024, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 512, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 1024, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (1024, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 1024, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 64, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 128, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 256, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 512, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))",
+    "[Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 1024, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))"
+  ]
+}

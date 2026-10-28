@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+cd /task/repos/vllm-omni
+test -z "$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)"
+test "$(git rev-parse HEAD)" = 817d4c17feb702289a2d2b2cbacfd594c262b7a7
+test -z "$(git diff HEAD --)"
+export CUDA_VISIBLE_DEVICES=0
+export HF_HUB_OFFLINE=1
+export HF_HOME=/task/cache/qwen21-hf
+export FLASHINFER_DISABLE_VERSION_CHECK=1
+export TRITON_CACHE_DIR=/task/cache/triton-omni
+export TORCHINDUCTOR_CACHE_DIR=/task/cache/inductor-omni-qwen21-casts1
+export TORCHINDUCTOR_EMULATE_PRECISION_CASTS=1
+export VLLM_WORKER_MULTIPROC_METHOD=spawn
+export PYTHONUNBUFFERED=1
+export OMP_NUM_THREADS=8
+date -u
+python3 -c 'import torch._inductor.config as c; assert c.emulate_precision_casts; print("emulate_precision_casts", c.emulate_precision_casts)'
+exec vllm serve /task/cache/common/Qwen-Image-2.1 --omni --num-gpus 1 \
+  --dtype bfloat16 --host 127.0.0.1 --port 31051

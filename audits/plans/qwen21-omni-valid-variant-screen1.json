@@ -1,0 +1,65 @@
+{
+  "id": "qwen21-omni-valid-variant-screen1",
+  "order": [
+    "omni_default",
+    "omni_casts"
+  ],
+  "tasks": [
+    "t2i512",
+    "edit512",
+    "edit1024"
+  ],
+  "quality": "high",
+  "benchmark": true,
+  "warmups": 2,
+  "repeats": 4,
+  "contracts": {
+    "t2i512": "qwen21-base-t2i-512-workloads.json",
+    "edit512": "qwen21-base-edit-512-workloads.json",
+    "edit1024": "qwen21-base-edit-workloads.json"
+  },
+  "contract_sha256": {
+    "t2i512": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2",
+    "edit512": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf",
+    "edit1024": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+  },
+  "configurations": {
+    "omni_default": {
+      "arm": "omni",
+      "repo": "/task/repos/vllm-omni",
+      "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "launcher": "launch_omni_qwen21_base_native.sh"
+    },
+    "omni_casts": {
+      "arm": "omni",
+      "repo": "/task/repos/vllm-omni",
+      "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "launcher": "launch_omni_qwen21_base_casts.sh"
+    }
+  },
+  "quality_references": {
+    "omni_default": {
+      "t2i512": [
+        "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high"
+      ],
+      "edit512": [
+        "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high"
+      ],
+      "edit1024": [
+        "sgl-qwen21-base-edit-mainhigh1"
+      ]
+    },
+    "omni_casts": {
+      "t2i512": [
+        "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high"
+      ],
+      "edit512": [
+        "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high"
+      ],
+      "edit1024": [
+        "sgl-qwen21-base-edit-mainhigh1"
+      ]
+    }
+  },
+  "note": "Comparatorconfigurationselectiononly,notoptimizationclaim. Bothnativecompile/decodegraphsretained. Twofreshprocesses; ifdifferenceswithinAA/samplevariation,treatastieandchoosedefault. Ifcastsclearlyfasterthanreasonabledefault,confirmreversepairbeforeselection. 1024T2Idefaultqualityfailedandisexcludedonlyfromvalidperformance,notremovedfrommatrix. Allsource/failureevidencepreserved."
+}

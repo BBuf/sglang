@@ -1,0 +1,44 @@
+{
+  "status": "audited",
+  "updated_at": "2026-10-28T14:27:20.359955+00:00",
+  "primary_timing": false,
+  "source_head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+  "checkpoint_revision": "d26bb61231c349cf6b7896fa83353113880e1ba3",
+  "lane": "BF16 native components, native mixed-precision internal arithmetic; no quantization",
+  "original_stage_evidence": "qwen21-native-stage-tensor-comparison.json",
+  "equivalent_boundary_evidence": "qwen21-native-stage-equivalent-boundaries.json",
+  "sigma_schedule_evidence": "qwen21-scheduler-rounding-attribution-v2.json",
+  "limits": [
+    "Original intermediate captures predate final candidate; final output/dispatch audits separately validate the final head.",
+    "Effective BF16 model timesteps match at 32 recorded boundaries (4 steps per request); this is not an exhaustive 50-step equality claim.",
+    "The at-most-two-FP32-ULP discrepancy describes the sigma schedule, not all solver arithmetic.",
+    "T2I text hidden states match. Edit pre-collapse hidden states differ; cross-framework intermediate equivalence is not claimed.",
+    "Final native Omni stage observer records metadata only and is excluded from primary timing."
+  ],
+  "final_omni_observations": [
+    {
+      "file": "diagnostics/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts/omni-worker-8495.jsonl",
+      "actual_requests": 10,
+      "scheduler_calls": 500,
+      "scheduler_boundary_dtypes": "BF16 model_output/sample/result",
+      "cuda_autocast": false,
+      "excluded_startup_requests": 1
+    },
+    {
+      "file": "diagnostics/qwen21-gate-up-v4-final-1024-diagnostics1-03-omni_default/omni-worker-9201.jsonl",
+      "actual_requests": 10,
+      "scheduler_calls": 500,
+      "scheduler_boundary_dtypes": "BF16 model_output/sample/result",
+      "cuda_autocast": false,
+      "excluded_startup_requests": 1
+    },
+    {
+      "file": "diagnostics/qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default/omni-worker-7687.jsonl",
+      "actual_requests": 20,
+      "scheduler_calls": 1000,
+      "scheduler_boundary_dtypes": "BF16 model_output/sample/result",
+      "cuda_autocast": false,
+      "excluded_startup_requests": 1
+    }
+  ]
+}

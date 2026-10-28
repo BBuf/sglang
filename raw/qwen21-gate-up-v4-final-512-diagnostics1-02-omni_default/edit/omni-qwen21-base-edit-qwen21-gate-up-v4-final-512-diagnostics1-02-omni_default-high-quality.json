@@ -1,0 +1,124 @@
+{
+  "candidate": "omni-qwen21-base-edit-qwen21-gate-up-v4-final-512-diagnostics1-02-omni_default-high",
+  "contract_sha256": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf",
+  "thresholds": {
+    "main_candidate_lossless": "pixel_exact_RGBA",
+    "cross_framework": {
+      "rgb_ssim_min": 0.95,
+      "rgb_psnr_db_min": 28,
+      "alpha_ssim_min": 0.95,
+      "alpha_psnr_db_min": 28
+    },
+    "visual": "Inspect actual outputs and editing fidelity, Chinese glyphs, geometry and transparency; retain every failure.",
+    "main_candidate_high": {
+      "rgb_ssim_min": 0.99,
+      "rgb_psnr_db_min": 40,
+      "alpha_ssim_min": 0.99,
+      "alpha_psnr_db_min": 40
+    }
+  },
+  "results": [
+    {
+      "prompt": "00-edit-short",
+      "reference": "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a",
+      "reference_sha256": "8791cf6851615579d6f01d14c61a1c540c071f3363ca2fd810ea2f84f7428469",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 177,
+        "ssim": 0.9684732424042569,
+        "psnr_db": 32.09379362730505
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 2,
+        "ssim": 0.9990833543692461,
+        "psnr_db": 60.65634460045118
+      },
+      "pass_gate": true
+    },
+    {
+      "prompt": "01-edit-long",
+      "reference": "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "bc7908e8c007abdd0fc65e34fa3bd2c13e36fd84910eae7a677d088386962972",
+      "reference_sha256": "81430197d6606776a9dd5ac2c365289da0dc55231b1d5dda34e8f2a945c9b862",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 185,
+        "ssim": 0.9700161776274632,
+        "psnr_db": 32.03113270881465
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 2,
+        "ssim": 0.9991032397241316,
+        "psnr_db": 60.76405743321984
+      },
+      "pass_gate": true
+    },
+    {
+      "prompt": "02-edit-chinese",
+      "reference": "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "f42c3e8b1914f97e552f2769a118c72b0724301c7c8045a74f67db0eb273bbb2",
+      "reference_sha256": "c861cf093a4225155518fd550dcbd8544a940f087e332b1eacf078c7adecce71",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 179,
+        "ssim": 0.9684943694894724,
+        "psnr_db": 32.270100917646694
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 2,
+        "ssim": 0.9990872983582402,
+        "psnr_db": 60.69773323291053
+      },
+      "pass_gate": true
+    },
+    {
+      "prompt": "03-edit-short",
+      "reference": "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high",
+      "modes": [
+        "RGBA",
+        "RGBA"
+      ],
+      "native_alpha_preserved": true,
+      "candidate_sha256": "ba8bac6bce79ec3453d685eae824f23862485d4dd937b1d3e9a777a19be2e77a",
+      "reference_sha256": "8791cf6851615579d6f01d14c61a1c540c071f3363ca2fd810ea2f84f7428469",
+      "pixel_exact": false,
+      "rgb": {
+        "pixel_exact": false,
+        "max_absolute_error": 177,
+        "ssim": 0.9684732424042569,
+        "psnr_db": 32.09379362730505
+      },
+      "alpha": {
+        "pixel_exact": false,
+        "max_absolute_error": 2,
+        "ssim": 0.9990833543692461,
+        "psnr_db": 60.65634460045118
+      },
+      "pass_gate": true
+    }
+  ],
+  "all_pass": true,
+  "visual_review_pending": true
+}

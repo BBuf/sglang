@@ -1,0 +1,272 @@
+{
+  "plan": {
+    "id": "qwen21-cleanup-within-1024-1",
+    "order": [
+      "final"
+    ],
+    "tasks": [
+      "t2i",
+      "edit"
+    ],
+    "quality": "high",
+    "warmups": 8,
+    "repeats": 24,
+    "benchmark": true,
+    "contracts": {
+      "t2i": "qwen21-base-t2i-workloads.json",
+      "edit": "qwen21-base-edit-workloads.json"
+    },
+    "configurations": {
+      "final": {
+        "arm": "sgl",
+        "repo": "/task/candidates/qwen21-bf16-gate-up-v4",
+        "launcher": "launch_sgl_qwen21_cleanup_1024.sh",
+        "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5"
+      }
+    },
+    "contract_sha256": {
+      "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+      "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+    },
+    "quality_references": {
+      "final": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      }
+    },
+    "note": "New causal diagnostic after both independent-process cleanup screens; not a retry of primary comparison. Within one warmed process alternate archived native V3/V4 forward functions at request boundaries. Production AST otherwise identical; no tensor reads or synchronization. Separates predicate overhead from fresh-process/cache/thermal drift. Every original result retained. No optimization speedup claim from instrumented timing.",
+    "aa_acceptance": {
+      "max_process_median_relative_difference": 0.005,
+      "max_within_process_cv_percent": 0.5
+    },
+    "main_qualification_references": {
+      "t2i": "sgl-qwen21-base-t2i-mainhigh1",
+      "edit": "sgl-qwen21-base-edit-mainhigh1"
+    },
+    "cleanup_acceptance": {
+      "max_after_over_before_each_pair": 1.001,
+      "scope": "Predeclared0.1percentscreen; retainallrowsandcheckAAifanypairfails; no silent rerun."
+    },
+    "require_sgl_pixel_exact": true,
+    "previous_screen": "evidence/preflight/qwen21-gate-up-v4-512-cleanup1-screen.json",
+    "analysis_policy": "Fixed 8 warmups (two ABBA quartets), then 6 ABBA quartets per task. Equal-weight log final/pre ratio per quartet; report t95 interval over quartets. Cleanup resolution requires upper bound <=1.001 for each task; no dropping outliers or adaptive extension. If unresolved retain blocker and inspect evidence, never rerun until pass.",
+    "diagnostic_timing": true,
+    "schedule": "qwen21-cleanup-within-1024-1-schedule.json",
+    "observer_sha256": "95d051258b017ecdad260e957233b1e45e08c3fd123ee90a5bff2e619e88fb21",
+    "files": [
+      {
+        "path": "launch_sgl_qwen21_cleanup_1024.sh",
+        "sha256": "499c7dacd8c4b2d806c5fc72e930a23ac24aa9e8675732cde2e47eff65ad25d4"
+      },
+      {
+        "path": "bench_qwen21_cleanup.py",
+        "sha256": "5ddf6dd75a9e318eb6a3571c0a909df2ef0b626506a8d82dbcaa63637f7929d4"
+      },
+      {
+        "path": "instrumentation/qwen21-cleanup-observer/sitecustomize.py",
+        "sha256": "95d051258b017ecdad260e957233b1e45e08c3fd123ee90a5bff2e619e88fb21"
+      },
+      {
+        "path": "qwen21-cleanup-within-1024-1-schedule.json",
+        "sha256": "47cd5ac88e1491e57509bde5bf01e2d23f7c12e1f47f6bebb850d2cc93c020a7"
+      },
+      {
+        "path": "evidence/preflight/qwen21-cleanup-source-v3.py",
+        "sha256": "4f5476c46d853abe37798a592407f84480cf4cbb19ff84a1a026c8139801108e"
+      },
+      {
+        "path": "evidence/preflight/qwen21-cleanup-source-v4.py",
+        "sha256": "c9910934c05b74ce1a8b85be6d35c5092d4c1c670f331924affd220e78741a47"
+      },
+      {
+        "path": "evidence/preflight/qwen21-cleanup-source-equivalence.json",
+        "sha256": "0b99b64d8428e2abf74fc10f54b5764d6f69970856719b61c4654c4740e51731"
+      }
+    ]
+  },
+  "index": 0,
+  "config": "final",
+  "source_sha": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/candidates/qwen21-bf16-gate-up-v4",
+    "-e",
+    "QWEN_CANDIDATE_DIFF_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/qwen21-cleanup-within-1024-1-00-final/server.pid; exec sh /task/launch_sgl_qwen21_cleanup_1024.sh"
+  ],
+  "runner_sha256": "07373532adbb40cff14d95f4c07ab74ac09f93c8521e28a9498927f9fa70de51",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "base-t2i-qwen21-cleanup-within-1024-1-00-final-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json",
+      "--repo",
+      "/task/candidates/qwen21-bf16-gate-up-v4",
+      "--expected-sha",
+      "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-t2i-qwen21-cleanup-within-1024-1-00-final-high",
+      "--reference",
+      "sgl-qwen21-base-t2i-mainhigh1",
+      "--reference",
+      "omni-qwen21-base-t2i-casts1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-t2i-qwen21-cleanup-within-1024-1-00-final-high",
+      "--require-pixel-identical",
+      "--output",
+      "/task/outputs/qualification/sgl-qwen21-base-t2i-qwen21-cleanup-within-1024-1-00-final-high-sgl-exact-quality.json",
+      "--reference",
+      "sgl-qwen21-base-t2i-mainhigh1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/bench_qwen21_cleanup.py",
+      "sgl",
+      "--run-id",
+      "qwen21-cleanup-within-1024-1-00-final-t2i",
+      "--repo",
+      "/task/candidates/qwen21-bf16-gate-up-v4",
+      "--allowed-gpu-pids",
+      "26322",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "final",
+      "--warmups",
+      "8",
+      "--repeats",
+      "24",
+      "--expected-sha",
+      "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json",
+      "--cleanup-schedule",
+      "/task/qwen21-cleanup-within-1024-1-schedule.json",
+      "--diagnostic-profiler"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "base-edit-qwen21-cleanup-within-1024-1-00-final-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-edit-workloads.json",
+      "--repo",
+      "/task/candidates/qwen21-bf16-gate-up-v4",
+      "--expected-sha",
+      "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-edit-qwen21-cleanup-within-1024-1-00-final-high",
+      "--reference",
+      "sgl-qwen21-base-edit-mainhigh1",
+      "--reference",
+      "omni-qwen21-base-edit-casts1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-edit-qwen21-cleanup-within-1024-1-00-final-high",
+      "--require-pixel-identical",
+      "--output",
+      "/task/outputs/qualification/sgl-qwen21-base-edit-qwen21-cleanup-within-1024-1-00-final-high-sgl-exact-quality.json",
+      "--reference",
+      "sgl-qwen21-base-edit-mainhigh1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/bench_qwen21_cleanup.py",
+      "sgl",
+      "--run-id",
+      "qwen21-cleanup-within-1024-1-00-final-edit",
+      "--repo",
+      "/task/candidates/qwen21-bf16-gate-up-v4",
+      "--allowed-gpu-pids",
+      "26322",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "final",
+      "--warmups",
+      "8",
+      "--repeats",
+      "24",
+      "--expected-sha",
+      "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-edit-workloads.json",
+      "--cleanup-schedule",
+      "/task/qwen21-cleanup-within-1024-1-schedule.json",
+      "--diagnostic-profiler"
+    ]
+  ],
+  "launch_to_ready_seconds": 54.045346749946475,
+  "gpu_container_pids": [
+    [
+      26322
+    ],
+    []
+  ],
+  "status": "complete"
+}

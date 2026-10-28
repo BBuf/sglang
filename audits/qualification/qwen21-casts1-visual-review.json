@@ -1,0 +1,21 @@
+{
+  "reviewed_actual_outputs": true,
+  "panels": [
+    "evidence/media/qwen21-casts1/t2i-three-arms.png",
+    "evidence/media/qwen21-casts1/edit-three-arms.png"
+  ],
+  "arms": [
+    "SGL native torch_sdpa",
+    "SGL torch_cudnn_sdpa",
+    "Omni native compiled emulate_precision_casts"
+  ],
+  "observations": [
+    "All three unique T2I prompts inspected across all three arms: teapot/cup still-life geometry, long scene, Chinese requested text preserved; localized silhouette and text-spacing differences remain.",
+    "All three unique edit prompts preserve source geometry, light and background while recoloring teapot blue, with cobalt long prompt darker consistently.",
+    "Native RGBA preserved; alpha numeric gates pass. Near-opaque alpha does not qualify transparent-background workloads.",
+    "Repeated short requests audited byte-identical within each arm."
+  ],
+  "scope": "Frozen 1024-square Base T2I/edit, seed1101, 50steps, CFG1. Initial admission only; no primary speedup or comprehensive quality claim.",
+  "numeric_gates": "all four casts-vs-SGL backend/task groups pass unchanged RGB+alpha SSIM .95 / PSNR28 gates",
+  "historical_failure": "Original default Omni compiled T2I Chinese PSNR24.78 vs SGsdpa and24.18 vs SGcuDNN remain failures; edit default native still valid."
+}

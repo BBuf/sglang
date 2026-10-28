@@ -1,0 +1,23 @@
+{
+  "cpu_only": true,
+  "serving_code_changed": false,
+  "outputs": {
+    "native_sgl": {
+      "sigmas_sha256": "d716bc90ca2363a8a7882cea8ff8d8f830c318cc5cc1ad6d66c2f35669ee31e3",
+      "timesteps_sha256": "76b51a0628b396c53ad2c5002ca35376d6b114616c9d7c5ff8e21e598fba166f",
+      "mu": 0.6935483870967741,
+      "shift_terminal": 0.02
+    },
+    "diagnostic_numpy_stretch_only": {
+      "sigmas_sha256": "d716bc90ca2363a8a7882cea8ff8d8f830c318cc5cc1ad6d66c2f35669ee31e3",
+      "timesteps_sha256": "76b51a0628b396c53ad2c5002ca35376d6b114616c9d7c5ff8e21e598fba166f",
+      "mu": 0.6935483870967741,
+      "shift_terminal": 0.02
+    }
+  },
+  "changing_only_cpu_stretch_arithmetic_reproduces_native_omni_hashes": {
+    "sigmas": false,
+    "timesteps": false
+  },
+  "interpretation": "Same fifty-step grid and BF16 workload. SGL stretches the schedule with Torch float32, Omni with NumPy float32; native sigma differences are at most 5.96e-8 (two float32 ULPs). Keep both native implementations and disclose this difference; full-model RGB/alpha quality is still required before performance comparison."
+}

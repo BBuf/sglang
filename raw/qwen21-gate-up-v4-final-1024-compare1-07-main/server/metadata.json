@@ -1,0 +1,285 @@
+{
+  "plan": {
+    "id": "qwen21-gate-up-v4-final-1024-compare1",
+    "order": [
+      "main",
+      "final",
+      "omni_default",
+      "omni_casts",
+      "omni_casts",
+      "omni_default",
+      "final",
+      "main"
+    ],
+    "tasks": [
+      "t2i",
+      "edit"
+    ],
+    "quality": "high",
+    "warmups": 3,
+    "repeats": 6,
+    "benchmark": true,
+    "contracts": {
+      "t2i": "qwen21-base-t2i-workloads.json",
+      "edit": "qwen21-base-edit-workloads.json"
+    },
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "launcher": "launch_sgl_qwen21_candidate.sh"
+      },
+      "final": {
+        "arm": "sgl",
+        "repo": "/task/candidates/qwen21-bf16-gate-up-v4",
+        "launcher": "launch_sgl_qwen21_v4_1024.sh",
+        "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5"
+      },
+      "omni_default": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "launcher": "launch_omni_qwen21_base_native.sh",
+        "tasks": [
+          "edit"
+        ]
+      },
+      "omni_casts": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "launcher": "launch_omni_qwen21_base_casts.sh",
+        "tasks": [
+          "t2i"
+        ]
+      }
+    },
+    "contract_sha256": {
+      "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+      "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+    },
+    "quality_references": {
+      "main": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "final": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "omni_default": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1"
+        ]
+      },
+      "omni_casts": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1"
+        ]
+      }
+    },
+    "note": "Final independent model comparison; final head efcb88a201a41b1fecc516a60df0ca0a34fb6dd5. Native PNG level0 via SGL0/Omni100. Each resolution has its own SGL process/warmup so native QKV admission is preserved. Default Omni 1024 T2I failed preregistered quality; its failure is retained. Casts variant remains native compile+decode graphs and is the qualified T2I comparator. Default is used for qualified edit subject to selection screen audit.",
+    "aa_acceptance": {
+      "max_process_median_relative_difference": 0.005,
+      "max_within_process_cv_percent": 0.5
+    },
+    "main_qualification_references": {
+      "t2i": "sgl-qwen21-base-t2i-mainhigh1",
+      "edit": "sgl-qwen21-base-edit-mainhigh1"
+    },
+    "require_sgl_pixel_exact": true,
+    "analysis_policy": "Final-head primary same-GPU two fresh processes per arm, symmetric main/final/Omni/Omni/final/main per task; all repetitions retained. Median per process, paired log ratios and geometric mean. No profilers or request-selection instrumentation; SYNC_STAGE_PROFILING=0. Quality and exact-SGL gates before each measured block."
+  },
+  "index": 7,
+  "config": "main",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/repos/sglang",
+    "-e",
+    "QWEN_CANDIDATE_DIFF_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/qwen21-gate-up-v4-final-1024-compare1-07-main/server.pid; exec sh /task/launch_sgl_qwen21_candidate.sh"
+  ],
+  "runner_sha256": "f959588965e1eb100ac794a20bd401993b59e96e1c72f50d0640d26e2bf336de",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "base-t2i-qwen21-gate-up-v4-final-1024-compare1-07-main-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json",
+      "--repo",
+      "/task/repos/sglang",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-compare1-07-main-high",
+      "--reference",
+      "sgl-qwen21-base-t2i-mainhigh1",
+      "--reference",
+      "omni-qwen21-base-t2i-casts1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-compare1-07-main-high",
+      "--require-pixel-identical",
+      "--output",
+      "/task/outputs/qualification/sgl-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-compare1-07-main-high-sgl-exact-quality.json",
+      "--reference",
+      "sgl-qwen21-base-t2i-mainhigh1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/bench_qwen21_serving.py",
+      "sgl",
+      "--run-id",
+      "qwen21-gate-up-v4-final-1024-compare1-07-main-t2i",
+      "--repo",
+      "/task/repos/sglang",
+      "--allowed-gpu-pids",
+      "33813",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "main",
+      "--warmups",
+      "3",
+      "--repeats",
+      "6",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "sgl",
+      "--label",
+      "base-edit-qwen21-gate-up-v4-final-1024-compare1-07-main-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-edit-workloads.json",
+      "--repo",
+      "/task/repos/sglang",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-edit-qwen21-gate-up-v4-final-1024-compare1-07-main-high",
+      "--reference",
+      "sgl-qwen21-base-edit-mainhigh1",
+      "--reference",
+      "omni-qwen21-base-edit-casts1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "sgl-qwen21-base-edit-qwen21-gate-up-v4-final-1024-compare1-07-main-high",
+      "--require-pixel-identical",
+      "--output",
+      "/task/outputs/qualification/sgl-qwen21-base-edit-qwen21-gate-up-v4-final-1024-compare1-07-main-high-sgl-exact-quality.json",
+      "--reference",
+      "sgl-qwen21-base-edit-mainhigh1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python",
+      "/task/bench_qwen21_serving.py",
+      "sgl",
+      "--run-id",
+      "qwen21-gate-up-v4-final-1024-compare1-07-main-edit",
+      "--repo",
+      "/task/repos/sglang",
+      "--allowed-gpu-pids",
+      "33813",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "main",
+      "--warmups",
+      "3",
+      "--repeats",
+      "6",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-edit-workloads.json"
+    ]
+  ],
+  "launch_to_ready_seconds": 52.03895187191665,
+  "gpu_container_pids": [
+    [
+      33813
+    ],
+    []
+  ],
+  "status": "complete"
+}

@@ -1,0 +1,223 @@
+{
+  "plan": {
+    "id": "qwen21-gate-up-v4-final-1024-diagnostics1",
+    "order": [
+      "main",
+      "final",
+      "omni_casts",
+      "omni_default"
+    ],
+    "tasks": [
+      "t2i",
+      "edit"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "benchmark": true,
+    "contracts": {
+      "t2i": "qwen21-base-t2i-workloads.json",
+      "edit": "qwen21-base-edit-workloads.json"
+    },
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "launcher": "launch_sgl_qwen21_main_1024_denoise.sh"
+      },
+      "final": {
+        "arm": "sgl",
+        "repo": "/task/candidates/qwen21-bf16-gate-up-v4",
+        "launcher": "launch_sgl_qwen21_final_1024_denoise.sh",
+        "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5"
+      },
+      "omni_default": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "launcher": "launch_omni_qwen21_default_denoise.sh",
+        "tasks": [
+          "edit"
+        ]
+      },
+      "omni_casts": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "launcher": "launch_omni_qwen21_casts_denoise.sh",
+        "tasks": [
+          "t2i"
+        ]
+      }
+    },
+    "contract_sha256": {
+      "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+      "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+    },
+    "quality_references": {
+      "main": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "final": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "omni_default": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1"
+        ]
+      },
+      "omni_casts": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1"
+        ]
+      }
+    },
+    "note": "Final independent model comparison; final head efcb88a201a41b1fecc516a60df0ca0a34fb6dd5. Native PNG level0 via SGL0/Omni100. Each resolution has its own SGL process/warmup so native QKV admission is preserved. Default Omni 1024 T2I failed preregistered quality; its failure is retained. Casts variant remains native compile+decode graphs and is the qualified T2I comparator. Default is used for qualified edit subject to selection screen audit.",
+    "aa_acceptance": {
+      "max_process_median_relative_difference": 0.005,
+      "max_within_process_cv_percent": 0.5
+    },
+    "main_qualification_references": {
+      "t2i": "sgl-qwen21-base-t2i-mainhigh1",
+      "edit": "sgl-qwen21-base-edit-mainhigh1"
+    },
+    "require_sgl_pixel_exact": true,
+    "analysis_policy": "Separate native synchronized denoise timing, excluded from primary E2E. SGL SYNC_STAGE_PROFILING=1 perf.json; Omni native DiffusionPipelineProfiler diffuse timer with metadata-only observer. No Torch profiler during denoise samples; final1024 Torch profile requests run separately after each SGL task measurement.",
+    "diagnostic_timing": true,
+    "sgl_torch_profiles": true,
+    "files": [
+      {
+        "path": "launch_sgl_qwen21_main_1024_denoise.sh",
+        "sha256": "52b031704dff2d2a736dd632cc41ada391df1caad0e09d0f1ead38343c91804b"
+      },
+      {
+        "path": "launch_sgl_qwen21_final_1024_denoise.sh",
+        "sha256": "de147547f8d5704e8c6aa3213a62c03e2bd1686069cf7d7469569d0e331066c3"
+      },
+      {
+        "path": "launch_omni_qwen21_default_denoise.sh",
+        "sha256": "0cd5693094d09d91477f09021366f68a93ef90ee52e11009044176ffee389068"
+      },
+      {
+        "path": "launch_omni_qwen21_casts_denoise.sh",
+        "sha256": "d98ad165c828ac2a68cc9c7198e66da0d2484c3070a5066f19651bce80009c61"
+      },
+      {
+        "path": "instrumentation/qwen21-stage-observer/sitecustomize.py",
+        "sha256": "365a71ecbe6cc04e735ae326153f4e6079d77126ee50ba2af05202baf7a9c9e3"
+      }
+    ],
+    "stage_observer_sha256": "365a71ecbe6cc04e735ae326153f4e6079d77126ee50ba2af05202baf7a9c9e3"
+  },
+  "index": 2,
+  "config": "omni_casts",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts",
+    "-e",
+    "QWEN_STAGE_AUDIT_DIR=/task/outputs/diagnostics/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts",
+    "-e",
+    "SGL_REPO=/task/repos/vllm-omni",
+    "-e",
+    "QWEN_CANDIDATE_DIFF_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts/server.pid; exec sh /task/launch_omni_qwen21_casts_denoise.sh"
+  ],
+  "runner_sha256": "c91829588297bd49d7e6aa24fac2219db6eaa26f70e8bd17afea4f5cc8dae282",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-omni",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "omni",
+      "--label",
+      "base-t2i-qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json",
+      "--repo",
+      "/task/repos/vllm-omni",
+      "--expected-sha",
+      "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-omni",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "omni-qwen21-base-t2i-qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-high",
+      "--reference",
+      "sgl-qwen21-base-t2i-mainhigh1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-omni",
+      "python",
+      "/task/bench_qwen21_serving.py",
+      "omni",
+      "--run-id",
+      "qwen21-gate-up-v4-final-1024-diagnostics1-02-omni_casts-t2i",
+      "--repo",
+      "/task/repos/vllm-omni",
+      "--allowed-gpu-pids",
+      "8495",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "omni_casts",
+      "--warmups",
+      "2",
+      "--repeats",
+      "4",
+      "--expected-sha",
+      "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json",
+      "--diagnostic-profiler"
+    ]
+  ],
+  "launch_to_ready_seconds": 52.02134714089334,
+  "gpu_container_pids": [
+    [
+      8495
+    ],
+    []
+  ],
+  "status": "complete"
+}

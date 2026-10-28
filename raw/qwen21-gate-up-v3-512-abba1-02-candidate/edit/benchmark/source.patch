@@ -1,0 +1,49 @@
+diff --git a/docs/docs/sglang-diffusion/fused_kernels.mdx b/docs/docs/sglang-diffusion/fused_kernels.mdx
+index 6aef47ee3e3485fe3b275acf5a5c711f6153284e..f7ac0cb32366acc2a38645917da9a11be3b36510 100644
+--- a/docs/docs/sglang-diffusion/fused_kernels.mdx
++++ b/docs/docs/sglang-diffusion/fused_kernels.mdx
+@@ -92,7 +92,7 @@ These fusion families mount under both `quality="lossless"` and
+ | Linear + tanh-GELU | Bias-add and GELU into the GEMM epilogue (cublasLt), removing the `[tokens, 4*dim]` intermediate round trip |
+ | Wan NVFP4 linear + GELU | Bias-add and GELU fused into Wan's NVFP4 FFN projection output |
+ | Qwen-Image added-QKV | Added Q/K/V projections fused into joint-buffer production |
+-| Qwen-Image 2.1 BF16 image MLP | One gate/up GEMM and packed SiLU-mul on SM120 for resident, unquantized TP1 projections and batch-one target sequences of at least 4096 tokens. GEMM width can change rounding. Conditioning prefixes, `exact`/`lossless`, LoRA wrappers and `torch.compile` keep separate projections |
++| Qwen-Image 2.1 BF16 image MLP | One gate/up GEMM and packed SiLU-mul on SM120 for resident, unquantized TP1 projections and batch-one target sequences of 1024 or at least 4096 tokens. GEMM width can change rounding. Conditioning prefixes, `exact`/`lossless`, LoRA wrappers and `torch.compile` keep separate projections |
+ | LayerNorm + modulate | `layer_norm(x, weight=(1 + scale), bias=shift)` in place of affine-free LN plus a separate modulate |
+ | LTX-2 RMSNorm + modulate | `rms_norm(x) * (1 + scale) + shift` in one launch |
+ | Gate RMSNorm (BF16-native) | `RMSNorm + tanh + mul + add` in one pass |
+diff --git a/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py b/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py
+index aa20368b026127af5ca4b793e6d5060887216fa2..56ff709f0d0e2058bc799be6891c8f6957fe9abf 100644
+--- a/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py
++++ b/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py
+@@ -449,7 +449,7 @@ class QwenImage21FeedForward(nn.Module):
+             and not torch.compiler.is_compiling()
+             and x.dim() == 3
+             and x.shape[0] == 1
+-            and x.shape[1] >= 4096
++            and (x.shape[1] == 1024 or x.shape[1] >= 4096)
+             and can_project_into(self.gate_layer, x)
+             and can_project_into(self.proj, x)
+             and x.device == self.gate_layer.weight.device == self.proj.weight.device
+diff --git a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+index b8dd36c933bd0f2c2e7ddbac3196bd46aea173a5..1d096a89d1aa117fd6b902b26f726d2fe07fa8a5 100644
+--- a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
++++ b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+@@ -1708,7 +1708,8 @@ requires_nvidia_jit = pytest.mark.skipif(
+     reason="Qwen-Image 2.1 BF16 MLP packing is enabled on SM120 only",
+ )
+ @torch.no_grad()
+-def test_qwen21_bf16_mlp_packing_restore_and_lora():
++@pytest.mark.parametrize("tokens", [1024, 4096])
++def test_qwen21_bf16_mlp_packing_restore_and_lora(tokens):
+     from sglang.multimodal_gen.runtime.layers.lora.linear import wrap_with_lora_layer
+ 
+     if not model_parallel_is_initialized():
+@@ -1720,7 +1721,7 @@ def test_qwen21_bf16_mlp_packing_restore_and_lora():
+     )
+     for parameter in mlp.parameters():
+         parameter.normal_(0, 0.01)
+-    x = torch.randn(1, 4096, 4096, device="cuda", dtype=torch.bfloat16)
++    x = torch.randn(1, tokens, 4096, device="cuda", dtype=torch.bfloat16)
+     reference = mlp.out(F.silu(mlp.gate_layer(x)[0]) * mlp.proj(x)[0])[0]
+     mlp.pack_gate_up_weights()
+     assert set(mlp.state_dict()) == {"gate_layer.weight", "proj.weight", "out.weight"}

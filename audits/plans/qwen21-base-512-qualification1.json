@@ -1,0 +1,52 @@
+{
+  "id": "qwen21-base-512-qualification1",
+  "order": [
+    "main",
+    "omni_casts"
+  ],
+  "tasks": [
+    "t2i",
+    "edit"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": false,
+  "contracts": {
+    "t2i": "qwen21-base-t2i-512-workloads.json",
+    "edit": "qwen21-base-edit-512-workloads.json"
+  },
+  "configurations": {
+    "main": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_qwen21_main_512.sh",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac"
+    },
+    "omni_casts": {
+      "arm": "omni",
+      "repo": "/task/repos/vllm-omni",
+      "launcher": "launch_omni_qwen21_base_casts.sh",
+      "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7"
+    }
+  },
+  "contract_sha256": {
+    "t2i": "5b8b4bacff12bbec7bfd9ca60e2f2a7cbc220f5788153a3a0e4a7f15b3d23ca2",
+    "edit": "be8eba9a0c0bc34de61d28d6b8f99883f1532dd1f41ca2472a25e0ab12cd1abf"
+  },
+  "quality_references": {
+    "main": {
+      "t2i": [],
+      "edit": []
+    },
+    "omni_casts": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-qwen21-base-512-qualification1-00-main-high"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-qwen21-base-512-qualification1-00-main-high"
+      ]
+    }
+  },
+  "note": "Supplemental512square nativequalityonly. Preregisteredbeforeanymodelrun; allfrozen1024squarefailuresandtimingsretained. Initialmain produces reference; Omnicompiledcastspreservesreasonablefastpaths."
+}

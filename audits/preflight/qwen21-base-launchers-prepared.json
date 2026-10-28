@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-27T03:11:35.579231+00:00",
+  "status": "prepared_shell_syntax_checked_not_uploaded_or_run",
+  "launchers": {
+    "scripts/launch_sgl_qwen21_base_eager.sh": "a8eb906d38e0565d2cc7dde43b95fade00d172658c27600dd4d379a2bfa84ceb",
+    "scripts/launch_omni_qwen21_base_native.sh": "665aaa1da1cd59ee676ff641905ed610d83c024297b4bf9b94f7afc192e7054c"
+  },
+  "selection": "Initial native qualification and eager profile only. SGL transformer torch_sdpa is supported by frozen Qwen model and matches opt-in checkpoint server test. Omni retains default regional compile and decode graphs. These choices are not a fastest-configuration conclusion. SGL existing BCG and other eligible attention backends require follow-up qualification/performance screening.",
+  "ports": [
+    31050,
+    31051
+  ],
+  "gpu_scope": "GPU0 only; both GPUs idle before each launch; no launch queued.",
+  "pending": [
+    "Verified Base weights",
+    "CPU conditioning/noise/sigma audit",
+    "Runtime native output RGBA gate",
+    "Actual server startup and ownership controller"
+  ]
+}

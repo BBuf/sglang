@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-27T02:35:21.386502+00:00",
+  "status": "prepared_syntax_checked_not_uploaded_or_run",
+  "files": {
+    "scripts/submit_qwen21_qualification.py": "caa1b122ffd8bcf14c7e97485aac8d0f23649f159ae6f5cc5cfa0dd916d17aea",
+    "scripts/compare_qwen21_qualification.py": "83271bc8a3c21ab30ac1562897dbf3b2dc5fd53fbb1acdc115d5d299cad62f85",
+    "scripts/download_qwen21_verified_modelscope.py": "848b6dc99e9bc12d7a21f70ae761ec4220380f0e69a920b3c3d7f24e7cad1669"
+  },
+  "source_contract_notes": [
+    "Both frozen image endpoints accept true_cfg_scale and generator_device; no guidance_scale substitution.",
+    "Turbo native model_index sample_sigmas must equal frozen8-pointgrid; client omits explicit steps/sigmas. Base asserts absence of native preset before requesting50steps.",
+    "Native source VAE has4outputchannels. Preserve responsePNG and record mode/bands/extrema; RGB-only observations cannot pass the native-alpha gate.",
+    "Both pure-T2I JSON and edit multipart use PNG output_compression100; no output conversion or resampling.",
+    "Client requires clean frozen source; candidate support intentionally not prepared before baseline qualification/profile.",
+    "Quality comparator checks all4expectedrequests, identicalcontractbytes, rawPNGSHA, RGB/alpha separateSSIM/PSNR, nativealphapresence andoptionalpixelidentity. Visual review remains separate."
+  ],
+  "pending": [
+    "Actualcheckpointconfigconfirmation",
+    "CrossframeworkCPUinputaudit",
+    "RuntimeAPIintegrationandnativeoutputqualification",
+    "GPUownershipcontrollerandNVMLsampling",
+    "Baselineprofilebeforechoosingoptimization"
+  ]
+}
