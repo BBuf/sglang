@@ -1,0 +1,69 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+  "source_repo": "/task/candidates/sana-video-depthwise-glu-v1",
+  "args": {
+    "arm": "sgl",
+    "contract": "/task/inputs/sana-video-480p-t2v-workloads.json",
+    "run_id": "sana-video-depthwise-final-primary-cleanup1-10-v1_eager-long",
+    "allowed_gpu_pids": [
+      140680
+    ],
+    "repeats": 3,
+    "warmups": 1,
+    "configuration_label": "v1_eager",
+    "prompt_id": "long",
+    "repo": "/task/candidates/sana-video-depthwise-glu-v1",
+    "expected_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "expected_diff_sha256": "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+    "expected_output_sha256": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f",
+    "quality": "lossless",
+    "diagnostic_profiler": false
+  },
+  "physical_gpus": [
+    0
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "allowed_process_commands": {
+    "140680": "sgl_diffusion::scheduler                                                                                                                 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+  "torch": "2.14.1+cu130",
+  "driver": "595.84",
+  "harness_sha256": "ee84c4fd620d0b43ba639e5eaf4e14016dd166aa45846201c70965f984623403",
+  "initial_gpu_state": {
+    "monotonic": 5693898.976915794,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          140680
+        ],
+        "memory_bytes": 24722735104,
+        "gpu_util_percent": 0,
+        "power_mw": 106734,
+        "temperature_c": 53,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 33245,
+        "temperature_c": 22,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost native video HTTP submission through full MP4 response bytes, including polling for SGL; file writes and validation excluded",
+  "lane": "batch1 concurrency1 warm resident v1_eager; fixed prompt and seed; conditioning cache warm"
+}

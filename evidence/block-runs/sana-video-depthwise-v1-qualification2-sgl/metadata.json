@@ -1,0 +1,72 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-depthwise-v1-qualification2-sgl",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-depthwise-v1-qualification2-sgl/server.pid; exec sh /task/launch_sgl_sana_video_depthwise_v1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_candidate_qualification.py",
+        "sgl",
+        "--repo",
+        "/task/candidates/sana-video-depthwise-glu-v1",
+        "--expected-diff-sha256",
+        "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+        "--label",
+        "depthwise-v1-native1",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": false
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_candidate_qualification.py",
+        "sgl",
+        "--repo",
+        "/task/candidates/sana-video-depthwise-glu-v1",
+        "--expected-diff-sha256",
+        "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+        "--label",
+        "depthwise-v1-native1-profile",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json",
+        "--profile"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": true
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Independent frozen-main candidate plus pinned depthwise3x3+biasGLU patch, without LN PR changes. Same native contract; qualification/profile only, no performance claim.",
+  "runner_sha256": "6b96befbaa55e90168e5c8b11338c28a7290c41ad872981748989c15df35bdd4",
+  "launch_to_ready_seconds": 112.15113722532988,
+  "server_container_pid": 116051,
+  "gpu_snapshot_before_requests": "2347868, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 22934 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

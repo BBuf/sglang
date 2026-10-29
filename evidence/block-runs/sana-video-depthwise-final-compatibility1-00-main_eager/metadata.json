@@ -1,0 +1,54 @@
+{
+  "configuration": "main_eager",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "physical_gpus": [
+    0
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SANA_VIDEO_BCG_AUDIT_DIR=/task/outputs/diagnostics/sana-video-depthwise-final-compatibility1-00-main_eager",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-depthwise-final-compatibility1-00-main_eager",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-depthwise-final-compatibility1-00-main_eager/server.pid; exec sh /task/launch_sgl_sana_video_depthwise_main_eager_diagnostics1.sh"
+  ],
+  "benchmark": false,
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_sana_video_compatibility1.py",
+      "sgl",
+      "--repo",
+      "/task/repos/sglang",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "sana-video-depthwise-final-compatibility1-00-main_eager",
+      "--contract",
+      "/task/inputs/sana-video-480p-t2v-workloads.json",
+      "--sequence-json",
+      "/task/sana-video-final-quality-sequence1.json"
+    ]
+  ],
+  "observer_sha256": "f1b21adfbcb3c2161bc8f5b3213358f3cdbff7e93344a7fe18e90b6d4d1ca17f",
+  "runner_sha256": "523fdc5cfb9d490335d3580dcfe73f72f1bf1de8b901b93a03f6ba1ab87a4046",
+  "launch_to_ready_seconds": 106.13861146103591,
+  "gpu_snapshot_before_requests": "2574088, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 22964 MiB",
+  "server_container_pid": 123202,
+  "status": "complete_raw_audit_pending",
+  "gpu_monitor_errors": []
+}

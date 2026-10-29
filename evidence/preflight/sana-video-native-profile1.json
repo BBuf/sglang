@@ -1,0 +1,1327 @@
+{
+  "trace": "evidence/profiles/sana-video-native-qualification1-sgl/303ecb10-c9b2-4782-83c3-1fee30a75d7b-3_steps-global-rank0.trace.json.gz",
+  "trace_sha256": "47b8c336ddd48e057b606ecbca2b752625d28bbfaea1f25092911bb935827a41",
+  "step": "ProfilerStep#3",
+  "step_duration_ms": 1172.546509,
+  "kernel_count": 2309,
+  "kernel_sum_ms": 1170.2826329999998,
+  "method": "GPU kernels whose start timestamp lies in ProfilerStep#3; join External id against all CPU operators, since async CPU ranges need not align. Sums are diagnostic and not E2E speedup.",
+  "kernels": [
+    {
+      "name": "sm80_xmma_fprop_implicit_gemm_bf16bf16_bf16f32_f32_nhwckrsc_nhwc_tilesize128x128x32_stage4_warpsize2x2x1_g1_tensor16x8x16_t1r1s1_execute_kernel__5x_cudnn",
+      "calls": 40,
+      "sum_ms": 190.75453299999998
+    },
+    {
+      "name": "void cutlass__5x_cudnn::Kernel<cutlass_tensorop_bf16_s16816fprop_optimized_bf16_128x64_64x3_nhwc_align8>(cutlass_tensorop_bf16_s16816fprop_optimized_bf16_128x64_64x3_nhwc_align8::Params)",
+      "calls": 40,
+      "sum_ms": 122.32821799999998
+    },
+    {
+      "name": "sm80_xmma_fprop_implicit_gemm_bf16bf16_bf16f32_f32_nhwckrsc_nhwc_tilesize128x256x32_stage3_warpsize2x4x1_g1_tensor16x8x16_t1r1s1_execute_kernel__5x_cudnn",
+      "calls": 40,
+      "sum_ms": 97.955864
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x256_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x256_32x3_tn_align8::Params)",
+      "calls": 40,
+      "sum_ms": 97.41058899999999
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x256_32x3_tt_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x256_32x3_tt_align8::Params)",
+      "calls": 80,
+      "sum_ms": 72.14567
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::BFloat16> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::BFloat16> const&)::{lambda(int)#1})",
+      "calls": 206,
+      "sum_ms": 57.08899100000002
+    },
+    {
+      "name": "conv2d_c1_k1_nhwc_specialized",
+      "calls": 40,
+      "sum_ms": 48.038863
+    },
+    {
+      "name": "_bias_silu_kernel",
+      "calls": 40,
+      "sum_ms": 47.20631100000001
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#12}::operator()() const::{lambda(c10::BFloat16)#1} const&)::{lambda(int)#1})",
+      "calls": 124,
+      "sum_ms": 46.97908099999998
+    },
+    {
+      "name": "fmha_cutlassF_bf16_aligned_64x128_rf_sm80(PyTorchMemEffAttention::AttentionKernel<cutlass::bfloat16_t, cutlass::arch::Sm80, true, 64, 128, 128, true, true>::Params)",
+      "calls": 40,
+      "sum_ms": 44.30377
+    },
+    {
+      "name": "void sglang::interleaved_rope_fp64::(anonymous namespace)::interleaved_rope_fp64_kernel<__nv_bfloat16>(__nv_bfloat16*, __nv_bfloat16*, __nv_bfloat16 const*, __nv_bfloat16 const*, double const*, double const*, long, long, long, long, long)",
+      "calls": 40,
+      "sum_ms": 37.47425700000001
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_simt_sgemm_64x64_8x5_nt_align1>(cutlass_80_simt_sgemm_64x64_8x5_nt_align1::Params)",
+      "calls": 40,
+      "sum_ms": 37.44053000000001
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8::Params)",
+      "calls": 40,
+      "sum_ms": 36.32497400000001
+    },
+    {
+      "name": "_bias_glu_kernel",
+      "calls": 40,
+      "sum_ms": 35.43037700000001
+    },
+    {
+      "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+      "calls": 84,
+      "sum_ms": 23.63807700000001
+    },
+    {
+      "name": "_rga_transposed",
+      "calls": 80,
+      "sum_ms": 22.86084600000001
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      "calls": 82,
+      "sum_ms": 18.768888999999994
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_simt_sgemm_256x128_8x4_tn_align1>(cutlass_80_simt_sgemm_256x128_8x4_tn_align1::Params)",
+      "calls": 40,
+      "sum_ms": 17.461458000000004
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>, false>(int, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#9}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+      "calls": 80,
+      "sum_ms": 16.063309000000004
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+      "calls": 40,
+      "sum_ms": 15.982221999999998
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float, false>(int, float, c10::BFloat16 const*, c10::BFloat16 const*, c10::BFloat16 const*, float*, float*, c10::BFloat16*)",
+      "calls": 82,
+      "sum_ms": 14.927045999999999
+    },
+    {
+      "name": "kernel_cutlass_kernel_flashinfernormkernelsrmsnormRMSNormKernel_object_at__tensorptrbf16gmemalign16oi642240i64div81_tensorptrbf16gmemalign16o22401_tensorptrbf16gmemalign16oi642240i64div81_0",
+      "calls": 120,
+      "sum_ms": 14.595945999999993
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>, false>(int, at::native::bfloat16_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda(float)#1}, std::array<char*, 2ul>)",
+      "calls": 43,
+      "sum_ms": 11.936688
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1} const&)::{lambda(int)#1})",
+      "calls": 40,
+      "sum_ms": 11.517584999999999
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul>, false>(int, at::native::CUDAFunctor_add<c10::BFloat16>, std::array<char*, 3ul>)",
+      "calls": 80,
+      "sum_ms": 10.727792000000004
+    },
+    {
+      "name": "kernel_cutlass_kernel_flashinfernormkernelsrmsnormRMSNormKernel_object_at__tensorptrbf16gmemalign128oi64224022401_tensorptrbf16gmemalign16o22401_tensorptrbf16gmemalign128oi64224022401___T_0",
+      "calls": 42,
+      "sum_ms": 7.092645999999999
+    },
+    {
+      "name": "void at::native::reduce_kernel<128, 4, at::native::ReduceOp<c10::BFloat16, at::native::func_wrapper_t<c10::BFloat16, at::native::sum_functor<c10::BFloat16, float, c10::BFloat16>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, c10::BFloat16, 4, 8> >(at::native::ReduceOp<c10::BFloat16, at::native::func_wrapper_t<c10::BFloat16, at::native::sum_functor<c10::BFloat16, float, c10::BFloat16>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, c10::BFloat16, 4, 8>)",
+      "calls": 40,
+      "sum_ms": 5.756091999999998
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x1_tn_align8>(cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x1_tn_align8::Params)",
+      "calls": 40,
+      "sum_ms": 4.192152
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x64_64x4_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x64_64x4_tn_align8::Params)",
+      "calls": 40,
+      "sum_ms": 1.767621
+    },
+    {
+      "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<__nv_bfloat16, __nv_bfloat16, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, __nv_bfloat16 const*, __nv_bfloat16*)",
+      "calls": 2,
+      "sum_ms": 0.44704200000000005
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctorOnSelf_add<c10::BFloat16>, std::array<char*, 2ul>, false>(int, at::native::CUDAFunctorOnSelf_add<c10::BFloat16>, std::array<char*, 2ul>)",
+      "calls": 122,
+      "sum_ms": 0.3333570000000001
+    },
+    {
+      "name": "sm80_xmma_fprop_implicit_gemm_bf16bf16_bf16f32_f32_nhwckrsc_nhwc_tilesize256x128x32_stage3_warpsize4x2x1_g1_tensor16x8x16_execute_kernel__5x_cudnn",
+      "calls": 2,
+      "sum_ms": 0.20822500000000002
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_64x256_32x4_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_64x256_32x4_tn_align8::Params)",
+      "calls": 2,
+      "sum_ms": 0.191296
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<c10::BFloat16>, std::array<char*, 1ul>)",
+      "calls": 120,
+      "sum_ms": 0.15951400000000004
+    },
+    {
+      "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#11}::operator()() const::{lambda(bool)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#11}::operator()() const::{lambda(bool)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+      "calls": 40,
+      "sum_ms": 0.114017
+    },
+    {
+      "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::(anonymous namespace)::where_kernel_impl(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(bool, unsigned short, unsigned short)#1}>(at::TensorIteratorBase&, at::native::(anonymous namespace)::where_kernel_impl(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(bool, unsigned short, unsigned short)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::(anonymous namespace)::where_kernel_impl(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(bool, unsigned short, unsigned short)#1}>(at::TensorIteratorBase&, at::native::(anonymous namespace)::where_kernel_impl(at::TensorIterator&)::{lambda()#1}::operator()() const::{lambda()#2}::operator()() const::{lambda(bool, unsigned short, unsigned short)#1} const&)::{lambda(int)#1})",
+      "calls": 40,
+      "sum_ms": 0.10099400000000001
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x2_tn_align8>(cutlass_80_wmma_tensorop_bf16_s161616gemm_bf16_16x16_128x2_tn_align8::Params)",
+      "calls": 2,
+      "sum_ms": 0.08470500000000002
+    },
+    {
+      "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_64x64_64x6_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_64x64_64x6_tn_align8::Params)",
+      "calls": 4,
+      "sum_ms": 0.07340799999999999
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::reciprocal_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>, false>(int, at::native::reciprocal_kernel_cuda(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+      "calls": 40,
+      "sum_ms": 0.07093999999999999
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<2, at::native::FillFunctor<long>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<long>, std::array<char*, 1ul>)",
+      "calls": 80,
+      "sum_ms": 0.06848099999999997
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>, false>(int, at::native::AUnaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+      "calls": 40,
+      "sum_ms": 0.06339399999999999
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<8u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<8u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+      "calls": 4,
+      "sum_ms": 0.060287999999999994
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>, false>(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+      "calls": 6,
+      "sum_ms": 0.04249800000000001
+    },
+    {
+      "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<__nv_bfloat16, __nv_bfloat16, float, false, true, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, __nv_bfloat16 const*, __nv_bfloat16*)",
+      "calls": 4,
+      "sum_ms": 0.026108999999999997
+    },
+    {
+      "name": "std::enable_if<true, void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, true, true, true, false, 8, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float>)",
+      "calls": 2,
+      "sum_ms": 0.025825000000000004
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>, false>(int, at::native::AUnaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> >, std::array<char*, 2ul>)",
+      "calls": 6,
+      "sum_ms": 0.01952
+    },
+    {
+      "name": "std::enable_if<true, void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, true, true, true, false, 7, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float>)",
+      "calls": 2,
+      "sum_ms": 0.007968
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>, false>(int, at::native::(anonymous namespace)::silu_kernel(at::TensorIteratorBase&)::{lambda()#1}::operator()() const::{lambda()#6}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+      "calls": 4,
+      "sum_ms": 0.006719
+    },
+    {
+      "name": "void sglang::timestep_embedding::timestep_embedding_kernel<true, float>(float const*, float*, int, float, float, int)",
+      "calls": 2,
+      "sum_ms": 0.004864
+    },
+    {
+      "name": "void at::native::vectorized_elementwise_kernel<4, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>, false>(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(c10::BFloat16)#1}, std::array<char*, 2ul>)",
+      "calls": 2,
+      "sum_ms": 0.003072
+    }
+  ],
+  "operators": [
+    {
+      "op": "aten::cudnn_convolution",
+      "input_dims": [
+        [
+          21,
+          2240,
+          30,
+          52
+        ],
+        [
+          13440,
+          2240,
+          1,
+          1
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 190.75453299999998
+    },
+    {
+      "op": "aten::cudnn_convolution",
+      "input_dims": [
+        [
+          1,
+          2240,
+          21,
+          1560
+        ],
+        [
+          2240,
+          2240,
+          3,
+          1
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 122.32821799999998
+    },
+    {
+      "op": "unattributed",
+      "input_dims": [],
+      "kernel_calls": 244,
+      "sum_ms": 104.33014400000005
+    },
+    {
+      "op": "aten::cudnn_convolution",
+      "input_dims": [
+        [
+          21,
+          6720,
+          30,
+          52
+        ],
+        [
+          2240,
+          6720,
+          1,
+          1
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 97.955864
+    },
+    {
+      "op": "aten::mm",
+      "input_dims": [
+        [
+          32760,
+          2240
+        ],
+        [
+          2240,
+          6720
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 97.41058899999999
+    },
+    {
+      "op": "aten::mm",
+      "input_dims": [
+        [
+          32760,
+          2240
+        ],
+        [
+          2240,
+          2240
+        ]
+      ],
+      "kernel_calls": 80,
+      "sum_ms": 72.14567
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          1,
+          32760,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 122,
+      "sum_ms": 57.545872999999986
+    },
+    {
+      "op": "aten::cudnn_convolution",
+      "input_dims": [
+        [
+          21,
+          13440,
+          30,
+          52
+        ],
+        [
+          13440,
+          1,
+          3,
+          3
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 48.038863
+    },
+    {
+      "op": "aten::_efficient_attention_forward",
+      "input_dims": [
+        [
+          1,
+          32760,
+          20,
+          112
+        ],
+        [
+          1,
+          300,
+          20,
+          112
+        ],
+        [
+          1,
+          300,
+          20,
+          112
+        ],
+        [
+          1,
+          20,
+          32760,
+          300
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 44.30377
+    },
+    {
+      "op": "sglang::diffusion_interleaved_rope_fp64",
+      "input_dims": [
+        [
+          1,
+          32760,
+          20,
+          112
+        ],
+        [
+          1,
+          32760,
+          20,
+          112
+        ],
+        [
+          1,
+          32760,
+          1,
+          112
+        ],
+        [
+          1,
+          32760,
+          1,
+          112
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 37.47425700000001
+    },
+    {
+      "op": "aten::bmm",
+      "input_dims": [
+        [
+          20,
+          112,
+          32760
+        ],
+        [
+          20,
+          32760,
+          112
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 37.44053000000001
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          2240
+        ],
+        [
+          32760,
+          2240
+        ],
+        [
+          2240,
+          2240
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 36.32497400000001
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1,
+          20,
+          112,
+          32760
+        ],
+        [
+          1,
+          20,
+          112,
+          32760
+        ],
+        []
+      ],
+      "kernel_calls": 120,
+      "sum_ms": 35.141388000000006
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          1,
+          32760,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 23.506710999999992
+    },
+    {
+      "op": "sglang::diffusion_residual_gate_add",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          1,
+          1,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 80,
+      "sum_ms": 22.86084600000001
+    },
+    {
+      "op": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          1,
+          1,
+          2240
+        ]
+      ],
+      "kernel_calls": 82,
+      "sum_ms": 18.768888999999994
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          1,
+          1,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 82,
+      "sum_ms": 17.604563999999996
+    },
+    {
+      "op": "aten::bmm",
+      "input_dims": [
+        [
+          20,
+          112,
+          112
+        ],
+        [
+          20,
+          112,
+          32760
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 17.461458000000004
+    },
+    {
+      "op": "aten::clamp_min",
+      "input_dims": [
+        [
+          1,
+          32760,
+          20,
+          112
+        ],
+        []
+      ],
+      "kernel_calls": 80,
+      "sum_ms": 16.063309000000004
+    },
+    {
+      "op": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          20,
+          112,
+          32760
+        ],
+        [
+          1,
+          20,
+          1,
+          32760
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 15.982221999999998
+    },
+    {
+      "op": "aten::add_",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 80,
+      "sum_ms": 15.528497999999999
+    },
+    {
+      "op": "aten::native_layer_norm",
+      "input_dims": [
+        [
+          1,
+          32760,
+          2240
+        ],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 82,
+      "sum_ms": 14.927045999999999
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          2240,
+          21,
+          1560
+        ],
+        [
+          1,
+          2240,
+          21,
+          1560
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 10.655473000000002
+    },
+    {
+      "op": "aten::sum",
+      "input_dims": [
+        [
+          1,
+          20,
+          112,
+          32760
+        ],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 5.756091999999998
+    },
+    {
+      "op": "aten::bmm",
+      "input_dims": [
+        [
+          20,
+          1,
+          112
+        ],
+        [
+          20,
+          112,
+          32760
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 4.192152
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          4480
+        ],
+        [
+          300,
+          2240
+        ],
+        [
+          2240,
+          4480
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 1.767621
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          2240,
+          2240,
+          3,
+          1
+        ],
+        [
+          2240,
+          2240,
+          3,
+          1
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 1.342312
+    },
+    {
+      "op": "aten::cudnn_convolution",
+      "input_dims": [
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        [
+          2240,
+          16,
+          1,
+          2,
+          2
+        ],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "kernel_calls": 8,
+      "sum_ms": 0.681376
+    },
+    {
+      "op": "aten::add_",
+      "input_dims": [
+        [
+          1,
+          2240,
+          21,
+          30,
+          52
+        ],
+        [
+          1,
+          2240,
+          1,
+          1,
+          1
+        ],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.44269
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1,
+          2240
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 82,
+      "sum_ms": 0.26999000000000006
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          64
+        ],
+        [
+          32760,
+          2240
+        ],
+        [
+          2240,
+          64
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.191296
+    },
+    {
+      "op": "aten::fill_",
+      "input_dims": [
+        [],
+        []
+      ],
+      "kernel_calls": 160,
+      "sum_ms": 0.17522900000000008
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1,
+          300
+        ],
+        [
+          1,
+          300
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.114017
+    },
+    {
+      "op": "aten::where",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          300
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.10099400000000001
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          13440
+        ],
+        [
+          1,
+          2240
+        ],
+        [
+          2240,
+          13440
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.08470500000000002
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1,
+          6,
+          2240
+        ],
+        [
+          1,
+          1,
+          6,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.07231900000000001
+    },
+    {
+      "op": "aten::reciprocal",
+      "input_dims": [
+        [
+          1,
+          20,
+          1,
+          32760
+        ]
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.07093999999999999
+    },
+    {
+      "op": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          20,
+          1,
+          32760
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.06339399999999999
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          20,
+          1,
+          32760
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.063367
+    },
+    {
+      "op": "aten::cat",
+      "input_dims": [
+        [
+          [
+            21,
+            30,
+            52,
+            40
+          ],
+          [
+            21,
+            30,
+            52,
+            36
+          ],
+          [
+            21,
+            30,
+            52,
+            36
+          ]
+        ],
+        []
+      ],
+      "kernel_calls": 4,
+      "sum_ms": 0.060287999999999994
+    },
+    {
+      "op": "aten::fill_",
+      "input_dims": [
+        [
+          1,
+          1,
+          1,
+          304
+        ],
+        []
+      ],
+      "kernel_calls": 40,
+      "sum_ms": 0.05276600000000002
+    },
+    {
+      "op": "aten::sub",
+      "input_dims": [
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        []
+      ],
+      "kernel_calls": 5,
+      "sum_ms": 0.03789
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          2240
+        ],
+        [
+          300,
+          2240
+        ],
+        [
+          2240,
+          2240
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.036736
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          2240
+        ],
+        [
+          300,
+          2304
+        ],
+        [
+          2304,
+          2240
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.036671999999999996
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          2240
+        ],
+        [
+          1,
+          2240
+        ],
+        [
+          2240,
+          2240
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.025825000000000004
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1,
+          16,
+          21,
+          1,
+          30,
+          2,
+          52,
+          2
+        ],
+        [
+          1,
+          16,
+          21,
+          1,
+          30,
+          2,
+          52,
+          2
+        ],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.022272
+    },
+    {
+      "op": "aten::mul",
+      "input_dims": [
+        [],
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ]
+      ],
+      "kernel_calls": 5,
+      "sum_ms": 0.016032
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        []
+      ],
+      "kernel_calls": 3,
+      "sum_ms": 0.012802
+    },
+    {
+      "op": "aten::addmm",
+      "input_dims": [
+        [
+          2240
+        ],
+        [
+          1,
+          256
+        ],
+        [
+          256,
+          2240
+        ],
+        [],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.007968
+    },
+    {
+      "op": "aten::silu",
+      "input_dims": [
+        [
+          1,
+          2240
+        ]
+      ],
+      "kernel_calls": 4,
+      "sum_ms": 0.006719
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          1,
+          2,
+          2240
+        ],
+        [
+          1,
+          1,
+          1,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.006528000000000001
+    },
+    {
+      "op": "aten::add",
+      "input_dims": [
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        []
+      ],
+      "kernel_calls": 1,
+      "sum_ms": 0.004607999999999999
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1
+        ],
+        [
+          1
+        ],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.003872
+    },
+    {
+      "op": "aten::mul",
+      "input_dims": [
+        [
+          1,
+          16,
+          21,
+          60,
+          104
+        ],
+        []
+      ],
+      "kernel_calls": 1,
+      "sum_ms": 0.0034879999999999998
+    },
+    {
+      "op": "aten::gelu",
+      "input_dims": [
+        [
+          1,
+          300,
+          2240
+        ],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.003072
+    },
+    {
+      "op": "aten::copy_",
+      "input_dims": [
+        [
+          1,
+          256
+        ],
+        [
+          1,
+          256
+        ],
+        []
+      ],
+      "kernel_calls": 2,
+      "sum_ms": 0.002912
+    }
+  ]
+}

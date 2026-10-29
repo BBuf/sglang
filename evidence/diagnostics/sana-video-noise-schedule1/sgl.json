@@ -1,0 +1,47 @@
+{
+  "arm": "sgl",
+  "torch": "2.14.1+cu130",
+  "scheduler_config": {
+    "num_train_timesteps": 1000,
+    "beta_start": 0.0001,
+    "beta_end": 0.02,
+    "beta_schedule": "linear",
+    "trained_betas": null,
+    "solver_order": 2,
+    "prediction_type": "flow_prediction",
+    "thresholding": false,
+    "dynamic_thresholding_ratio": 0.995,
+    "sample_max_value": 1.0,
+    "algorithm_type": "dpmsolver++",
+    "solver_type": "midpoint",
+    "lower_order_final": true,
+    "euler_at_final": false,
+    "use_karras_sigmas": false,
+    "use_lu_lambdas": false,
+    "use_exponential_sigmas": false,
+    "use_beta_sigmas": false,
+    "use_flow_sigmas": true,
+    "final_sigmas_type": "zero",
+    "lambda_min_clipped": -Infinity,
+    "variance_type": null,
+    "timestep_spacing": "linspace",
+    "steps_offset": 0,
+    "rescale_betas_zero_snr": false,
+    "flow_shift": 8.0,
+    "_use_default_values": [
+      "kwargs"
+    ]
+  },
+  "tensor_hashes": {
+    "latents": "47549d83e02b37889511073ae8014b087650b08a901e3776316de14a137244b2",
+    "timesteps": "da56a687bc0cecf0bf7c44edbb536daa3e7bd5b49193ff4829991c87ab02d625",
+    "sigmas": "acdabf4af536c79c2053ffa8e4b2e340e37bc65fc0ed2f5024106138a6dd897c"
+  },
+  "source_sha256": {
+    "/opt/sglang/lib/python3.12/site-packages/diffusers/utils/torch_utils.py": "bc8fbe5266c5fe7a82bfd9c5764c2ec931024b4695bee433ff53979d73e6827f",
+    "/task/repos/sglang/python/sglang/multimodal_gen/runtime/models/schedulers/scheduling_dpm_solver_multistep.py": "b0e7c3e4978a412a549a5a472c45d1c8117dda2c1e2fb02f1879dbc392abe691",
+    "/task/repos/sglang/python/sglang/multimodal_gen/configs/pipeline_configs/sana_video.py": "b1bbcd1cac601b4db053e569f1f37aac5c3360daccfd41a4e8c854304c825b42",
+    "/task/repos/sglang/python/sglang/multimodal_gen/runtime/pipelines_core/stages/latent_preparation.py": "5d5be95053b99bfd2ab50c05803ba0a74854bc082885e06625f524f1396c7b9b"
+  },
+  "script_sha256": "209bd07529849290408ce595a117c04d29ef3289de019a8873210aba1e3ae047"
+}

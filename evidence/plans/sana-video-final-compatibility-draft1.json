@@ -1,0 +1,29 @@
+{
+  "created_at": "2026-10-29T05:34:36.494725+00:00",
+  "status": "prepared_not_run_final_source_not_selected",
+  "sequence": "evidence/plans/sana-video-final-quality-sequence1.json",
+  "source_client": "scripts/submit_sana_video_compatibility1.py",
+  "source_client_sha256": "b46d19212b22de7232a6843f7651319df028b3667ebc38a6678ea7fe0ae069f0",
+  "arms": [
+    "main_eager",
+    "final_eager",
+    "main_bcg",
+    "final_bcg"
+  ],
+  "observer": "scripts/sana_video_bcg_sitecustomize1.py",
+  "profile_arms": [
+    "final_eager",
+    "main_bcg",
+    "final_bcg"
+  ],
+  "profile_prompt": "short",
+  "requirements": [
+    "Run only after V1primary terminates and performancegate passes.",
+    "Actual finalsource head and cleanpatch pins required in frozen launchers and plan.",
+    "12mixedquality requests perarm, lossless short/long/Chinese/repeat then exact2/high2 then return lossless4; separate profile afterward.",
+    "Compare all final MP4s/pixels with samequality/mainarm; lossless with archived originalnative; all81frames decoded.",
+    "Audit actual BCG captures/replays/segments, request IDs,50steps, fixed300token input, no servingrecapture, qualityswitch fallback and returngraphreuse.",
+    "Retain native Chinese crossframework failure. This is compatibility, not primaryperformance.",
+    "No new BCGcoverage claim. Preserve any observed high/BCG failure."
+  ]
+}

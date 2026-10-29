@@ -1,0 +1,43 @@
+{
+  "status": "failed",
+  "benchmark": false,
+  "native_synchronized_stage_profiler": true,
+  "torch_trace_profiler": false,
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "launch_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-omni-stages1/server.pid; exec sh /task/launch_omni_sana_video_stages1.sh"
+  ],
+  "client_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "python3",
+    "/task/submit_sana_video_qualification.py",
+    "omni",
+    "--label",
+    "t2v-stages1",
+    "--contract",
+    "/task/inputs/sana-video-480p-t2v-workloads.json"
+  ],
+  "plan": {
+    "created_at": "2026-10-29T10:03:54.298085+00:00",
+    "sha256": {
+      "run_sana_video_omni_stages1.py": "744dac97461b5d3ada7be08b4c8db87064790216cff16988fb9e0acdfda663df",
+      "sana_video_omni_stage_sitecustomize1.py": "87c638872e7f31e434913173043aae7e8b8ebba7d74e61d3527cd60f098e3f93",
+      "launch_omni_sana_video_stages1.sh": "c6840f38c05df4474d5b489ed6fb1b690845d28f7466521aa21d776156f3c73e",
+      "submit_sana_video_qualification.py": "25e1fa69c351d5cfba8100aa772ea79cd7516bb607e4d61bd5ee50257704865d",
+      "sana-video-stage-observer1/sitecustomize.py": "87c638872e7f31e434913173043aae7e8b8ebba7d74e61d3527cd60f098e3f93",
+      "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad"
+    },
+    "scope": "Supplementary synchronized Omni stage timings only. Existing primary E2E and cleanup admission immutable. Four unchanged short/long/Chinese/repeatedshort native requests; all output MP4s must match original. Uses existing native profiler wrapper with additional method targets outside the frozen repository.",
+    "first_request": "Retained, excluded from representative steady stage diagnostics. n1 short repeat,n1 long; Chinese quality failure remains ineligible.",
+    "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7"
+  },
+  "launch_to_ready_seconds": 28.02662017568946,
+  "error": "AssertionError([('encode_prompt', '0.280360'), ('diffuse', '0.865590'), ('vae.decode', '1.568923'), ('forward', '2.720746'), ('encode_prompt', '0.060409'), ('diffuse', '81.192898'), ('vae.decode', '3.703246'), ('forward', '84.976105'), ('encode_prompt', '0.072143'), ('diffuse', '81.123969'), ('vae.decode', '3.295563'), ('forward', '84.510574'), ('encode_prompt', '0.070267'), ('diffuse', '81.146849'), ('vae.decode', '3.291269'), ('forward', '84.526008'), ('encode_prompt', '0.069932'), ('diffuse', '81.153771'), ('vae.decode', '3.291908'), ('forward', '84.533464')])"
+}

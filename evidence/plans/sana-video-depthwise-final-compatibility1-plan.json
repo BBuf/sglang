@@ -1,0 +1,55 @@
+{
+  "id": "sana-video-depthwise-final-compatibility1",
+  "created_at": "2026-10-29T11:15:46.349039+00:00",
+  "benchmark": false,
+  "final_head": "f248594caca5c533c94612b6848ff3512ed98e08",
+  "order": [
+    "main_eager",
+    "final_eager",
+    "main_bcg",
+    "final_bcg"
+  ],
+  "configurations": {
+    "main_eager": {
+      "repo": "/task/repos/sglang",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "launcher": "launch_sgl_sana_video_depthwise_main_eager_diagnostics1.sh",
+      "BCG": false
+    },
+    "main_bcg": {
+      "repo": "/task/repos/sglang",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "launcher": "launch_sgl_sana_video_depthwise_main_bcg_diagnostics1.sh",
+      "BCG": true
+    },
+    "final_eager": {
+      "repo": "/task/candidates/sana-video-depthwise-glu-final",
+      "head": "f248594caca5c533c94612b6848ff3512ed98e08",
+      "launcher": "launch_sgl_sana_video_depthwise_final_eager_diagnostics1.sh",
+      "BCG": false
+    },
+    "final_bcg": {
+      "repo": "/task/candidates/sana-video-depthwise-glu-final",
+      "head": "f248594caca5c533c94612b6848ff3512ed98e08",
+      "launcher": "launch_sgl_sana_video_depthwise_final_bcg_diagnostics1.sh",
+      "BCG": true
+    }
+  },
+  "profile_configurations": [
+    "final_eager",
+    "main_bcg",
+    "final_bcg"
+  ],
+  "sha256": {
+    "scripts/submit_sana_video_compatibility1.py": "b46d19212b22de7232a6843f7651319df028b3667ebc38a6678ea7fe0ae069f0",
+    "scripts/sana_video_depthwise_bcg_sitecustomize1.py": "f1b21adfbcb3c2161bc8f5b3213358f3cdbff7e93344a7fe18e90b6d4d1ca17f",
+    "evidence/plans/sana-video-final-quality-sequence1.json": "19c6a1a01875247622ce5e1a33f03418ce78ec194396a89c0f0ea9b9462f3f7b",
+    "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+    "scripts/run_sana_video_depthwise_final_compatibility1.py": "523fdc5cfb9d490335d3580dcfe73f72f1bf1de8b901b93a03f6ba1ab87a4046",
+    "scripts/launch_sgl_sana_video_depthwise_main_eager_diagnostics1.sh": "6987a454852c8cdab9e4752eb1341c99dad0d3dbd1cf1f22152f3447002fda16",
+    "scripts/launch_sgl_sana_video_depthwise_main_bcg_diagnostics1.sh": "3733a07c91abeb706b636ca8e16d059f7fc22df85abebad815c62dd62cda4378",
+    "scripts/launch_sgl_sana_video_depthwise_final_eager_diagnostics1.sh": "89a9403c8634651f24d001b6f7dd63949d253edfab72012d34cbdf2a3cc0c381",
+    "scripts/launch_sgl_sana_video_depthwise_final_bcg_diagnostics1.sh": "0caa13d53842395f4d6d13eb277f6adb000028279e3678cd6838da1674198ed1"
+  },
+  "note": "Four fresh native quality/replay arms,12 mixedquality requests each plus3 separate profiles. SYNC1 and read-only stage/runner observer. No model/blockforward hook; no primary timing claim. Exact/high BCG eager behavior retained and audited. Requires V1 paired admission and all final-source tests."
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-29T11:14:00.520131+00:00",
+  "baseline": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "head": "f248594caca5c533c94612b6848ff3512ed98e08",
+  "branch": "codex/rtx6000-sana-video-depthwise-glu",
+  "patch_sha256": "43ea603553328062cbda336d9811cb9b9527408edf6e4dd294cd8ef4153706b7",
+  "bundle_sha256": "5e18817591c9b33925fdf8edf300d1c6554ea2e227f491398ef5ea4f9e385e3c",
+  "files": [
+    "python/sglang/kernels/kda_kernels/sana_depthwise_glu_triton.py",
+    "python/sglang/kernels/ops/diffusion/README.md",
+    "python/sglang/kernels/ops/diffusion/__init__.py",
+    "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+  ],
+  "precommit": "evidence/preflight/sana-video-depthwise-final-precommit2.json",
+  "self_review": [
+    "Read full 5-file diff; no LN PR changes, weights or experiments in code.",
+    "Removed unused ROWS tuning argument and dead constant branches; unchanged four-row reuse, FP32 FMA tap order and BF16 boundaries.",
+    "Reused existing numerical gate and convolution post-ops; no new disable-cache or broad custom exception handler.",
+    "Require cuDNN enabled because verified reference arithmetic is cuDNN; off-mode retains reference.",
+    "Six numerical/lifecycle/fallback cases extend existing CI fixture; same CI registration. CPU/compile diagnostic separate.",
+    "Tests and final-source model/BCG/cleanup timing still pending."
+  ],
+  "qualification_status": "unverified_final_source"
+}

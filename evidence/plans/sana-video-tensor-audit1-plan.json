@@ -1,0 +1,23 @@
+{
+  "id": "sana-video-tensor-audit1",
+  "created_at": "2026-10-29T04:29:23.088161+00:00",
+  "benchmark": false,
+  "launch_only_after": "sana-video-native-qualification1",
+  "order": [
+    "sgl",
+    "omni"
+  ],
+  "observe": [
+    "actual text-encoder token IDs and masks plus raw hidden states",
+    "first and last native scheduler sample/prediction/result and exact timesteps/sigmas"
+  ],
+  "required": "All8observed nativeMP4s byte-exact same-sourceoriginals. No primarytimings withobserver.",
+  "sha256": {
+    "scripts/run_sana_video_tensor_audit1.py": "42c39af352fdad3b76d89b92d5235a7009c5f75c645b1f0e5cef5aef9eb1c8e8",
+    "scripts/sana_video_tensor_sitecustomize.py": "9affe8bd7a45097e01dc7e1534d6ee673a47c7753f3b8d7fd5418fe96608b3fa",
+    "scripts/launch_sgl_sana_video_audit1.sh": "9d040d21d1e7053d4a8658bdc0b16bddeb0ec6d18fb406f0b55b0b1c496c98aa",
+    "scripts/launch_omni_sana_video_audit1.sh": "7cdccc1d7371bf4b94fd6cd0ea253832d118d8d087d470c12eec40b60f652916",
+    "scripts/submit_sana_video_qualification.py": "25e1fa69c351d5cfba8100aa772ea79cd7516bb607e4d61bd5ee50257704865d",
+    "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad"
+  }
+}

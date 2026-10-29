@@ -1,0 +1,78 @@
+[
+  {
+    "name": "namespace_dispatch",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/candidates/sana-video-depthwise-glu-final/python",
+      "-w",
+      "/task/candidates/sana-video-depthwise-glu-final",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "-m",
+      "pytest",
+      "-v",
+      "test/registered/unit/kernels/test_kernels_namespace.py",
+      "test/registered/unit/kernels/test_fused_op_dispatch.py"
+    ],
+    "source_sha": "f248594caca5c533c94612b6848ff3512ed98e08",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "returncode": 0,
+    "seconds": 29.557449022307992
+  },
+  {
+    "name": "numerical",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/candidates/sana-video-depthwise-glu-final/python",
+      "-w",
+      "/task/candidates/sana-video-depthwise-glu-final",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=0",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "-m",
+      "pytest",
+      "-v",
+      "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+      "test/registered/kernels/ops/diffusion/test_sites.py",
+      "-k",
+      "sana_video_depthwise or bitexact_gate"
+    ],
+    "source_sha": "f248594caca5c533c94612b6848ff3512ed98e08",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "returncode": 0,
+    "seconds": 25.84990245383233
+  },
+  {
+    "name": "cpu_compile",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/candidates/sana-video-depthwise-glu-final/python",
+      "-w",
+      "/task/candidates/sana-video-depthwise-glu-final",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=0",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/check_sana_video_depthwise_cpu_compile1.py"
+    ],
+    "source_sha": "f248594caca5c533c94612b6848ff3512ed98e08",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "returncode": 0,
+    "seconds": 13.983806912787259
+  }
+]

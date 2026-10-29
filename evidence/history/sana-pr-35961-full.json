@@ -1,0 +1,244 @@
+{
+  "pull_request": {
+    "url": "https://github.com/sgl-project/sglang/pull/35961",
+    "number": 35961,
+    "state": "closed",
+    "merged": true,
+    "mergeable": false,
+    "draft": false,
+    "body": "## Summary\n\n- reuse SANA's bit-exact LN+modulate, convolution bias+SiLU / bias+GLU, and residual-gate-add fast paths in SANA-Video\n- keep default-stream eager behavior unchanged; the shared kernels engage in the existing BCG warmup/capture path\n- add CPU reference tests and update the diffusion kernel and BCG documentation\n\n## H200 results\n\nNative SGLang, BF16, 1x H200, 832x480, 81 frames, 8 steps, guidance 6.0, seed 42, `quality=lossless`. The candidate was bracketed by two main runs on the same GPU:\n\n| Run | Denoise | Saved-request e2e | Peak reserved |\n| --- | ---: | ---: | ---: |\n| main 1, BCG | 6.8883 s | 9.8450 s | 25.113 GiB |\n| this PR 1, BCG | 5.7782 s | 8.7342 s | 25.113 GiB |\n| main 2, BCG | 6.8854 s | 9.8418 s | 25.113 GiB |\n| this PR 2, BCG | 5.7859 s | 8.7410 s | 25.113 GiB |\n\nUsing the two-run means, denoise improves by **16.04%** and saved-request e2e by **11.23%**, with no increase in peak reserved memory. Default-stream eager remains effectively unchanged (9.5642 / 9.5691 s on main versus 9.5582 s on the candidate).\n\nAll lossless eager/BCG outputs are byte-exact (`sha256=7167b9f468ec28784d68e9c96c796f3ecbcddda390673e7e3ce23108ca902450`). The `quality=high` main/candidate outputs also retained their existing identical hash.\n\nA five-step candidate BCG profile contains 320 bias+SiLU, 320 bias+GLU, and 656 LN+modulate fused-kernel launches. The native-backend gate passed and BCG captured the expected single 300-token / 81-frame signature without fallback.\n\nAfter each model group, its isolated cache was deleted. The final candidate group removed 14,004,441,660 bytes and 5 weight files, with zero residual model-cache files verified.\n\n## Validation\n\n- `pre-commit run --from-ref origin/main --to-ref HEAD`\n- H200: `PYTHONPATH=python pytest -q python/sglang/multimodal_gen/test/unit/test_sana_video.py` (7 passed)\n- H200: same-GPU main / candidate / main BCG A/B, output SHA comparison, and full-stage `torch.profiler` capture\n\n<!-- pr-states:start -->\n---\n### CI States\n\nLatest PR Test (Base): <!-- slot:pr-test:start -->:white_check_mark: [Run #32560159625](https://github.com/sgl-project/sglang/actions/runs/32560159625)<!-- slot:pr-test:end -->\nLatest PR Test (Extra): <!-- slot:pr-test-extra:start -->:white_check_mark: [Run #32656784490](https://github.com/sgl-project/sglang/actions/runs/32656784490)<!-- slot:pr-test-extra:end -->\nLatest PR Test (AMD ROCm 7.2): <!-- slot:pr-test-amd-rocm720:start -->:hourglass_flowing_sand: [Run #32560159607](https://github.com/sgl-project/sglang/actions/runs/32560159607)<!-- slot:pr-test-amd-rocm720:end -->\n<!-- pr-states:end -->",
+    "title": "[diffusion] Reuse SANA fast paths in SANA-Video BCG",
+    "base": "main",
+    "base_sha": "15a439832054c1809a2bf59f7b94bf9dd71de282",
+    "head": "bbuf/sana-video-lossless-fast-path",
+    "head_sha": "4a31965b6732663c0f2f01852cdcc72c3ab2380a",
+    "head_repo_id": 905188926,
+    "head_repo_full_name": "BBuf/sglang",
+    "merge_commit_sha": "f4448e677f5d4178837f032f74ffbbf479196eaa",
+    "user": {
+      "login": "BBuf",
+      "name": "BBuf",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+      "id": 35585791
+    },
+    "requested_reviewers": [
+      {
+        "login": "HaiShaw",
+        "name": "HaiShaw",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/3349073?v=4",
+        "id": 3349073
+      },
+      {
+        "login": "wisclmy0611",
+        "name": "wisclmy0611",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/27337995?v=4",
+        "id": 27337995
+      },
+      {
+        "login": "mickqian",
+        "name": "mickqian",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+        "id": 30898949
+      },
+      {
+        "login": "ping1jing2",
+        "name": "ping1jing2",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/32810407?v=4",
+        "id": 32810407
+      },
+      {
+        "login": "zijiexia",
+        "name": "zijiexia",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/37504505?v=4",
+        "id": 37504505
+      },
+      {
+        "login": "sogalin",
+        "name": "sogalin",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/39478626?v=4",
+        "id": 39478626
+      },
+      {
+        "login": "AgainstEntropy",
+        "name": "AgainstEntropy",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/42559837?v=4",
+        "id": 42559837
+      },
+      {
+        "login": "JustinTong0323",
+        "name": "JustinTong0323",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/115166877?v=4",
+        "id": 115166877
+      },
+      {
+        "login": "yichiche",
+        "name": "yichiche",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/179548237?v=4",
+        "id": 179548237
+      }
+    ],
+    "requested_team_reviewers": null,
+    "diff": "@@ -234,9 +234,11 @@ sglang serve --model-path meituan-longcat/LongCat-Image \\\n   --port 30010\n ```\n \n-SANA-Video supports the same path for fixed-resolution serving. Its default\n-text stage emits a fixed 300-token prompt shape, so the runtime reuses one\n-graph across prompt lengths without padding it to a generic text bucket:\n+SANA-Video supports the same path for fixed-shape serving. Its default text\n+stage emits a fixed 300-token prompt shape, so the runtime reuses one graph\n+across prompt lengths without padding it to a generic text bucket. BCG also\n+requires the serving frame count to match warmup; the example captures the\n+model's default 81-frame signature:\n \n ```bash Command\n sglang serve \\\n@@ -147,9 +147,8 @@ Kernels are written against a specific eager chain in a specific model, so cover\n | LTX-2 | QK-norm + split RoPE, ada-values split, RMSNorm+modulate, modulate, residual-gate add, linear+GELU |\n | LTX-2.5 decoder | paired 3D RoPE with shared axis-table cache |\n | HunyuanVideo | QKV+RoPE pack, strided QK RMSNorm, linear+GELU |\n-| SANA-Video | paired fp64 interleaved RoPE |\n | Sana | LN+modulate, GLUMB bias+SiLU / bias+GLU, residual-gate add |\n-| SANA-Video | Packed QKV/KV; BF16-input linear attention at `quality=high` |\n+| SANA-Video | Packed QKV/KV; paired fp64 interleaved RoPE; LN+modulate, GLUMB bias+SiLU / bias+GLU, and residual-gate add during BCG; BF16-input linear attention at `quality=high` |\n | Sana-WM | bidirectional gated delta-net, fused QK inverse-RMS |\n | Wan | temb table slices; VAE cat+pad and DupUp3D add, `channels_last_3d` RMSNorm+SiLU |\n | Cosmos3 / Krea2 / MiniMax-H3 | QK-norm + RoPE (Krea2 also CuTe-DSL norm+scale/shift; MiniMax-H3 also indexed modulation) |\n@@ -47,7 +47,7 @@ def _eager_ln_modulate(\n     return norm(x) * (1 + scale) + shift\n \n \n-def _sana_ln_modulate(\n+def sana_ln_modulate(\n     norm: nn.LayerNorm,\n     x: torch.Tensor,\n     scale: torch.Tensor,\n@@ -176,7 +176,7 @@ def _conv2d_without_bias(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     )\n \n \n-def _sana_conv_bias_silu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n+def sana_conv_bias_silu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     if conv.bias is None or not _use_sana_bcg_fast_path(x):\n         return F.silu(_mps_safe_conv2d(conv, x))\n \n@@ -204,7 +204,7 @@ def _sana_conv_bias_silu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     )\n \n \n-def _sana_conv_bias_glu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n+def sana_conv_bias_glu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     if conv.bias is None or not _use_sana_bcg_fast_path(x):\n         hidden_states = _mps_safe_conv2d(conv, x)\n         hidden_states, gate = torch.chunk(hidden_states, 2, dim=1)\n@@ -245,7 +245,7 @@ def _sana_conv_bias_glu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     )\n \n \n-def _sana_residual_gate_add(\n+def sana_residual_gate_add(\n     residual: torch.Tensor, update: torch.Tensor, gate: torch.Tensor\n ) -> torch.Tensor:\n     if torch.compiler.is_compiling():\n@@ -307,7 +307,7 @@ def __init__(self, dim, eps=1e-6):\n     def forward(self, x, temb, scale_shift_table):\n         scale_shift_table = _mps_match_dtype(scale_shift_table, temb)\n         shift, scale = (scale_shift_table[None] + temb[:, None]).chunk(2, dim=1)\n-        return _sana_ln_modulate(self.norm, x, scale, shift)\n+        return sana_ln_modulate(self.norm, x, scale, shift)\n \n \n class GLUMBConv(nn.Module):\n@@ -329,8 +329,8 @@ def __init__(self, in_channels, out_channels, expand_ratio=2.5):\n         self.conv_point = nn.Conv2d(hidden_channels, out_channels, 1, 1, 0, bias=False)\n \n     def forward(self, hidden_states):\n-        hidden_states = _sana_conv_bias_silu(self.conv_inverted, hidden_states)\n-        hidden_states = _sana_conv_bias_glu(self.conv_depth, hidden_states)\n+        hidden_states = sana_conv_bias_silu(self.conv_inverted, hidden_states)\n+        hidden_states = sana_conv_bias_glu(self.conv_depth, hidden_states)\n         hidden_states = _mps_safe_conv2d(self.conv_point, hidden_states)\n         return hidden_states\n \n@@ -475,20 +475,20 @@ def forward(\n             scale_shift_table[None] + timestep.reshape(batch_size, 6, -1)\n         ).chunk(6, dim=1)\n \n-        norm_hidden = _sana_ln_modulate(self.norm1, hidden_states, scale_msa, shift_msa)\n+        norm_hidden = sana_ln_modulate(self.norm1, hidden_states, scale_msa, shift_msa)\n         attn_output = self.attn1(norm_hidden)\n-        hidden_states = _sana_residual_gate_add(hidden_states, attn_output, gate_msa)\n+        hidden_states = sana_residual_gate_add(hidden_states, attn_output, gate_msa)\n \n         attn_output = self.attn2(\n             hidden_states, encoder_hidden_states, encoder_attention_mask\n         )\n         hidden_states = hidden_states + attn_output\n \n-        norm_hidden = _sana_ln_modulate(self.norm2, hidden_states, scale_mlp, shift_mlp)\n+        norm_hidden = sana_ln_modulate(self.norm2, hidden_states, scale_mlp, shift_mlp)\n         norm_hidden = norm_hidden.unflatten(1, (height, width)).permute(0, 3, 1, 2)\n         ff_output = self.ff(norm_hidden)\n         ff_output = ff_output.flatten(2, 3).permute(0, 2, 1)\n-        hidden_states = _sana_residual_gate_add(hidden_states, ff_output, gate_mlp)\n+        hidden_states = sana_residual_gate_add(hidden_states, ff_output, gate_mlp)\n \n         return hidden_states\n \n@@ -27,7 +27,13 @@\n     LayerwiseOffloadableModuleMixin,\n )\n from sglang.multimodal_gen.runtime.models.dits.base import CachableDiT\n-from sglang.multimodal_gen.runtime.models.dits.sana import SanaAdaLayerNormSingle\n+from sglang.multimodal_gen.runtime.models.dits.sana import (\n+    SanaAdaLayerNormSingle,\n+    sana_conv_bias_glu,\n+    sana_conv_bias_silu,\n+    sana_ln_modulate,\n+    sana_residual_gate_add,\n+)\n from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger\n \n logger = init_logger(__name__)\n@@ -180,7 +186,6 @@ class GLUMBTempConv(nn.Module):\n     def __init__(self, channels: int, expand_ratio: float) -> None:\n         super().__init__()\n         hidden_channels = int(expand_ratio * channels)\n-        self.nonlinearity = nn.SiLU()\n         self.conv_inverted = nn.Conv2d(channels, hidden_channels * 2, 1)\n         self.conv_depth = nn.Conv2d(\n             hidden_channels * 2,\n@@ -203,10 +208,8 @@ def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:\n         hidden_states = hidden_states.reshape(\n             batch_size * num_frames, height, width, channels\n         ).permute(0, 3, 1, 2)\n-        hidden_states = self.nonlinearity(self.conv_inverted(hidden_states))\n-        hidden_states = self.conv_depth(hidden_states)\n-        hidden_states, gate = hidden_states.chunk(2, dim=1)\n-        hidden_states = hidden_states * self.nonlinearity(gate)\n+        hidden_states = sana_conv_bias_silu(self.conv_inverted, hidden_states)\n+        hidden_states = sana_conv_bias_glu(self.conv_depth, hidden_states)\n         hidden_states = self.conv_point(hidden_states)\n \n         temporal = hidden_states.reshape(\n@@ -397,20 +400,24 @@ def forward(\n             + timestep.reshape(batch_size, timestep.shape[1], 6, -1)\n         ).unbind(dim=2)\n \n-        norm_hidden_states = self.norm1(hidden_states)\n-        norm_hidden_states = norm_hidden_states * (1 + scale_msa) + shift_msa\n-        hidden_states = hidden_states + gate_msa * self.attn1(\n-            norm_hidden_states.to(hidden_states.dtype), rotary_emb\n+        norm_hidden_states = sana_ln_modulate(\n+            self.norm1, hidden_states, scale_msa, shift_msa\n+        )\n+        hidden_states = sana_residual_gate_add(\n+            hidden_states,\n+            self.attn1(norm_hidden_states.to(hidden_states.dtype), rotary_emb),\n+            gate_msa,\n         )\n         hidden_states = hidden_states + self.attn2(\n             hidden_states, encoder_hidden_states, encoder_attention_mask\n         )\n \n-        norm_hidden_states = self.norm2(hidden_states)\n-        norm_hidden_states = norm_hidden_states * (1 + scale_mlp) + shift_mlp\n+        norm_hidden_states = sana_ln_modulate(\n+            self.norm2, hidden_states, scale_mlp, shift_mlp\n+        )\n         norm_hidden_states = norm_hidden_states.unflatten(1, (frames, height, width))\n         ff_output = self.ff(norm_hidden_states).flatten(1, 3)\n-        return hidden_states + gate_mlp * ff_output\n+        return sana_residual_gate_add(hidden_states, ff_output, gate_mlp)\n \n \n class SanaVideoModulatedNorm(nn.Module):\n@@ -427,7 +434,7 @@ def forward(\n         shift, scale = (\n             scale_shift_table[None, None] + embedded_timestep[:, :, None]\n         ).unbind(dim=2)\n-        return self.norm(hidden_states) * (1 + scale) + shift\n+        return sana_ln_modulate(self.norm, hidden_states, scale, shift)\n \n \n class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):\n@@ -1,13 +1,16 @@\n from types import SimpleNamespace\n \n import torch\n+import torch.nn.functional as F\n \n from sglang.multimodal_gen.configs.pipeline_configs.sana_video import (\n     SanaVideoPipelineConfig,\n )\n from sglang.multimodal_gen.configs.sample.sana_video import SanaVideoSamplingParams\n from sglang.multimodal_gen.registry import get_model_info\n from sglang.multimodal_gen.runtime.models.dits.sana_video import (\n+    GLUMBTempConv,\n+    SanaVideoModulatedNorm,\n     SanaVideoRotaryPosEmbed,\n     apply_interleaved_rotary_emb,\n     apply_interleaved_rotary_emb_pair,\n@@ -99,3 +102,47 @@ def test_sana_video_paired_rope_falls_back_to_eager_on_cpu():\n \n     assert torch.equal(query_out, apply_interleaved_rotary_emb(query, cos, sin))\n     assert torch.equal(key_out, apply_interleaved_rotary_emb(key, cos, sin))\n+\n+\n+def test_sana_video_glumb_shared_fast_path_preserves_reference():\n+    torch.manual_seed(0)\n+    module = GLUMBTempConv(channels=4, expand_ratio=2.0).eval()\n+    hidden_states = torch.randn(1, 2, 3, 5, 4)\n+\n+    with torch.no_grad():\n+        actual = module(hidden_states)\n+\n+        batch_size, num_frames, height, width, channels = hidden_states.shape\n+        expected = hidden_states.reshape(\n+            batch_size * num_frames, height, width, channels\n+        ).permute(0, 3, 1, 2)\n+        expected = F.silu(module.conv_inverted(expected))\n+        expected = module.conv_depth(expected)\n+        expected, gate = expected.chunk(2, dim=1)\n+        expected = expected * F.silu(gate)\n+        expected = module.conv_point(expected)\n+        temporal = expected.reshape(\n+            batch_size, num_frames, channels, height * width\n+        ).permute(0, 2, 1, 3)\n+        expected = temporal + module.conv_temp(temporal)\n+        expected = expected.permute(0, 2, 3, 1).reshape(\n+            batch_size, num_frames, height, width, channels\n+        )\n+\n+    assert torch.equal(actual, expected)\n+\n+\n+def test_sana_video_modulated_norm_shared_fast_path_preserves_reference():\n+    torch.manual_seed(1)\n+    module = SanaVideoModulatedNorm(dim=8, eps=1e-6).eval()\n+    hidden_states = torch.randn(2, 5, 8)\n+    embedded_timestep = torch.randn(2, 1, 8)\n+    scale_shift_table = torch.randn(2, 8)\n+\n+    actual = module(hidden_states, embedded_timestep, scale_shift_table)\n+    shift, scale = (\n+        scale_shift_table[None, None] + embedded_timestep[:, :, None]\n+    ).unbind(dim=2)\n+    expected = module.norm(hidden_states) * (1 + scale) + shift\n+\n+    assert torch.equal(actual, expected)",
+    "comments": [
+      {
+        "url": "https://github.com/sgl-project/sglang/pull/35961#issuecomment-5386052729",
+        "body": "/tag-and-rerun-ci extra",
+        "user": {
+          "login": "BBuf",
+          "name": "BBuf",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+          "id": 35585791
+        },
+        "id": 5386052729,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-08-23T12:42:12Z",
+        "updated_at": "2026-08-23T12:42:12Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\">/tag-and-rerun-ci extra</p>"
+      },
+      {
+        "url": "https://github.com/sgl-project/sglang/pull/35961#issuecomment-5386662748",
+        "body": "/rerun-failed-ci",
+        "user": {
+          "login": "BBuf",
+          "name": "BBuf",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+          "id": 35585791
+        },
+        "id": 5386662748,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-08-23T15:00:42Z",
+        "updated_at": "2026-08-23T15:00:42Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\">/rerun-failed-ci</p>"
+      },
+      {
+        "url": "https://github.com/sgl-project/sglang/pull/35961#issuecomment-5392746364",
+        "body": "@BBuf You changed the name from `_sana_ln_modulate` to `sana_ln_modulate` but you did not update the UT in test/registered/kernels/ops/diffusion/test_model_fast_paths.py. Wondering why CI did not catch the issue or you just ignored the failure.",
+        "user": {
+          "login": "Xia-Weiwen",
+          "name": "Xia-Weiwen",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/12522207?v=4",
+          "id": 12522207
+        },
+        "id": 5392746364,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-08-24T08:40:59Z",
+        "updated_at": "2026-08-24T08:40:59Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\"><a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/BBuf/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/BBuf\">@BBuf</a> You changed the name from <code class=\"notranslate\">_sana_ln_modulate</code> to <code class=\"notranslate\">sana_ln_modulate</code> but you did not update the UT in test/registered/kernels/ops/diffusion/test_model_fast_paths.py. Wondering why CI did not catch the issue or you just ignored the failure.</p>"
+      }
+    ],
+    "created_at": "2026-08-22T07:39:01Z",
+    "updated_at": "2026-08-24T08:40:59Z",
+    "closed_at": "2026-08-24T00:47:05Z",
+    "merged_at": "2026-08-24T00:47:05Z",
+    "commits": 1,
+    "changed_files": 5,
+    "additions": 85,
+    "deletions": 30,
+    "display_url": "https://github.com/sgl-project/sglang/pull/35961",
+    "display_title": "[diffusion] Reuse SANA fast paths in SANA-Video BCG"
+  },
+  "url": "https://github.com/sgl-project/sglang/pull/35961",
+  "title": "[diffusion] Reuse SANA fast paths in SANA-Video BCG",
+  "diff": "@@ -234,9 +234,11 @@ sglang serve --model-path meituan-longcat/LongCat-Image \\\n   --port 30010\n ```\n \n-SANA-Video supports the same path for fixed-resolution serving. Its default\n-text stage emits a fixed 300-token prompt shape, so the runtime reuses one\n-graph across prompt lengths without padding it to a generic text bucket:\n+SANA-Video supports the same path for fixed-shape serving. Its default text\n+stage emits a fixed 300-token prompt shape, so the runtime reuses one graph\n+across prompt lengths without padding it to a generic text bucket. BCG also\n+requires the serving frame count to match warmup; the example captures the\n+model's default 81-frame signature:\n \n ```bash Command\n sglang serve \\\n@@ -147,9 +147,8 @@ Kernels are written against a specific eager chain in a specific model, so cover\n | LTX-2 | QK-norm + split RoPE, ada-values split, RMSNorm+modulate, modulate, residual-gate add, linear+GELU |\n | LTX-2.5 decoder | paired 3D RoPE with shared axis-table cache |\n | HunyuanVideo | QKV+RoPE pack, strided QK RMSNorm, linear+GELU |\n-| SANA-Video | paired fp64 interleaved RoPE |\n | Sana | LN+modulate, GLUMB bias+SiLU / bias+GLU, residual-gate add |\n-| SANA-Video | Packed QKV/KV; BF16-input linear attention at `quality=high` |\n+| SANA-Video | Packed QKV/KV; paired fp64 interleaved RoPE; LN+modulate, GLUMB bias+SiLU / bias+GLU, and residual-gate add during BCG; BF16-input linear attention at `quality=high` |\n | Sana-WM | bidirectional gated delta-net, fused QK inverse-RMS |\n | Wan | temb table slices; VAE cat+pad and DupUp3D add, `channels_last_3d` RMSNorm+SiLU |\n | Cosmos3 / Krea2 / MiniMax-H3 | QK-norm + RoPE (Krea2 also CuTe-DSL norm+scale/shift; MiniMax-H3 also indexed modulation) |\n@@ -47,7 +47,7 @@ def _eager_ln_modulate(\n     return norm(x) * (1 + scale) + shift\n \n \n-def _sana_ln_modulate(\n+def sana_ln_modulate(\n     norm: nn.LayerNorm,\n     x: torch.Tensor,\n     scale: torch.Tensor,\n@@ -176,7 +176,7 @@ def _conv2d_without_bias(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     )\n \n \n-def _sana_conv_bias_silu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n+def sana_conv_bias_silu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     if conv.bias is None or not _use_sana_bcg_fast_path(x):\n         return F.silu(_mps_safe_conv2d(conv, x))\n \n@@ -204,7 +204,7 @@ def _sana_conv_bias_silu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     )\n \n \n-def _sana_conv_bias_glu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n+def sana_conv_bias_glu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     if conv.bias is None or not _use_sana_bcg_fast_path(x):\n         hidden_states = _mps_safe_conv2d(conv, x)\n         hidden_states, gate = torch.chunk(hidden_states, 2, dim=1)\n@@ -245,7 +245,7 @@ def _sana_conv_bias_glu(conv: nn.Conv2d, x: torch.Tensor) -> torch.Tensor:\n     )\n \n \n-def _sana_residual_gate_add(\n+def sana_residual_gate_add(\n     residual: torch.Tensor, update: torch.Tensor, gate: torch.Tensor\n ) -> torch.Tensor:\n     if torch.compiler.is_compiling():\n@@ -307,7 +307,7 @@ def __init__(self, dim, eps=1e-6):\n     def forward(self, x, temb, scale_shift_table):\n         scale_shift_table = _mps_match_dtype(scale_shift_table, temb)\n         shift, scale = (scale_shift_table[None] + temb[:, None]).chunk(2, dim=1)\n-        return _sana_ln_modulate(self.norm, x, scale, shift)\n+        return sana_ln_modulate(self.norm, x, scale, shift)\n \n \n class GLUMBConv(nn.Module):\n@@ -329,8 +329,8 @@ def __init__(self, in_channels, out_channels, expand_ratio=2.5):\n         self.conv_point = nn.Conv2d(hidden_channels, out_channels, 1, 1, 0, bias=False)\n \n     def forward(self, hidden_states):\n-        hidden_states = _sana_conv_bias_silu(self.conv_inverted, hidden_states)\n-        hidden_states = _sana_conv_bias_glu(self.conv_depth, hidden_states)\n+        hidden_states = sana_conv_bias_silu(self.conv_inverted, hidden_states)\n+        hidden_states = sana_conv_bias_glu(self.conv_depth, hidden_states)\n         hidden_states = _mps_safe_conv2d(self.conv_point, hidden_states)\n         return hidden_states\n \n@@ -475,20 +475,20 @@ def forward(\n             scale_shift_table[None] + timestep.reshape(batch_size, 6, -1)\n         ).chunk(6, dim=1)\n \n-        norm_hidden = _sana_ln_modulate(self.norm1, hidden_states, scale_msa, shift_msa)\n+        norm_hidden = sana_ln_modulate(self.norm1, hidden_states, scale_msa, shift_msa)\n         attn_output = self.attn1(norm_hidden)\n-        hidden_states = _sana_residual_gate_add(hidden_states, attn_output, gate_msa)\n+        hidden_states = sana_residual_gate_add(hidden_states, attn_output, gate_msa)\n \n         attn_output = self.attn2(\n             hidden_states, encoder_hidden_states, encoder_attention_mask\n         )\n         hidden_states = hidden_states + attn_output\n \n-        norm_hidden = _sana_ln_modulate(self.norm2, hidden_states, scale_mlp, shift_mlp)\n+        norm_hidden = sana_ln_modulate(self.norm2, hidden_states, scale_mlp, shift_mlp)\n         norm_hidden = norm_hidden.unflatten(1, (height, width)).permute(0, 3, 1, 2)\n         ff_output = self.ff(norm_hidden)\n         ff_output = ff_output.flatten(2, 3).permute(0, 2, 1)\n-        hidden_states = _sana_residual_gate_add(hidden_states, ff_output, gate_mlp)\n+        hidden_states = sana_residual_gate_add(hidden_states, ff_output, gate_mlp)\n \n         return hidden_states\n \n@@ -27,7 +27,13 @@\n     LayerwiseOffloadableModuleMixin,\n )\n from sglang.multimodal_gen.runtime.models.dits.base import CachableDiT\n-from sglang.multimodal_gen.runtime.models.dits.sana import SanaAdaLayerNormSingle\n+from sglang.multimodal_gen.runtime.models.dits.sana import (\n+    SanaAdaLayerNormSingle,\n+    sana_conv_bias_glu,\n+    sana_conv_bias_silu,\n+    sana_ln_modulate,\n+    sana_residual_gate_add,\n+)\n from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger\n \n logger = init_logger(__name__)\n@@ -180,7 +186,6 @@ class GLUMBTempConv(nn.Module):\n     def __init__(self, channels: int, expand_ratio: float) -> None:\n         super().__init__()\n         hidden_channels = int(expand_ratio * channels)\n-        self.nonlinearity = nn.SiLU()\n         self.conv_inverted = nn.Conv2d(channels, hidden_channels * 2, 1)\n         self.conv_depth = nn.Conv2d(\n             hidden_channels * 2,\n@@ -203,10 +208,8 @@ def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:\n         hidden_states = hidden_states.reshape(\n             batch_size * num_frames, height, width, channels\n         ).permute(0, 3, 1, 2)\n-        hidden_states = self.nonlinearity(self.conv_inverted(hidden_states))\n-        hidden_states = self.conv_depth(hidden_states)\n-        hidden_states, gate = hidden_states.chunk(2, dim=1)\n-        hidden_states = hidden_states * self.nonlinearity(gate)\n+        hidden_states = sana_conv_bias_silu(self.conv_inverted, hidden_states)\n+        hidden_states = sana_conv_bias_glu(self.conv_depth, hidden_states)\n         hidden_states = self.conv_point(hidden_states)\n \n         temporal = hidden_states.reshape(\n@@ -397,20 +400,24 @@ def forward(\n             + timestep.reshape(batch_size, timestep.shape[1], 6, -1)\n         ).unbind(dim=2)\n \n-        norm_hidden_states = self.norm1(hidden_states)\n-        norm_hidden_states = norm_hidden_states * (1 + scale_msa) + shift_msa\n-        hidden_states = hidden_states + gate_msa * self.attn1(\n-            norm_hidden_states.to(hidden_states.dtype), rotary_emb\n+        norm_hidden_states = sana_ln_modulate(\n+            self.norm1, hidden_states, scale_msa, shift_msa\n+        )\n+        hidden_states = sana_residual_gate_add(\n+            hidden_states,\n+            self.attn1(norm_hidden_states.to(hidden_states.dtype), rotary_emb),\n+            gate_msa,\n         )\n         hidden_states = hidden_states + self.attn2(\n             hidden_states, encoder_hidden_states, encoder_attention_mask\n         )\n \n-        norm_hidden_states = self.norm2(hidden_states)\n-        norm_hidden_states = norm_hidden_states * (1 + scale_mlp) + shift_mlp\n+        norm_hidden_states = sana_ln_modulate(\n+            self.norm2, hidden_states, scale_mlp, shift_mlp\n+        )\n         norm_hidden_states = norm_hidden_states.unflatten(1, (frames, height, width))\n         ff_output = self.ff(norm_hidden_states).flatten(1, 3)\n-        return hidden_states + gate_mlp * ff_output\n+        return sana_residual_gate_add(hidden_states, ff_output, gate_mlp)\n \n \n class SanaVideoModulatedNorm(nn.Module):\n@@ -427,7 +434,7 @@ def forward(\n         shift, scale = (\n             scale_shift_table[None, None] + embedded_timestep[:, :, None]\n         ).unbind(dim=2)\n-        return self.norm(hidden_states) * (1 + scale) + shift\n+        return sana_ln_modulate(self.norm, hidden_states, scale, shift)\n \n \n class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):\n@@ -1,13 +1,16 @@\n from types import SimpleNamespace\n \n import torch\n+import torch.nn.functional as F\n \n from sglang.multimodal_gen.configs.pipeline_configs.sana_video import (\n     SanaVideoPipelineConfig,\n )\n from sglang.multimodal_gen.configs.sample.sana_video import SanaVideoSamplingParams\n from sglang.multimodal_gen.registry import get_model_info\n from sglang.multimodal_gen.runtime.models.dits.sana_video import (\n+    GLUMBTempConv,\n+    SanaVideoModulatedNorm,\n     SanaVideoRotaryPosEmbed,\n     apply_interleaved_rotary_emb,\n     apply_interleaved_rotary_emb_pair,\n@@ -99,3 +102,47 @@ def test_sana_video_paired_rope_falls_back_to_eager_on_cpu():\n \n     assert torch.equal(query_out, apply_interleaved_rotary_emb(query, cos, sin))\n     assert torch.equal(key_out, apply_interleaved_rotary_emb(key, cos, sin))\n+\n+\n+def test_sana_video_glumb_shared_fast_path_preserves_reference():\n+    torch.manual_seed(0)\n+    module = GLUMBTempConv(channels=4, expand_ratio=2.0).eval()\n+    hidden_states = torch.randn(1, 2, 3, 5, 4)\n+\n+    with torch.no_grad():\n+        actual = module(hidden_states)\n+\n+        batch_size, num_frames, height, width, channels = hidden_states.shape\n+        expected = hidden_states.reshape(\n+            batch_size * num_frames, height, width, channels\n+        ).permute(0, 3, 1, 2)\n+        expected = F.silu(module.conv_inverted(expected))\n+        expected = module.conv_depth(expected)\n+        expected, gate = expected.chunk(2, dim=1)\n+        expected = expected * F.silu(gate)\n+        expected = module.conv_point(expected)\n+        temporal = expected.reshape(\n+            batch_size, num_frames, channels, height * width\n+        ).permute(0, 2, 1, 3)\n+        expected = temporal + module.conv_temp(temporal)\n+        expected = expected.permute(0, 2, 3, 1).reshape(\n+            batch_size, num_frames, height, width, channels\n+        )\n+\n+    assert torch.equal(actual, expected)\n+\n+\n+def test_sana_video_modulated_norm_shared_fast_path_preserves_reference():\n+    torch.manual_seed(1)\n+    module = SanaVideoModulatedNorm(dim=8, eps=1e-6).eval()\n+    hidden_states = torch.randn(2, 5, 8)\n+    embedded_timestep = torch.randn(2, 1, 8)\n+    scale_shift_table = torch.randn(2, 8)\n+\n+    actual = module(hidden_states, embedded_timestep, scale_shift_table)\n+    shift, scale = (\n+        scale_shift_table[None, None] + embedded_timestep[:, :, None]\n+    ).unbind(dim=2)\n+    expected = module.norm(hidden_states) * (1 + scale) + shift\n+\n+    assert torch.equal(actual, expected)",
+  "comments": [
+    {
+      "url": "https://github.com/sgl-project/sglang/pull/35961#issuecomment-5386052729",
+      "body": "/tag-and-rerun-ci extra",
+      "user": {
+        "login": "BBuf",
+        "name": "BBuf",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+        "id": 35585791
+      },
+      "id": 5386052729,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-08-23T12:42:12Z",
+      "updated_at": "2026-08-23T12:42:12Z",
+      "review": null,
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": "<p dir=\"auto\">/tag-and-rerun-ci extra</p>"
+    },
+    {
+      "url": "https://github.com/sgl-project/sglang/pull/35961#issuecomment-5386662748",
+      "body": "/rerun-failed-ci",
+      "user": {
+        "login": "BBuf",
+        "name": "BBuf",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+        "id": 35585791
+      },
+      "id": 5386662748,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-08-23T15:00:42Z",
+      "updated_at": "2026-08-23T15:00:42Z",
+      "review": null,
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": "<p dir=\"auto\">/rerun-failed-ci</p>"
+    },
+    {
+      "url": "https://github.com/sgl-project/sglang/pull/35961#issuecomment-5392746364",
+      "body": "@BBuf You changed the name from `_sana_ln_modulate` to `sana_ln_modulate` but you did not update the UT in test/registered/kernels/ops/diffusion/test_model_fast_paths.py. Wondering why CI did not catch the issue or you just ignored the failure.",
+      "user": {
+        "login": "Xia-Weiwen",
+        "name": "Xia-Weiwen",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/12522207?v=4",
+        "id": 12522207
+      },
+      "id": 5392746364,
+      "pull_request_review_id": null,
+      "in_reply_to_id": null,
+      "created_at": "2026-08-24T08:40:59Z",
+      "updated_at": "2026-08-24T08:40:59Z",
+      "review": null,
+      "side": null,
+      "line": null,
+      "start_line": null,
+      "path": null,
+      "body_html": "<p dir=\"auto\"><a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/BBuf/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/BBuf\">@BBuf</a> You changed the name from <code class=\"notranslate\">_sana_ln_modulate</code> to <code class=\"notranslate\">sana_ln_modulate</code> but you did not update the UT in test/registered/kernels/ops/diffusion/test_model_fast_paths.py. Wondering why CI did not catch the issue or you just ignored the failure.</p>"
+    }
+  ],
+  "display_url": "https://github.com/sgl-project/sglang/pull/35961",
+  "display_title": "[diffusion] Reuse SANA fast paths in SANA-Video BCG"
+}

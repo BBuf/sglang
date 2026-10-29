@@ -1,0 +1,17 @@
+From /task/evidence/preflight/sana-video-depthwise-final-head1.bundle
+ * branch            f248594caca5c533c94612b6848ff3512ed98e08 -> FETCH_HEAD
+Preparing worktree (detached HEAD f248594)
+HEAD is now at f248594 Fuse SANA-Video depthwise convolution and rounded GLU on SM120
+{"name": "namespace_dispatch", "command": ["docker", "exec", "-e", "FLASHINFER_DISABLE_VERSION_CHECK=1", "-e", "PYTHONPATH=/task/candidates/sana-video-depthwise-glu-final/python", "-w", "/task/candidates/sana-video-depthwise-glu-final", "-e", "CUDA_VISIBLE_DEVICES=", "bbuf-diffusion-rtx6000-20261026-sgl", "python3", "-m", "pytest", "-v", "test/registered/unit/kernels/test_kernels_namespace.py", "test/registered/unit/kernels/test_fused_op_dispatch.py"], "source_sha": "f248594caca5c533c94612b6848ff3512ed98e08", "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "returncode": 0, "seconds": 29.557449022307992}
+{"name": "numerical", "command": ["docker", "exec", "-e", "FLASHINFER_DISABLE_VERSION_CHECK=1", "-e", "PYTHONPATH=/task/candidates/sana-video-depthwise-glu-final/python", "-w", "/task/candidates/sana-video-depthwise-glu-final", "-e", "CUDA_VISIBLE_DEVICES=0", "bbuf-diffusion-rtx6000-20261026-sgl", "python3", "-m", "pytest", "-v", "test/registered/kernels/ops/diffusion/test_model_fast_paths.py", "test/registered/kernels/ops/diffusion/test_sites.py", "-k", "sana_video_depthwise or bitexact_gate"], "source_sha": "f248594caca5c533c94612b6848ff3512ed98e08", "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "returncode": 0, "seconds": 25.84990245383233}
+{"name": "cpu_compile", "command": ["docker", "exec", "-e", "FLASHINFER_DISABLE_VERSION_CHECK=1", "-e", "PYTHONPATH=/task/candidates/sana-video-depthwise-glu-final/python", "-w", "/task/candidates/sana-video-depthwise-glu-final", "-e", "CUDA_VISIBLE_DEVICES=0", "bbuf-diffusion-rtx6000-20261026-sgl", "python3", "/task/check_sana_video_depthwise_cpu_compile1.py"], "source_sha": "f248594caca5c533c94612b6848ff3512ed98e08", "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "returncode": 0, "seconds": 13.983806912787259}
+{
+  "passed": true,
+  "benchmark": false,
+  "new_BCG_support_claim": false,
+  "final_primary_admitted": false,
+  "remaining": "Manually attribute actual final eager and main/final BCG profile kernel paths, inspect real final media, then produce finalcompatibilityadmission. No primary timing based on these instrumented runs.",
+  "scope": "832x480,81frames16fps,50steps,CFG6,CPUseed1101,300tokens,batch/concurrency1,GPU0;12qualitysequence perarm plus3profiles. Exact/high BCG requests intentionally use uncaptured quality-specific eager runners; returnlossless reuses captured graph. Chinese crossOmni PSNRfailure retained.",
+  "plan_sha256": "4a7c18224a32c8e1e762e300c589c4d72f964f1562895c22a6f9f5de653e37fc",
+  "script_sha256": "5476214160fb1e3e89aef8d93bd87eb8192fed11d9d4fa20c7c702d591213bfc"
+}

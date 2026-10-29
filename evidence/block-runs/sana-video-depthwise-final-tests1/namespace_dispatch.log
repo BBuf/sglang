@@ -1,0 +1,224 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.1.1, pluggy-1.7.0 -- /opt/sglang/bin/python3
+cachedir: .pytest_cache
+rootdir: /task/candidates/sana-video-depthwise-glu-final/test
+configfile: pytest.ini
+plugins: anyio-4.15.1, ai-dynamo-1.6.0.dev20261015, typeguard-2.13.3, jaxtyping-0.3.11, platformdirs-4.13.2
+collecting ... collected 135 items
+
+test/registered/unit/kernels/test_kernels_namespace.py::test_single_backend_resolves_without_backend PASSED [  0%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_shuffle_weighted_sum_has_one_native_primary_backend PASSED [  1%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_fp8_scaled_mm_requires_explicit_registry_backend PASSED [  2%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_gguf_vector_registry_is_cuda_local_jit PASSED [  2%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_unknown_op_or_backend_raises PASSED [  3%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_qwen_qkv_registry_accepts_hopper[platform0-True] PASSED [  4%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_qwen_qkv_registry_accepts_hopper[platform1-True] PASSED [  5%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_qwen_qkv_registry_accepts_hopper[platform2-False] PASSED [  5%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_qwen_qkv_registry_accepts_hopper[platform3-False] PASSED [  6%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_qwen_qkv_registry_accepts_hopper[platform4-False] PASSED [  7%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_qwen_qkv_registry_accepts_hopper[platform5-False] PASSED [  8%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_multi_backend_requires_explicit_backend PASSED [  8%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_activation_default_backend[cuda-jit] PASSED [  9%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_activation_default_backend[hip-aot] PASSED [ 10%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req0-plat0-False] PASSED [ 11%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req1-plat1-True] PASSED [ 11%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req2-plat2-False] PASSED [ 12%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req3-plat3-True] PASSED [ 13%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req4-plat4-True] PASSED [ 14%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req5-plat5-False] PASSED [ 14%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req6-plat6-False] PASSED [ 15%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req7-plat7-False] PASSED [ 16%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req8-plat8-False] PASSED [ 17%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req9-plat9-False] PASSED [ 17%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req10-plat10-False] PASSED [ 18%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req11-plat11-True] PASSED [ 19%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capability_is_satisfied_by[req12-plat12-False] PASSED [ 20%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_platform_detection_distinguishes_musa_cuda_alias[4.0-True-None-musa] PASSED [ 20%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_platform_detection_distinguishes_musa_cuda_alias[None-True-None-cuda] PASSED [ 21%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_platform_detection_distinguishes_musa_cuda_alias[4.0-False-None-cpu] PASSED [ 22%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_platform_detection_distinguishes_musa_cuda_alias[4.0-False-True-musa] PASSED [ 22%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_capabilities_or_semantics PASSED [ 23%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_amx_backend_probe_is_lazy[srt/utils/common.py] PASSED [ 24%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_amx_backend_probe_is_lazy[multimodal_gen/runtime/utils/common.py] PASSED [ 25%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_import_stays_metadata_only PASSED [ 25%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[activation.situ_and_mul-jit-cuda] PASSED [ 26%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[moe.situ_and_mul_masked_post_quant-jit-cuda] PASSED [ 27%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[attention.attn_res_fused_tma-jit-cuda] PASSED [ 28%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[attention.attn_res_hip-triton-hip] PASSED [ 28%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[elementwise.kimi_k3_mla_output_gate-jit-cuda] PASSED [ 29%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[attention.fused_kda_decode_mtp_dspark-cute_dsl-cuda] PASSED [ 30%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[attention.flydsl_kimi_k3_kda_decode_with_f_b-flydsl-hip] PASSED [ 31%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[communication.all_reduce_push_res-jit-cuda] PASSED [ 31%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[communication.gemm_ag_up_proj-jit-cuda] PASSED [ 32%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_kimi_k3_kernels_are_inventoried_by_operator[communication.reduce_scatter_res-jit-cuda] PASSED [ 33%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_readme_operator_groups_match_registry PASSED [ 34%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_readme_layout_lists_every_top_level_directory PASSED [ 34%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_operator_and_test_groups_agree PASSED [ 35%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_backend_directories_register_their_backend PASSED [ 36%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_inventory_targets_survive_module_moves PASSED [ 37%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_reclassified_public_entry_points_are_inventoried PASSED [ 37%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[attention.muse_spark_qk_norm_rope_store-backends0] PASSED [ 38%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[communication.muse_spark_all_gather-backends1] PASSED [ 39%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[communication.muse_spark_all_gather_norm_residual-backends2] PASSED [ 40%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[communication.muse_spark_moe_finalize_all_reduce-backends3] PASSED [ 40%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[communication.all_gather_matmul-backends4] PASSED [ 41%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[communication.matmul_reduce_scatter-backends5] PASSED [ 42%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[elementwise.row_sum-backends6] PASSED [ 42%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[gemm.muse_spark_router_gemm-backends7] PASSED [ 43%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[gemm.muse_spark_router_gemv-backends8] PASSED [ 44%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[layernorm.muse_spark_norm_gate-backends9] PASSED [ 45%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[layernorm.muse_spark_norm_residual-backends10] PASSED [ 45%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[layernorm.muse_spark_rmsnorm_nvfp4_quant-backends11] PASSED [ 46%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[moe.muse_spark_routing-backends12] PASSED [ 47%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_muse_spark_kernels_are_inventoried_by_operator[moe.muse_spark_post_expert_finalize-backends13] PASSED [ 48%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.hopper_bf16_gemv-sm0-True] PASSED [ 48%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.hopper_bf16_gemv-sm1-False] PASSED [ 49%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[elementwise.hc_combine_apply_norm-sm2-False] PASSED [ 50%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[elementwise.hc_combine_apply_norm-sm3-True] PASSED [ 51%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[communication.moe_finalize_shared_gate_all_reduce-sm4-False] PASSED [ 51%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[communication.moe_finalize_shared_gate_all_reduce-sm5-True] PASSED [ 52%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.fp8_blockwise_scaled_mm-sm6-True] PASSED [ 53%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.fp8_blockwise_scaled_mm-sm7-True] PASSED [ 54%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.fp8_blockwise_scaled_mm-sm8-False] PASSED [ 54%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.fused_rope_wo_a_bf16-sm9-False] PASSED [ 55%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.fused_rope_wo_a_bf16-sm10-True] PASSED [ 56%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.fused_rope_wo_a_bf16-sm11-True] PASSED [ 57%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.fused_rope_wo_a_bf16-sm12-False] PASSED [ 57%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.deep_select_topk-sm13-False] PASSED [ 58%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.deep_select_topk-sm14-True] PASSED [ 59%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.deep_select_topk-sm15-True] PASSED [ 60%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.deep_select_topk-sm16-False] PASSED [ 60%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.deep_select_topk-sm17-True] PASSED [ 61%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.deep_select_topk-sm18-False] PASSED [ 62%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.chunk_kda_fwd-sm19-False] PASSED [ 62%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.chunk_kda_fwd-sm20-True] PASSED [ 63%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.chunk_kda_fwd-sm21-False] PASSED [ 64%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.chunk_kda_fwd-sm22-True] PASSED [ 65%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.chunk_kda_fwd-sm23-False] PASSED [ 65%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.absorbed_bmm_concat_cast_q_fp8-sm24-True] PASSED [ 66%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[attention.absorbed_bmm_concat_cast_q_fp8-sm25-False] PASSED [ 67%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm26-False] PASSED [ 68%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm27-True] PASSED [ 68%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm28-True] PASSED [ 69%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm29-False] PASSED [ 70%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm30-True] PASSED [ 71%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm31-True] PASSED [ 71%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_registered_architecture_boundaries[gemm.convrot_int8_fused_linear-sm32-False] PASSED [ 72%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_convrot_int8_specs_match_wrapper_capabilities PASSED [ 73%]
+test/registered/unit/kernels/test_kernels_namespace.py::test_deep_select_spec_matches_wrapper_architectures PASSED [ 74%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_is_standard_nn_module PASSED [ 74%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[cuda-cuda] PASSED [ 75%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[hip-hip] PASSED [ 76%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[npu-npu] PASSED [ 77%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[xpu-xpu] PASSED [ 77%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[musa-musa] PASSED [ 78%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[cpu-cpu] PASSED [ 79%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_forward_dispatch[-native] PASSED [ 80%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_default_chains[hip-cuda] PASSED [ 80%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_default_chains[musa-native] PASSED [ 81%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_default_chains[npu-native] PASSED [ 82%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_default_chains[cpu-native] PASSED [ 82%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_platform_default_chains[cuda-cuda] PASSED [ 83%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_native_fallback_without_any_override PASSED [ 84%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_declared_backend_beats_platform_forward PASSED [ 85%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_capability_filters_backend_to_platform_forward PASSED [ 85%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_undeclared_backend_not_auto_selected PASSED [ 86%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_priority_order_decides_between_backends PASSED [ 87%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_explicit_backend_beats_forced_global PASSED [ 88%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_forced_global_falls_back_when_unimplemented PASSED [ 88%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_forced_global_beats_platform_and_oot PASSED [ 89%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_oot_registered_forward_wins_over_method PASSED [ 90%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_oot_registration_is_exact_type PASSED [ 91%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_oot_falls_back_to_native PASSED [ 91%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_oot_registered_fn_is_bound PASSED [ 92%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_static_dispatch_resolved_once PASSED [ 93%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_init_preseeded_forward_method_is_kept PASSED [ 94%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_backend_eligible_override_gates_per_call PASSED [ 94%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_enter_leave_torch_compile_roundtrip PASSED [ 95%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_torch_compile_hook_none_keeps_dispatch PASSED [ 96%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only PASSED [ 97%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_fused_moe_compile_hook_is_bs1_only PASSED [ 97%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_trace_labels_explicit_backend PASSED [ 98%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_deprecated_alias_contract PASSED [ 99%]
+test/registered/unit/kernels/test_fused_op_dispatch.py::test_deprecated_alias_keeps_legacy_platform_defaults PASSED [100%]
+
+=============================== warnings summary ===============================
+../../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3459: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2386: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /task/candidates/sana-video-depthwise-glu-final/python/sglang/srt/layers/quantization/awq/awq.py:53: UserWarning: Only CUDA, HIP and XPU support AWQ currently.
+    warnings.warn(f"Only CUDA, HIP and XPU support AWQ currently.")
+
+registered/unit/kernels/test_fused_op_dispatch.py::test_topk_compile_hook_is_bs1_only
+  /task/candidates/sana-video-depthwise-glu-final/python/sglang/srt/layers/quantization/gguf.py:76: UserWarning: Only CUDA, MUSA and NPU support GGUF quantization currently.
+    warnings.warn(f"Only CUDA, MUSA and NPU support GGUF quantization currently.")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+====================== 135 passed, 21 warnings in 26.72s =======================

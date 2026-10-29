@@ -1,0 +1,303 @@
+{
+  "plan": {
+    "benchmark": true,
+    "quality": "lossless",
+    "contract": "inputs/sana-video-480p-t2v-workloads.json",
+    "warmups": 1,
+    "repeats": 3,
+    "measured_prompts": [
+      "short",
+      "long"
+    ],
+    "SGL_SYNC_STAGE_PROFILING": 0,
+    "id": "sana-video-depthwise-final-primary-cleanup1",
+    "created_at": "2026-10-29T11:21:42.814993+00:00",
+    "order": [
+      "main_eager",
+      "v1_eager",
+      "final_eager",
+      "omni_eager",
+      "v1_eager",
+      "final_eager",
+      "final_eager",
+      "v1_eager",
+      "omni_eager",
+      "final_eager",
+      "v1_eager",
+      "main_eager"
+    ],
+    "configurations": {
+      "main_eager": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "launcher": "launch_sgl_sana_video_primary1.sh",
+        "reference": "sgl-sana-video-t2v-native1",
+        "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+        "output_sha256": {
+          "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+          "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+        }
+      },
+      "omni_eager": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "launcher": "launch_omni_sana_video_native1.sh",
+        "reference": "omni-sana-video-t2v-native1",
+        "reference_results_sha256": "068a12c86672cd178c6af3209a294e3a52471ff275708786e85979780bb2b6a3",
+        "output_sha256": {
+          "short": "e5e853eef966f19129a977b9408484437814366c8c4019ebc07685a645a826cc",
+          "long": "d702e907a9177c431f7946f5a2447e61631aee2c78dec3afadaca64f301760d3"
+        }
+      },
+      "v1_eager": {
+        "arm": "sgl",
+        "repo": "/task/candidates/sana-video-depthwise-glu-v1",
+        "launcher": "launch_sgl_sana_video_depthwise_v1_primary1.sh",
+        "reference": "sgl-sana-video-t2v-native1",
+        "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+        "output_sha256": {
+          "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+          "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+        },
+        "diff_sha256": "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291"
+      },
+      "final_eager": {
+        "arm": "sgl",
+        "repo": "/task/candidates/sana-video-depthwise-glu-final",
+        "launcher": "launch_sgl_sana_video_depthwise_final_primary1.sh",
+        "reference": "sgl-sana-video-t2v-native1",
+        "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+        "output_sha256": {
+          "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+          "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+        },
+        "head": "f248594caca5c533c94612b6848ff3512ed98e08"
+      }
+    },
+    "prompt_orders": {
+      "0": [
+        "short",
+        "long"
+      ],
+      "1": [
+        "short",
+        "long"
+      ],
+      "2": [
+        "short",
+        "long"
+      ],
+      "3": [
+        "short",
+        "long"
+      ],
+      "4": [
+        "short",
+        "long"
+      ],
+      "5": [
+        "short",
+        "long"
+      ],
+      "6": [
+        "long",
+        "short"
+      ],
+      "7": [
+        "long",
+        "short"
+      ],
+      "8": [
+        "long",
+        "short"
+      ],
+      "9": [
+        "long",
+        "short"
+      ],
+      "10": [
+        "long",
+        "short"
+      ],
+      "11": [
+        "long",
+        "short"
+      ]
+    },
+    "required_admissions": [
+      "evidence/preflight/sana-video-depthwise-main-eager-aa1-admission.json",
+      "evidence/preflight/sana-video-depthwise-v1-paired1-admission.json",
+      "evidence/preflight/sana-video-depthwise-final-compatibility1-admission.json"
+    ],
+    "sha256": {
+      "scripts/run_sana_video_blocks1.py": "749074f1bb9227bbe9a70e23efbaa71e32f86da75f2506ff1cb71d9c86409eea",
+      "scripts/bench_sana_video_serving1.py": "ee84c4fd620d0b43ba639e5eaf4e14016dd166aa45846201c70965f984623403",
+      "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "scripts/admit_sana_video_depthwise_final_primary_cleanup1.py": "47f999340ef26d465d4c12882dac4766315560be5cc9fe39c0057bbae8f1e01b",
+      "scripts/launch_sgl_sana_video_primary1.sh": "41625b560aa3607c04f729d2f7c5c823459440a48d541807ffddbee9d5273785",
+      "scripts/launch_omni_sana_video_native1.sh": "f16ac9353820fa5341b04fadcca3c6889333819fc9c92f0e81dcbfbcccd44899",
+      "scripts/launch_sgl_sana_video_depthwise_v1_primary1.sh": "9297311551a19f77ae6d1ebcdf175fcbac84e84b24a7697ce3eefecd3a9ba997",
+      "scripts/launch_sgl_sana_video_depthwise_final_primary1.sh": "1fbac21115fcefd0cf7cc99950980a7453b974d169a81e1e26fd6476c14b142b"
+    },
+    "pair_indices": {
+      "main_vs_final": [
+        [
+          0,
+          2
+        ],
+        [
+          11,
+          9
+        ]
+      ],
+      "omni_vs_final": [
+        [
+          3,
+          2
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "omni_vs_main": [
+        [
+          3,
+          0
+        ],
+        [
+          8,
+          11
+        ]
+      ],
+      "v1_vs_final_cleanup": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          10,
+          9
+        ]
+      ]
+    },
+    "admission": {
+      "final_mean_E2E_reduction_percent_min": 1.5,
+      "each_main_final_process_pair_must_improve": true,
+      "gain_must_exceed_AA_noise": true,
+      "all_MP4s_exact_qualified_native": true,
+      "English_quality_eligible_only": true,
+      "cleanup_mean_regression_percent_max": "observed fresh A/A max_noise_percent=0.03648136501950283",
+      "cleanup_paired_t95_regression_upper_percent_max": 0.1,
+      "uncertain_cleanup_action": "Preserve all measurements and run an explicitly supplemental paired experiment; do not silently discard or loosen the0.1%margin."
+    },
+    "note": "Prospectively frozen12process symmetric M-V1-F-O-V1-F-F-V1-O-F-V1-M,1excludedwarmup+3measured per English prompt. Main/Omni n6, V1/final n12 perprompt. Two main/final and Omni/final processmedian pairs; four V1/finalcleanup pairs, opposite order in secondhalf, df3 pairedlog-t95. All final samples included in reported armmean, and all individualpairs/raw warmups disclosed. No observation/profiler; SYNC0; allweights andinputs unchanged. Run only after finalactual quality/replay/numerical admission. Chinese crossqualityfailure retained; no BCGnetwin claim.",
+    "n_measured_per_arm_per_prompt": {
+      "main_eager": 6,
+      "omni_eager": 6,
+      "v1_eager": 12,
+      "final_eager": 12
+    }
+  },
+  "index": 7,
+  "config": "v1_eager",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/candidates/sana-video-depthwise-glu-v1",
+    "-e",
+    "SGL_EXPECTED_HEAD=af21e2b989e482cfdce39689126562f2209d53ac",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-depthwise-final-primary-cleanup1-07-v1_eager",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-depthwise-final-primary-cleanup1-07-v1_eager/server.pid; exec sh /task/launch_sgl_sana_video_depthwise_v1_primary1.sh"
+  ],
+  "runner_sha256": "749074f1bb9227bbe9a70e23efbaa71e32f86da75f2506ff1cb71d9c86409eea",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/bench_sana_video_serving1.py",
+      "sgl",
+      "--run-id",
+      "sana-video-depthwise-final-primary-cleanup1-07-v1_eager-long",
+      "--repo",
+      "/task/candidates/sana-video-depthwise-glu-v1",
+      "--allowed-gpu-pids",
+      "139061",
+      "--quality",
+      "lossless",
+      "--configuration-label",
+      "v1_eager",
+      "--warmups",
+      "1",
+      "--repeats",
+      "3",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+      "--expected-output-sha256",
+      "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f",
+      "--contract",
+      "/task/inputs/sana-video-480p-t2v-workloads.json",
+      "--prompt-id",
+      "long"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/bench_sana_video_serving1.py",
+      "sgl",
+      "--run-id",
+      "sana-video-depthwise-final-primary-cleanup1-07-v1_eager-short",
+      "--repo",
+      "/task/candidates/sana-video-depthwise-glu-v1",
+      "--allowed-gpu-pids",
+      "139061",
+      "--quality",
+      "lossless",
+      "--configuration-label",
+      "v1_eager",
+      "--warmups",
+      "1",
+      "--repeats",
+      "3",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "6a073c8df5e246ea84485ac999a3eefc0b2c8949f67b682a85c579d46b345291",
+      "--expected-output-sha256",
+      "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+      "--contract",
+      "/task/inputs/sana-video-480p-t2v-workloads.json",
+      "--prompt-id",
+      "short"
+    ]
+  ],
+  "launch_to_ready_seconds": 100.11620122101158,
+  "gpu_container_pids": [
+    [
+      139061
+    ],
+    []
+  ],
+  "status": "complete"
+}

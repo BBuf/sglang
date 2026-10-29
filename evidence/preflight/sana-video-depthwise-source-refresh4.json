@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-29T15:19:22Z",
+  "frozen_base": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "final_head": "f248594caca5c533c94612b6848ff3512ed98e08",
+  "previous_inspected_main": "390acf84e31d3b63dac64e021911d94770e55a8c",
+  "latest_main": "de6c211a490588b542c42eee95b6610f0712f4ba",
+  "commits_read": [
+    {
+      "sha": "8b6de6719dc2076dd2fb88f2266c4152699968df",
+      "message": "[Fix] diffusion: fix colored seams in single-GPU Qwen-Image-2.1-Turbo VAE tiling (#47092)"
+    },
+    {
+      "sha": "d39c8f94f0df7a296f6aaa3eb4b0ea5b58f5c4a5",
+      "message": "[Feat] glm5: Expose per-layer MLA key buffer and use_fused_topk in binding (#45765)\n\nCo-authored-by: Xiaoyu Zhang <1182563586@qq.com>"
+    },
+    {
+      "sha": "ebfbd3ea35acf6e9facbe74e627d37c3542e5fc1",
+      "message": "[Fix] GLM: Preserve NextN PTPC quantization for excluded experts (#45800)\n\nSigned-off-by: Yuedong Wu <dwcn22@outlook.com>\nCo-authored-by: Xiaoyu Zhang <1182563586@qq.com>"
+    },
+    {
+      "sha": "de6c211a490588b542c42eee95b6610f0712f4ba",
+      "message": "[Fix] [AMD] quark: Skip no-copy loads after MXFP4 quantization (#45802)\n\nSigned-off-by: Yuedong Wu <dwcn22@outlook.com>"
+    }
+  ],
+  "incremental_files": [
+    "python/sglang/multimodal_gen/runtime/models/vaes/autoencoder_kl_qwenimage21.py",
+    "python/sglang/multimodal_gen/test/unit/test_qwen_image21_attention_barrier.py",
+    "python/sglang/srt/kernel_plugins/nvidia/binding.py",
+    "python/sglang/srt/layers/quantization/quark/schemes/quark_w4a4_mxfp4_moe.py",
+    "python/sglang/srt/models/glm4_moe.py",
+    "test/registered/unit/kernel_plugins/nvidia/test_megakernel_binding.py",
+    "test/registered/unit/layers/quantization/test_quark_w4a4_mxfp4_moe.py",
+    "test/registered/unit/models/test_glm_nextn_moe_ptpc.py"
+  ],
+  "incremental_changes_to_candidate_files": [],
+  "diffusion_source_read": [
+    "python/sglang/multimodal_gen/runtime/models/vaes/autoencoder_kl_qwenimage21.py",
+    "python/sglang/multimodal_gen/test/unit/test_qwen_image21_attention_barrier.py"
+  ],
+  "analysis": "New Qwen VAE single-process spatial-tiling attention barrier and CPU tests; no SANA model/kernel/dispatch/test change. Frozen main/candidate timing source unchanged. Qwen supplemental head remains its original branch, not a claim about latest-main VAE runtime. Native base/tiling gaps remain visible.",
+  "virtual_merge_receipt": "evidence/preflight/sana-video-depthwise-main-merge-preflight2.json",
+  "open_PR_search": "evidence/history/sana-video-depthwise-open-search4.json",
+  "duplicate_depthwise_glu_PR_identified": false,
+  "measured_latest_main": false
+}

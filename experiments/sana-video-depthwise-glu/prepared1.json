@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-29T09:36:14.416984+00:00",
+  "status": "local_numerical_probe_prepared_not_run_not_queued",
+  "script": "experiments/sana-video-depthwise-glu/probe1.py",
+  "sha256": "33a56dc462922b5047bf12b3e77f3283dc8731acb64f5a93250bb78ec3637d61",
+  "profile_basis": "evidence/preflight/sana-video-depthwise-glu-opportunity1.json",
+  "baseline_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "scope": "Standalone experiment only. No production candidate, shared production file change, model loading or GPU work.",
+  "cases": [
+    {
+      "seed": 101,
+      "shape": [
+        2,
+        192,
+        7,
+        11
+      ]
+    },
+    {
+      "seed": 202,
+      "shape": [
+        21,
+        13440,
+        30,
+        52
+      ]
+    },
+    {
+      "seed": 303,
+      "shape": [
+        21,
+        13440,
+        30,
+        52
+      ]
+    }
+  ],
+  "method": "Six fixed sequential FP32 FMA tap orders; compare every raw BF16 convolution element and final rounded bias/GLU element with frozen cuDNN+existing fused_bias_glu. Preserve all orders, failures and PTX. No microbenchmark/performance claim.",
+  "source_rules": [
+    "Reuse actual round_bf16_to_fp32 and existing postprocessing as reference.",
+    "Preserve separate BF16 raw convolution, BF16 bias-add and BF16 SiLU rounding.",
+    "No assumptions that a random probe proves real-model correctness or transferable cuDNN arithmetic."
+  ],
+  "guards": [
+    "Wait until final LN primary/admission/archive is terminal and inspect its result first.",
+    "Confirm both GPUs idle immediately before launch; probe asserts GPU0 UUID and no compute PIDs.",
+    "Only GPU0, frozen source and clean worktree; unique output directory.",
+    "Do not change or restart PID1901755 or its frozen payloads."
+  ],
+  "corpus_search": {
+    "route": "kernel-knowledge Route A",
+    "exact_kernel": "conv2d_c1_k1_nhwc_specialized: zero hits among3660diffs",
+    "broader_depthwise": "4diffs matched (group enums/64-bit dispatch guard/unrelated indexing/model names); no evidence establishing cuDNN accumulation order",
+    "query_failure": "query.py could not import yaml under both local interpreters; direct diff search succeeded. No new dependency installed."
+  },
+  "syntax_check": "python3 -m py_compile passed; imports/Triton compilation/GPU execution not tested",
+  "next": "After LN final validation and archive, run this bounded numerical experiment before deciding whether to create a production candidate. If all fixed orders mismatch, retain result and investigate actual kernel arithmetic before further work."
+}

@@ -1,0 +1,56 @@
+{
+  "id": "sana-video-depthwise-main-eager-aa1",
+  "created_at": "2026-10-29T10:54:43.402532+00:00",
+  "benchmark": true,
+  "quality": "lossless",
+  "contract": "inputs/sana-video-480p-t2v-workloads.json",
+  "order": [
+    "main_eager",
+    "main_eager"
+  ],
+  "configurations": {
+    "main_eager": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_sana_video_primary1.sh",
+      "reference": "sgl-sana-video-t2v-native1",
+      "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+      "output_sha256": {
+        "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+        "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+      }
+    }
+  },
+  "warmups": 1,
+  "repeats": 3,
+  "measured_prompts": [
+    "short",
+    "long"
+  ],
+  "prompt_orders": {
+    "0": [
+      "short",
+      "long"
+    ],
+    "1": [
+      "long",
+      "short"
+    ]
+  },
+  "sha256": {
+    "scripts/run_sana_video_blocks1.py": "749074f1bb9227bbe9a70e23efbaa71e32f86da75f2506ff1cb71d9c86409eea",
+    "scripts/bench_sana_video_serving1.py": "ee84c4fd620d0b43ba639e5eaf4e14016dd166aa45846201c70965f984623403",
+    "scripts/launch_sgl_sana_video_primary1.sh": "41625b560aa3607c04f729d2f7c5c823459440a48d541807ffddbee9d5273785",
+    "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+    "scripts/run_sana_video_depthwise_aa1.py": "b70da562152ab8fdc5871826df809a2e4ddd3908b68ef7acd292d3c710b4dd6f",
+    "scripts/admit_sana_video_depthwise_aa1.py": "8a4acb2d4cd7d79b459225e257712f704313d5bfcdeea7c6b9099cd6eb48832f"
+  },
+  "noise_policy": {
+    "cv_percent_max": 1.0,
+    "half_median_difference_percent_max": 1.0,
+    "between_process_median_difference_percent_max": 1.0,
+    "gain_must_exceed_aa_noise": true
+  },
+  "SGL_SYNC_STAGE_PROFILING": 0,
+  "note": "Fresh independent depthwise optimization A/A. Requires5nativecandidateMP4exact and profile40actualnewdepthwise kernels before launch. Frozen original contract and all noise gates unchanged. No candidate admission from diagnostic timings."
+}

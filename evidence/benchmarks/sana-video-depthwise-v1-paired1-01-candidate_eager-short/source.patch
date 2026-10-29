@@ -1,0 +1,274 @@
+diff --git a/python/sglang/kernels/kda_kernels/sana_depthwise_glu_triton.py b/python/sglang/kernels/kda_kernels/sana_depthwise_glu_triton.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..5720881f22396204d4b8f4e7ed238689cf2ae294
+--- /dev/null
++++ b/python/sglang/kernels/kda_kernels/sana_depthwise_glu_triton.py
+@@ -0,0 +1,160 @@
++# SPDX-License-Identifier: Apache-2.0
++"""Channels-last BF16 depthwise convolution with rounded bias and GLU."""
++
++import torch
++import triton
++import triton.language as tl
++
++from sglang.kernels.numerics import round_bf16_to_fp32
++
++
++@triton.jit
++def _depthwise_glu_kernel(
++    X,
++    W,
++    Bias,
++    Out,
++    N: tl.constexpr,
++    C: tl.constexpr,
++    H: tl.constexpr,
++    WIDTH: tl.constexpr,
++    ROWS: tl.constexpr,
++    BLOCK: tl.constexpr,
++):
++    offsets = tl.program_id(0).to(tl.int64) * BLOCK + tl.arange(0, BLOCK)
++    ht = tl.cdiv(H, ROWS)
++    mask = offsets < N * ht * WIDTH * C
++    channel = offsets % C
++    pixel = offsets // C
++    x = pixel % WIDTH
++    y = (pixel // WIDTH) % ht * ROWS
++    batch = pixel // (WIDTH * ht)
++    hidden0 = tl.full((BLOCK,), 0, tl.float32)
++    gate0 = tl.full((BLOCK,), 0, tl.float32)
++    hidden1 = tl.full((BLOCK,), 0, tl.float32)
++    gate1 = tl.full((BLOCK,), 0, tl.float32)
++    hidden2 = tl.full((BLOCK,), 0, tl.float32)
++    gate2 = tl.full((BLOCK,), 0, tl.float32)
++    hidden3 = tl.full((BLOCK,), 0, tl.float32)
++    gate3 = tl.full((BLOCK,), 0, tl.float32)
++    for row in tl.static_range(ROWS + 2):
++        for col in tl.static_range(3):
++            sy = y + row - 1
++            sx = x + col - 1
++            valid = mask & (sy >= 0) & (sy < H) & (sx >= 0) & (sx < WIDTH)
++            source = ((batch * H + sy) * WIDTH + sx) * (2 * C) + channel
++            a = tl.load(X + source, valid, other=0).to(tl.float32)
++            b = tl.load(X + source + C, valid, other=0).to(tl.float32)
++            if ROWS > 0 and row >= 0 and row < 3:
++                tap0 = (row - 0) * 3 + col
++                wa0 = tl.load(W + channel * 9 + tap0, mask, other=0).to(tl.float32)
++                wb0 = tl.load(W + (channel + C) * 9 + tap0, mask, other=0).to(
++                    tl.float32
++                )
++                hidden0 = tl.fma(a, wa0, hidden0)
++                gate0 = tl.fma(b, wb0, gate0)
++            if ROWS > 1 and row >= 1 and row < 4:
++                tap1 = (row - 1) * 3 + col
++                wa1 = tl.load(W + channel * 9 + tap1, mask, other=0).to(tl.float32)
++                wb1 = tl.load(W + (channel + C) * 9 + tap1, mask, other=0).to(
++                    tl.float32
++                )
++                hidden1 = tl.fma(a, wa1, hidden1)
++                gate1 = tl.fma(b, wb1, gate1)
++            if ROWS > 2 and row >= 2 and row < 5:
++                tap2 = (row - 2) * 3 + col
++                wa2 = tl.load(W + channel * 9 + tap2, mask, other=0).to(tl.float32)
++                wb2 = tl.load(W + (channel + C) * 9 + tap2, mask, other=0).to(
++                    tl.float32
++                )
++                hidden2 = tl.fma(a, wa2, hidden2)
++                gate2 = tl.fma(b, wb2, gate2)
++            if ROWS > 3 and row >= 3 and row < 6:
++                tap3 = (row - 3) * 3 + col
++                wa3 = tl.load(W + channel * 9 + tap3, mask, other=0).to(tl.float32)
++                wb3 = tl.load(W + (channel + C) * 9 + tap3, mask, other=0).to(
++                    tl.float32
++                )
++                hidden3 = tl.fma(a, wa3, hidden3)
++                gate3 = tl.fma(b, wb3, gate3)
++    bh = tl.load(Bias + channel, mask, other=0).to(tl.float32)
++    bg = tl.load(Bias + channel + C, mask, other=0).to(tl.float32)
++    if ROWS > 0:
++        hidden0 = round_bf16_to_fp32(round_bf16_to_fp32(hidden0) + bh)
++        gate0 = round_bf16_to_fp32(round_bf16_to_fp32(gate0) + bg)
++        gate0 = round_bf16_to_fp32(gate0 * tl.sigmoid(gate0))
++        dest0 = ((batch * H + y + 0) * WIDTH + x) * C + channel
++        tl.store(Out + dest0, hidden0 * gate0, mask & (y + 0 < H))
++    if ROWS > 1:
++        hidden1 = round_bf16_to_fp32(round_bf16_to_fp32(hidden1) + bh)
++        gate1 = round_bf16_to_fp32(round_bf16_to_fp32(gate1) + bg)
++        gate1 = round_bf16_to_fp32(gate1 * tl.sigmoid(gate1))
++        dest1 = ((batch * H + y + 1) * WIDTH + x) * C + channel
++        tl.store(Out + dest1, hidden1 * gate1, mask & (y + 1 < H))
++    if ROWS > 2:
++        hidden2 = round_bf16_to_fp32(round_bf16_to_fp32(hidden2) + bh)
++        gate2 = round_bf16_to_fp32(round_bf16_to_fp32(gate2) + bg)
++        gate2 = round_bf16_to_fp32(gate2 * tl.sigmoid(gate2))
++        dest2 = ((batch * H + y + 2) * WIDTH + x) * C + channel
++        tl.store(Out + dest2, hidden2 * gate2, mask & (y + 2 < H))
++    if ROWS > 3:
++        hidden3 = round_bf16_to_fp32(round_bf16_to_fp32(hidden3) + bh)
++        gate3 = round_bf16_to_fp32(round_bf16_to_fp32(gate3) + bg)
++        gate3 = round_bf16_to_fp32(gate3 * tl.sigmoid(gate3))
++        dest3 = ((batch * H + y + 3) * WIDTH + x) * C + channel
++        tl.store(Out + dest3, hidden3 * gate3, mask & (y + 3 < H))
++
++
++def fused_depthwise_conv3x3_bias_glu(x, weight, bias):
++    """Stride-one, padding-one depthwise3x3 followed by BF16 bias/SiLU/GLU.
++
++    Each program reuses input rows for four adjacent output rows. The FP32
++    accumulators visit taps in row-major order, then preserve the existing
++    BF16 convolution, bias and SiLU materialization boundaries.
++    """
++    if not (
++        x.is_cuda
++        and torch.version.hip is None
++        and x.dtype is torch.bfloat16
++        and x.ndim == 4
++        and x.numel() > 0
++        and x.shape[1] % 2 == 0
++        and x.is_contiguous(memory_format=torch.channels_last)
++        and weight.shape == (x.shape[1], 1, 3, 3)
++        and weight.is_contiguous()
++        and weight.dtype == x.dtype
++        and weight.device == x.device
++        and bias is not None
++        and bias.shape == (x.shape[1],)
++        and bias.is_contiguous()
++        and bias.dtype == x.dtype
++        and bias.device == x.device
++    ):
++        raise ValueError(
++            "Expected channels-last BF16 CUDA input, depthwise3x3 weight and channel bias"
++        )
++    n, dc, h, w = x.shape
++    out = torch.empty(
++        (n, dc // 2, h, w),
++        dtype=x.dtype,
++        device=x.device,
++        memory_format=torch.channels_last,
++    )
++    with torch.cuda.device(x.device):
++        _depthwise_glu_kernel[
++            (triton.cdiv(n * triton.cdiv(h, 4) * w * (dc // 2), 256),)
++        ](
++            x,
++            weight,
++            bias,
++            out,
++            n,
++            dc // 2,
++            h,
++            w,
++            4,
++            256,
++            num_warps=4,
++            enable_fp_fusion=False,
++        )
++    return out
+diff --git a/python/sglang/kernels/ops/diffusion/__init__.py b/python/sglang/kernels/ops/diffusion/__init__.py
+index edcd75f6a56704037ce393e68f6ec81606f2da35..6d5fd705167fba0e4c2c7e9b39a0d30f0453b190 100644
+--- a/python/sglang/kernels/ops/diffusion/__init__.py
++++ b/python/sglang/kernels/ops/diffusion/__init__.py
+@@ -45,6 +45,12 @@ _CUDA_SM10X = frozenset({CapabilityRequirement.cuda(min_sm=(10, 0), max_sm=(10,
+ # inventory: callers name the one they want via ``select_kernel``.
+ # ---------------------------------------------------------------------------
+ _SPECS: tuple[tuple[str, KernelBackend, str, frozenset], ...] = (
++    (
++        "diffusion.depthwise_conv3x3_bias_glu",
++        KernelBackend.KDA,
++        "sglang.kernels.kda_kernels.sana_depthwise_glu_triton:fused_depthwise_conv3x3_bias_glu",
++        _CUDA,
++    ),
+     (
+         "diffusion.fused_packed_swiglu_fp8_rowwise",
+         KernelBackend.TRITON,
+@@ -795,6 +801,7 @@ _EXPORTS: dict[str, str] = {
+     "try_flux2_token_cat_fp8": "sglang.kernels.kda_kernels.flux2_token_cat_fp8_triton",
+     # Activation-function fusions
+     "fused_bias_glu": "activation.sana_conv_post_triton",
++    "fused_depthwise_conv3x3_bias_glu": "sglang.kernels.kda_kernels.sana_depthwise_glu_triton",
+     "fused_bias_silu": "activation.sana_conv_post_triton",
+     "fused_packed_silu_mul_bitexact": "activation.silu_mul_bitexact",
+     "fused_silu_mul_bitexact": "activation.silu_mul_bitexact",
+diff --git a/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py b/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py
+index d4aed8d85b15cfe377a70c233eaa4b1d9ba26c69..b18f629b8006039eb30e136014b78c6a5f31d7bb 100644
+--- a/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py
++++ b/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py
+@@ -12,6 +12,7 @@ from diffusers.models.embeddings import PixArtAlphaTextProjection
+ from sglang.kernels.ops.diffusion import (
+     SANA_VIDEO_LINEAR_ATTENTION,
+     BitExactFusionGate,
++    fused_depthwise_conv3x3_bias_glu,
+     fused_interleaved_rope_fp64,
+     tensors_equal,
+     try_sana_video_linear_attention,
+@@ -41,6 +42,9 @@ _is_cuda = current_platform.is_cuda()
+ logger = init_logger(__name__)
+ 
+ _SANA_VIDEO_ROPE = BitExactFusionGate("SANA-Video fused RoPE")
++_SANA_VIDEO_DEPTHWISE_GLU = BitExactFusionGate(
++    "SANA-Video fused depthwise GLU", per_signature=True
++)
+ 
+ 
+ def apply_interleaved_rotary_emb(
+@@ -189,6 +193,49 @@ class GLUMBTempConv(nn.Module):
+             bias=False,
+         )
+ 
++    def _depthwise_glu(self, x: torch.Tensor) -> torch.Tensor:
++        conv = self.conv_depth
++
++        def reference():
++            return sana_conv_bias_glu(conv, x, allow_eager=True)
++
++        if (
++            torch.compiler.is_compiling()
++            or not _is_cuda
++            or not x.is_cuda
++            or torch.is_grad_enabled()
++            or x.dtype is not torch.bfloat16
++            or x.ndim != 4
++            or x.numel() < 2**24
++            or not x.is_contiguous(memory_format=torch.channels_last)
++            or torch.cuda.get_device_capability(x.device) != (12, 0)
++            or type(conv) is not nn.Conv2d
++            or conv.kernel_size != (3, 3)
++            or conv.stride != (1, 1)
++            or conv.padding != (1, 1)
++            or conv.dilation != (1, 1)
++            or conv.groups != x.shape[1]
++            or conv.padding_mode != "zeros"
++            or conv.bias is None
++        ):
++            return reference()
++        sig = (
++            x.shape,
++            x.stride(),
++            x.device,
++            conv.weight.stride(),
++            torch.backends.cudnn.benchmark,
++            torch.backends.cudnn.deterministic,
++            torch.backends.cudnn.allow_tf32,
++            torch.are_deterministic_algorithms_enabled(),
++        )
++        return _SANA_VIDEO_DEPTHWISE_GLU.run(
++            lambda: fused_depthwise_conv3x3_bias_glu(x, conv.weight, conv.bias),
++            reference,
++            sig=sig,
++            logger=logger,
++        )
++
+     def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
+         batch_size, num_frames, height, width, channels = hidden_states.shape
+         hidden_states = hidden_states.reshape(
+@@ -199,9 +246,7 @@ class GLUMBTempConv(nn.Module):
+         hidden_states = sana_conv_bias_silu(
+             self.conv_inverted, hidden_states, allow_eager=True
+         )
+-        hidden_states = sana_conv_bias_glu(
+-            self.conv_depth, hidden_states, allow_eager=True
+-        )
++        hidden_states = self._depthwise_glu(hidden_states)
+         hidden_states = self.conv_point(hidden_states)
+ 
+         temporal = hidden_states.reshape(

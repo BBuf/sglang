@@ -1,0 +1,47 @@
+{
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-native-qualification1-omni",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-native-qualification1-omni/server.pid; exec sh /task/launch_omni_sana_video_native1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-omni",
+        "python3",
+        "/task/submit_sana_video_qualification.py",
+        "omni",
+        "--label",
+        "t2v-native1",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": false
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Native frozen source, identical pinned modular checkpoint, GPU0 per arm, default native attention and Omni fast paths; qualification only.",
+  "runner_sha256": "12a75772cb858e3cba7b3d081aab16e80d9da3d602707822b095096c564d6d66",
+  "launch_to_ready_seconds": 32.01493933610618,
+  "server_container_pid": 23423,
+  "gpu_snapshot_before_requests": "1418724, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 27702 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

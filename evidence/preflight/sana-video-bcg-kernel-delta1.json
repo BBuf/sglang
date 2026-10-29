@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-29T09:17:13.305469+00:00",
+  "scope": "Existing diagnostic profiles only, complete CFG iteration3. No new execution, source change or primary performance claim.",
+  "profile_receipt_sha256": "a450afb9dd5743bbeed092bcaecc85eb0680a713f11291557101672337706d97",
+  "eager_kernel_sum_ms": 1134.930989,
+  "eager_gpu_span_ms": 1136.7006401367187,
+  "rows": [
+    {
+      "arm": "main_bcg",
+      "count_differences_from_final_eager": [
+        {
+          "kernel_name": "memcpy32_post",
+          "eager_count": 0,
+          "bcg_count": 40,
+          "bcg_sum_ms": 0.04230500000000001
+        }
+      ],
+      "additional_kernel_fraction_percent": 0.0037246125165773993,
+      "bcg_kernel_sum_ms": 1135.822849,
+      "bcg_gpu_span_ms": 1136.3252412109375
+    },
+    {
+      "arm": "final_bcg",
+      "count_differences_from_final_eager": [
+        {
+          "kernel_name": "memcpy32_post",
+          "eager_count": 0,
+          "bcg_count": 40,
+          "bcg_sum_ms": 0.042302
+        }
+      ],
+      "additional_kernel_fraction_percent": 0.003725311317583583,
+      "bcg_kernel_sum_ms": 1135.5292590000001,
+      "bcg_gpu_span_ms": 1136.0419409179688
+    }
+  ],
+  "interpretation": "The full named-kernel histograms differ in count only by40 memcpy32_post kernels. Their measured total is much smaller than1.5% of step duration; count alone is not a useful performance target. The exact originating library operation is not established by this histogram. No BCG net-benefit claim; existing graph launch reduction does not eliminate GPU compute.",
+  "next_action": "Keep BCG compatibility evidence and defer new BCG performance claims to an actual independent measured improvement; do not create a candidate solely to reduce this kernel count."
+}
