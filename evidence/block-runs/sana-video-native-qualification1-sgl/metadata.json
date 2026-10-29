@@ -1,0 +1,64 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-native-qualification1-sgl",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-native-qualification1-sgl/server.pid; exec sh /task/launch_sgl_sana_video_native1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_qualification.py",
+        "sgl",
+        "--label",
+        "t2v-native1",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": false
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_qualification.py",
+        "sgl",
+        "--label",
+        "t2v-native1-profile",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json",
+        "--profile"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": true
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Native frozen source, identical pinned modular checkpoint, GPU0 per arm, default native attention and Omni fast paths; qualification only.",
+  "runner_sha256": "12a75772cb858e3cba7b3d081aab16e80d9da3d602707822b095096c564d6d66",
+  "launch_to_ready_seconds": 132.17131666559726,
+  "server_container_pid": 84155,
+  "gpu_snapshot_before_requests": "1399789, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 22964 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

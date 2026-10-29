@@ -1,0 +1,47 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-tensor-audit1-sgl",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-tensor-audit1-sgl/server.pid; exec sh /task/launch_sgl_sana_video_audit1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_qualification.py",
+        "sgl",
+        "--label",
+        "t2v-audit1",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": false
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Read-only import observer outside transformer blocks; same frozen inputs and native paths. Require every observed MP4 byte-exact native. Diagnostic only, never primary timing.",
+  "runner_sha256": "42c39af352fdad3b76d89b92d5235a7009c5f75c645b1f0e5cef5aef9eb1c8e8",
+  "launch_to_ready_seconds": 104.13759470917284,
+  "server_container_pid": 85868,
+  "gpu_snapshot_before_requests": "1436165, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 22964 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

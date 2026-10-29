@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-10-29T05:18:47.729522+00:00",
+  "status": "read_only_source_review_and_prepared_observer_not_run",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "sources": [
+    "python/sglang/multimodal_gen/runtime/breakable_cuda_graph/model_padders/sana_video.py",
+    "python/sglang/multimodal_gen/runtime/breakable_cuda_graph/runner.py",
+    "python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py",
+    "python/sglang/multimodal_gen/runtime/server_args/server_args.py"
+  ],
+  "findings": [
+    "480pmodelID and SanaVideoPipelineConfig are already BCG-admitted; no new BCG-support claim for this dispatcher change.",
+    "Dedicated SanaVideo padder preserves native300token window; no generic512padding.",
+    "Runner never captures during serving; unseen shape misses fall back eagerly, with separate diagnostic. Do not call this successful new-shape capture.",
+    "DenoisingStage owns runners per(module,quality). Ordinary lossless warmup does not pre-capture other quality levels; exact/high serving may intentionally run eager. Actual applicability and logs still require measurement."
+  ],
+  "observer": "scripts/sana_video_bcg_sitecustomize1.py",
+  "observer_scope": "Only DenoisingStage and BaseBreakableCudaGraphRunner lifecycle methods wrapped. No transformer/block forward hooks or tensor reads. Count capture method calls vs actual captures vs replay and segments; record LN gate signatures. Require observer MP4s exact corresponding native originals and separate profile proves actual82fusedLN/CFGstep.",
+  "pending": [
+    "Do not launch while AA or queued paired primary holdsGPU0.",
+    "Prepare final-head main/candidate compatibility plan after V1 performance admission; record frame/shape/quality/signature misses and fallback independently.",
+    "No serving-replay claim from whitelist alone."
+  ]
+}

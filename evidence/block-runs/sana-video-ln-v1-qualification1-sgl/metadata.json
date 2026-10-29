@@ -1,0 +1,72 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "9a6f9d9bdbacdf9339aa9c233d3d35b43b73c81b0b8d161e52cfff621bb5e352",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-ln-v1-qualification1-sgl",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-ln-v1-qualification1-sgl/server.pid; exec sh /task/launch_sgl_sana_video_ln_v1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_candidate_qualification.py",
+        "sgl",
+        "--repo",
+        "/task/candidates/sana-video-eager-ln",
+        "--expected-diff-sha256",
+        "9a6f9d9bdbacdf9339aa9c233d3d35b43b73c81b0b8d161e52cfff621bb5e352",
+        "--label",
+        "ln-v1-native1",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": false
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_sana_video_candidate_qualification.py",
+        "sgl",
+        "--repo",
+        "/task/candidates/sana-video-eager-ln",
+        "--expected-diff-sha256",
+        "9a6f9d9bdbacdf9339aa9c233d3d35b43b73c81b0b8d161e52cfff621bb5e352",
+        "--label",
+        "ln-v1-native1-profile",
+        "--contract",
+        "/task/inputs/sana-video-480p-t2v-workloads.json",
+        "--profile"
+      ],
+      "contract_sha256": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+      "diagnostic_profile": true
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Independent frozen-main candidate plus pinned LN eager dispatch patch. Same native contract; qualification/profile only, no performance claim.",
+  "runner_sha256": "28aa4693e22172bfc260ccc1c28155c3aefb070a9db112fac4d875069ab87f60",
+  "launch_to_ready_seconds": 116.15353500563651,
+  "server_container_pid": 89682,
+  "gpu_snapshot_before_requests": "1479986, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 22964 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

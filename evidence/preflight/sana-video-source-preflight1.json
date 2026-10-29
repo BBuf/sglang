@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-29T04:08:09.372616+00:00",
+  "status": "metadata_only_no_gpu_or_weights_yet",
+  "metadata_receipt": "evidence/downloads/sana-video-pinned-metadata/receipt.json",
+  "native_support": {
+    "480p_t2v": "SanaVideoPipeline registered; Wan VAE config matches checkpoint family; runtime unverified",
+    "720p_t2v": "Checkpoint uses AutoencoderKLLTX2Video; native class exists but SanaVideo config is WanVAEConfig; loader does not switch config family. CPU config validation pending. Do not claim unsupported solely from names.",
+    "i2v": "No SanaImageToVideoPipeline EntryClass in frozen native SGL source; T2V pipeline includes no image encoding stage. Runtime aliases untested."
+  },
+  "schedulers": "Both pinned configs DPMSolverMultistepScheduler with flow_prediction,flow_shift8,50steps. Native CPU sequence equality pending.",
+  "precision": "480p both FP32 VAE and FP32 latent solver, BF16 DiT/TE. 720p Omni BF16 VAE versus SG defaultFP32/configfamily gap.",
+  "motion_score": "Omni appends \" motion score: 30.\" to positive prompt before encoding. Frozen SGL has no motion_score expansion. A future explicit SG request must include the same suffix, with effective token equality audited; no silent input change.",
+  "native_source_receipt": "evidence/preflight/post-anima-native-entry-preflight1.json",
+  "download_plan": "evidence/plans/sana-video-480p-download1.json",
+  "performance_admitted": false
+}

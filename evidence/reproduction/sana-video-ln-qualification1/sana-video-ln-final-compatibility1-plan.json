@@ -1,0 +1,55 @@
+{
+  "id": "sana-video-ln-final-compatibility1",
+  "created_at": "2026-10-29T05:46:18.099429+00:00",
+  "benchmark": false,
+  "final_head": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+  "order": [
+    "main_eager",
+    "final_eager",
+    "main_bcg",
+    "final_bcg"
+  ],
+  "configurations": {
+    "main_eager": {
+      "repo": "/task/repos/sglang",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "launcher": "launch_sgl_sana_video_main_eager_diagnostics1.sh",
+      "BCG": false
+    },
+    "main_bcg": {
+      "repo": "/task/repos/sglang",
+      "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "launcher": "launch_sgl_sana_video_main_bcg_diagnostics1.sh",
+      "BCG": true
+    },
+    "final_eager": {
+      "repo": "/task/candidates/sana-video-eager-ln-final",
+      "head": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+      "launcher": "launch_sgl_sana_video_final_eager_diagnostics1.sh",
+      "BCG": false
+    },
+    "final_bcg": {
+      "repo": "/task/candidates/sana-video-eager-ln-final",
+      "head": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+      "launcher": "launch_sgl_sana_video_final_bcg_diagnostics1.sh",
+      "BCG": true
+    }
+  },
+  "profile_configurations": [
+    "final_eager",
+    "main_bcg",
+    "final_bcg"
+  ],
+  "sha256": {
+    "scripts/run_sana_video_final_compatibility1.py": "c394b405ce8ba2ec6908c437727739b3ce71e47f929e2f74a15d334ce0396efb",
+    "scripts/submit_sana_video_compatibility1.py": "b46d19212b22de7232a6843f7651319df028b3667ebc38a6678ea7fe0ae069f0",
+    "scripts/sana_video_bcg_sitecustomize1.py": "59faaccbc6a064c658821ed2ae444cddea3d2e2bb1e8fd4b6dd9e4503feb1091",
+    "evidence/plans/sana-video-final-quality-sequence1.json": "19c6a1a01875247622ce5e1a33f03418ce78ec194396a89c0f0ea9b9462f3f7b",
+    "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+    "scripts/launch_sgl_sana_video_main_eager_diagnostics1.sh": "42e28c1866441591483cc4ea7ae81430f5a8ef672920e83cd76aaa460296ac33",
+    "scripts/launch_sgl_sana_video_main_bcg_diagnostics1.sh": "4cfacc4c081f3aefb383ad93899e89876f17b522c3f1e635a87ed3b3e412ab71",
+    "scripts/launch_sgl_sana_video_final_eager_diagnostics1.sh": "36ee4c70bbd70e17f860a7877feca1128ef16dc828901fcfc73a648e61c55a89",
+    "scripts/launch_sgl_sana_video_final_bcg_diagnostics1.sh": "43397fc2486b7c6e14a393bb246a8278fb58fbed20bbfc56ae2185b295248445"
+  },
+  "note": "Final4arm native compatibility,12mixedqualityrequests each plus3separateprofiles. SYNC1 and read-only stage/runner lifecycle observer, no model/blockforward hook. All51MP4s decode81frames; audit samequality main/PR and BCG replay after raw completion. No primaryperformance claim or newBCGcoverage claim."
+}

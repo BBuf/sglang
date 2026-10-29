@@ -1,0 +1,207 @@
+{
+  "benchmark": true,
+  "quality": "lossless",
+  "contract": "inputs/sana-video-480p-t2v-workloads.json",
+  "warmups": 1,
+  "repeats": 3,
+  "measured_prompts": [
+    "short",
+    "long"
+  ],
+  "SGL_SYNC_STAGE_PROFILING": 0,
+  "id": "sana-video-ln-final-primary-cleanup1",
+  "created_at": "2026-10-29T05:50:54.554182+00:00",
+  "order": [
+    "main_eager",
+    "v1_eager",
+    "final_eager",
+    "omni_eager",
+    "v1_eager",
+    "final_eager",
+    "final_eager",
+    "v1_eager",
+    "omni_eager",
+    "final_eager",
+    "v1_eager",
+    "main_eager"
+  ],
+  "configurations": {
+    "main_eager": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_sana_video_primary1.sh",
+      "reference": "sgl-sana-video-t2v-native1",
+      "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+      "output_sha256": {
+        "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+        "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+      }
+    },
+    "omni_eager": {
+      "arm": "omni",
+      "repo": "/task/repos/vllm-omni",
+      "launcher": "launch_omni_sana_video_native1.sh",
+      "reference": "omni-sana-video-t2v-native1",
+      "reference_results_sha256": "068a12c86672cd178c6af3209a294e3a52471ff275708786e85979780bb2b6a3",
+      "output_sha256": {
+        "short": "e5e853eef966f19129a977b9408484437814366c8c4019ebc07685a645a826cc",
+        "long": "d702e907a9177c431f7946f5a2447e61631aee2c78dec3afadaca64f301760d3"
+      }
+    },
+    "v1_eager": {
+      "arm": "sgl",
+      "repo": "/task/candidates/sana-video-eager-ln",
+      "launcher": "launch_sgl_sana_video_ln_v1_primary1.sh",
+      "reference": "sgl-sana-video-t2v-native1",
+      "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+      "output_sha256": {
+        "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+        "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+      },
+      "diff_sha256": "9a6f9d9bdbacdf9339aa9c233d3d35b43b73c81b0b8d161e52cfff621bb5e352"
+    },
+    "final_eager": {
+      "arm": "sgl",
+      "repo": "/task/candidates/sana-video-eager-ln-final",
+      "launcher": "launch_sgl_sana_video_final_primary1.sh",
+      "reference": "sgl-sana-video-t2v-native1",
+      "reference_results_sha256": "34215142bf5e7dad273ec3b157045f7ab007c5907168fcddcf6e56a537763b29",
+      "output_sha256": {
+        "short": "e1d0059db22e7a1a61d5b8c68fbbe78551f9822e7e983ccb8396d3d6123b3d8f",
+        "long": "7f50fbe0eea1bf2fd624b3e95fdfb2b8f20b4495fec0a1ce09f128b7a290dd4f"
+      },
+      "head": "e0d694593a65cb5b463c4011b84ee50abefa5e43"
+    }
+  },
+  "prompt_orders": {
+    "0": [
+      "short",
+      "long"
+    ],
+    "1": [
+      "short",
+      "long"
+    ],
+    "2": [
+      "short",
+      "long"
+    ],
+    "3": [
+      "short",
+      "long"
+    ],
+    "4": [
+      "short",
+      "long"
+    ],
+    "5": [
+      "short",
+      "long"
+    ],
+    "6": [
+      "long",
+      "short"
+    ],
+    "7": [
+      "long",
+      "short"
+    ],
+    "8": [
+      "long",
+      "short"
+    ],
+    "9": [
+      "long",
+      "short"
+    ],
+    "10": [
+      "long",
+      "short"
+    ],
+    "11": [
+      "long",
+      "short"
+    ]
+  },
+  "required_admissions": [
+    "evidence/preflight/sana-video-main-eager-aa1-admission.json",
+    "evidence/preflight/sana-video-ln-v1-paired1-admission.json",
+    "evidence/preflight/sana-video-ln-final-compatibility1-admission.json"
+  ],
+  "sha256": {
+    "scripts/run_sana_video_blocks1.py": "749074f1bb9227bbe9a70e23efbaa71e32f86da75f2506ff1cb71d9c86409eea",
+    "scripts/bench_sana_video_serving1.py": "ee84c4fd620d0b43ba639e5eaf4e14016dd166aa45846201c70965f984623403",
+    "scripts/launch_sgl_sana_video_primary1.sh": "41625b560aa3607c04f729d2f7c5c823459440a48d541807ffddbee9d5273785",
+    "inputs/sana-video-480p-t2v-workloads.json": "dce92c80a233f6ef4611e48b41195fe63ccafc7a7502522bb5ed35fe78b444ad",
+    "scripts/launch_sgl_sana_video_ln_v1_primary1.sh": "201f6dabaf6196d4d394ffaec7ef1d207dd20135311cd415de7708ee7955edde",
+    "scripts/launch_omni_sana_video_native1.sh": "f16ac9353820fa5341b04fadcca3c6889333819fc9c92f0e81dcbfbcccd44899",
+    "scripts/launch_sgl_sana_video_final_primary1.sh": "377c02d5005d82e8c4c85b3ebcbad36bd02da4b8fa87216589891cedc4e3f457"
+  },
+  "pair_indices": {
+    "main_vs_final": [
+      [
+        0,
+        2
+      ],
+      [
+        11,
+        9
+      ]
+    ],
+    "omni_vs_final": [
+      [
+        3,
+        2
+      ],
+      [
+        8,
+        9
+      ]
+    ],
+    "omni_vs_main": [
+      [
+        3,
+        0
+      ],
+      [
+        8,
+        11
+      ]
+    ],
+    "v1_vs_final_cleanup": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        7,
+        6
+      ],
+      [
+        10,
+        9
+      ]
+    ]
+  },
+  "admission": {
+    "final_mean_E2E_reduction_percent_min": 1.5,
+    "each_main_final_process_pair_must_improve": true,
+    "gain_must_exceed_AA_noise": true,
+    "all_MP4s_exact_qualified_native": true,
+    "English_quality_eligible_only": true,
+    "cleanup_mean_regression_percent_max": "observed AAmax_noise_percent=0.028087047663594156",
+    "cleanup_paired_t95_regression_upper_percent_max": 0.1,
+    "uncertain_cleanup_action": "Preserve all measurements and run an explicitly supplemental paired experiment; do not silently discard or loosen the0.1%margin."
+  },
+  "note": "Prospectively frozen12process symmetric M-V1-F-O-V1-F-F-V1-O-F-V1-M,1excludedwarmup+3measured per English prompt. Main/Omni n6, V1/final n12 perprompt. Two main/final and Omni/final processmedian pairs; four V1/finalcleanup pairs, opposite order in secondhalf, df3 pairedlog-t95. All final samples included in reported armmean, and all individualpairs/raw warmups disclosed. No observation/profiler; SYNC0; allweights andinputs unchanged. Run only after finalactual quality/replay/numerical admission. Chinese crossqualityfailure retained; no BCGnetwin claim.",
+  "n_measured_per_arm_per_prompt": {
+    "main_eager": 6,
+    "omni_eager": 6,
+    "v1_eager": 12,
+    "final_eager": 12
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-29T04:39:52.548704+00:00",
+  "candidate": "sana-video-eager-ln",
+  "branch": "bbuf/rtx6000-diffusion-20261026-sana-video-eager-ln",
+  "baseline": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "latest_main_checked": "b9407b44c710a21bf9a6168af0606b15685df21d",
+  "latest_source_diff": "No changes to sana.py,sana_video.py,layernorm_modulate_triton.py from frozen baseline",
+  "files": [
+    "python/sglang/multimodal_gen/runtime/models/dits/sana.py",
+    "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+  ],
+  "patch_sha256": "9a6f9d9bdbacdf9339aa9c233d3d35b43b73c81b0b8d161e52cfff621bb5e352",
+  "purpose": "Opt video inference into existing exact LN-modulate helper; preserve default image, grad-enabled default-stream, compile and numerical gate behavior. No new arithmetic.",
+  "status": "local candidate only; no GPU correctness or performance yet; native input/quality audit pending",
+  "profile": "evidence/preflight/sana-video-native-profile1.json",
+  "prior_art": [
+    "https://github.com/sgl-project/sglang/pull/34015",
+    "https://github.com/sgl-project/sglang/pull/40388"
+  ],
+  "hypothesis": "32760-token video activations remain GPU-bound; replacing LN+modulate chain with existing verified kernel can save intermediate passes. Image CPU launch policy does not imply this video performance.",
+  "required_before_primary": [
+    "native input audit and per-frame quality qualification",
+    "candidate native MP4 equality and profile proves fused execution",
+    "fresh A/A and predeclared ABBA plan"
+  ],
+  "no_performance_claim": true
+}

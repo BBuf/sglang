@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-29T05:12:18.280147+00:00",
+  "status": "proposed_not_applied_or_run",
+  "patch": "evidence/plans/sana-video-ln-existing-test-extension-draft.patch",
+  "risks": [
+    "eager inference must actually use verified fusion",
+    "default-stream opt-in must preserve gradient-enabled Torch path",
+    "transposed2240wide and two modulation layouts must remain exact",
+    "per-signature gate state isolated so new eager parametrization does not inherit previous verification"
+  ],
+  "scope": "Extend existing4numerical cases with eager opt-in; no duplicate standalone model/reference/timing test. Actual native video/profile qualification already covers production32760token shape.",
+  "cleanup_proposal": "Reuse existing _use_sana_bcg_fast_path(x,allow_eager=allow_eager) in sana_ln_modulate initial gate instead of repeated compiler/device/stream/grad checks. Preserve first-sight comparison, signature cache and mismatch fallback. Apply only to a separate final checkout after V1 admission, then retest sameGPU.",
+  "test_review_followup": "Resolved in v2 draft: default-stream no_grad omitted-opt-in call explicitly checks exact eager output and an empty fusion signature set. Gradient and cached fusion paths isolated per parameter. Not applied or run yet.",
+  "remaining_compatibility": [
+    "Actual main/final BCG capture and serving replay across short/long/Chinese/repeat on fixed832x480/81f/300tokens; preserve all MP4 identity and capture/warmup/memory costs. No BCG net-win claim without paired E2E>=1.5%.",
+    "Existing quality matrix exact/lossless/high for eager and BCG; native high+BCG admission/rejection must be observed, not assumed from old PR. Retain failures and quality-switch effects.",
+    "Compile/gradient/CPU fallback appropriate to changed dispatcher; no new kernel arithmetic. Extend existing numerical tests only after performance admission.",
+    "Separate final checkout cleanup and documentation, same-GPU final qualification/profile and cleanup-before/after paired retest, plus final main/Omni comparison.",
+    "Public actual final-main/PR image panels and realMP4 links, verify visible on official Draft PR; raw artifacts outside code diff. No PR count until all requirements complete."
+  ],
+  "test_patch": "evidence/plans/sana-video-ln-existing-test-extension-draft-v2.patch",
+  "test_draft_v2_at": "2026-10-29T05:24:54.625924+00:00",
+  "proposed_final_patch": "evidence/plans/sana-video-ln-final-cleanup-draft-v1.patch",
+  "reviewed_at": "2026-10-29T05:29:25.973614+00:00",
+  "cleanup_semantics": "Existing helper preserves compiler/CPU fallback and permits the identical union of capture, non-default-stream, or opt-in no-grad eager. Capturing state still read for first-sight no-sync fallback. No gate, reduction, layout, or kernel arithmetic changed. Existing four test shapes extended to both stream policies; default-stream omitted opt-in and autograd explicitly guarded; existing BitExactFusionGate tests reused for generic mismatch/capture behavior.",
+  "production_diff_scope": "sana.py shared dispatcher +3video call sites; no unrelated refactor. Kernel README explains model-specific dispatch; no environment flags or new kernels.",
+  "draft_apply_check": "passed against frozen clean af21 main; not applied or run"
+}

@@ -1,0 +1,311 @@
+{
+  "id": "SanaVideoPipeline",
+  "models_to_resolve": [
+    "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "Efficient-Large-Model/SANA-Video_2B_720p_diffusers"
+  ],
+  "workloads": [
+    {
+      "task": "t2v",
+      "width": 832,
+      "height": 480,
+      "steps": 50,
+      "seed": 1101,
+      "batch": 1,
+      "concurrency": 1,
+      "precision_lane": "bf16",
+      "resource_budgets": [
+        [
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "runtime_status": "singleGPU_native_both_English_quality_and_actual_inputs_pass_Chinese_quality_failure_retained",
+      "inputs_status": "model_specific_contract_frozen",
+      "workload_kind": "representative_qualification_target",
+      "num_frames": 81,
+      "fps": 16,
+      "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+      "motion_score": 30,
+      "guidance_scale": 6.0,
+      "id": "SanaVideoPipeline-1",
+      "checkpoint_selection": "explicit model field, otherwise the entry checkpoint list; revisions from checkpoint-revisions.json",
+      "input_contract": "inputs/sana-video-480p-t2v-workloads.json",
+      "runtime_admission": "Resolve all actual parameters/dtypes/assets; archive hashes. Test1GPU then applicable2GPU within{0,1}; recordOOME/unsupported/access failures. No baseline/candidate comparison until equal work and quality pass.",
+      "extension_candidates": {
+        "batch": [
+          2
+        ],
+        "concurrency": [
+          2,
+          4
+        ],
+        "execution": [
+          "native_eager",
+          "native_bcg_if_supported",
+          "native_compile_optional"
+        ],
+        "precision": [
+          "lossless",
+          "high_or_fp8_nvfp4_when_native_and_quality_validated"
+        ]
+      },
+      "unrun_extensions": [
+        "2GPU",
+        "batch2",
+        "concurrency2/4",
+        "BCG",
+        "compile",
+        "high/quantization"
+      ],
+      "candidate_v1_status": "five_MP4s_byte_exact_main_profile82fusedLN_verified",
+      "AA_status": "passed_max_noise_0.028087percent",
+      "paired_primary_status": "running_balanced_M_C_O_O_C_M"
+    },
+    {
+      "task": "t2v",
+      "width": 1280,
+      "height": 704,
+      "steps": 50,
+      "seed": 1101,
+      "batch": 1,
+      "concurrency": 1,
+      "precision_lane": "bf16",
+      "resource_budgets": [
+        [
+          0
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "runtime_status": "not_run_native_SGL_latent_shape_config_gap",
+      "inputs_status": "frozen_text_and_generic_image_specialized_assets_pending",
+      "workload_kind": "representative_qualification_target",
+      "num_frames": 81,
+      "fps": 16,
+      "model": "Efficient-Large-Model/SANA-Video_2B_720p_diffusers",
+      "motion_score": 30,
+      "guidance_scale": 6.0,
+      "id": "SanaVideoPipeline-2",
+      "checkpoint_selection": "explicit model field, otherwise the entry checkpoint list; revisions from checkpoint-revisions.json",
+      "input_contract": "inputs/scope-inputs.json; existing model-specific inputs_manifest overrides",
+      "runtime_admission": "Resolve all actual parameters/dtypes/assets; archive hashes. Test1GPU then applicable2GPU within{0,1}; recordOOME/unsupported/access failures. No baseline/candidate comparison until equal work and quality pass.",
+      "extension_candidates": {
+        "batch": [
+          2
+        ],
+        "concurrency": [
+          2,
+          4
+        ],
+        "execution": [
+          "native_eager",
+          "native_bcg_if_supported",
+          "native_compile_optional"
+        ],
+        "precision": [
+          "lossless",
+          "high_or_fp8_nvfp4_when_native_and_quality_validated"
+        ]
+      },
+      "native_config_evidence": "evidence/preflight/sana-video-native-config1.json",
+      "weights_downloaded": false
+    }
+  ],
+  "eligibility": "in_inclusive_frozen_scope_runtime_resource_qualification_pending",
+  "vllm_omni": {
+    "status": "480p_native4videos_generated_and_repeat_exact",
+    "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+    "primary_performance_measured": false
+  },
+  "sglang_main": {
+    "status": "480p_native4videos_and_separate_profile_complete",
+    "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "primary_performance_measured": false
+  },
+  "sglang_candidate": {
+    "status": "native_qualification_running",
+    "path": "candidates/sana-video-eager-ln",
+    "patch_sha256": "9a6f9d9bdbacdf9339aa9c233d3d35b43b73c81b0b8d161e52cfff621bb5e352"
+  },
+  "checkpoint_metadata": [
+    {
+      "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+      "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+      "resolved_at": "2026-10-26T13:25:33.363445+00:00",
+      "metadata_url": "https://huggingface.co/api/models/Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+      "gated": false,
+      "file_count": 20,
+      "safetensors_parameters": null,
+      "status": "18required_checkpoint_files_downloaded_HFhashverified",
+      "download_manifest": "evidence/downloads/sana-video-480p-modelscope-download-manifest.json"
+    },
+    {
+      "model": "Efficient-Large-Model/SANA-Video_2B_720p_diffusers",
+      "revision": "82de0b2398cd16435d3f6621778f9e89ffa096cb",
+      "resolved_at": "2026-10-26T13:25:33.393854+00:00",
+      "metadata_url": "https://huggingface.co/api/models/Efficient-Large-Model/SANA-Video_2B_720p_diffusers",
+      "gated": false,
+      "file_count": 20,
+      "safetensors_parameters": null,
+      "status": "metadata_resolved_weights_unverified"
+    }
+  ],
+  "implementation_group": [
+    "SanaVideoPipeline"
+  ],
+  "alias_counting_note": "Shared implementation does not imply equal task/checkpoint semantics; never count aliases as independent performance wins.",
+  "source": "vllm_omni/diffusion/models/sana_video/pipeline_sana_video.py",
+  "implementation_class": "SanaVideoPipeline",
+  "registry_introduction": {
+    "commit": "50b8a150f9df5ec17ff3a1a99ab113eb57d786d8",
+    "date": "2026-08-25T09:46:02+08:00",
+    "added_line": "    \"SanaVideoPipeline\": ("
+  },
+  "source_file_introduction": "2026-08-25T09:46:02+08:00 50b8a150f9df5ec17ff3a1a99ab113eb57d786d8",
+  "staged_topology_links": [],
+  "excluded_non_diffusion_variants": [],
+  "sglang_source_evidence": {
+    "pipeline_name_match": "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py",
+    "registered_checkpoint_matches": {
+      "Efficient-Large-Model/SANA-Video_2B_480p_diffusers": [
+        {
+          "source": "python/sglang/multimodal_gen/configs/pipeline_configs/sana_video.py",
+          "line": 125,
+          "config": "SanaVideoPipelineConfig"
+        }
+      ]
+    },
+    "status": "static_source_evidence_only_not_runtime_qualification"
+  },
+  "recipe_sources": [
+    "docs/user_guide/examples/offline_inference/image_to_video.md",
+    "docs/user_guide/examples/offline_inference/text_to_video.md",
+    "examples/offline_inference/image_to_video/README.md",
+    "examples/offline_inference/text_to_video/text_to_video.md",
+    "examples/online_serving/image_to_video/README.md",
+    "examples/online_serving/text_to_video/README.md",
+    "recipes/NVIDIA/SANA-Video-2B.md"
+  ],
+  "extracted_request_count": 0,
+  "contract_review_status": "representative_contracts_reviewed_runtime_pending",
+  "documentation_conflicts": [],
+  "supplemental_checkpoint_sources": [],
+  "recipe": "recipes/NVIDIA/SANA-Video-2B.md",
+  "resource_or_semantics_note": "Native only. TP2, frame-sharded SP2 and CFG2 qualified separately on SYS topology; no NVLink assumption.",
+  "frozen_retention_rule": "Never deletefailed/slower/unsupportedentry. Aliases shareimplementationgroup; noindependentwin. Resolveunknowneligibility viaappendedevidence.",
+  "checkpoint_variant_audit": {
+    "explicit_workload_models": [
+      "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+      "Efficient-Large-Model/SANA-Video_2B_720p_diffusers"
+    ],
+    "entry_models_without_explicit_workload": [],
+    "policy": "Noexplicitmodel means sharedcontract appliedtoeachentrymodel unless dependency/component/alias. Ambiguous checkpoint role mustberesolvedbeforeexecution; do notsilentlydropvariant."
+  },
+  "source_preflight": {
+    "receipt": "evidence/preflight/sana-video-source-preflight1.json",
+    "status": "480p_noise_schedule_exact_720p_native_config_shape_gap",
+    "no_weights_downloaded": false,
+    "config_receipt": "evidence/preflight/sana-video-native-config1.json"
+  },
+  "native480p_execution": {
+    "status": "native_qualification_running",
+    "run": "sana-video-native-qualification1",
+    "contract": "inputs/sana-video-480p-t2v-workloads.json",
+    "plan": "evidence/plans/sana-video-native-qualification1-plan.json"
+  },
+  "native720p_preflight": {
+    "status": "latent_shape_mismatch_frozen_native_config",
+    "receipt": "evidence/preflight/sana-video-native-config1.json",
+    "effective_compression": [
+      4,
+      8
+    ],
+    "required_compression": [
+      8,
+      32
+    ],
+    "native_latent_shape": [
+      1,
+      128,
+      21,
+      88,
+      160
+    ],
+    "expected_latent_shape": [
+      1,
+      128,
+      11,
+      22,
+      40
+    ],
+    "weights_downloaded": false,
+    "full_model_run": false,
+    "performance_admitted": false
+  },
+  "native_quality": {
+    "report": "evidence/preflight/sana-video-native-cross-quality1.json",
+    "visual_review": "evidence/media/sana-video-native-cross-frames/visual-review.json",
+    "all_numeric_pass": false,
+    "rows": [
+      {
+        "request": "00-short",
+        "encoded_bytes_equal": false,
+        "all_frames_pixel_exact": false,
+        "all_frames_pass": true,
+        "mean_ssim": 0.956517405127325,
+        "min_ssim": 0.9309138849449496,
+        "mean_finite_psnr_db": 30.732880241372097,
+        "min_psnr_db": 28.420733157725873,
+        "infinite_psnr_frames": 0
+      },
+      {
+        "request": "01-long",
+        "encoded_bytes_equal": false,
+        "all_frames_pixel_exact": false,
+        "all_frames_pass": true,
+        "mean_ssim": 0.9625196945458832,
+        "min_ssim": 0.9510138271623497,
+        "mean_finite_psnr_db": 30.968506382024692,
+        "min_psnr_db": 29.108654815809395,
+        "infinite_psnr_frames": 0
+      },
+      {
+        "request": "02-chinese",
+        "encoded_bytes_equal": false,
+        "all_frames_pixel_exact": false,
+        "all_frames_pass": false,
+        "mean_ssim": 0.9391821313588256,
+        "min_ssim": 0.920909437937225,
+        "mean_finite_psnr_db": 26.777369292027494,
+        "min_psnr_db": 23.57680359001989,
+        "infinite_psnr_frames": 0
+      },
+      {
+        "request": "03-short",
+        "encoded_bytes_equal": false,
+        "all_frames_pixel_exact": false,
+        "all_frames_pass": true,
+        "mean_ssim": 0.956517405127325,
+        "min_ssim": 0.9309138849449496,
+        "mean_finite_psnr_db": 30.732880241372097,
+        "min_psnr_db": 28.420733157725873,
+        "infinite_psnr_frames": 0
+      }
+    ],
+    "english_prompts_pass": true,
+    "chinese_failure_frames": [
+      26,
+      27,
+      28
+    ],
+    "thresholds_unchanged": true,
+    "actual_runtime_input_audit": "passed exact token IDs/masks/noise/timesteps/sigmas;8observer MP4s exact originals",
+    "performance_claim": false
+  }
+}

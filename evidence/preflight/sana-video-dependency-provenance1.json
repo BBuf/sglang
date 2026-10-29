@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-29T09:01:54.845320+00:00",
+  "source_records_inspected": true,
+  "container_image_receipt": "evidence/preflight/sana-video-container-image-identities1.json",
+  "rows": [
+    {
+      "arm": "sgl",
+      "source": "evidence/preflight/container-logs/sglang-pip-freeze-final.txt",
+      "sha256": "e0c9361557873902a0d70a4865827a609907775e1b8885b3975adfba3210d74a",
+      "nonstandard_records": [
+        "hpc-ops @ file:///tmp/wheels/hpc-ops/hpc_ops-0.0.1.dev0+gab1a402-cp39-abi3-linux_x86_64.whl",
+        "mscclpp @ file:///tmp/mscclpp",
+        "-e git+https://github.com/sgl-project/sglang.git@af21e2b989e482cfdce39689126562f2209d53ac#egg=sglang&subdirectory=python",
+        "sglang-router @ file:///tmp/gateway_wheels/sglang_router-0.3.2-cp38-abi3-manylinux_2_39_x86_64.whl"
+      ]
+    },
+    {
+      "arm": "omni",
+      "source": "evidence/preflight/container-logs/omni-pip-freeze-final.txt",
+      "sha256": "72a5ac51dde1e19597c76f4ce117446dc6f02b3b1486012ec3b3567e5e7a5361",
+      "nonstandard_records": [
+        "deep_ep @ file:///vllm-workspace/ep_kernels/dist/deep_ep-2.0.0+local-cp312-cp312-linux_x86_64.whl",
+        "-e git+https://github.com/vllm-project/vllm-omni.git@817d4c17feb702289a2d2b2cbacfd594c262b7a7#egg=vllm_omni"
+      ]
+    }
+  ],
+  "decision": "Public package now preserves full pip freeze in addition to filtered version pins. Source checkouts override editable-installed SGLang via exact launch PYTHONPATH. Local image/wheel origins are disclosed, not claimed publicly pullable."
+}

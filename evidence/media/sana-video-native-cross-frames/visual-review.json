@@ -1,0 +1,31 @@
+{
+  "reviewed_at": "2026-10-29T04:43:51.442095+00:00",
+  "panels": [
+    "evidence/media/sana-video-native-cross-frames/00-short-comparison.png",
+    "evidence/media/sana-video-native-cross-frames/01-long-comparison.png",
+    "evidence/media/sana-video-native-cross-frames/02-chinese-comparison.png"
+  ],
+  "frames": [
+    0,
+    40,
+    80
+  ],
+  "decoder": "commonSGLimageio_ffmpeg4.2.2",
+  "observations": {
+    "short": "Both native arms show two red teapots instead of one. Corresponding layout, lighting and apparent camera movement across three frames are close, with subtle lid/shape and highlight differences.",
+    "long": "Both arms show a red teapot with two spouts, blue cup, steam and linen; corresponding composition and lighting are close. The malformed double spout is shared native model output, not an optimization regression.",
+    "chinese": "Both arms show a similarly malformed stacked lid/handle vessel and large blue vessel, with steam and framing shifts. Differences in highlights, steam and object contours are visible; the numeric PSNR failure remains a failure."
+  },
+  "blank_or_corrupt_inspected_frames": false,
+  "full_video_temporal_review": false,
+  "numeric_report": "evidence/preflight/sana-video-native-cross-quality1.json",
+  "primary_cross_framework_quality_eligible": [
+    "short",
+    "long"
+  ],
+  "excluded_numeric": [
+    "chinese"
+  ],
+  "actual_runtime_input_audit_pending": true,
+  "comparison_script_v1_failure": "All per-frame calculations completed but JSON serialization failed on numpy.bool_; kept failed log and panels. V2 casts that boolean and recomputes from the same videos; no GPU rerun or changed threshold."
+}

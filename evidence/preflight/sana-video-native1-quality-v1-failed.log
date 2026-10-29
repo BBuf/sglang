@@ -1,0 +1,34 @@
+{"request": "00-short", "encoded_bytes_equal": false, "all_frames_pixel_exact": false, "all_frames_pass": true, "mean_ssim": 0.956517405127325, "min_ssim": 0.9309138849449496, "mean_finite_psnr_db": 30.732880241372097, "min_psnr_db": 28.420733157725873, "infinite_psnr_frames": 0}
+{"request": "01-long", "encoded_bytes_equal": false, "all_frames_pixel_exact": false, "all_frames_pass": true, "mean_ssim": 0.9625196945458832, "min_ssim": 0.9510138271623497, "mean_finite_psnr_db": 30.968506382024692, "min_psnr_db": 29.108654815809395, "infinite_psnr_frames": 0}
+{"request": "02-chinese", "encoded_bytes_equal": false, "all_frames_pixel_exact": false, "all_frames_pass": false, "mean_ssim": 0.9391821313588256, "min_ssim": 0.920909437937225, "mean_finite_psnr_db": 26.777369292027494, "min_psnr_db": 23.57680359001989, "infinite_psnr_frames": 0}
+{"request": "03-short", "encoded_bytes_equal": false, "all_frames_pixel_exact": false, "all_frames_pass": true, "mean_ssim": 0.956517405127325, "min_ssim": 0.9309138849449496, "mean_finite_psnr_db": 30.732880241372097, "min_psnr_db": 28.420733157725873, "infinite_psnr_frames": 0}
+Traceback (most recent call last):
+  File "/task/compare_sana_video_qualification.py", line 68, in <module>
+    main()
+  File "/task/compare_sana_video_qualification.py", line 64, in main
+    output.write_text(json.dumps(result, indent=2) + "\n")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 326, in _iterencode_list
+    yield from chunks
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable

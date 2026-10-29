@@ -1,0 +1,73 @@
+{
+  "configuration": "final_eager",
+  "source_sha": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "physical_gpus": [
+    0
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SANA_VIDEO_BCG_AUDIT_DIR=/task/outputs/diagnostics/sana-video-ln-final-compatibility1-01-final_eager",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/sana-video-ln-final-compatibility1-01-final_eager",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/sana-video-ln-final-compatibility1-01-final_eager/server.pid; exec sh /task/launch_sgl_sana_video_final_eager_diagnostics1.sh"
+  ],
+  "benchmark": false,
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_sana_video_compatibility1.py",
+      "sgl",
+      "--repo",
+      "/task/candidates/sana-video-eager-ln-final",
+      "--source-sha",
+      "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "sana-video-ln-final-compatibility1-01-final_eager",
+      "--contract",
+      "/task/inputs/sana-video-480p-t2v-workloads.json",
+      "--sequence-json",
+      "/task/sana-video-final-quality-sequence1.json"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_sana_video_compatibility1.py",
+      "sgl",
+      "--repo",
+      "/task/candidates/sana-video-eager-ln-final",
+      "--source-sha",
+      "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "sana-video-ln-final-compatibility1-01-final_eager-profile",
+      "--contract",
+      "/task/inputs/sana-video-480p-t2v-workloads.json",
+      "--profile"
+    ]
+  ],
+  "observer_sha256": "59faaccbc6a064c658821ed2ae444cddea3d2e2bb1e8fd4b6dd9e4503feb1091",
+  "runner_sha256": "84d464c6c6d01e1a1c9fe186e086850edd05ba5ed4bd0ddf04bb265b3e9ed93b",
+  "launch_to_ready_seconds": 112.12840702664107,
+  "gpu_snapshot_before_requests": "1756616, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 22964 MiB",
+  "server_container_pid": 99077,
+  "status": "complete_raw_audit_pending",
+  "gpu_monitor_errors": []
+}

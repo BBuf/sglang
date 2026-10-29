@@ -1,0 +1,52 @@
+[
+  {
+    "name": "numerical",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/candidates/sana-video-eager-ln-final/python",
+      "-w",
+      "/task/candidates/sana-video-eager-ln-final",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=0",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "-m",
+      "pytest",
+      "-v",
+      "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+      "test/registered/kernels/ops/diffusion/test_sites.py",
+      "-k",
+      "sana_fused_ln_modulate_is_bit_exact or bitexact_gate"
+    ],
+    "source_sha": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "returncode": 0,
+    "seconds": 24.298135105520487
+  },
+  {
+    "name": "cpu_compile",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/candidates/sana-video-eager-ln-final/python",
+      "-w",
+      "/task/candidates/sana-video-eager-ln-final",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/check_sana_ln_cpu_compile_fallback1.py"
+    ],
+    "source_sha": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+    "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "returncode": 1,
+    "seconds": 11.88232930470258
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "benchmark": false,
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "rows": [
+    {
+      "index": 0,
+      "prompt": "short",
+      "excluded_first_request": true,
+      "cross_framework_quality_eligible": true,
+      "native_MP4_exact": true,
+      "all81frame_hashes_exact": true,
+      "video_sha256": "e5e853eef966f19129a977b9408484437814366c8c4019ebc07685a645a826cc",
+      "http_response_log_line": 709,
+      "start_line": 647,
+      "end_line": 705,
+      "stages": {
+        "encode_prompt": 0.060409,
+        "diffuse": 81.192898,
+        "vae.decode": 3.703246,
+        "forward": 84.976105
+      }
+    },
+    {
+      "index": 1,
+      "prompt": "long",
+      "excluded_first_request": false,
+      "cross_framework_quality_eligible": true,
+      "native_MP4_exact": true,
+      "all81frame_hashes_exact": true,
+      "video_sha256": "d702e907a9177c431f7946f5a2447e61631aee2c78dec3afadaca64f301760d3",
+      "http_response_log_line": 774,
+      "start_line": 714,
+      "end_line": 770,
+      "stages": {
+        "encode_prompt": 0.072143,
+        "diffuse": 81.123969,
+        "vae.decode": 3.295563,
+        "forward": 84.510574
+      }
+    },
+    {
+      "index": 2,
+      "prompt": "chinese",
+      "excluded_first_request": false,
+      "cross_framework_quality_eligible": false,
+      "native_MP4_exact": true,
+      "all81frame_hashes_exact": true,
+      "video_sha256": "446145a8194e3f3799722f2d52d115f598835f2c231e57dd10f09749e7b69b69",
+      "http_response_log_line": 839,
+      "start_line": 779,
+      "end_line": 835,
+      "stages": {
+        "encode_prompt": 0.070267,
+        "diffuse": 81.146849,
+        "vae.decode": 3.291269,
+        "forward": 84.526008
+      }
+    },
+    {
+      "index": 3,
+      "prompt": "short",
+      "excluded_first_request": false,
+      "cross_framework_quality_eligible": true,
+      "native_MP4_exact": true,
+      "all81frame_hashes_exact": true,
+      "video_sha256": "e5e853eef966f19129a977b9408484437814366c8c4019ebc07685a645a826cc",
+      "http_response_log_line": 904,
+      "start_line": 844,
+      "end_line": 900,
+      "stages": {
+        "encode_prompt": 0.069932,
+        "diffuse": 81.153771,
+        "vae.decode": 3.291908,
+        "forward": 84.533464
+      }
+    }
+  ],
+  "startup_warmup": [
+    {
+      "start_line": 551,
+      "end_line": 561,
+      "stages": {
+        "encode_prompt": 0.28036,
+        "diffuse": 0.86559,
+        "vae.decode": 1.568923,
+        "forward": 2.720746
+      }
+    }
+  ],
+  "application_startup_complete_log_line": 641,
+  "original_driver_status": "failed",
+  "original_driver_error": "AssertionError([('encode_prompt', '0.280360'), ('diffuse', '0.865590'), ('vae.decode', '1.568923'), ('forward', '2.720746'), ('encode_prompt', '0.060409'), ('diffuse', '81.192898'), ('vae.decode', '3.703246'), ('forward', '84.976105'), ('encode_prompt', '0.072143'), ('diffuse', '81.123969'), ('vae.decode', '3.295563'), ('forward', '84.510574'), ('encode_prompt', '0.070267'), ('diffuse', '81.146849'), ('vae.decode', '3.291269'), ('forward', '84.526008'), ('encode_prompt', '0.069932'), ('diffuse', '81.153771'), ('vae.decode', '3.291908'), ('forward', '84.533464')])",
+  "correction": "Original collector expected four pipeline forwards; native startup also performs one forward. Preserve the original failure and all five timer groups. Separate startup by the actual Application startup complete marker and match each later group to one successful HTTP response. No GPU rerun, changed timer, changed request or primary measurement.",
+  "source_sha256": {
+    "block-runs/sana-video-omni-stages1/server.log": "98229f033462269fe1d0f1f77c356acc9226f8bb106cbe424de489ab9efe1fc0",
+    "block-runs/sana-video-omni-stages1/metadata.json": "284845d3986ff6fde7f27eb9a752d0d441da5d9af253fa0b34c3079b24b6fc49",
+    "outputs/qualification/omni-sana-video-t2v-stages1/results.json": "ccf7207f95fc3f0e2d0d36aef4b90f7d897a3b5859c2a99c20ebffe56ab1711b",
+    "outputs/qualification/omni-sana-video-t2v-native1/results.json": "068a12c86672cd178c6af3209a294e3a52471ff275708786e85979780bb2b6a3"
+  },
+  "script_sha256": "c1fd25a3c4b873863bb03484b41e038b06ea3d80f98490ff81fd423325d3b9a8"
+}

@@ -1,0 +1,61 @@
+--- a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
++++ b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+@@ -793,6 +793,7 @@
+ 
+ 
+ @requires_inline_ptx
++@pytest.mark.parametrize("allow_eager", [False, True])
+ @pytest.mark.parametrize(
+     "shape,nmod,transposed",
+     [
+@@ -802,7 +803,11 @@
+         ((1, 37, 2240), 6, False),
+     ],
+ )
+-def test_sana_fused_ln_modulate_is_bit_exact(shape, nmod, transposed):
++def test_sana_fused_ln_modulate_is_bit_exact(shape, nmod, transposed, allow_eager, monkeypatch):
++    gate = BitExactFusionGate("Sana test LN+modulate", per_signature=True)
++    monkeypatch.setattr(sana, "_SANA_LN_MOD", gate)
++    monkeypatch.setattr(sana, "_SANA_LN_MOD_SIGS", gate.verified_sigs)
++    monkeypatch.setattr(sana, "_SANA_LN_MOD_DISABLED", False)
+     # (., 1024, 2240) is the real Sana 1024px shape; hidden 2240 % 512 != 0
+     # exercises the kernel's partial tail chunk.  nmod mirrors the two adaLN
+     # chunk layouts, transposed the permuted layout the Sana DiT serves.
+@@ -814,9 +819,13 @@
+         x = x.permute(0, 2, 1).contiguous().permute(0, 2, 1)
+     emb = torch.randn(batch, nmod, hidden, device="cuda").bfloat16()
+     shift, scale = emb.chunk(nmod, dim=1)[0], emb.chunk(nmod, dim=1)[-1]
+-    # default-stream eager serving must stay on the untouched eager chain
++    # The eager opt-in must still preserve autograd on the default stream.
+     n_sigs = len(sana._SANA_LN_MOD.verified_sigs)
+-    sana_ln_modulate(norm, x, scale, shift)
++    with torch.enable_grad():
++        grad_out = sana_ln_modulate(norm, x.requires_grad_(), scale, shift, allow_eager=allow_eager)
++    assert grad_out.requires_grad
++    assert torch.equal(grad_out, _sana_eager_ln_modulate(norm, x, scale, shift))
++    x = x.detach()
+     assert len(sana._SANA_LN_MOD.verified_sigs) == n_sigs
+     # The fusion engages on non-default streams (the BCG warmup/capture path).
+     # x/scale/shift were filled on the default stream, so the side stream must
+@@ -825,13 +834,15 @@
+     # and the gate disables itself *permanently*, which then breaks every later
+     # parametrization too. It only loses the race when the GPU is contended,
+     # which is why it shows up on shared CI runners and not on an idle box.
+-    side = torch.cuda.Stream()
+-    side.wait_stream(torch.cuda.current_stream())
+-    with torch.cuda.stream(side):
+-        out = sana_ln_modulate(norm, x, scale, shift)
++    side = torch.cuda.current_stream() if allow_eager else torch.cuda.Stream()
++    if not allow_eager:
++        side.wait_stream(torch.cuda.current_stream())
++    with torch.no_grad(), torch.cuda.stream(side):
++        out = sana_ln_modulate(norm, x, scale, shift, allow_eager=allow_eager)
+         assert len(sana._SANA_LN_MOD.verified_sigs) == n_sigs + 1  # verified
+-        out2 = sana_ln_modulate(norm, x, scale, shift)  # verified-sig lane
+-    torch.cuda.current_stream().wait_stream(side)
++        out2 = sana_ln_modulate(norm, x, scale, shift, allow_eager=allow_eager)  # verified-sig lane
++    if not allow_eager:
++        torch.cuda.current_stream().wait_stream(side)
+     torch.cuda.synchronize()
+     assert torch.equal(out, _sana_eager_ln_modulate(norm, x, scale, shift))
+     assert torch.equal(out2, out) and not sana._SANA_LN_MOD.disabled

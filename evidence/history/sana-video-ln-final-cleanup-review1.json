@@ -1,0 +1,40 @@
+{
+  "created_at": "2026-10-29T05:44:09.207773+00:00",
+  "head_sha": "e0d694593a65cb5b463c4011b84ee50abefa5e43",
+  "base_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "status": "full_final_diff_self_review_complete_runtime_validation_pending",
+  "style_evidence": "evidence/history/cleanup-style-notes.md",
+  "references": [
+    "https://github.com/sgl-project/sglang/pull/42391",
+    "https://github.com/sgl-project/sglang/pull/40265",
+    "https://github.com/sgl-project/sglang/pull/39293"
+  ],
+  "scope": "One independent problem: existing bit-exact LN+modulate is disabled for native video default-stream inference. Reuse it at three native video call sites.",
+  "cleanup": [
+    "Reuse existing _use_sana_bcg_fast_path instead of duplicating compiler/device/stream/grad policy.",
+    "Preserve existing per-signature live-ATen verification, capture no-sync guard, permanent mismatch fallback and fused kernel math.",
+    "No new kernel, environment variable, tuning knob, wrapper class or unrelated rename. Existing image callers omit the keyword and retain their prior policy.",
+    "Extend the existing4shape numerical test across both stream policies. Fresh gate state per case prevents signature reuse from hiding first-use coverage. Explicit default-stream inference and autograd checks address new dispatch risks.",
+    "Reuse existing generic BitExactFusionGate tests; no duplicate standalone kernel reference or timing test.",
+    "Shorten only comments within the edited test; update its overview and the relevant kernel README dispatch note."
+  ],
+  "semantics": [
+    "CPU or compiler tracing returns existing Torch expression before any CUDA stream calls.",
+    "Default-stream grad-enabled calls remain Torch even with opt-in.",
+    "Default-stream no-grad video inference may verify/cache/use the existing fusion.",
+    "Capture/non-default-stream eligibility is the same union as V1; capture flag is still checked before unverified first-sight sync.",
+    "No process/request state added; existing gate and quality-runner lifetimes remain unchanged."
+  ],
+  "validation": {
+    "local_precommit": "all applicable hooks pass after Ruff wrapped one call",
+    "diff_check": "pass",
+    "numerical_gpu_tests": "prepared_not_run",
+    "cpu_actual_compile": "prepared_not_run",
+    "quality_and_BCG": "prepared12request sequence perarm, not_run",
+    "cleanup_performance": "not_run; final model-level retest required",
+    "public_media": "not_created",
+    "PR_submitted": false
+  },
+  "upstream": "evidence/history/sana-video-ln-final-upstream-refresh1.json",
+  "review_change_from_draft": "Created an isolated local final worktree during V1 primary measurement to use the wait; remote V1 and frozen launchers remain immutable. No final GPU launch until V1 admitted."
+}

@@ -1,0 +1,79 @@
+{
+  "created_at": "2026-10-29T04:12:20.866879+00:00",
+  "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+  "checkpoint_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+  "model_path": "/task/cache/common/SANA-Video_2B_480p_diffusers",
+  "task": "t2v",
+  "physical_gpus": [
+    0
+  ],
+  "width": 832,
+  "height": 480,
+  "num_frames": 81,
+  "fps": 16,
+  "num_inference_steps": 50,
+  "guidance_scale": 6.0,
+  "negative_prompt": "",
+  "motion_score": 30,
+  "max_sequence_length": 300,
+  "seed": 1101,
+  "generator_device": "cpu",
+  "batch": 1,
+  "concurrency": 1,
+  "precision": "BF16 transformer/text encoder; FP32 Wan VAE and native initial noise/solver. Runtime verification required.",
+  "prompts": [
+    {
+      "id": "short",
+      "prompt": "A red ceramic teapot sits on a wooden table beside a window. The camera slowly moves from left to right. Soft morning light falls across the table."
+    },
+    {
+      "id": "long",
+      "prompt": "A continuous cinematic shot of a glossy red ceramic teapot on a pale wooden table beside a morning window. A small matte blue cup stands to the right of the teapot, with a folded cream linen napkin behind it. Thin steam rises slowly from the spout. The camera moves smoothly from left to right while keeping the teapot centered. Soft natural light, gentle shadows, stable object shapes and colors, realistic materials, no cuts, no people."
+    },
+    {
+      "id": "chinese",
+      "prompt": "清晨窗边的木桌上放着一把红色陶瓷茶壶，右边有一个蓝色杯子，后面是一块米色餐巾。细薄的蒸汽从壶嘴缓缓升起，镜头平稳地从左向右移动，保持茶壶的形状和颜色一致，自然光，写实电影画面，没有切换镜头，没有人物。"
+    }
+  ],
+  "sequence": [
+    "short",
+    "long",
+    "chinese",
+    "short"
+  ],
+  "effective_prompt_policy": "Omni native extra_params.motion_score=30 appends \" motion score: 30.\". SGL positive request explicitly includes that suffix because its native T2V pipeline has no motion_score expansion. Both native text stages lowercase/strip then prepend the same 1164-character instruction. Token/mask equivalence required before performance.",
+  "native_http": {
+    "sgl": "POST /v1/videos JSON, poll GET /v1/videos/{id} every0.01s, GET content aftercompletion; generator_device explicitlycpu",
+    "omni": "POST /v1/videos/sync multipart; native stage0 default_sampling_params.generator_device=cpu because VideoGenerationRequest doesnotforward thisfield. Checkactualruntimegenerator."
+  },
+  "encoding": {
+    "sgl_output_compression": 100,
+    "sgl_x264_preset": "ultrafast",
+    "omni_extra_params": {
+      "motion_score": 30,
+      "video_codec_options": {
+        "preset": "ultrafast",
+        "crf": "0",
+        "threads": "0"
+      }
+    },
+    "effective_codec": "H.264/libx264,CRF0,ultrafast,yuv420p,16fps,noaudio",
+    "note": "Native encoder/thread implementations retained. RGB-to-YUV420 conversion still subsamples chroma; use identical codec settings and decode all frames for comparisons. Record actual MP4 codec metadata."
+  },
+  "quality_gates": {
+    "main_candidate": "native artifact byte equality; report decoded-frame equality too",
+    "cross_framework": {
+      "per_frame_ssim_min": 0.92,
+      "per_frame_psnr_db_min": 24,
+      "report_aggregate_and_worst": true,
+      "all_81_frames_required": true
+    },
+    "visual": "Inspect actual first/middle/last frames at0,2.5,5.0seconds plusplayableclip: teapot/cupgeometry, motioncontinuity, stableobjects, promptfidelity. Retainfailedsamples."
+  },
+  "performance_admission": "Exact sameeffectiveinputs,source/checkpointpins andnativebackend; quality beforeprimarytiming. Failurecannotbeexcludedfrommatrix. Native qualityvariantsseparate.",
+  "pins": {
+    "sgl": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "omni": "817d4c17feb702289a2d2b2cbacfd594c262b7a7"
+  },
+  "status": "frozen_before_first_GPU_inference; source/API intendedcontracts mustbeverified at runtime"
+}
