@@ -1,0 +1,62 @@
+{
+  "all_final_dispatch_pass": true,
+  "rows": [
+    {
+      "config": "main_eager",
+      "request_id": "ed8b7e7e-4539-4e9f-bc51-14b877f4d049",
+      "trace": "evidence/profiles/anima-rope-final-diagnostics1-00-main_eager/ed8b7e7e-4539-4e9f-bc51-14b877f4d049-3_steps-global-rank0.trace.json.gz",
+      "trace_sha256": "e38a78aa52959a5c34bf26b13fe78975285b6fb7a42a88529db2891a20e9db8c",
+      "gpu_step3_ms": 195.601406,
+      "gpu_step3_kernel_count": 3326,
+      "gpu_step3_kernel_sum_ms": 135.694076,
+      "fused_rope": [],
+      "cuda_graph_launch_count": 0
+    },
+    {
+      "config": "final_eager",
+      "request_id": "32f8b4ff-dce3-4e9c-b155-dc921ea05766",
+      "trace": "evidence/profiles/anima-rope-final-diagnostics1-01-final_eager/32f8b4ff-dce3-4e9c-b155-dc921ea05766-3_steps-global-rank0.trace.json.gz",
+      "trace_sha256": "0bc0604bd09af2ba48501d54866350158c50085f3665f0248d560b19c25e7587",
+      "gpu_step3_ms": 182.377003,
+      "gpu_step3_kernel_count": 2486,
+      "gpu_step3_kernel_sum_ms": 117.835928,
+      "fused_rope": [
+        {
+          "name": "_rope_rotate_half_fp32_kernel",
+          "calls": 56,
+          "sum_ms": 0.9107599999999999
+        }
+      ],
+      "cuda_graph_launch_count": 0
+    },
+    {
+      "config": "final_bcg",
+      "request_id": "680a1f14-742f-4579-8afa-bcb7524c7d44",
+      "trace": "evidence/profiles/anima-rope-final-diagnostics1-02-final_bcg/680a1f14-742f-4579-8afa-bcb7524c7d44-3_steps-global-rank0.trace.json.gz",
+      "trace_sha256": "d0b37fa4e3ea39efddca62b80b0a86c5ab5b60ca28fbd7c3cdb29452c3f08a0b",
+      "gpu_step3_ms": 119.513232,
+      "gpu_step3_kernel_count": 2490,
+      "gpu_step3_kernel_sum_ms": 116.026214,
+      "fused_rope": [
+        {
+          "name": "_rope_rotate_half_fp32_kernel",
+          "calls": 56,
+          "sum_ms": 0.8846449999999995
+        }
+      ],
+      "cuda_graph_launch_count": 456
+    },
+    {
+      "config": "main_bcg",
+      "request_id": "3c6ecbb9-d0bb-45ae-b791-1393a971a365",
+      "trace": "evidence/profiles/anima-rope-final-diagnostics1-03-main_bcg/3c6ecbb9-d0bb-45ae-b791-1393a971a365-3_steps-global-rank0.trace.json.gz",
+      "trace_sha256": "2c9aa8bda2e97de31c5b5ed8d8aaa4fd730fd4f85302d809459d1103249906b0",
+      "gpu_step3_ms": 137.894934,
+      "gpu_step3_kernel_count": 3330,
+      "gpu_step3_kernel_sum_ms": 134.300081,
+      "fused_rope": [],
+      "cuda_graph_launch_count": 456
+    }
+  ],
+  "note": "Separate diagnostics; GPUannotationstep3 compared, requested3timesteps produces4GPUannotations. Not profiler-free latency."
+}

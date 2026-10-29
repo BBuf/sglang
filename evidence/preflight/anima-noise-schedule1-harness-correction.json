@@ -1,0 +1,6 @@
+{
+  "initial_script_sha256": "6de9ae4837a224e0b53f42de310cebd4008501234633c859a33b30bb5da7b20a",
+  "failed_assertion": "expected [1,16,1,128,128]; observed [1,16,1,1024,1024]",
+  "cause": "CPU harness omitted QwenImageVAEConfig.post_init, called by native vae_loader.py:366. Default spatial compression ratio is 1 before loader post-init; native runtime uses 8.",
+  "correction": "Call native VAE config post_init before shape preparation. No source, weights or input changes; no model inference occurred."
+}

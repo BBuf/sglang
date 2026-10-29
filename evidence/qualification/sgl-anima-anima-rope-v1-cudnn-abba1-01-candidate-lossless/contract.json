@@ -1,0 +1,57 @@
+{
+  "model": "circlestone-labs/Anima",
+  "checkpoint_revision": "f973fc41ec7545364ac9776c2440285f43ff2a30",
+  "checkpoint_file": "split_files/diffusion_models/anima-base-v1.0.safetensors",
+  "components_model": "circlestone-labs/Anima-Base-v1.0-Diffusers",
+  "components_revision": "073c3a9db359c31ad0e8aa268d15775473c2176c",
+  "sgl_model_path": "/task/cache/common/Anima-Base-v1.0-Diffusers",
+  "omni_model_path": "/task/cache/common/Anima-Base-v1.0-official/split_files/diffusion_models/anima-base-v1.0.safetensors",
+  "components_path": "/task/cache/common/Anima-Base-v1.0-Diffusers",
+  "physical_gpus": [
+    0
+  ],
+  "task": "t2i",
+  "width": 1024,
+  "height": 1024,
+  "num_inference_steps": 50,
+  "guidance_scale": 4.0,
+  "max_sequence_length": 512,
+  "negative_prompt": "",
+  "seed": 42,
+  "generator_device": "cpu",
+  "batch": 1,
+  "concurrency": 1,
+  "precision": "native BF16 weights/components, FP32 noise and solver; runtime audit pending",
+  "prompts": [
+    {
+      "id": "short",
+      "prompt": "A cinematic close-up of a glass teapot on a wooden table."
+    },
+    {
+      "id": "long",
+      "prompt": "A cinematic close-up of a transparent glass teapot filled with amber tea on a weathered wooden table. Soft morning light enters from a window on the left, creating reflections through the glass and a gentle shadow on the table. A small white ceramic cup stands beside the teapot, with a folded linen napkin behind it. Keep the glass handle and spout clearly shaped, the background softly blurred, and the colors natural."
+    },
+    {
+      "id": "chinese",
+      "prompt": "清晨温暖的咖啡馆，一把装着琥珀色茶水的透明玻璃茶壶放在木桌上，旁边有白色瓷杯。窗边的柔和光线穿过玻璃，背景黑板上清晰写着“慢慢喝茶”，电影摄影风格。"
+    }
+  ],
+  "quality_gates": {
+    "main_candidate": "pixel_exact_native_PNG",
+    "cross_framework": {
+      "ssim_min": 0.95,
+      "psnr_db_min": 28
+    },
+    "visual": "Inspect actual teapot geometry, reflections, scene fidelity and Chinese glyphs. Retain all failures."
+  },
+  "png_compression": {
+    "sgl_output_compression": 0,
+    "omni_output_compression": 100,
+    "effective_png_level": 0
+  },
+  "pins": {
+    "sgl": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "omni": "817d4c17feb702289a2d2b2cbacfd594c262b7a7"
+  },
+  "note": "Original and converted transformer/conditioner weights must pass tensor equivalence before GPU inference. No unsupported Omni2GPU/quant/offload/cache."
+}

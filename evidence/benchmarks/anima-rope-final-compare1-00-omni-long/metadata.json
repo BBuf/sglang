@@ -1,0 +1,68 @@
+{
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_repo": "/task/repos/vllm-omni",
+  "args": {
+    "arm": "omni",
+    "contract": "/task/inputs/anima-t2i-workloads.json",
+    "run_id": "anima-rope-final-compare1-00-omni-long",
+    "allowed_gpu_pids": [
+      21960
+    ],
+    "repeats": 4,
+    "warmups": 1,
+    "configuration_label": "omni",
+    "prompt_id": "long",
+    "repo": "/task/repos/vllm-omni",
+    "expected_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+    "expected_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "quality": "lossless",
+    "diagnostic_profiler": false
+  },
+  "physical_gpus": [
+    0
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "allowed_process_commands": {
+    "21960": "/usr/bin/python /usr/local/bin/vllm serve /task/cache/common/Anima-Base-v1.0-official/split_files/diffusion_models/anima-base-v1.0.safetensors --omni --num-gpus 1 --model-class-name AnimaPipeline --custom-pipeline-args {\"components_path\":\"/task/cache/common/Anima-Base-v1.0-Diffusers\"} --dtype bfloat16 --host 127.0.0.1 --port 31051 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+  "torch": "2.13.0+cu130",
+  "driver": "595.84",
+  "harness_sha256": "2ba9cb5eed79177c386d34573fa917d9396e11187cf361e5c3a61ff5150ab517",
+  "initial_gpu_state": {
+    "monotonic": 5619098.997945675,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          21960
+        ],
+        "memory_bytes": 12341149696,
+        "gpu_util_percent": 0,
+        "power_mw": 361723,
+        "temperature_c": 52,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 34209,
+        "temperature_c": 22,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident omni; fixed prompt and seed; conditioning cache warm"
+}

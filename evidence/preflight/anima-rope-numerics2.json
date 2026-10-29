@@ -1,0 +1,117 @@
+{
+  "scope": "Diagnostic variant, no source mutation or performance claim",
+  "torch": "2.14.1+cu130",
+  "triton": "3.8.0",
+  "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "rows": [
+    {
+      "name": "observed_warmup",
+      "baseline_mismatches": [
+        41,
+        49
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    },
+    {
+      "name": "torch.bfloat16(1, 17, 3, 128)",
+      "baseline_mismatches": [
+        0,
+        0
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    },
+    {
+      "name": "torch.bfloat16(2, 127, 4, 128)",
+      "baseline_mismatches": [
+        3,
+        4
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    },
+    {
+      "name": "torch.bfloat16(1, 4096, 16, 128)",
+      "baseline_mismatches": [
+        150,
+        158
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    },
+    {
+      "name": "torch.float16(1, 17, 3, 128)",
+      "baseline_mismatches": [
+        0,
+        2
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    },
+    {
+      "name": "torch.float16(2, 127, 4, 128)",
+      "baseline_mismatches": [
+        14,
+        16
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    },
+    {
+      "name": "torch.float16(1, 4096, 16, 128)",
+      "baseline_mismatches": [
+        969,
+        1020
+      ],
+      "candidate_mismatches": [
+        0,
+        0
+      ],
+      "candidate_exact": true
+    }
+  ],
+  "all_candidate_exact": true,
+  "codegen": {
+    "original": {
+      "ffma_count": 8,
+      "packed_mul_count": 8,
+      "scalar_mul_count": 0
+    },
+    "opaque_mul": {
+      "ffma_count": 0,
+      "packed_mul_count": 0,
+      "scalar_mul_count": 16
+    }
+  },
+  "artifacts": {
+    "/task/outputs/diagnostics/anima-rope-numerics2/opaque_mul.llir": "96352dee9c2f6c5b6554fb0b0a35bc6c29bd3529b7981bdfbc74c79c51c764a8",
+    "/task/outputs/diagnostics/anima-rope-numerics2/original.ptx": "95ca0201ef963b6be8fa5cc70df893e76214f2d6c1ad0b1865ee511a97049500",
+    "/task/outputs/diagnostics/anima-rope-numerics2/original.llir": "22623ff5c1c654b80594d8d79e5b09a665baf654b3ba354b682ac2dc56bd2b8b",
+    "/task/outputs/diagnostics/anima-rope-numerics2/opaque_mul.ptx": "c3aef5d50e884462ea37c4da24bf0aa4c3bce9ff034c80f93bbdff51eaeab0de",
+    "/task/outputs/diagnostics/anima-rope-numerics2/opaque_mul.sass": "c2a8495ca97480f3b6c5bc499d266c9a30d286815de24a0560b9228e7f141134",
+    "/task/outputs/diagnostics/anima-rope-numerics2/opaque_mul.cubin": "8d1030cf441b20e437dc6f2bc387a55a2227c9f97bf72e525771b33d94f858c6",
+    "/task/outputs/diagnostics/anima-rope-numerics2/original.sass": "aa7ae8b9cf480fa88c8d88f8043e1a3567fa2b356d6e86ac7fff0212bc66d493",
+    "/task/outputs/diagnostics/anima-rope-numerics2/original.cubin": "9f0c0f1e9927a15e711cde20dcd22a10818f71c12e00183e9ed929d6d251ed47"
+  },
+  "script_sha256": "57b38969c1a34fd2b938b3d5d6202012c57ab11dbb8ecabae8cf943681d48fa2",
+  "variant_sha256": "f9bca59ab89d2a8d485cd1c008c2417395fae827969ee9b2935310e5b2db2a25"
+}

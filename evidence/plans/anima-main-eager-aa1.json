@@ -1,0 +1,42 @@
+{
+  "id": "anima-main-eager-aa1",
+  "created_at": "2026-10-28T18:09:15.246966+00:00",
+  "quality": "lossless",
+  "benchmark": true,
+  "contract": "inputs/anima-t2i-workloads.json",
+  "order": [
+    "main"
+  ],
+  "configurations": {
+    "main": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_anima_eager_primary1.sh",
+      "references": [
+        "sgl-anima-t2i-native1",
+        "omni-anima-t2i-native1"
+      ],
+      "exact_reference": "sgl-anima-t2i-native1"
+    }
+  },
+  "warmups": 2,
+  "repeats": 12,
+  "measured_prompts": [
+    "short",
+    "long"
+  ],
+  "sha256": {
+    "scripts/run_anima_blocks1.py": "6d4469b4144ce7aa758b6e74ff7edfb03a371207e8840b70b829b27428abc938",
+    "scripts/submit_anima_candidate.py": "3102b05d527abc0a44931532fae093dc0722cd66f472359d50700b25bb3a33ba",
+    "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+    "scripts/bench_anima_serving.py": "2ba9cb5eed79177c386d34573fa917d9396e11187cf361e5c3a61ff5150ab517",
+    "scripts/launch_sgl_anima_eager_primary1.sh": "478e9f2a5c091968a36117916ccbd56e1104118b113b4d44d37849b47298d744",
+    "inputs/anima-t2i-workloads.json": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6"
+  },
+  "noise_policy": {
+    "cv_percent_max": 1.0,
+    "half_median_difference_percent_max": 1.0,
+    "paired_gain_must_exceed_aa_noise": true
+  },
+  "note": "Dedicated A/A before paired source change; no profiler/stage sync, exact main pixels. English short/long valid crossframework cells only; known Chinese quality failure retained in each full qualification. This is not yet a fastest-backend claim."
+}

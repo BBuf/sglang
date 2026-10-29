@@ -1,0 +1,76 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/anima-rope-v1-qualification1-sgl",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/anima-rope-v1-qualification1-sgl/server.pid; exec sh /task/launch_sgl_anima_rope_v1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_anima_candidate.py",
+        "sgl",
+        "--label",
+        "t2i-rope-v1",
+        "--contract",
+        "/task/inputs/anima-t2i-workloads.json",
+        "--source-root",
+        "/task/candidates/anima-rope-rounding",
+        "--source-sha",
+        "af21e2b989e482cfdce39689126562f2209d53ac",
+        "--diff-sha256",
+        "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875"
+      ],
+      "contract_sha256": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+      "diagnostic_profile": false
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python3",
+        "/task/submit_anima_candidate.py",
+        "sgl",
+        "--label",
+        "t2i-rope-v1-profile",
+        "--contract",
+        "/task/inputs/anima-t2i-workloads.json",
+        "--source-root",
+        "/task/candidates/anima-rope-rounding",
+        "--source-sha",
+        "af21e2b989e482cfdce39689126562f2209d53ac",
+        "--diff-sha256",
+        "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+        "--profile"
+      ],
+      "contract_sha256": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+      "diagnostic_profile": true
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Pinned single-kernel uncommitted patch on frozenmain; original fast-path gate retained, GPU0 and native default attention. Correctness/profile screen, not primary performance.",
+  "runner_sha256": "7d67aeb74737c24db8eb359062f4eb3f57264fd552c7e5046c303d6af4477ec6",
+  "launch_to_ready_seconds": 48.04523944761604,
+  "server_container_pid": 50798,
+  "gpu_snapshot_before_requests": "4077563, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 7144 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

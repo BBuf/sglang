@@ -1,0 +1,29 @@
+[
+  {
+    "arm": "main",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=0",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/repos/sglang/python",
+      "-w",
+      "/task/repos/sglang",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "-m",
+      "pytest",
+      "-v",
+      "test/registered/kernels/ops/diffusion/test_rope.py",
+      "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+      "-k",
+      "anima"
+    ],
+    "patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "returncode": 1,
+    "elapsed_seconds": 22.04467618558556
+  }
+]

@@ -1,0 +1,5 @@
+# Anima history admission
+
+Live search and full source diffs/descriptions/reviews read for #42608, #42609 and superseded #42598. #42608 merged bde01f8dc82dc1deaa0aec238335123085c86031: existing bit-exact modulate_scale_shift plus cached FFI callable, contiguous only small scale/shift rows, torch.compile fallback. BBuf approved. #42609 merged67959f80abb77cc44f4546bf1144303a3d9e5f78: paired split-half Q/K FP32 RoPE preserving unfused arithmetic, signature validation and eager/gradient/compile fallbacks, existing suite coverage. These are already frozen/native behavior, no new optimization claim or duplicate PR. #42598 closed unmerged superseded by #42609. Current search found no newer Anima-specific perf PR; generic attention/custom-op changes may still overlap and must be checked after profiling.
+
+No production candidate implemented. Anima native-only source and frozen component support verified directly. Profile required before selecting a new direction. Existing modulation/rope kernels and all families in benchmark skill existing-fast-paths.md remain prior art.

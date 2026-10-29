@@ -1,0 +1,47 @@
+{
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/anima-native-qualification1-omni",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/anima-native-qualification1-omni/server.pid; exec sh /task/launch_omni_anima_native1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-omni",
+        "python3",
+        "/task/submit_anima_qualification.py",
+        "omni",
+        "--label",
+        "t2i-native1",
+        "--contract",
+        "/task/inputs/anima-t2i-workloads.json"
+      ],
+      "contract_sha256": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+      "diagnostic_profile": false
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Native frozen source, tensor-equivalent original/converted checkpoints, GPU0 per arm, default native attention and Omni fast paths; qualification only.",
+  "runner_sha256": "dce70ca8a7891b03580a045397fea902c41cb73e8965494b302cfa57f37ec24b",
+  "launch_to_ready_seconds": 44.021608689799905,
+  "server_container_pid": 21128,
+  "gpu_snapshot_before_requests": "4034108, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 7392 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

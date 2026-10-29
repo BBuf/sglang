@@ -1,0 +1,47 @@
+{
+  "arm": "omni",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "benchmark": false,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/anima-tensor-audit1-omni",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/anima-tensor-audit1-omni/server.pid; exec sh /task/launch_omni_anima_audit1.sh"
+  ],
+  "requests": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-omni",
+        "python3",
+        "/task/submit_anima_qualification.py",
+        "omni",
+        "--label",
+        "t2i-audit1",
+        "--contract",
+        "/task/inputs/anima-t2i-workloads.json"
+      ],
+      "contract_sha256": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+      "diagnostic_profile": false
+    }
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "physical_gpus_used": [
+    0
+  ],
+  "note": "Opt-in import observer outside compiled modules; record tokens, native conditioner input/output, first/last scheduler step and first SGL rope operands. Require byte-exact original outputs, no timing claim.",
+  "runner_sha256": "5b26093f0c01aff1e350b8bef4eeedc729b8131579450c8285241735893d9c0b",
+  "launch_to_ready_seconds": 38.01757913734764,
+  "server_container_pid": 21489,
+  "gpu_snapshot_before_requests": "4045388, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 7422 MiB",
+  "status": "generated_raw_quality_and_diagnostics"
+}

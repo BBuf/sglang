@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-10-28T18:16:10.927667+00:00",
+  "candidate": "anima-rope-rounding",
+  "branch": "codex/rtx6000-anima-rope-rounding",
+  "final_path": "candidates/anima-rope-rounding-final",
+  "files": [
+    "python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_fp32.py",
+    "python/sglang/kernels/ops/diffusion/README.md"
+  ],
+  "status": "cleanup_local_only_final_retest_pending",
+  "note": "Isolated final checkout. Production kernel byte-identical to pinned V1; cleanup found no experimental branches/helpers/tests to retain or delete. Necessary operator documentation added. No new PR count.",
+  "kernel_sha256": "744df76abec88b3a915f0ad2eda0f6bc2063a66cea0b1d50ffa944cb6f186f30",
+  "v1_kernel_exact": true,
+  "review": [
+    "Reuse existing mul_rn_f32; no new arithmetic helper or platform flags.",
+    "Keep existing input guard, first-use equality gate, compile and graph fallback behavior.",
+    "Existing tests reproduce baseline failures and pass candidate; no duplicated test suite.",
+    "Only touched kernel plus required README row; no dependency/namespace/unrelated formatting changes."
+  ],
+  "model_performance_retest": "pending; no cleanup performance claim"
+}

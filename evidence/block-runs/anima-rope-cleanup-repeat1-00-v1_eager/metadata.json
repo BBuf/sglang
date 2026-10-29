@@ -1,0 +1,200 @@
+{
+  "plan": {
+    "id": "anima-rope-cleanup-repeat1",
+    "created_at": "2026-10-29T02:38:07.825526+00:00",
+    "quality": "lossless",
+    "benchmark": true,
+    "contract": "inputs/anima-t2i-workloads.json",
+    "order": [
+      "v1_eager",
+      "final_eager",
+      "final_eager",
+      "v1_eager"
+    ],
+    "configurations": {
+      "v1_eager": {
+        "arm": "sgl",
+        "repo": "/task/candidates/anima-rope-rounding",
+        "launcher": "launch_sgl_anima_cudnn_primary1.sh",
+        "references": [
+          "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+          "omni-anima-t2i-native1"
+        ],
+        "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "diff_sha256": "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875"
+      },
+      "final_eager": {
+        "arm": "sgl",
+        "repo": "/task/candidates/anima-rope-rounding-final",
+        "launcher": "launch_sgl_anima_cudnn_primary1.sh",
+        "references": [
+          "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+          "omni-anima-t2i-native1"
+        ],
+        "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "head": "883ad602418f51dc406378e1a5aa0ba8438f6b27"
+      }
+    },
+    "warmups": 2,
+    "repeats": 8,
+    "measured_prompts": [
+      "short",
+      "long"
+    ],
+    "sha256": {
+      "scripts/run_anima_blocks2.py": "7189c41e0b9b09aec4adeaa4490c0ed4ef8bd618d2236574374b8a142602c935",
+      "scripts/submit_anima_candidate.py": "3102b05d527abc0a44931532fae093dc0722cd66f472359d50700b25bb3a33ba",
+      "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+      "scripts/bench_anima_serving.py": "2ba9cb5eed79177c386d34573fa917d9396e11187cf361e5c3a61ff5150ab517",
+      "scripts/launch_sgl_anima_cudnn_primary1.sh": "09c35d274421fbd4cdb2de7593e3f53df07eb885691113bcd00398e775b75209",
+      "inputs/anima-t2i-workloads.json": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6"
+    },
+    "noise_policy": {
+      "cv_percent_max": 1.0,
+      "half_median_difference_percent_max": 1.0,
+      "paired_gain_must_exceed_aa_noise": true
+    },
+    "note": "One fixed supplementary cleanup ABBA prompted by original tiny negative point estimates (short -0.1365%,long -0.0884%). Executable kernel byte-identical; final adds README only. Keep all original data; do not rerun until favorable. Pooled original and supplementary paired comparisons plus block variability will be disclosed. This is not a new optimization or replacement for main/Omni final results.",
+    "pair_indices": {
+      "v1_over_final_cleanup": [
+        [
+          0,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    },
+    "acceptance": {
+      "main_final_gain_exceeds_measured_aa_noise": true,
+      "cleanup_final_regression_percent_max": 1.0,
+      "bcg_new_net_win_percent_min": 1.5,
+      "no_global_matrix_victory_claim": true
+    }
+  },
+  "index": 0,
+  "config": "v1_eager",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/candidates/anima-rope-rounding",
+    "-e",
+    "SGL_EXPECTED_HEAD=af21e2b989e482cfdce39689126562f2209d53ac",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/anima-rope-cleanup-repeat1-00-v1_eager",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/anima-rope-cleanup-repeat1-00-v1_eager/server.pid; exec sh /task/launch_sgl_anima_cudnn_primary1.sh"
+  ],
+  "runner_sha256": "7189c41e0b9b09aec4adeaa4490c0ed4ef8bd618d2236574374b8a142602c935",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_anima_candidate.py",
+      "sgl",
+      "--quality",
+      "lossless",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--source-root",
+      "/task/candidates/anima-rope-rounding",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--diff-sha256",
+      "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+      "--label",
+      "anima-rope-cleanup-repeat1-00-v1_eager-lossless"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/compare_moss_qualification.py",
+      "sgl-anima-anima-rope-cleanup-repeat1-00-v1_eager-lossless",
+      "--root",
+      "/task/outputs/qualification",
+      "--reference",
+      "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+      "--reference",
+      "omni-anima-t2i-native1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/bench_anima_serving.py",
+      "sgl",
+      "--run-id",
+      "anima-rope-cleanup-repeat1-00-v1_eager-short",
+      "--repo",
+      "/task/candidates/anima-rope-rounding",
+      "--allowed-gpu-pids",
+      "69649",
+      "--quality",
+      "lossless",
+      "--configuration-label",
+      "v1_eager",
+      "--warmups",
+      "2",
+      "--repeats",
+      "8",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--prompt-id",
+      "short"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/bench_anima_serving.py",
+      "sgl",
+      "--run-id",
+      "anima-rope-cleanup-repeat1-00-v1_eager-long",
+      "--repo",
+      "/task/candidates/anima-rope-rounding",
+      "--allowed-gpu-pids",
+      "69649",
+      "--quality",
+      "lossless",
+      "--configuration-label",
+      "v1_eager",
+      "--warmups",
+      "2",
+      "--repeats",
+      "8",
+      "--expected-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--expected-diff-sha256",
+      "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--prompt-id",
+      "long"
+    ]
+  ],
+  "launch_to_ready_seconds": 44.041891616769135,
+  "gpu_container_pids": [
+    [
+      69649
+    ],
+    []
+  ],
+  "status": "complete"
+}

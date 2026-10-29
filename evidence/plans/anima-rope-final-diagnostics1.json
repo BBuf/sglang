@@ -1,0 +1,92 @@
+{
+  "id": "anima-rope-final-diagnostics1",
+  "created_at": "2026-10-28T18:34:08.871860+00:00",
+  "quality": "lossless",
+  "benchmark": true,
+  "contract": "inputs/anima-t2i-workloads.json",
+  "order": [
+    "main_eager",
+    "final_eager",
+    "final_bcg",
+    "main_bcg"
+  ],
+  "configurations": {
+    "main_eager": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_anima_cudnn_diagnostics1.sh",
+      "references": [
+        "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "omni-anima-t2i-native1"
+      ],
+      "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+      "profile": true
+    },
+    "final_eager": {
+      "arm": "sgl",
+      "repo": "/task/candidates/anima-rope-rounding-final",
+      "launcher": "launch_sgl_anima_cudnn_diagnostics1.sh",
+      "references": [
+        "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "omni-anima-t2i-native1"
+      ],
+      "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+      "head": "883ad602418f51dc406378e1a5aa0ba8438f6b27",
+      "profile": true
+    },
+    "final_bcg": {
+      "arm": "sgl",
+      "repo": "/task/candidates/anima-rope-rounding-final",
+      "launcher": "launch_sgl_anima_cudnn_bcg_diagnostics1.sh",
+      "references": [
+        "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "omni-anima-t2i-native1"
+      ],
+      "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+      "head": "883ad602418f51dc406378e1a5aa0ba8438f6b27",
+      "profile": true
+    },
+    "main_bcg": {
+      "arm": "sgl",
+      "repo": "/task/repos/sglang",
+      "launcher": "launch_sgl_anima_cudnn_bcg_diagnostics1.sh",
+      "references": [
+        "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "omni-anima-t2i-native1"
+      ],
+      "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+      "profile": true
+    }
+  },
+  "warmups": 1,
+  "repeats": 4,
+  "measured_prompts": [
+    "short",
+    "long"
+  ],
+  "sha256": {
+    "scripts/run_anima_blocks3.py": "2e2097e4b01cc37828011ff4225ce8062719ab05b5be8e7db412937083df20de",
+    "scripts/submit_anima_candidate.py": "3102b05d527abc0a44931532fae093dc0722cd66f472359d50700b25bb3a33ba",
+    "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+    "scripts/bench_anima_serving2.py": "61de6e79bbaff64ced71c2224406399b0fe80678a2ac34cbd8bc5ca8b8a37d5c",
+    "inputs/anima-t2i-workloads.json": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+    "scripts/launch_sgl_anima_cudnn_diagnostics1.sh": "eb3d3a064bb5859f271895e882e9c10a332078f8190575ee13ce0cb95fb51f8d",
+    "scripts/launch_sgl_anima_cudnn_bcg_diagnostics1.sh": "ffa82bd1ea04fc0bc7eb74e54bec7291f6a8700dc2d4704909af357aa2a6202e"
+  },
+  "note": "Final-head synchronized denoise diagnostics,4samples per English prompt and config,onewarmup; all E2E timings excluded from primary. Separate profile after timing in each process; exact all4qualification images. SYNC1 native stage/step timers, not concurrent torch profiler during measured requests.",
+  "pair_indices": {
+    "main_eager_over_final_eager": [
+      [
+        0,
+        1
+      ]
+    ],
+    "main_bcg_over_final_bcg": [
+      [
+        3,
+        2
+      ]
+    ]
+  },
+  "diagnostic_timing": true
+}

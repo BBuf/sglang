@@ -1,0 +1,153 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "pull_request": {
+      "url": "https://github.com/triton-lang/triton/pull/12304",
+      "number": 12304,
+      "state": "closed",
+      "merged": true,
+      "mergeable": false,
+      "draft": false,
+      "body": "BF16-to-FP32 accumulation chains are currently costed as ordinary FP32 additions because `isFusedHalfAddition` only recognizes FP16 extensions. On SM100, this can select packed FP32 additions that retain separate BF16 conversions instead of folding them into mixed-precision adds.\n\nRecognize BF16 extensions when computing the scalar addition-chain cost. The predicate remains restricted to FP32 `FAdd`; FMA operand-type matching is unchanged.\n\nAdd regression coverage for BF16 accumulation, both FP16/BF16 FMA factor orders, and same-type FMA controls. The mixed-factor cases retain their conversions and use ordinary FP32 FMA.\n\nValidation:\n- Full compiler lit suite: 305 passed, 2 unsupported plugin tests.\n- 48 GB200 numerical/codegen cases passed, covering both factor orders, contraction enabled/disabled, scalar and packed layouts, and FMA followed by BF16 accumulation. None of the 24 mixed-factor cases emitted `FHFMA`.\n- Pre-commit checks passed.\n",
+      "title": "[NVIDIA] Account for BF16 mixed-precision adds in the vectorizer",
+      "base": "main",
+      "base_sha": "4e207e68fefe83bf2e619452a3581889eb47fc4c",
+      "head": "marat/fix-bf16-mixed-precision-add",
+      "head_sha": "954619e9276e2fcdce5a240d45f9d3213e220c14",
+      "head_repo_id": 23496542,
+      "head_repo_full_name": "triton-lang/triton",
+      "merge_commit_sha": "4eda6cc91e86553a2517d1c764ea2967985553ad",
+      "user": {
+        "login": "Maratyszcza",
+        "name": "Maratyszcza",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/1093985?v=4",
+        "id": 1093985
+      },
+      "requested_reviewers": [
+        {
+          "login": "ptillet",
+          "name": "ptillet",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/614788?v=4",
+          "id": 614788
+        }
+      ],
+      "requested_team_reviewers": null,
+      "diff": "@@ -641,7 +641,8 @@ class NVPTXVectorizer {\n \n     return llvm::any_of(instruction.operands(), [](Value *operand) {\n       auto *extension = dyn_cast<FPExtInst>(operand);\n-      return extension && extension->getSrcTy()->isHalfTy();\n+      return extension && (extension->getSrcTy()->isHalfTy() ||\n+                           extension->getSrcTy()->isBFloatTy());\n     });\n   }\n \n@@ -747,6 +747,45 @@ define void @scalar_short_mixed_precision_reduction(ptr addrspace(1) %dst,\n   ret void\n }\n \n+; BLACKWELL-LABEL: define void @scalar_short_bf16_mixed_precision_reduction(\n+; BLACKWELL-NOT: fadd <2 x float>\n+; BLACKWELL-COUNT-6: fadd float\n+; BLACKWELL-NOT: fadd <2 x float>\n+; BLACKWELL: fmul <2 x float>\n+; PTX-LABEL: .visible .func scalar_short_bf16_mixed_precision_reduction(\n+; PTX-NOT: add.rn.f32x2\n+; PTX-COUNT-4: add.rn.f32.bf16\n+; PTX-NOT: add.rn.f32x2\n+; PTX: ret;\n+define void @scalar_short_bf16_mixed_precision_reduction(\n+    ptr addrspace(1) %dst, <2 x bfloat> %first, <2 x bfloat> %second,\n+    <2 x bfloat> %third) {\n+  %first0 = extractelement <2 x bfloat> %first, i64 0\n+  %first1 = extractelement <2 x bfloat> %first, i64 1\n+  %first.ext0 = fpext bfloat %first0 to float\n+  %first.ext1 = fpext bfloat %first1 to float\n+  %first.sum0 = fadd float %first.ext0, 0.0\n+  %first.sum1 = fadd float %first.ext1, 0.0\n+  %second0 = extractelement <2 x bfloat> %second, i64 0\n+  %second1 = extractelement <2 x bfloat> %second, i64 1\n+  %second.ext0 = fpext bfloat %second0 to float\n+  %second.ext1 = fpext bfloat %second1 to float\n+  %second.sum0 = fadd float %first.sum0, %second.ext0\n+  %second.sum1 = fadd float %first.sum1, %second.ext1\n+  %third0 = extractelement <2 x bfloat> %third, i64 0\n+  %third1 = extractelement <2 x bfloat> %third, i64 1\n+  %third.ext0 = fpext bfloat %third0 to float\n+  %third.ext1 = fpext bfloat %third1 to float\n+  %result0 = fadd float %second.sum0, %third.ext0\n+  %result1 = fadd float %second.sum1, %third.ext1\n+  %scaled0 = fmul float %result0, 3.0\n+  %scaled1 = fmul float %result1, 3.0\n+  %packed0 = insertelement <2 x float> poison, float %scaled0, i64 0\n+  %packed1 = insertelement <2 x float> %packed0, float %scaled1, i64 1\n+  store <2 x float> %packed1, ptr addrspace(1) %dst, align 8\n+  ret void\n+}\n+\n ; BLACKWELL-LABEL: define void @packed_single_mixed_precision_add(\n ; BLACKWELL: fadd <2 x float>\n define void @packed_single_mixed_precision_add(ptr addrspace(1) %dst,\n@@ -1130,6 +1169,70 @@ declare float @llvm.fma.f32(float, float, float)\n declare half @llvm.fma.f16(half, half, half)\n declare float @llvm.nvvm.div.full(float, float)\n \n+; CHECK-LABEL: define void @scalar_f16_bf16_fma(\n+; CHECK: %lhs.ext = fpext half %lhs to float\n+; CHECK: %rhs.ext = fpext bfloat %rhs to float\n+; CHECK: %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+; PTX-LABEL: .visible .func scalar_f16_bf16_fma(\n+; PTX-DAG: cvt.f32.f16\n+; PTX-DAG: cvt.f32.bf16\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: fma.rn.f32{{[ \\t]}}\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: ret;\n+define void @scalar_f16_bf16_fma(ptr addrspace(1) %dst, half %lhs,\n+                                bfloat %rhs, float %addend) {\n+  %lhs.ext = fpext half %lhs to float\n+  %rhs.ext = fpext bfloat %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n+; CHECK-LABEL: define void @scalar_bf16_f16_fma(\n+; CHECK: %lhs.ext = fpext bfloat %lhs to float\n+; CHECK: %rhs.ext = fpext half %rhs to float\n+; CHECK: %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+; PTX-LABEL: .visible .func scalar_bf16_f16_fma(\n+; PTX-DAG: cvt.f32.bf16\n+; PTX-DAG: cvt.f32.f16\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: fma.rn.f32{{[ \\t]}}\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: ret;\n+define void @scalar_bf16_f16_fma(ptr addrspace(1) %dst, bfloat %lhs,\n+                                half %rhs, float %addend) {\n+  %lhs.ext = fpext bfloat %lhs to float\n+  %rhs.ext = fpext half %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n+; PTX-LABEL: .visible .func scalar_f16_f16_fma(\n+; PTX: fma.rn.f32.f16{{[ \\t]}}\n+; PTX: ret;\n+define void @scalar_f16_f16_fma(ptr addrspace(1) %dst, half %lhs,\n+                               half %rhs, float %addend) {\n+  %lhs.ext = fpext half %lhs to float\n+  %rhs.ext = fpext half %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n+; PTX-LABEL: .visible .func scalar_bf16_bf16_fma(\n+; PTX: fma.rn.f32.bf16{{[ \\t]}}\n+; PTX: ret;\n+define void @scalar_bf16_bf16_fma(ptr addrspace(1) %dst, bfloat %lhs,\n+                                bfloat %rhs, float %addend) {\n+  %lhs.ext = fpext bfloat %lhs to float\n+  %rhs.ext = fpext bfloat %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n ; HOPPER-ONLY-LABEL: define void @packed_f32_fma(\n ; HOPPER-ONLY-COUNT-2: call float @llvm.fma.f32\n ; BLACKWELL-LABEL: define void @packed_f32_fma(",
+      "comments": [
+        {
+          "url": "https://github.com/triton-lang/triton/pull/12304#issuecomment-6180635906",
+          "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-14T23:21:23.738471Z\">2026-10-14T23:21:23.738471Z</relative-time> | `954619e` | PR opened |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+          "user": {
+            "login": "chatgpt-codex-connector[bot]",
+            "name": "chatgpt-codex-connector[bot]",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+            "id": 199175422
+          },
+          "id": 6180635906,
+          "pull_request_review_id": null,
+          "in_reply_to_id": null,
+          "created_at": "2026-10-14T23:19:19Z",
+          "updated_at": "2026-10-14T23:21:24Z",
+          "review": null,
+          "side": null,
+          "line": null,
+          "start_line": null,
+          "path": null,
+          "body_html": "\n<h2 dir=\"auto\">Codex Review Summary</h2>\n<p dir=\"auto\">This comment shows the latest Codex review activity on this pull request.</p>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>Review</th>\n<th>Status</th>\n<th>Commit</th>\n<th>Review trigger</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>📝 <strong>Code Review</strong></td>\n<td>✅ <strong>Completed</strong> <relative-time datetime=\"2026-10-14T23:21:23.738471Z\">2026-10-14T23:21:23.738471Z</relative-time></td>\n<td><code class=\"notranslate\">954619e</code></td>\n<td>PR opened</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br>\n<p dir=\"auto\"><a href=\"https://chatgpt.com/codex/cloud/settings/general\" rel=\"nofollow\">Your team has set up Codex to review pull requests in this repo</a>. Reviews are triggered when you</p>\n<ul dir=\"auto\">\n<li>Open a pull request for review</li>\n<li>Mark a draft as ready</li>\n<li>Comment \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> review\" or \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> security review\".</li>\n</ul>\n<p dir=\"auto\">Codex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.</p>\n</details>"
+        },
+        {
+          "url": "https://github.com/triton-lang/triton/pull/12304#pullrequestreview-5526019969",
+          "body": "",
+          "user": {
+            "login": "ThomasRaoux",
+            "name": "ThomasRaoux",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/24322263?u=6f8e5951cbf7946bd4f607026d77ee2f2f47740b&v=4",
+            "id": 24322263
+          },
+          "id": 5526019969,
+          "pull_request_review_id": null,
+          "in_reply_to_id": null,
+          "created_at": "2026-10-14T23:23:39Z",
+          "updated_at": null,
+          "review": "APPROVED",
+          "side": null,
+          "line": null,
+          "start_line": null,
+          "path": null,
+          "body_html": ""
+        }
+      ],
+      "created_at": "2026-10-14T23:18:50Z",
+      "updated_at": "2026-10-15T04:06:40Z",
+      "closed_at": "2026-10-15T04:06:38Z",
+      "merged_at": "2026-10-15T04:06:38Z",
+      "commits": 1,
+      "changed_files": 2,
+      "additions": 105,
+      "deletions": 1,
+      "display_url": "https://github.com/triton-lang/triton/pull/12304",
+      "display_title": "[NVIDIA] Account for BF16 mixed-precision adds in the vectorizer"
+    },
+    "url": "https://github.com/triton-lang/triton/pull/12304",
+    "title": "[NVIDIA] Account for BF16 mixed-precision adds in the vectorizer",
+    "diff": "@@ -641,7 +641,8 @@ class NVPTXVectorizer {\n \n     return llvm::any_of(instruction.operands(), [](Value *operand) {\n       auto *extension = dyn_cast<FPExtInst>(operand);\n-      return extension && extension->getSrcTy()->isHalfTy();\n+      return extension && (extension->getSrcTy()->isHalfTy() ||\n+                           extension->getSrcTy()->isBFloatTy());\n     });\n   }\n \n@@ -747,6 +747,45 @@ define void @scalar_short_mixed_precision_reduction(ptr addrspace(1) %dst,\n   ret void\n }\n \n+; BLACKWELL-LABEL: define void @scalar_short_bf16_mixed_precision_reduction(\n+; BLACKWELL-NOT: fadd <2 x float>\n+; BLACKWELL-COUNT-6: fadd float\n+; BLACKWELL-NOT: fadd <2 x float>\n+; BLACKWELL: fmul <2 x float>\n+; PTX-LABEL: .visible .func scalar_short_bf16_mixed_precision_reduction(\n+; PTX-NOT: add.rn.f32x2\n+; PTX-COUNT-4: add.rn.f32.bf16\n+; PTX-NOT: add.rn.f32x2\n+; PTX: ret;\n+define void @scalar_short_bf16_mixed_precision_reduction(\n+    ptr addrspace(1) %dst, <2 x bfloat> %first, <2 x bfloat> %second,\n+    <2 x bfloat> %third) {\n+  %first0 = extractelement <2 x bfloat> %first, i64 0\n+  %first1 = extractelement <2 x bfloat> %first, i64 1\n+  %first.ext0 = fpext bfloat %first0 to float\n+  %first.ext1 = fpext bfloat %first1 to float\n+  %first.sum0 = fadd float %first.ext0, 0.0\n+  %first.sum1 = fadd float %first.ext1, 0.0\n+  %second0 = extractelement <2 x bfloat> %second, i64 0\n+  %second1 = extractelement <2 x bfloat> %second, i64 1\n+  %second.ext0 = fpext bfloat %second0 to float\n+  %second.ext1 = fpext bfloat %second1 to float\n+  %second.sum0 = fadd float %first.sum0, %second.ext0\n+  %second.sum1 = fadd float %first.sum1, %second.ext1\n+  %third0 = extractelement <2 x bfloat> %third, i64 0\n+  %third1 = extractelement <2 x bfloat> %third, i64 1\n+  %third.ext0 = fpext bfloat %third0 to float\n+  %third.ext1 = fpext bfloat %third1 to float\n+  %result0 = fadd float %second.sum0, %third.ext0\n+  %result1 = fadd float %second.sum1, %third.ext1\n+  %scaled0 = fmul float %result0, 3.0\n+  %scaled1 = fmul float %result1, 3.0\n+  %packed0 = insertelement <2 x float> poison, float %scaled0, i64 0\n+  %packed1 = insertelement <2 x float> %packed0, float %scaled1, i64 1\n+  store <2 x float> %packed1, ptr addrspace(1) %dst, align 8\n+  ret void\n+}\n+\n ; BLACKWELL-LABEL: define void @packed_single_mixed_precision_add(\n ; BLACKWELL: fadd <2 x float>\n define void @packed_single_mixed_precision_add(ptr addrspace(1) %dst,\n@@ -1130,6 +1169,70 @@ declare float @llvm.fma.f32(float, float, float)\n declare half @llvm.fma.f16(half, half, half)\n declare float @llvm.nvvm.div.full(float, float)\n \n+; CHECK-LABEL: define void @scalar_f16_bf16_fma(\n+; CHECK: %lhs.ext = fpext half %lhs to float\n+; CHECK: %rhs.ext = fpext bfloat %rhs to float\n+; CHECK: %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+; PTX-LABEL: .visible .func scalar_f16_bf16_fma(\n+; PTX-DAG: cvt.f32.f16\n+; PTX-DAG: cvt.f32.bf16\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: fma.rn.f32{{[ \\t]}}\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: ret;\n+define void @scalar_f16_bf16_fma(ptr addrspace(1) %dst, half %lhs,\n+                                bfloat %rhs, float %addend) {\n+  %lhs.ext = fpext half %lhs to float\n+  %rhs.ext = fpext bfloat %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n+; CHECK-LABEL: define void @scalar_bf16_f16_fma(\n+; CHECK: %lhs.ext = fpext bfloat %lhs to float\n+; CHECK: %rhs.ext = fpext half %rhs to float\n+; CHECK: %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+; PTX-LABEL: .visible .func scalar_bf16_f16_fma(\n+; PTX-DAG: cvt.f32.bf16\n+; PTX-DAG: cvt.f32.f16\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: fma.rn.f32{{[ \\t]}}\n+; PTX-NOT: fma.rn.f32.{{(f16|bf16)}}\n+; PTX: ret;\n+define void @scalar_bf16_f16_fma(ptr addrspace(1) %dst, bfloat %lhs,\n+                                half %rhs, float %addend) {\n+  %lhs.ext = fpext bfloat %lhs to float\n+  %rhs.ext = fpext half %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n+; PTX-LABEL: .visible .func scalar_f16_f16_fma(\n+; PTX: fma.rn.f32.f16{{[ \\t]}}\n+; PTX: ret;\n+define void @scalar_f16_f16_fma(ptr addrspace(1) %dst, half %lhs,\n+                               half %rhs, float %addend) {\n+  %lhs.ext = fpext half %lhs to float\n+  %rhs.ext = fpext half %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n+; PTX-LABEL: .visible .func scalar_bf16_bf16_fma(\n+; PTX: fma.rn.f32.bf16{{[ \\t]}}\n+; PTX: ret;\n+define void @scalar_bf16_bf16_fma(ptr addrspace(1) %dst, bfloat %lhs,\n+                                bfloat %rhs, float %addend) {\n+  %lhs.ext = fpext bfloat %lhs to float\n+  %rhs.ext = fpext bfloat %rhs to float\n+  %result = call float @llvm.fma.f32(float %lhs.ext, float %rhs.ext, float %addend)\n+  store float %result, ptr addrspace(1) %dst, align 4\n+  ret void\n+}\n+\n ; HOPPER-ONLY-LABEL: define void @packed_f32_fma(\n ; HOPPER-ONLY-COUNT-2: call float @llvm.fma.f32\n ; BLACKWELL-LABEL: define void @packed_f32_fma(",
+    "comments": [
+      {
+        "url": "https://github.com/triton-lang/triton/pull/12304#issuecomment-6180635906",
+        "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-14T23:21:23.738471Z\">2026-10-14T23:21:23.738471Z</relative-time> | `954619e` | PR opened |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+        "user": {
+          "login": "chatgpt-codex-connector[bot]",
+          "name": "chatgpt-codex-connector[bot]",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+          "id": 199175422
+        },
+        "id": 6180635906,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-14T23:19:19Z",
+        "updated_at": "2026-10-14T23:21:24Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "\n<h2 dir=\"auto\">Codex Review Summary</h2>\n<p dir=\"auto\">This comment shows the latest Codex review activity on this pull request.</p>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>Review</th>\n<th>Status</th>\n<th>Commit</th>\n<th>Review trigger</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>📝 <strong>Code Review</strong></td>\n<td>✅ <strong>Completed</strong> <relative-time datetime=\"2026-10-14T23:21:23.738471Z\">2026-10-14T23:21:23.738471Z</relative-time></td>\n<td><code class=\"notranslate\">954619e</code></td>\n<td>PR opened</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br>\n<p dir=\"auto\"><a href=\"https://chatgpt.com/codex/cloud/settings/general\" rel=\"nofollow\">Your team has set up Codex to review pull requests in this repo</a>. Reviews are triggered when you</p>\n<ul dir=\"auto\">\n<li>Open a pull request for review</li>\n<li>Mark a draft as ready</li>\n<li>Comment \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> review\" or \"<a class=\"user-mention notranslate\" data-hovercard-type=\"user\" data-hovercard-url=\"/users/codex/hovercard\" data-octo-click=\"hovercard-link-click\" data-octo-dimensions=\"link_type:self\" href=\"https://github.com/codex\">@codex</a> security review\".</li>\n</ul>\n<p dir=\"auto\">Codex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.</p>\n</details>"
+      },
+      {
+        "url": "https://github.com/triton-lang/triton/pull/12304#pullrequestreview-5526019969",
+        "body": "",
+        "user": {
+          "login": "ThomasRaoux",
+          "name": "ThomasRaoux",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/24322263?u=6f8e5951cbf7946bd4f607026d77ee2f2f47740b&v=4",
+          "id": 24322263
+        },
+        "id": 5526019969,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-14T23:23:39Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": ""
+      }
+    ],
+    "display_url": "https://github.com/triton-lang/triton/pull/12304",
+    "display_title": "[NVIDIA] Account for BF16 mixed-precision adds in the vectorizer"
+  },
+  "isError": false
+}

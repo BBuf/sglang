@@ -1,0 +1,29 @@
+[
+  {
+    "arm": "candidate",
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=0",
+      "-e",
+      "FLASHINFER_DISABLE_VERSION_CHECK=1",
+      "-e",
+      "PYTHONPATH=/task/candidates/anima-rope-rounding/python",
+      "-w",
+      "/task/candidates/anima-rope-rounding",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "-m",
+      "pytest",
+      "-v",
+      "test/registered/kernels/ops/diffusion/test_rope.py",
+      "test/registered/kernels/ops/diffusion/test_model_fast_paths.py",
+      "-k",
+      "anima"
+    ],
+    "patch_sha256": "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875",
+    "returncode": 0,
+    "elapsed_seconds": 21.392692835070193
+  }
+]

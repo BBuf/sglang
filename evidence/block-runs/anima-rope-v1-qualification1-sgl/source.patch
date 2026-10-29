@@ -1,0 +1,25 @@
+diff --git a/python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_fp32.py b/python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_fp32.py
+index b9ada75780620f99c6807f54f54d83b85b80fc75..69b53ba374dcc8d978d24520d50d30f95f99313a 100644
+--- a/python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_fp32.py
++++ b/python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_fp32.py
+@@ -9,6 +9,8 @@ import torch
+ import triton
+ import triton.language as tl
+ 
++from sglang.kernels.numerics import mul_rn_f32
++
+ 
+ @triton.jit
+ def _rope_rotate_half_fp32_kernel(
+@@ -38,8 +40,9 @@ def _rope_rotate_half_fp32_kernel(
+         x = tl.load(K + offsets, mask, other=0).to(tl.float32)
+         r = tl.load(K + rotated, mask, other=0).to(tl.float32)
+     r = tl.where(col < D // 2, -r, r)
+-    # Preserve the two FP32 multiplication boundaries; do not contract to FMA.
+-    out = x * c + r * s
++    # Packed FP32 lowering can contract despite enable_fp_fusion=False.
++    # Keep both products separately rounded before the addition.
++    out = mul_rn_f32(x, c) + mul_rn_f32(r, s)
+     if tl.program_id(1) == 0:
+         tl.store(OutQ + offsets, out, mask)
+     else:

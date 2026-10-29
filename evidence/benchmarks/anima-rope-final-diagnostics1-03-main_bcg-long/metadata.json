@@ -1,0 +1,68 @@
+{
+  "arm": "sgl",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_repo": "/task/repos/sglang",
+  "args": {
+    "arm": "sgl",
+    "contract": "/task/inputs/anima-t2i-workloads.json",
+    "run_id": "anima-rope-final-diagnostics1-03-main_bcg-long",
+    "allowed_gpu_pids": [
+      68988
+    ],
+    "repeats": 4,
+    "warmups": 1,
+    "configuration_label": "main_bcg",
+    "prompt_id": "long",
+    "repo": "/task/repos/sglang",
+    "expected_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+    "expected_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "quality": "lossless",
+    "diagnostic_profiler": true
+  },
+  "physical_gpus": [
+    0
+  ],
+  "physical_gpu_pool": [
+    0,
+    1
+  ],
+  "allowed_process_commands": {
+    "68988": "sgl_diffusion::scheduler                                                                                                                 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6",
+  "torch": "2.14.1+cu130",
+  "driver": "595.84",
+  "harness_sha256": "61de6e79bbaff64ced71c2224406399b0fe80678a2ac34cbd8bc5ca8b8a37d5c",
+  "initial_gpu_state": {
+    "monotonic": 5621413.654727547,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          68988
+        ],
+        "memory_bytes": 9461760000,
+        "gpu_util_percent": 0,
+        "power_mw": 325546,
+        "temperature_c": 52,
+        "sm_clock_mhz": 2422
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 33481,
+        "temperature_c": 21,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": true,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident main_bcg; fixed prompt and seed; conditioning cache warm"
+}

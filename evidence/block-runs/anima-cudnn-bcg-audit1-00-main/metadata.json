@@ -1,0 +1,201 @@
+{
+  "plan": {
+    "id": "anima-cudnn-bcg-audit1",
+    "created_at": "2026-10-28T18:11:52.359162+00:00",
+    "quality": "lossless",
+    "benchmark": false,
+    "contract": "inputs/anima-t2i-workloads.json",
+    "order": [
+      "main",
+      "candidate"
+    ],
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "launcher": "launch_sgl_anima_cudnn_bcg_audit1.sh",
+        "profile": true,
+        "references": [
+          "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+          "omni-anima-t2i-native1"
+        ],
+        "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "extra_qualities": [
+          "exact",
+          "high",
+          "lossless"
+        ]
+      },
+      "candidate": {
+        "arm": "sgl",
+        "repo": "/task/candidates/anima-rope-rounding",
+        "launcher": "launch_sgl_anima_cudnn_bcg_audit1.sh",
+        "profile": true,
+        "references": [
+          "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+          "omni-anima-t2i-native1"
+        ],
+        "exact_reference": "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+        "extra_qualities": [
+          "exact",
+          "high",
+          "lossless"
+        ],
+        "diff_sha256": "f6c554a8d281cd2847925f5c5e01cd82995c73c57ef5b1ed78cee356620ea875"
+      }
+    },
+    "sha256": {
+      "scripts/run_anima_blocks2.py": "7189c41e0b9b09aec4adeaa4490c0ed4ef8bd618d2236574374b8a142602c935",
+      "scripts/submit_anima_candidate.py": "3102b05d527abc0a44931532fae093dc0722cd66f472359d50700b25bb3a33ba",
+      "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+      "scripts/launch_sgl_anima_cudnn_bcg_audit1.sh": "313fbd4f9c5bbdb933344a13fc0eb2bed62c21164a89b7319d35c3165b257ed0",
+      "scripts/anima_bcg_sitecustomize.py": "25d228133f04385bd6b6cd93a7f4075f927f7e3c1cbaeb5a801befc60e40753f",
+      "inputs/anima-t2i-workloads.json": "15e711f1527f12671c096cf803ea2f2246f2e115bfff9d25d2b55a45475f24b6"
+    },
+    "note": "Opt-in observation counters only, same native outputs required. Four prompts at lossless\u2192exact\u2192high\u2192lossless, actual graph/replay and gate state; separate profile, no primary timing."
+  },
+  "index": 0,
+  "config": "main",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/repos/sglang",
+    "-e",
+    "SGL_EXPECTED_HEAD=af21e2b989e482cfdce39689126562f2209d53ac",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/anima-cudnn-bcg-audit1-00-main",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/anima-cudnn-bcg-audit1-00-main/server.pid; exec sh /task/launch_sgl_anima_cudnn_bcg_audit1.sh"
+  ],
+  "runner_sha256": "7189c41e0b9b09aec4adeaa4490c0ed4ef8bd618d2236574374b8a142602c935",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_anima_candidate.py",
+      "sgl",
+      "--quality",
+      "lossless",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--source-root",
+      "/task/repos/sglang",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "anima-cudnn-bcg-audit1-00-main-lossless"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/compare_moss_qualification.py",
+      "sgl-anima-anima-cudnn-bcg-audit1-00-main-lossless",
+      "--root",
+      "/task/outputs/qualification",
+      "--reference",
+      "sgl-anima-anima-backends-screen1-04-main-cudnn-lossless",
+      "--reference",
+      "omni-anima-t2i-native1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_anima_candidate.py",
+      "sgl",
+      "--quality",
+      "exact",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--source-root",
+      "/task/repos/sglang",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "anima-cudnn-bcg-audit1-00-main-lossless-switch-exact"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_anima_candidate.py",
+      "sgl",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--source-root",
+      "/task/repos/sglang",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "anima-cudnn-bcg-audit1-00-main-lossless-switch-high"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_anima_candidate.py",
+      "sgl",
+      "--quality",
+      "lossless",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--source-root",
+      "/task/repos/sglang",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "anima-cudnn-bcg-audit1-00-main-lossless-switch-lossless"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-sgl",
+      "python3",
+      "/task/submit_anima_candidate.py",
+      "sgl",
+      "--quality",
+      "lossless",
+      "--contract",
+      "/task/inputs/anima-t2i-workloads.json",
+      "--source-root",
+      "/task/repos/sglang",
+      "--source-sha",
+      "af21e2b989e482cfdce39689126562f2209d53ac",
+      "--diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--label",
+      "anima-cudnn-bcg-audit1-00-main-lossless-profile",
+      "--profile"
+    ]
+  ],
+  "launch_to_ready_seconds": 48.04799383319914,
+  "gpu_container_pids": [
+    [
+      55160
+    ],
+    []
+  ],
+  "status": "complete"
+}

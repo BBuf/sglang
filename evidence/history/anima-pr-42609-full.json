@@ -1,0 +1,202 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "pull_request": {
+      "url": "https://github.com/sgl-project/sglang/pull/42609",
+      "number": 42609,
+      "state": "closed",
+      "merged": true,
+      "mergeable": false,
+      "draft": false,
+      "body": "## Motivation\r\n\r\nAnima applies split-half RoPE separately to Q and K, materializing negation, concatenation, FP32 casts, and arithmetic intermediates. The eager chain launches 16 GPU kernels per paired Q/K call.\r\n\r\n## Modifications\r\n\r\n- Replace this chain with one paired Triton kernel, mounted after the unchanged Q/K RMSNorm.\r\n- Preserve separate FP32 multiplication and addition boundaries with `enable_fp_fusion=False`, then cast once to the output dtype.\r\n- Retain eager fallback for unsupported inputs, gradient-enabled execution, and `torch.compile`.\r\n- Verify each new signature with `BitExactFusionGate`; disable fusion on mismatch or kernel failure.\r\n\r\n## Accuracy Tests\r\n\r\n- **50 numerical cases passed**, covering FP16/BF16, multiple batch sizes, sequence lengths, head counts, signed zero, and finite extremes.\r\n- **17 existing Anima tests passed**.\r\n- Fallback, gradient parity, first-use/warmed CUDA graph capture, and compiled-eager comparison checks passed.\r\n- All eight generated outputs, including separate profiling runs, have identical PNG and decoded-pixel hashes.\r\n- Pre-commit passed. No new persistent unit tests were added.\r\n\r\n### Output comparison\r\n\r\nOriginal 1024×1024 outputs, without resizing or recompression:\r\n\r\n| Baseline | Fused FP32 RoPE |\r\n| --- | --- |\r\n| ![Baseline](https://raw.githubusercontent.com/cuzmi/sglang/fdae78b0b6a4763bfd272fcce961437284106aca/diffusion-prs/anima-fp32-rope/pr_assets/baseline.png) | ![Fused](https://raw.githubusercontent.com/cuzmi/sglang/fdae78b0b6a4763bfd272fcce961437284106aca/diffusion-prs/anima-fp32-rope/pr_assets/fused.png) |\r\n\r\nBoth PNGs are byte-identical:\r\n\r\n`17057f6295cd6cf1a2affc7c2c8ae45889199edf9bde129a4a3dc1b15f9e212d`\r\n\r\n## Speed Tests and Profiling\r\n\r\n**Configuration:** one H200, Anima-Base-v1.0-Diffusers, 1024×1024, 30 steps, seed 42, CFG 4, FlashAttention, compile/BCG disabled.\r\n\r\nSame-container A/A control followed by ABBA, with fresh processes and warmup excluded. Each variant has two independent measured processes.\r\n\r\n| Metric | Baseline mean | Fused mean | Reduction |\r\n| --- | ---: | ---: | ---: |\r\n| Denoise | 2843.80 ms | 2250.42 ms | **20.87%** |\r\n| Framework request duration | 3110.29 ms | 2520.63 ms | **18.96%** |\r\n\r\nA/A denoise variation was **0.07%**. Request duration excludes process startup and model loading.\r\n\r\nAt BF16 `[1,4096,16,128]`, the paired operator benchmark improved from **411.50 μs to 24.12 μs**, including wrapper checks and output allocation. Separate traces confirm **16 → 1 kernel launches** per Q/K call. Full-model profiling confirms actual fused dispatch without fallback. Profiled timings are excluded from the speed table.\r\n\r\n### Evidence and scope\r\n\r\n[Raw results, pinned configuration, reproduction scripts, traces, and original images](https://github.com/cuzmi/sglang/tree/fdae78b0b6a4763bfd272fcce961437284106aca/diffusion-prs/anima-fp32-rope)\r\n\r\n- Baseline: `6fa3fe69e2e5e19b75cadd9fc285b72634551992`\r\n- Measured candidate: `6143cce2d2f5701b07ae155ad652705cabe7b646`\r\n- Model revision: `073c3a9db359c31ad0e8aa268d15775473c2176c`\r\n\r\nResults cover one GPU and one generation configuration. They do not establish performance under compile, BCG, multi-GPU execution, or other workloads. After merging upstream main, the Anima and kernel files remain unchanged; the numbers above remain measurements of the original candidate commit.\r\n\r\n## Checklist\r\n\r\n- [ ] Format your code according to the [Format code with pre-commit](https://docs.sglang.io/developer_guide/contribution_guide.html#format-code-with-pre-commit).\r\n- [ ] Add unit tests according to the [Run and add unit tests](https://docs.sglang.io/developer_guide/contribution_guide.html#run-and-add-unit-tests).\r\n- [ ] Update documentation according to [Write documentations](https://docs.sglang.io/developer_guide/contribution_guide.html#write-documentations).\r\n- [ ] Provide accuracy and speed benchmark results according to [Test the accuracy](https://docs.sglang.io/developer_guide/contribution_guide.html#test-the-accuracy) and [Benchmark the speed](https://docs.sglang.io/developer_guide/contribution_guide.html#benchmark-the-speed).\r\n- [ ] Follow the SGLang code style [guidance](https://docs.sglang.io/developer_guide/contribution_guide.html#code-style-guidance).\r\n\n<!-- pr-states:start -->\n---\n### CI States\n\nLatest PR Test (Base): <!-- slot:pr-test:start -->:hourglass_flowing_sand: [Run #37339867966](https://github.com/sgl-project/sglang/actions/runs/37339867966)<!-- slot:pr-test:end -->\nLatest PR Test (Extra): <!-- slot:pr-test-extra:start -->:x: [Run #37339867530](https://github.com/sgl-project/sglang/actions/runs/37339867530)<!-- slot:pr-test-extra:end -->\nLatest PR Test (AMD ROCm 10): <!-- slot:pr-test-amd:start -->:hourglass_flowing_sand: [Run #37339868210](https://github.com/sgl-project/sglang/actions/runs/37339868210)<!-- slot:pr-test-amd:end -->\n<!-- pr-states:end -->",
+      "title": "[Diffusion] Fuse Anima FP32 split-half Q/K RoPE",
+      "base": "main",
+      "base_sha": "efb62ce269b499123e2d1c89005ee4cea8c31098",
+      "head": "perf/anima-fp32-rope",
+      "head_sha": "ba291b17aa2a231209088575e71de13afedec2cd",
+      "head_repo_id": 1278560817,
+      "head_repo_full_name": "cuzmi/sglang",
+      "merge_commit_sha": "67959f80abb77cc44f4546bf1144303a3d9e5f78",
+      "user": {
+        "login": "cuzmi",
+        "name": "cuzmi",
+        "email": null,
+        "avatar_url": "https://avatars.githubusercontent.com/u/151501845?v=4",
+        "id": 151501845
+      },
+      "requested_reviewers": [
+        {
+          "login": "HaiShaw",
+          "name": "HaiShaw",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/3349073?v=4",
+          "id": 3349073
+        },
+        {
+          "login": "ping1jing2",
+          "name": "ping1jing2",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/32810407?v=4",
+          "id": 32810407
+        },
+        {
+          "login": "BBuf",
+          "name": "BBuf",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+          "id": 35585791
+        },
+        {
+          "login": "niehen6174",
+          "name": "niehen6174",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/42087078?v=4",
+          "id": 42087078
+        },
+        {
+          "login": "AgainstEntropy",
+          "name": "AgainstEntropy",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/42559837?v=4",
+          "id": 42559837
+        },
+        {
+          "login": "kevin-mii",
+          "name": "kevin-mii",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/45493463?v=4",
+          "id": 45493463
+        },
+        {
+          "login": "yingluosanqian",
+          "name": "yingluosanqian",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/65484791?v=4",
+          "id": 65484791
+        },
+        {
+          "login": "yichiche",
+          "name": "yichiche",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/179548237?v=4",
+          "id": 179548237
+        }
+      ],
+      "requested_team_reviewers": null,
+      "diff": "@@ -301,6 +301,13 @@\n         _CUDA,\n         \"Paired LTX-2.5 decoder 3D RoPE.\",\n     ),\n+    (\n+        \"diffusion.rope_rotate_half_fp32\",\n+        KernelBackend.TRITON,\n+        \"rope.rope_rotate_half_fp32:fused_rope_rotate_half_fp32\",\n+        _CUDA,\n+        \"Paired split-half RoPE with FP32 arithmetic and one output cast.\",\n+    ),\n     (\n         \"diffusion.rope_rotate_half\",\n         KernelBackend.TRITON,\n@@ -667,6 +674,8 @@\n     \"fused_inplace_qknorm_rope\": \"rope.qknorm_rope_jit\",\n     \"fused_qknorm_rope_pack_kv\": \"rope.qknorm_rope_jit\",\n     \"try_fused_qwen_qkv_epilogue\": \"rope.qwen_qkv_epilogue_jit\",\n+    \"can_use_fused_rope_rotate_half_fp32\": \"rope.rope_rotate_half_fp32\",\n+    \"fused_rope_rotate_half_fp32\": \"rope.rope_rotate_half_fp32\",\n     \"fused_rope_rotate_half_bitexact\": \"rope.rope_rotate_half_bitexact\",\n     \"fused_interleaved_rope_fp64\": \"rope.interleaved_rope_fp64_jit\",\n     \"fused_inplace_helios_qk_rope\": \"rope.helios_qk_rope_jit\",\n@@ -0,0 +1,92 @@\n+# SPDX-License-Identifier: Apache-2.0\n+\"\"\"Paired split-half RoPE with FP32 products and sum, then one output cast.\n+\n+Unlike the BF16-rounded RoPE kernel, this matches Cosmos/Anima eager math.\n+Cos/sin have shape (S, D) and are shared by every batch and attention head.\n+\"\"\"\n+\n+import torch\n+import triton\n+import triton.language as tl\n+\n+\n+@triton.jit\n+def _rope_rotate_half_fp32_kernel(\n+    Q,\n+    K,\n+    Cos,\n+    Sin,\n+    OutQ,\n+    OutK,\n+    N: tl.constexpr,\n+    S: tl.constexpr,\n+    H: tl.constexpr,\n+    D: tl.constexpr,\n+    BLOCK: tl.constexpr,\n+):\n+    offsets = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)\n+    mask = offsets < N\n+    col = offsets % D\n+    rotated = offsets + tl.where(col < D // 2, D // 2, -D // 2)\n+    freq = ((offsets // (H * D)) % S) * D + col\n+    c = tl.load(Cos + freq, mask, other=0)\n+    s = tl.load(Sin + freq, mask, other=0)\n+    if tl.program_id(1) == 0:\n+        x = tl.load(Q + offsets, mask, other=0).to(tl.float32)\n+        r = tl.load(Q + rotated, mask, other=0).to(tl.float32)\n+    else:\n+        x = tl.load(K + offsets, mask, other=0).to(tl.float32)\n+        r = tl.load(K + rotated, mask, other=0).to(tl.float32)\n+    r = tl.where(col < D // 2, -r, r)\n+    # Preserve the two FP32 multiplication boundaries; do not contract to FMA.\n+    out = x * c + r * s\n+    if tl.program_id(1) == 0:\n+        tl.store(OutQ + offsets, out, mask)\n+    else:\n+        tl.store(OutK + offsets, out, mask)\n+\n+\n+def can_use_fused_rope_rotate_half_fp32(q, k, cos, sin):\n+    \"\"\"Conservative inference-only contract; unsupported inputs stay eager.\"\"\"\n+    return (\n+        q.is_cuda\n+        and torch.version.hip is None\n+        and q.dtype in (torch.float16, torch.bfloat16)\n+        and q.ndim == 4\n+        and all(n > 0 for n in q.shape)\n+        and q.shape[-1] == 128\n+        and k.shape == q.shape\n+        and k.dtype == q.dtype\n+        and cos.shape == sin.shape == (q.shape[1], q.shape[-1])\n+        and cos.dtype == sin.dtype == torch.float32\n+        and all(t.device == q.device and t.is_contiguous() for t in (q, k, cos, sin))\n+        and not (\n+            torch.is_grad_enabled() and any(t.requires_grad for t in (q, k, cos, sin))\n+        )\n+    )\n+\n+\n+def fused_rope_rotate_half_fp32(q, k, cos, sin):\n+    \"\"\"Return fresh Q/K tensors; never mutate inputs or allocate FP32 activations.\"\"\"\n+    if not can_use_fused_rope_rotate_half_fp32(q, k, cos, sin):\n+        raise ValueError(\n+            \"Expected contiguous CUDA FP16/BF16 Q/K [B,S,H,128] and FP32 cos/sin [S,128]\"\n+        )\n+    out_q, out_k = torch.empty_like(q), torch.empty_like(k)\n+    _, seq, heads, dim = q.shape\n+    with torch.cuda.device(q.device):\n+        _rope_rotate_half_fp32_kernel[(triton.cdiv(q.numel(), 1024), 2)](\n+            q,\n+            k,\n+            cos,\n+            sin,\n+            out_q,\n+            out_k,\n+            q.numel(),\n+            seq,\n+            heads,\n+            dim,\n+            BLOCK=1024,\n+            enable_fp_fusion=False,\n+        )\n+    return out_q, out_k\n@@ -8,6 +8,7 @@\n from diffusers.models.embeddings import Timesteps\n from torch import nn\n \n+from sglang.kernels.ops.diffusion import BitExactFusionGate, tensors_equal\n from sglang.multimodal_gen.configs.models.dits.anima import AnimaDiTConfig\n from sglang.multimodal_gen.configs.models.fsdp import is_module_list_entry_in\n from sglang.multimodal_gen.runtime.distributed import get_tp_world_size\n@@ -28,6 +29,55 @@\n     LayerwiseOffloadableModuleMixin,\n )\n from sglang.multimodal_gen.runtime.models.dits.base import CachableDiT\n+from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger\n+\n+logger = init_logger(__name__)\n+\n+\n+_ANIMA_ROPE = BitExactFusionGate(\"Anima FP32 RoPE\", per_signature=True)\n+\n+\n+def _anima_rope_eager(q, k, cos, sin):\n+    cos, sin = cos[None, :, None, :], sin[None, :, None, :]\n+    q1, q2 = q.chunk(2, dim=-1)\n+    k1, k2 = k.chunk(2, dim=-1)\n+    return (\n+        (q.float() * cos + torch.cat((-q2, q1), -1).float() * sin).to(q.dtype),\n+        (k.float() * cos + torch.cat((-k2, k1), -1).float() * sin).to(k.dtype),\n+    )\n+\n+\n+def _anima_rope(q, k, cos, sin):\n+    if (\n+        not torch.compiler.is_compiling()\n+        and q.is_cuda\n+        and torch.version.hip is None\n+        and not _ANIMA_ROPE.disabled\n+    ):\n+        from sglang.kernels.ops.diffusion import (\n+            can_use_fused_rope_rotate_half_fp32,\n+            fused_rope_rotate_half_fp32,\n+        )\n+\n+        if can_use_fused_rope_rotate_half_fp32(q, k, cos, sin):\n+            sig = (q.device, q.dtype, q.shape)\n+            verified = _ANIMA_ROPE.is_verified(sig)\n+            if verified or not torch.cuda.is_current_stream_capturing():\n+                try:\n+                    out = fused_rope_rotate_half_fp32(q, k, cos, sin)\n+                except Exception as exc:\n+                    _ANIMA_ROPE.on_exception(exc, logger=logger)\n+                else:\n+                    if verified:\n+                        return out\n+                    return _ANIMA_ROPE.accept_or_fallback(\n+                        out,\n+                        _anima_rope_eager(q, k, cos, sin),\n+                        sig=sig,\n+                        equal=tensors_equal,\n+                        logger=logger,\n+                    )\n+    return _anima_rope_eager(q, k, cos, sin)\n \n \n def _is_anima_block(name, module):\n@@ -170,12 +220,7 @@ def forward(self, x, context=None, rope=None, attn_mask_meta=None):\n         v = self.to_v(context)[0].unflatten(-1, (self.heads, self.head_dim))\n         q, k = self.norm_q(q), self.norm_k(k)\n         if rope is not None:\n-            cos, sin = (r[None, :, None, :] for r in rope)\n-            # Cosmos uses split-half RoPE in fp32, then rounds once\n-            q1, q2 = q.chunk(2, dim=-1)\n-            k1, k2 = k.chunk(2, dim=-1)\n-            q = (q.float() * cos + torch.cat((-q2, q1), -1).float() * sin).to(q.dtype)\n-            k = (k.float() * cos + torch.cat((-k2, k1), -1).float() * sin).to(k.dtype)\n+            q, k = _anima_rope(q, k, *rope)\n         out = self.attn(q, k, v, attn_mask_meta=attn_mask_meta).flatten(2)\n         return self.to_out[0](out)[0]\n \n@@ -1641,5 +1641,46 @@ def test_qwen21_cuda_qk_rope_does_not_verify_during_capture(monkeypatch):\n     assert torch.equal(out, qwen_image21.apply_rope(norm(x), rope))\n \n \n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"NVIDIA CUDA required\")\n+def test_anima_rope_dispatch_and_fallback():\n+    import sglang.kernels.ops.diffusion as ops\n+    import sglang.multimodal_gen.runtime.models.dits.anima as anima\n+\n+    generator = torch.Generator(device=\"cuda\").manual_seed(42)\n+    q, k = [\n+        torch.randn(\n+            2, 17, 3, 128, device=\"cuda\", dtype=torch.bfloat16, generator=generator\n+        )\n+        for _ in range(2)\n+    ]\n+    angles = torch.randn(17, 128, device=\"cuda\", generator=generator)\n+    cos, sin = angles.cos(), angles.sin()\n+    args = q, k, cos, sin\n+    expected = anima._anima_rope_eager(*args)\n+    expected_fp32 = anima._anima_rope_eager(q.float(), k.float(), cos, sin)\n+    gate = BitExactFusionGate(\"Anima test\", per_signature=True)\n+    with (\n+        patch.object(anima, \"_ANIMA_ROPE\", gate),\n+        patch.object(\n+            ops, \"fused_rope_rotate_half_fp32\", wraps=ops.fused_rope_rotate_half_fp32\n+        ) as fused,\n+        patch.object(\n+            anima, \"_anima_rope_eager\", wraps=anima._anima_rope_eager\n+        ) as eager,\n+    ):\n+        for _ in range(2):\n+            outputs = anima._anima_rope(*args)\n+            assert all(torch.equal(out, ref) for out, ref in zip(outputs, expected))\n+        assert fused.call_count == 2\n+        assert eager.call_count == 1  # Only the first call verifies against eager.\n+        assert gate.is_verified((q.device, q.dtype, q.shape)) and not gate.disabled\n+\n+        fused.reset_mock()\n+        outputs = anima._anima_rope(q.float(), k.float(), cos, sin)\n+        fused.assert_not_called()\n+        assert eager.call_count == 2\n+        assert all(torch.equal(out, ref) for out, ref in zip(outputs, expected_fp32))\n+\n+\n if __name__ == \"__main__\":\n     sys.exit(pytest.main([__file__, \"-v\"]))\n@@ -14,6 +14,9 @@\n their oracle is the *split* baseline (a separate qknorm kernel plus sgl_kernel\n or FlashInfer RoPE), whose dispatch differs on Blackwell, so the bit-exact\n assertions below do not hold there.\n+\n+Anima split-half RoPE is compared against its FP32 eager expression, with\n+exact equality after the final FP16/BF16 cast.\n \"\"\"\n \n import itertools\n@@ -26,8 +29,10 @@\n from sglang.kernels.jit.utils import get_ci_test_range\n from sglang.kernels.ops.diffusion import (\n     can_use_fused_inplace_qknorm_rope,\n+    can_use_fused_rope_rotate_half_fp32,\n     fused_inplace_qknorm_rope,\n     fused_qknorm_rope_pack_kv,\n+    fused_rope_rotate_half_fp32,\n )\n from sglang.test.ci.ci_register import register_cuda_ci\n \n@@ -593,5 +598,55 @@ def test_qknorm_rope_accepts_empty_token_dimension() -> None:\n     assert q.numel() == k.numel() == 0\n \n \n+def _anima_rope_inputs(shape=(2, 17, 3, 128), dtype=torch.bfloat16):\n+    generator = torch.Generator(device=\"cuda\").manual_seed(42)\n+    q, k = [\n+        torch.randn(shape, device=\"cuda\", dtype=dtype, generator=generator)\n+        for _ in range(2)\n+    ]\n+    angles = torch.randn(shape[1], shape[-1], device=\"cuda\", generator=generator)\n+    return q, k, angles.cos(), angles.sin()\n+\n+\n+def _anima_rope_reference(x, cos, sin):\n+    x1, x2 = x.chunk(2, dim=-1)\n+    rotated = torch.cat((-x2, x1), dim=-1)\n+    return (\n+        x.float() * cos[None, :, None, :] + rotated.float() * sin[None, :, None, :]\n+    ).to(x.dtype)\n+\n+\n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"NVIDIA CUDA required\")\n+@pytest.mark.parametrize(\"dtype\", [torch.float16, torch.bfloat16])\n+@pytest.mark.parametrize(\"shape\", [(1, 1, 1, 128), (2, 17, 3, 128), (1, 4096, 16, 128)])\n+def test_anima_rope_bit_exact(shape, dtype):\n+    q, k, cos, sin = args = _anima_rope_inputs(shape, dtype)\n+    saved = [t.clone() for t in args]\n+    outputs = fused_rope_rotate_half_fp32(*args)\n+    for output, x in zip(outputs, (q, k)):\n+        assert output.dtype == x.dtype and output.shape == x.shape\n+        assert torch.equal(output, _anima_rope_reference(x, cos, sin))\n+        assert output.data_ptr() not in (q.data_ptr(), k.data_ptr())\n+    assert all(torch.equal(t, original) for t, original in zip(args, saved))\n+\n+\n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"NVIDIA CUDA required\")\n+def test_anima_rope_input_guards():\n+    q, k, cos, sin = args = _anima_rope_inputs()\n+    assert can_use_fused_rope_rotate_half_fp32(*args)\n+    unsupported = [\n+        (q.float(), k.float(), cos, sin),\n+        (q[:, :, ::2], k[:, :, ::2], cos, sin),\n+        _anima_rope_inputs((1, 17, 3, 64)),\n+        (q, k, cos.bfloat16(), sin.bfloat16()),\n+        (q, k, cos[:-1], sin[:-1]),\n+        tuple(t.cpu() for t in args),\n+    ]\n+    for inputs in unsupported:\n+        assert not can_use_fused_rope_rotate_half_fp32(*inputs)\n+        with pytest.raises(ValueError, match=\"Expected contiguous CUDA\"):\n+            fused_rope_rotate_half_fp32(*inputs)\n+\n+\n if __name__ == \"__main__\":\n     sys.exit(pytest.main([__file__, \"-v\"]))",
+      "comments": [
+        {
+          "url": "https://github.com/sgl-project/sglang/pull/42609#pullrequestreview-5422664442",
+          "body": "",
+          "user": {
+            "login": "mickqian",
+            "name": "mickqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/30898949?u=ba9394989314f06afdd89496a44cc6244cc7feda&v=4",
+            "id": 30898949
+          },
+          "id": 5422664442,
+          "pull_request_review_id": null,
+          "in_reply_to_id": null,
+          "created_at": "2026-10-06T01:09:11Z",
+          "updated_at": null,
+          "review": "APPROVED",
+          "side": null,
+          "line": null,
+          "start_line": null,
+          "path": null,
+          "body_html": ""
+        },
+        {
+          "url": "https://github.com/sgl-project/sglang/pull/42609#issuecomment-6007216108",
+          "body": "/tag-and-rerun-ci",
+          "user": {
+            "login": "mickqian",
+            "name": "mickqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+            "id": 30898949
+          },
+          "id": 6007216108,
+          "pull_request_review_id": null,
+          "in_reply_to_id": null,
+          "created_at": "2026-10-06T01:09:36Z",
+          "updated_at": "2026-10-06T01:09:36Z",
+          "review": null,
+          "side": null,
+          "line": null,
+          "start_line": null,
+          "path": null,
+          "body_html": "<p dir=\"auto\">/tag-and-rerun-ci</p>"
+        }
+      ],
+      "created_at": "2026-10-05T15:58:49Z",
+      "updated_at": "2026-10-06T02:18:10Z",
+      "closed_at": "2026-10-06T02:18:09Z",
+      "merged_at": "2026-10-06T02:18:09Z",
+      "commits": 5,
+      "changed_files": 5,
+      "additions": 248,
+      "deletions": 6,
+      "display_url": "https://github.com/sgl-project/sglang/pull/42609",
+      "display_title": "[Diffusion] Fuse Anima FP32 split-half Q/K RoPE"
+    },
+    "url": "https://github.com/sgl-project/sglang/pull/42609",
+    "title": "[Diffusion] Fuse Anima FP32 split-half Q/K RoPE",
+    "diff": "@@ -301,6 +301,13 @@\n         _CUDA,\n         \"Paired LTX-2.5 decoder 3D RoPE.\",\n     ),\n+    (\n+        \"diffusion.rope_rotate_half_fp32\",\n+        KernelBackend.TRITON,\n+        \"rope.rope_rotate_half_fp32:fused_rope_rotate_half_fp32\",\n+        _CUDA,\n+        \"Paired split-half RoPE with FP32 arithmetic and one output cast.\",\n+    ),\n     (\n         \"diffusion.rope_rotate_half\",\n         KernelBackend.TRITON,\n@@ -667,6 +674,8 @@\n     \"fused_inplace_qknorm_rope\": \"rope.qknorm_rope_jit\",\n     \"fused_qknorm_rope_pack_kv\": \"rope.qknorm_rope_jit\",\n     \"try_fused_qwen_qkv_epilogue\": \"rope.qwen_qkv_epilogue_jit\",\n+    \"can_use_fused_rope_rotate_half_fp32\": \"rope.rope_rotate_half_fp32\",\n+    \"fused_rope_rotate_half_fp32\": \"rope.rope_rotate_half_fp32\",\n     \"fused_rope_rotate_half_bitexact\": \"rope.rope_rotate_half_bitexact\",\n     \"fused_interleaved_rope_fp64\": \"rope.interleaved_rope_fp64_jit\",\n     \"fused_inplace_helios_qk_rope\": \"rope.helios_qk_rope_jit\",\n@@ -0,0 +1,92 @@\n+# SPDX-License-Identifier: Apache-2.0\n+\"\"\"Paired split-half RoPE with FP32 products and sum, then one output cast.\n+\n+Unlike the BF16-rounded RoPE kernel, this matches Cosmos/Anima eager math.\n+Cos/sin have shape (S, D) and are shared by every batch and attention head.\n+\"\"\"\n+\n+import torch\n+import triton\n+import triton.language as tl\n+\n+\n+@triton.jit\n+def _rope_rotate_half_fp32_kernel(\n+    Q,\n+    K,\n+    Cos,\n+    Sin,\n+    OutQ,\n+    OutK,\n+    N: tl.constexpr,\n+    S: tl.constexpr,\n+    H: tl.constexpr,\n+    D: tl.constexpr,\n+    BLOCK: tl.constexpr,\n+):\n+    offsets = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)\n+    mask = offsets < N\n+    col = offsets % D\n+    rotated = offsets + tl.where(col < D // 2, D // 2, -D // 2)\n+    freq = ((offsets // (H * D)) % S) * D + col\n+    c = tl.load(Cos + freq, mask, other=0)\n+    s = tl.load(Sin + freq, mask, other=0)\n+    if tl.program_id(1) == 0:\n+        x = tl.load(Q + offsets, mask, other=0).to(tl.float32)\n+        r = tl.load(Q + rotated, mask, other=0).to(tl.float32)\n+    else:\n+        x = tl.load(K + offsets, mask, other=0).to(tl.float32)\n+        r = tl.load(K + rotated, mask, other=0).to(tl.float32)\n+    r = tl.where(col < D // 2, -r, r)\n+    # Preserve the two FP32 multiplication boundaries; do not contract to FMA.\n+    out = x * c + r * s\n+    if tl.program_id(1) == 0:\n+        tl.store(OutQ + offsets, out, mask)\n+    else:\n+        tl.store(OutK + offsets, out, mask)\n+\n+\n+def can_use_fused_rope_rotate_half_fp32(q, k, cos, sin):\n+    \"\"\"Conservative inference-only contract; unsupported inputs stay eager.\"\"\"\n+    return (\n+        q.is_cuda\n+        and torch.version.hip is None\n+        and q.dtype in (torch.float16, torch.bfloat16)\n+        and q.ndim == 4\n+        and all(n > 0 for n in q.shape)\n+        and q.shape[-1] == 128\n+        and k.shape == q.shape\n+        and k.dtype == q.dtype\n+        and cos.shape == sin.shape == (q.shape[1], q.shape[-1])\n+        and cos.dtype == sin.dtype == torch.float32\n+        and all(t.device == q.device and t.is_contiguous() for t in (q, k, cos, sin))\n+        and not (\n+            torch.is_grad_enabled() and any(t.requires_grad for t in (q, k, cos, sin))\n+        )\n+    )\n+\n+\n+def fused_rope_rotate_half_fp32(q, k, cos, sin):\n+    \"\"\"Return fresh Q/K tensors; never mutate inputs or allocate FP32 activations.\"\"\"\n+    if not can_use_fused_rope_rotate_half_fp32(q, k, cos, sin):\n+        raise ValueError(\n+            \"Expected contiguous CUDA FP16/BF16 Q/K [B,S,H,128] and FP32 cos/sin [S,128]\"\n+        )\n+    out_q, out_k = torch.empty_like(q), torch.empty_like(k)\n+    _, seq, heads, dim = q.shape\n+    with torch.cuda.device(q.device):\n+        _rope_rotate_half_fp32_kernel[(triton.cdiv(q.numel(), 1024), 2)](\n+            q,\n+            k,\n+            cos,\n+            sin,\n+            out_q,\n+            out_k,\n+            q.numel(),\n+            seq,\n+            heads,\n+            dim,\n+            BLOCK=1024,\n+            enable_fp_fusion=False,\n+        )\n+    return out_q, out_k\n@@ -8,6 +8,7 @@\n from diffusers.models.embeddings import Timesteps\n from torch import nn\n \n+from sglang.kernels.ops.diffusion import BitExactFusionGate, tensors_equal\n from sglang.multimodal_gen.configs.models.dits.anima import AnimaDiTConfig\n from sglang.multimodal_gen.configs.models.fsdp import is_module_list_entry_in\n from sglang.multimodal_gen.runtime.distributed import get_tp_world_size\n@@ -28,6 +29,55 @@\n     LayerwiseOffloadableModuleMixin,\n )\n from sglang.multimodal_gen.runtime.models.dits.base import CachableDiT\n+from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger\n+\n+logger = init_logger(__name__)\n+\n+\n+_ANIMA_ROPE = BitExactFusionGate(\"Anima FP32 RoPE\", per_signature=True)\n+\n+\n+def _anima_rope_eager(q, k, cos, sin):\n+    cos, sin = cos[None, :, None, :], sin[None, :, None, :]\n+    q1, q2 = q.chunk(2, dim=-1)\n+    k1, k2 = k.chunk(2, dim=-1)\n+    return (\n+        (q.float() * cos + torch.cat((-q2, q1), -1).float() * sin).to(q.dtype),\n+        (k.float() * cos + torch.cat((-k2, k1), -1).float() * sin).to(k.dtype),\n+    )\n+\n+\n+def _anima_rope(q, k, cos, sin):\n+    if (\n+        not torch.compiler.is_compiling()\n+        and q.is_cuda\n+        and torch.version.hip is None\n+        and not _ANIMA_ROPE.disabled\n+    ):\n+        from sglang.kernels.ops.diffusion import (\n+            can_use_fused_rope_rotate_half_fp32,\n+            fused_rope_rotate_half_fp32,\n+        )\n+\n+        if can_use_fused_rope_rotate_half_fp32(q, k, cos, sin):\n+            sig = (q.device, q.dtype, q.shape)\n+            verified = _ANIMA_ROPE.is_verified(sig)\n+            if verified or not torch.cuda.is_current_stream_capturing():\n+                try:\n+                    out = fused_rope_rotate_half_fp32(q, k, cos, sin)\n+                except Exception as exc:\n+                    _ANIMA_ROPE.on_exception(exc, logger=logger)\n+                else:\n+                    if verified:\n+                        return out\n+                    return _ANIMA_ROPE.accept_or_fallback(\n+                        out,\n+                        _anima_rope_eager(q, k, cos, sin),\n+                        sig=sig,\n+                        equal=tensors_equal,\n+                        logger=logger,\n+                    )\n+    return _anima_rope_eager(q, k, cos, sin)\n \n \n def _is_anima_block(name, module):\n@@ -170,12 +220,7 @@ def forward(self, x, context=None, rope=None, attn_mask_meta=None):\n         v = self.to_v(context)[0].unflatten(-1, (self.heads, self.head_dim))\n         q, k = self.norm_q(q), self.norm_k(k)\n         if rope is not None:\n-            cos, sin = (r[None, :, None, :] for r in rope)\n-            # Cosmos uses split-half RoPE in fp32, then rounds once\n-            q1, q2 = q.chunk(2, dim=-1)\n-            k1, k2 = k.chunk(2, dim=-1)\n-            q = (q.float() * cos + torch.cat((-q2, q1), -1).float() * sin).to(q.dtype)\n-            k = (k.float() * cos + torch.cat((-k2, k1), -1).float() * sin).to(k.dtype)\n+            q, k = _anima_rope(q, k, *rope)\n         out = self.attn(q, k, v, attn_mask_meta=attn_mask_meta).flatten(2)\n         return self.to_out[0](out)[0]\n \n@@ -1641,5 +1641,46 @@ def test_qwen21_cuda_qk_rope_does_not_verify_during_capture(monkeypatch):\n     assert torch.equal(out, qwen_image21.apply_rope(norm(x), rope))\n \n \n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"NVIDIA CUDA required\")\n+def test_anima_rope_dispatch_and_fallback():\n+    import sglang.kernels.ops.diffusion as ops\n+    import sglang.multimodal_gen.runtime.models.dits.anima as anima\n+\n+    generator = torch.Generator(device=\"cuda\").manual_seed(42)\n+    q, k = [\n+        torch.randn(\n+            2, 17, 3, 128, device=\"cuda\", dtype=torch.bfloat16, generator=generator\n+        )\n+        for _ in range(2)\n+    ]\n+    angles = torch.randn(17, 128, device=\"cuda\", generator=generator)\n+    cos, sin = angles.cos(), angles.sin()\n+    args = q, k, cos, sin\n+    expected = anima._anima_rope_eager(*args)\n+    expected_fp32 = anima._anima_rope_eager(q.float(), k.float(), cos, sin)\n+    gate = BitExactFusionGate(\"Anima test\", per_signature=True)\n+    with (\n+        patch.object(anima, \"_ANIMA_ROPE\", gate),\n+        patch.object(\n+            ops, \"fused_rope_rotate_half_fp32\", wraps=ops.fused_rope_rotate_half_fp32\n+        ) as fused,\n+        patch.object(\n+            anima, \"_anima_rope_eager\", wraps=anima._anima_rope_eager\n+        ) as eager,\n+    ):\n+        for _ in range(2):\n+            outputs = anima._anima_rope(*args)\n+            assert all(torch.equal(out, ref) for out, ref in zip(outputs, expected))\n+        assert fused.call_count == 2\n+        assert eager.call_count == 1  # Only the first call verifies against eager.\n+        assert gate.is_verified((q.device, q.dtype, q.shape)) and not gate.disabled\n+\n+        fused.reset_mock()\n+        outputs = anima._anima_rope(q.float(), k.float(), cos, sin)\n+        fused.assert_not_called()\n+        assert eager.call_count == 2\n+        assert all(torch.equal(out, ref) for out, ref in zip(outputs, expected_fp32))\n+\n+\n if __name__ == \"__main__\":\n     sys.exit(pytest.main([__file__, \"-v\"]))\n@@ -14,6 +14,9 @@\n their oracle is the *split* baseline (a separate qknorm kernel plus sgl_kernel\n or FlashInfer RoPE), whose dispatch differs on Blackwell, so the bit-exact\n assertions below do not hold there.\n+\n+Anima split-half RoPE is compared against its FP32 eager expression, with\n+exact equality after the final FP16/BF16 cast.\n \"\"\"\n \n import itertools\n@@ -26,8 +29,10 @@\n from sglang.kernels.jit.utils import get_ci_test_range\n from sglang.kernels.ops.diffusion import (\n     can_use_fused_inplace_qknorm_rope,\n+    can_use_fused_rope_rotate_half_fp32,\n     fused_inplace_qknorm_rope,\n     fused_qknorm_rope_pack_kv,\n+    fused_rope_rotate_half_fp32,\n )\n from sglang.test.ci.ci_register import register_cuda_ci\n \n@@ -593,5 +598,55 @@ def test_qknorm_rope_accepts_empty_token_dimension() -> None:\n     assert q.numel() == k.numel() == 0\n \n \n+def _anima_rope_inputs(shape=(2, 17, 3, 128), dtype=torch.bfloat16):\n+    generator = torch.Generator(device=\"cuda\").manual_seed(42)\n+    q, k = [\n+        torch.randn(shape, device=\"cuda\", dtype=dtype, generator=generator)\n+        for _ in range(2)\n+    ]\n+    angles = torch.randn(shape[1], shape[-1], device=\"cuda\", generator=generator)\n+    return q, k, angles.cos(), angles.sin()\n+\n+\n+def _anima_rope_reference(x, cos, sin):\n+    x1, x2 = x.chunk(2, dim=-1)\n+    rotated = torch.cat((-x2, x1), dim=-1)\n+    return (\n+        x.float() * cos[None, :, None, :] + rotated.float() * sin[None, :, None, :]\n+    ).to(x.dtype)\n+\n+\n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"NVIDIA CUDA required\")\n+@pytest.mark.parametrize(\"dtype\", [torch.float16, torch.bfloat16])\n+@pytest.mark.parametrize(\"shape\", [(1, 1, 1, 128), (2, 17, 3, 128), (1, 4096, 16, 128)])\n+def test_anima_rope_bit_exact(shape, dtype):\n+    q, k, cos, sin = args = _anima_rope_inputs(shape, dtype)\n+    saved = [t.clone() for t in args]\n+    outputs = fused_rope_rotate_half_fp32(*args)\n+    for output, x in zip(outputs, (q, k)):\n+        assert output.dtype == x.dtype and output.shape == x.shape\n+        assert torch.equal(output, _anima_rope_reference(x, cos, sin))\n+        assert output.data_ptr() not in (q.data_ptr(), k.data_ptr())\n+    assert all(torch.equal(t, original) for t, original in zip(args, saved))\n+\n+\n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"NVIDIA CUDA required\")\n+def test_anima_rope_input_guards():\n+    q, k, cos, sin = args = _anima_rope_inputs()\n+    assert can_use_fused_rope_rotate_half_fp32(*args)\n+    unsupported = [\n+        (q.float(), k.float(), cos, sin),\n+        (q[:, :, ::2], k[:, :, ::2], cos, sin),\n+        _anima_rope_inputs((1, 17, 3, 64)),\n+        (q, k, cos.bfloat16(), sin.bfloat16()),\n+        (q, k, cos[:-1], sin[:-1]),\n+        tuple(t.cpu() for t in args),\n+    ]\n+    for inputs in unsupported:\n+        assert not can_use_fused_rope_rotate_half_fp32(*inputs)\n+        with pytest.raises(ValueError, match=\"Expected contiguous CUDA\"):\n+            fused_rope_rotate_half_fp32(*inputs)\n+\n+\n if __name__ == \"__main__\":\n     sys.exit(pytest.main([__file__, \"-v\"]))",
+    "comments": [
+      {
+        "url": "https://github.com/sgl-project/sglang/pull/42609#pullrequestreview-5422664442",
+        "body": "",
+        "user": {
+          "login": "mickqian",
+          "name": "mickqian",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/30898949?u=ba9394989314f06afdd89496a44cc6244cc7feda&v=4",
+          "id": 30898949
+        },
+        "id": 5422664442,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-06T01:09:11Z",
+        "updated_at": null,
+        "review": "APPROVED",
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": ""
+      },
+      {
+        "url": "https://github.com/sgl-project/sglang/pull/42609#issuecomment-6007216108",
+        "body": "/tag-and-rerun-ci",
+        "user": {
+          "login": "mickqian",
+          "name": "mickqian",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+          "id": 30898949
+        },
+        "id": 6007216108,
+        "pull_request_review_id": null,
+        "in_reply_to_id": null,
+        "created_at": "2026-10-06T01:09:36Z",
+        "updated_at": "2026-10-06T01:09:36Z",
+        "review": null,
+        "side": null,
+        "line": null,
+        "start_line": null,
+        "path": null,
+        "body_html": "<p dir=\"auto\">/tag-and-rerun-ci</p>"
+      }
+    ],
+    "display_url": "https://github.com/sgl-project/sglang/pull/42609",
+    "display_title": "[Diffusion] Fuse Anima FP32 split-half Q/K RoPE"
+  },
+  "isError": false
+}
