@@ -1,0 +1,822 @@
+{
+  "plan": {
+    "id": "joy-current-head-square-primary1",
+    "created_at": "2026-10-29T14:35:25.326471+00:00",
+    "purpose": "Supplement existingPR47022afterlater runtimecleanup; no newoptimizationPR. FreshsameGPUcurrentheadversusoriginal/main/nativeOmniregionalcompile.",
+    "order": [
+      "main",
+      "candidate_original",
+      "candidate_current",
+      "omni_compile",
+      "candidate_original",
+      "candidate_current",
+      "candidate_current",
+      "candidate_original",
+      "omni_compile",
+      "candidate_current",
+      "candidate_original",
+      "main"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "qualify_each_block": true,
+    "quality_references": {
+      "main": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "candidate_original": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "candidate_current": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "omni_compile": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "main": "native resident eager SYNC0 main",
+      "candidate_original": "native resident eager SYNC0 candidate_original",
+      "candidate_current": "native resident eager SYNC0 candidate_current",
+      "omni_compile": "native default regional torch.compile CUDNN_ATTN"
+    },
+    "contract": "/task/inputs/joy-workloads.json",
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "omni_short_quality_reference": "/task/outputs/qualification/sgl-joy-gelu-v1-main-high/00-edit-short/output.png",
+    "byte_identical_quality_reference": {
+      "main": "sgl-joy-gelu-v1-main-high",
+      "candidate_original": "sgl-joy-gelu-v4-square-pr-high",
+      "candidate_current": "sgl-joy-gelu-v4-square-pr-high"
+    },
+    "scope": "square, same frozen input/checkpoint, 30steps CFG4 BF16, GPU0 batch1/concurrency1; short primary, long/Chinese quality only",
+    "primary_performance_evidence": true,
+    "phase": "primary",
+    "current_head": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+    "previous_benchmarked_head": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": 0,
+    "sha256": {
+      "scripts/run_joy_current_head_blocks1.py": "ac8755fcf14691eea50bacf98fef0558d11719d4fa6f48628e9d1006e314feb3",
+      "scripts/launch_sgl_joy_current_head_primary1.sh": "cf19ca972595c77e1b261121819fc2ebac8b6580e6ed5533ac76a524184e20fa",
+      "scripts/launch_omni_joy_compile.sh": "8e0562dea9192190321009c33ffca490572b86f81ea970c8bf40acc0287a4409",
+      "scripts/submit_joy_candidate_qualification.py": "96ba6166d8e864d7d5399759b65f3ea2289c5a48bd0fa16888eb069b21a57e53",
+      "scripts/bench_joy_serving.py": "701a60e9a8749822d8e0fb93427c48a0c740da0aa2561e886c7f17cadbf6a581",
+      "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+      "scripts/check_joy_benchmark_quality.py": "ea783e4023949f7ba3ee89ea1b695fdb8cc5ada417e21ab10cea0b9488fe54ca",
+      "scripts/analyze_joy_blocks.py": "ba3fcfaf13904ce247acddc51319898bdb0456a44cb77facfade0709715304e7",
+      "scripts/admit_joy_current_head1.py": "5268198f61f34ef05d3e07b8eeb1735b1d2574172089abe12c318285ff6eb5f0",
+      "scripts/preflight_diffusion_current_head1.py": "e87fb0903bc2c309e8b2f2c4283fc6fd2d5ed22d0473b967a452a213dfa88f48",
+      "scripts/diffusion_skill_env.py": "954edd99aee9c75fb844ccd4e97b126ff4d4bd5c524b51fdc0577093ab72699f",
+      "inputs/joy-workloads.json": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+      "inputs/reference-teapot.png": "962cb02c131384b341db8aa620b1a2e30dbc7fb7d6f8d9872d3e94445ecd40b7"
+    },
+    "required_admissions": [
+      "evidence/preflight/joy-current-head-tests1-admission.json",
+      "evidence/preflight/joy-current-head-square-aa1-admission.json"
+    ],
+    "physical_gpu_uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+    "status": "frozen_local_not_transferred_or_queued",
+    "timing_protocol_note": "AllSGprimaryarmsSYNC0 withoutobserver/profiler. OriginalhistoricalJoyprimaryusedSYNC1; never poolitslatenciesintothisnewexperiment. Stagecosts/profileareseparatediagnostics. Fourqualificationrequests,2explicitwarmups,4measuredshortrequests perprocess; alloutputsretained. Long/Chinese and repeatquality retained.",
+    "current_head_requalification_not_new_PR": true,
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      },
+      "candidate_original": {
+        "arm": "sgl",
+        "repo": "/task/candidates/joy-image-gelu-pr47022-original",
+        "head": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      },
+      "candidate_current": {
+        "arm": "sgl",
+        "repo": "/task/candidates/joy-image-gelu-pr47022-current",
+        "head": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      },
+      "omni_compile": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "port": 31041,
+        "launcher": "launch_omni_joy_compile.sh"
+      }
+    },
+    "candidate_sources": {
+      "candidate_original": {
+        "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+        "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "candidate_current": {
+        "candidate_head_sha": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+        "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "pair_indices": {
+      "main_over_current": [
+        [
+          0,
+          2
+        ],
+        [
+          11,
+          9
+        ]
+      ],
+      "omni_over_current": [
+        [
+          3,
+          2
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "original_over_current": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          10,
+          9
+        ]
+      ]
+    },
+    "n_measured_per_arm": {
+      "main": 8,
+      "candidate_original": 16,
+      "candidate_current": 16,
+      "omni_compile": 8
+    },
+    "admission": {
+      "minimum_main_latency_reduction_percent": 1.5,
+      "gain_must_exceed_fresh_AA": true,
+      "each_main_and_omni_pair_must_improve": true,
+      "cleanup_mean_regression_percent_max": "fresh AA max_noise_percent",
+      "cleanup_t95_regression_upper_percent_max": 0.1,
+      "failed_or_uncertain_action": "Preserve all results; explicitly freeze a supplemental experiment before execution. No sample selection or threshold relaxation."
+    }
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "config": "main",
+      "name": "joy-current-head-square-primary1-00-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.97778559383005,
+        35.981098246760666,
+        35.986607355065644,
+        35.98844482935965
+      ],
+      "p50_seconds": 35.983852800913155,
+      "p95_seconds": 35.98816920821555,
+      "cv_percent": 0.01366442894445558,
+      "denoise_seconds": [
+        35.13666365575045,
+        35.13919303473085,
+        35.14187384862453,
+        35.13924093171954
+      ],
+      "denoise_p50_seconds": 35.1392169832252,
+      "engine_total_p50_seconds": 35.53321660077199,
+      "sequential_requests_per_second": 0.02779052744937644,
+      "peak_gpu_memory_bytes": 63148851200,
+      "launch_to_ready_seconds": 80.09421642497182,
+      "warmup_http_seconds": [
+        35.86843447480351,
+        35.98041676077992
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.9315364677459,
+        35.98871708475053,
+        36.01787227392197,
+        35.97795011289418
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2407
+      ],
+      "temperature_c_range": [
+        61,
+        72
+      ]
+    },
+    {
+      "index": 1,
+      "config": "candidate_original",
+      "name": "joy-current-head-square-primary1-01-candidate_original",
+      "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.30653958115727,
+        35.30949919857085,
+        35.310625452548265,
+        35.32651230879128
+      ],
+      "p50_seconds": 35.31006232555956,
+      "p95_seconds": 35.324129280354825,
+      "cv_percent": 0.025426695414457322,
+      "denoise_seconds": [
+        34.45015047863126,
+        34.46100792568177,
+        34.46361358370632,
+        34.46494246926159
+      ],
+      "denoise_p50_seconds": 34.462310754694045,
+      "engine_total_p50_seconds": 34.86189479054883,
+      "sequential_requests_per_second": 0.02831794723453209,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 84.08644532691687,
+      "warmup_http_seconds": [
+        35.178608135320246,
+        35.270651874132454
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.31820103432983,
+        35.34057024307549,
+        35.32839821558446,
+        35.30440341960639
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2415
+      ],
+      "temperature_c_range": [
+        66,
+        72
+      ]
+    },
+    {
+      "index": 2,
+      "config": "candidate_current",
+      "name": "joy-current-head-square-primary1-02-candidate_current",
+      "source_sha": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.305062007158995,
+        35.30427396669984,
+        35.30599612463266,
+        35.310283122584224
+      ],
+      "p50_seconds": 35.305529065895826,
+      "p95_seconds": 35.30964007289149,
+      "cv_percent": 0.007591525963498046,
+      "denoise_seconds": [
+        34.44881975091994,
+        34.45356285292655,
+        34.44988555088639,
+        34.455297127366066
+      ],
+      "denoise_p50_seconds": 34.45172420190647,
+      "engine_total_p50_seconds": 34.85247414931655,
+      "sequential_requests_per_second": 0.02832347371075968,
+      "peak_gpu_memory_bytes": 62855249920,
+      "launch_to_ready_seconds": 82.09045189712197,
+      "warmup_http_seconds": [
+        35.190134501084685,
+        35.27556413039565
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.32679043430835,
+        35.34344870876521,
+        35.35156413819641,
+        35.325018611736596
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2407
+      ],
+      "temperature_c_range": [
+        64,
+        73
+      ]
+    },
+    {
+      "index": 3,
+      "config": "omni_compile",
+      "name": "joy-current-head-square-primary1-03-omni_compile",
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        37.71910859178752,
+        37.71339833457023,
+        37.72669843677431,
+        37.7200065664947
+      ],
+      "p50_seconds": 37.71955757914111,
+      "p95_seconds": 37.72569465623237,
+      "cv_percent": 0.014447259835183017,
+      "denoise_seconds": [],
+      "denoise_p50_seconds": null,
+      "engine_total_p50_seconds": 37.61543142795563,
+      "sequential_requests_per_second": 0.02651127314918429,
+      "peak_gpu_memory_bytes": 69977178112,
+      "launch_to_ready_seconds": 34.01603497751057,
+      "warmup_http_seconds": [
+        37.540079592727125,
+        37.69118595775217
+      ],
+      "prebenchmark_quality_http_seconds": [
+        37.91071561910212,
+        37.67436482012272,
+        37.73352401703596,
+        37.717095348984
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2422
+      ],
+      "temperature_c_range": [
+        60,
+        72
+      ]
+    },
+    {
+      "index": 4,
+      "config": "candidate_original",
+      "name": "joy-current-head-square-primary1-04-candidate_original",
+      "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.288012873381376,
+        35.30313632171601,
+        35.30141443479806,
+        35.30085717141628
+      ],
+      "p50_seconds": 35.30113580310717,
+      "p95_seconds": 35.302878038678315,
+      "cv_percent": 0.019725556305754382,
+      "denoise_seconds": [
+        34.43940083961934,
+        34.45275245420635,
+        34.45367925334722,
+        34.4484424283728
+      ],
+      "denoise_p50_seconds": 34.450597441289574,
+      "engine_total_p50_seconds": 34.84844528045505,
+      "sequential_requests_per_second": 0.028329931928123088,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 80.08757774997503,
+      "warmup_http_seconds": [
+        35.187277937307954,
+        35.26804231479764
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.31546719558537,
+        35.320688070729375,
+        35.33004836644977,
+        35.30310992244631
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2407
+      ],
+      "temperature_c_range": [
+        63,
+        72
+      ]
+    },
+    {
+      "index": 5,
+      "config": "candidate_current",
+      "name": "joy-current-head-square-primary1-05-candidate_current",
+      "source_sha": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.30171679984778,
+        35.31747988332063,
+        35.31302525661886,
+        35.33910674508661
+      ],
+      "p50_seconds": 35.31525256996974,
+      "p95_seconds": 35.33586271582171,
+      "cv_percent": 0.0443352777130734,
+      "denoise_seconds": [
+        34.448760794475675,
+        34.46421160642058,
+        34.46202284190804,
+        34.47844490595162
+      ],
+      "denoise_p50_seconds": 34.46311722416431,
+      "engine_total_p50_seconds": 34.861233334522694,
+      "sequential_requests_per_second": 0.028314308623249223,
+      "peak_gpu_memory_bytes": 62855249920,
+      "launch_to_ready_seconds": 80.08523348998278,
+      "warmup_http_seconds": [
+        35.180147821083665,
+        35.27249860949814
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.30731267482042,
+        35.323919489979744,
+        35.327066662721336,
+        35.29577611386776
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2407
+      ],
+      "temperature_c_range": [
+        62,
+        72
+      ]
+    },
+    {
+      "index": 6,
+      "config": "candidate_current",
+      "name": "joy-current-head-square-primary1-06-candidate_current",
+      "source_sha": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.3109708474949,
+        35.332534650340676,
+        35.323191926814616,
+        35.35563736781478
+      ],
+      "p50_seconds": 35.327863288577646,
+      "p95_seconds": 35.352171960193665,
+      "cv_percent": 0.0534738780517409,
+      "denoise_seconds": [
+        34.45758009701967,
+        34.47460550162941,
+        34.477456907741725,
+        34.501930098980665
+      ],
+      "denoise_p50_seconds": 34.47603120468557,
+      "engine_total_p50_seconds": 34.87454558396712,
+      "sequential_requests_per_second": 0.028304089412859546,
+      "peak_gpu_memory_bytes": 62855249920,
+      "launch_to_ready_seconds": 80.08880177792162,
+      "warmup_http_seconds": [
+        35.19232811033726,
+        35.28750576917082
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.32389596756548,
+        35.34971687477082,
+        35.33761608507484,
+        35.30389296449721
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2227,
+        2407
+      ],
+      "temperature_c_range": [
+        62,
+        73
+      ]
+    },
+    {
+      "index": 7,
+      "config": "candidate_original",
+      "name": "joy-current-head-square-primary1-07-candidate_original",
+      "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.30378873646259,
+        35.30848409142345,
+        35.30347088072449,
+        35.31128044240177
+      ],
+      "p50_seconds": 35.30613641394302,
+      "p95_seconds": 35.31086098975502,
+      "cv_percent": 0.010729660781665972,
+      "denoise_seconds": [
+        34.444247564300895,
+        34.45493045914918,
+        34.45703668985516,
+        34.45726699382067
+      ],
+      "denoise_p50_seconds": 34.45598357450217,
+      "engine_total_p50_seconds": 34.857228961307555,
+      "sequential_requests_per_second": 0.028323191145930043,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 80.0947028696537,
+      "warmup_http_seconds": [
+        35.18124249577522,
+        35.27593774162233
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.31978057138622,
+        35.34043795708567,
+        35.33537183050066,
+        35.30086080543697
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2407
+      ],
+      "temperature_c_range": [
+        62,
+        73
+      ]
+    },
+    {
+      "index": 8,
+      "config": "omni_compile",
+      "name": "joy-current-head-square-primary1-08-omni_compile",
+      "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        37.71561070997268,
+        37.71671587973833,
+        37.72354728449136,
+        37.72032922599465
+      ],
+      "p50_seconds": 37.71852255286649,
+      "p95_seconds": 37.723064575716855,
+      "cv_percent": 0.009575963227089151,
+      "denoise_seconds": [],
+      "denoise_p50_seconds": null,
+      "engine_total_p50_seconds": 37.61234629154205,
+      "sequential_requests_per_second": 0.026511801846866443,
+      "peak_gpu_memory_bytes": 69977178112,
+      "launch_to_ready_seconds": 34.01801592390984,
+      "warmup_http_seconds": [
+        37.55350113939494,
+        37.687450427562
+      ],
+      "prebenchmark_quality_http_seconds": [
+        37.75324441399425,
+        37.6496068155393,
+        37.72317979019135,
+        37.71225570794195
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2415
+      ],
+      "temperature_c_range": [
+        60,
+        72
+      ]
+    },
+    {
+      "index": 9,
+      "config": "candidate_current",
+      "name": "joy-current-head-square-primary1-09-candidate_current",
+      "source_sha": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.305799323134124,
+        35.31261767633259,
+        35.339272394776344,
+        35.3324278537184
+      ],
+      "p50_seconds": 35.3225227650255,
+      "p95_seconds": 35.33824571361765,
+      "cv_percent": 0.044954819286355356,
+      "denoise_seconds": [
+        34.44717971328646,
+        34.461621227674186,
+        34.48567378614098,
+        34.47006911598146
+      ],
+      "denoise_p50_seconds": 34.46584517182782,
+      "engine_total_p50_seconds": 34.86565377609804,
+      "sequential_requests_per_second": 0.028310543425907674,
+      "peak_gpu_memory_bytes": 62855249920,
+      "launch_to_ready_seconds": 80.08791725616902,
+      "warmup_http_seconds": [
+        35.18367382325232,
+        35.279327407479286
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.31121770478785,
+        35.34398545883596,
+        35.33784558810294,
+        35.30648441053927
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2235,
+        2407
+      ],
+      "temperature_c_range": [
+        63,
+        72
+      ]
+    },
+    {
+      "index": 10,
+      "config": "candidate_original",
+      "name": "joy-current-head-square-primary1-10-candidate_original",
+      "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.28681825939566,
+        35.29298628214747,
+        35.29165579751134,
+        35.30067327525467
+      ],
+      "p50_seconds": 35.2923210398294,
+      "p95_seconds": 35.299520226288585,
+      "cv_percent": 0.016268182499100815,
+      "denoise_seconds": [
+        34.43771059624851,
+        34.4448430640623,
+        34.441196787171066,
+        34.442306347191334
+      ],
+      "denoise_p50_seconds": 34.4417515671812,
+      "engine_total_p50_seconds": 34.839625742286444,
+      "sequential_requests_per_second": 0.028334203766645926,
+      "peak_gpu_memory_bytes": 62710546432,
+      "launch_to_ready_seconds": 80.09681288525462,
+      "warmup_http_seconds": [
+        35.18443980906159,
+        35.27096138522029
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.29975123889744,
+        35.31460185907781,
+        35.32438957225531,
+        35.30179608147591
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2242,
+        2415
+      ],
+      "temperature_c_range": [
+        64,
+        72
+      ]
+    },
+    {
+      "index": 11,
+      "config": "main",
+      "name": "joy-current-head-square-primary1-11-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.98701608274132,
+        35.980037266388535,
+        35.98173753544688,
+        35.98383207432926
+      ],
+      "p50_seconds": 35.98278480488807,
+      "p95_seconds": 35.98653848147951,
+      "cv_percent": 0.008352020701896386,
+      "denoise_seconds": [
+        35.13704633433372,
+        35.13895740080625,
+        35.14305623155087,
+        35.14091036003083
+      ],
+      "denoise_p50_seconds": 35.13993388041854,
+      "engine_total_p50_seconds": 35.53323548939079,
+      "sequential_requests_per_second": 0.027790780976332478,
+      "peak_gpu_memory_bytes": 63148851200,
+      "launch_to_ready_seconds": 80.0841945046559,
+      "warmup_http_seconds": [
+        35.89608587231487,
+        35.988581852056086
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.98902072198689,
+        36.014966369606555,
+        36.02490890305489,
+        35.98274816945195
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2415
+      ],
+      "temperature_c_range": [
+        64,
+        72
+      ]
+    }
+  ],
+  "all_planned_blocks_present": true,
+  "scope": "Frozen Joy 1024x1024, 30 steps, CFG 4.0, precision {'dit': 'bf16', 'text_encoder': 'bf16', 'vae': 'bf16', 'latents_and_solver': 'audit_runtime_before_performance'}, GPU0, batch1, concurrency1, high. Short prompt primary timing; long/Chinese quality only. Not full matrix.",
+  "source_and_ownership_audit_pass": true,
+  "paired": {
+    "main_over_current": {
+      "pair_indices": [
+        [
+          0,
+          2
+        ],
+        [
+          11,
+          9
+        ]
+      ],
+      "ratios": [
+        1.019212960489879,
+        1.0186923806166057
+      ],
+      "geometric_mean": 1.018952637307904,
+      "all_pairs_faster": true
+    },
+    "omni_over_current": {
+      "pair_indices": [
+        [
+          3,
+          2
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "ratios": [
+        1.0683753671766152,
+        1.0678320686146854
+      ],
+      "geometric_mean": 1.0681036833515645,
+      "all_pairs_faster": true
+    },
+    "original_over_current": {
+      "pair_indices": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          10,
+          9
+        ]
+      ],
+      "ratios": [
+        1.000128400842125,
+        0.9996002643097455,
+        0.9993849932429497,
+        0.999144972588821
+      ],
+      "geometric_mean": 0.9995645917893506,
+      "all_pairs_faster": false
+    }
+  }
+}

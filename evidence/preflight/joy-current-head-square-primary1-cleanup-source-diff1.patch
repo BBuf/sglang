@@ -1,0 +1,82 @@
+diff --git a/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py b/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py
+index 862db2c5b..433886513 100644
+--- a/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py
++++ b/python/sglang/multimodal_gen/runtime/models/dits/joy_image.py
+@@ -251,7 +251,8 @@ class ModulateWan(nn.Module):
+ 
+ 
+ def _joy_image_mlp(mlp: MLP, x: torch.Tensor, fuse_gelu: bool) -> torch.Tensor:
+-    linear = mlp.fc_in
++    """Use the SM120 image epilogue when eligible; retain the original MLP otherwise."""
++    fc_in = mlp.fc_in
+     # SM120's epilogue wins for the large image projection, but regresses the
+     # smaller text projection. It also removes the intermediate BF16 rounding.
+     # Native single-reference image buckets have at least 7168 image tokens.
+@@ -269,16 +270,17 @@ def _joy_image_mlp(mlp: MLP, x: torch.Tensor, fuse_gelu: bool) -> torch.Tensor:
+         or torch.cuda.get_device_capability(x.device) != (12, 0)
+         or not isinstance(mlp.act, nn.GELU)
+         or mlp.act.approximate != "tanh"
+-        or (isinstance(linear, BaseLayerWithLoRA) and linear.lora_active)
+-        or not can_use_linear_gelu_static(linear)
+-        or linear.weight.shape != (16384, 4096)
+-        or linear.weight.dtype != x.dtype
+-        or linear.weight.device != x.device
+-        or linear.bias.device != x.device
++        or (isinstance(fc_in, BaseLayerWithLoRA) and fc_in.lora_active)
++        or not can_use_linear_gelu_static(fc_in)
++        or fc_in.weight.shape != (16384, 4096)
++        or fc_in.weight.dtype != x.dtype
++        or fc_in.weight.device != x.device
++        or fc_in.bias.device != x.device
+     ):
+         return mlp(x)
+-    x = fused_linear_gelu_tanh(x, linear.weight, linear.bias)
+-    return mlp.fc_out(x)[0]
++    hidden = fused_linear_gelu_tanh(x, fc_in.weight, fc_in.bias)
++    # Keep the output projection wrapper, including LoRA and TP reduction.
++    return mlp.fc_out(hidden)[0]
+ 
+ 
+ class MMDoubleStreamBlock(nn.Module):
+diff --git a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+index 2fddd26f6..20301523c 100644
+--- a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
++++ b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+@@ -2458,13 +2458,18 @@ def test_joy_image_mlp_quality_restore_and_dynamic_lora():
+         joy_image, "fused_linear_gelu_tanh", wraps=joy_image.fused_linear_gelu_tanh
+     ) as fused:
+         torch.testing.assert_close(
+-            joy_image._joy_image_mlp(mlp, x, True), reference, atol=2e-2, rtol=2e-2
++            joy_image._joy_image_mlp(mlp, x, fuse_gelu=True),
++            reference,
++            atol=2e-2,
++            rtol=2e-2,
+         )
+         assert fused.call_count == 1
+-        assert torch.equal(joy_image._joy_image_mlp(mlp, x, False), reference)
++        assert torch.equal(joy_image._joy_image_mlp(mlp, x, fuse_gelu=False), reference)
+         # Smaller text/token counts must keep their original, faster projection.
+         text = x[:, :1053].contiguous()
+-        assert torch.equal(joy_image._joy_image_mlp(mlp, text, True), mlp(text))
++        assert torch.equal(
++            joy_image._joy_image_mlp(mlp, text, fuse_gelu=True), mlp(text)
++        )
+         assert fused.call_count == 1
+ 
+         compiled = torch.compile(
+@@ -2482,12 +2487,12 @@ def test_joy_image_mlp_quality_restore_and_dynamic_lora():
+         mlp.fc_in = wrapper
+         adapted = mlp(x)
+         assert not torch.equal(adapted, reference)
+-        assert torch.equal(joy_image._joy_image_mlp(mlp, x, True), adapted)
++        assert torch.equal(joy_image._joy_image_mlp(mlp, x, fuse_gelu=True), adapted)
+         assert fused.call_count == 1
+         wrapper.disable_lora = True
+-        joy_image._joy_image_mlp(mlp, x, True)
++        joy_image._joy_image_mlp(mlp, x, fuse_gelu=True)
+         assert fused.call_count == 2
+-        assert torch.equal(joy_image._joy_image_mlp(mlp, x, False), reference)
++        assert torch.equal(joy_image._joy_image_mlp(mlp, x, fuse_gelu=False), reference)
+ 
+ 
+ # -------------------------------------------------------------------------

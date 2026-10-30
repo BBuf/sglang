@@ -1,0 +1,41 @@
+{
+  "id": "joy-current-head-lifetime-probe1",
+  "created_at": "2026-10-29T23:58:47.204407+00:00",
+  "purpose": "Separate causal investigation of failed cleanup admission. Measure actual unprofiled tensor lifetime/allocated memory and separately capture native MLP dispatch. No full-model performance or PR admission.",
+  "sources": {
+    "original": {
+      "head": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+      "repo": "candidates/joy-image-gelu-pr47022-original",
+      "file_sha256": "df7744d071276bee4f70413984d88a988fd798414269868a06c6e8e41d7a024b"
+    },
+    "current": {
+      "head": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+      "repo": "candidates/joy-image-gelu-pr47022-current",
+      "file_sha256": "c965d0a04f51f929b79b0014eda3962aedcb9294df4be9149dc1d4e679d2211d"
+    }
+  },
+  "physical_gpu_uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+  "tokens": [
+    7168,
+    8192
+  ],
+  "seed": 42,
+  "warmup_calls_per_source": 4,
+  "order": [
+    "original",
+    "current",
+    "current",
+    "original"
+  ],
+  "script_sha256": "8ab295e123e761a4c53d671def3cbb5efb7d029c00a41c62f0589d4920346550",
+  "trigger_admission": "evidence/preflight/joy-current-head-square-primary1-admission.json",
+  "trigger_files_sha256": {
+    "evidence/preflight/joy-current-head-square-primary1-admission.json": "e975b4ad77f708f98e2b9af3664e40c66cdc5eca10bf6696fc93a4fba63c0ac9",
+    "evidence/checkpoints/joy-current-head-square-primary1-local-verification.json": "59f5e2734e7d8084d5a4b9fb9f1dfb77faf21b20afa57848741587508a601e17"
+  },
+  "expected_records": 8,
+  "expected_traces": 8,
+  "original_failed_measurement_retained": true,
+  "no_threshold_changes": true,
+  "no_retry": true
+}

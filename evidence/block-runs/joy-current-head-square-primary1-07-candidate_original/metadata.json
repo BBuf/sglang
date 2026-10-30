@@ -1,0 +1,272 @@
+{
+  "plan": {
+    "id": "joy-current-head-square-primary1",
+    "created_at": "2026-10-29T14:35:25.326471+00:00",
+    "purpose": "Supplement existingPR47022afterlater runtimecleanup; no newoptimizationPR. FreshsameGPUcurrentheadversusoriginal/main/nativeOmniregionalcompile.",
+    "order": [
+      "main",
+      "candidate_original",
+      "candidate_current",
+      "omni_compile",
+      "candidate_original",
+      "candidate_current",
+      "candidate_current",
+      "candidate_original",
+      "omni_compile",
+      "candidate_current",
+      "candidate_original",
+      "main"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "qualify_each_block": true,
+    "quality_references": {
+      "main": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "candidate_original": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "candidate_current": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ],
+      "omni_compile": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "main": "native resident eager SYNC0 main",
+      "candidate_original": "native resident eager SYNC0 candidate_original",
+      "candidate_current": "native resident eager SYNC0 candidate_current",
+      "omni_compile": "native default regional torch.compile CUDNN_ATTN"
+    },
+    "contract": "/task/inputs/joy-workloads.json",
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "omni_short_quality_reference": "/task/outputs/qualification/sgl-joy-gelu-v1-main-high/00-edit-short/output.png",
+    "byte_identical_quality_reference": {
+      "main": "sgl-joy-gelu-v1-main-high",
+      "candidate_original": "sgl-joy-gelu-v4-square-pr-high",
+      "candidate_current": "sgl-joy-gelu-v4-square-pr-high"
+    },
+    "scope": "square, same frozen input/checkpoint, 30steps CFG4 BF16, GPU0 batch1/concurrency1; short primary, long/Chinese quality only",
+    "primary_performance_evidence": true,
+    "phase": "primary",
+    "current_head": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+    "previous_benchmarked_head": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": 0,
+    "sha256": {
+      "scripts/run_joy_current_head_blocks1.py": "ac8755fcf14691eea50bacf98fef0558d11719d4fa6f48628e9d1006e314feb3",
+      "scripts/launch_sgl_joy_current_head_primary1.sh": "cf19ca972595c77e1b261121819fc2ebac8b6580e6ed5533ac76a524184e20fa",
+      "scripts/launch_omni_joy_compile.sh": "8e0562dea9192190321009c33ffca490572b86f81ea970c8bf40acc0287a4409",
+      "scripts/submit_joy_candidate_qualification.py": "96ba6166d8e864d7d5399759b65f3ea2289c5a48bd0fa16888eb069b21a57e53",
+      "scripts/bench_joy_serving.py": "701a60e9a8749822d8e0fb93427c48a0c740da0aa2561e886c7f17cadbf6a581",
+      "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+      "scripts/check_joy_benchmark_quality.py": "ea783e4023949f7ba3ee89ea1b695fdb8cc5ada417e21ab10cea0b9488fe54ca",
+      "scripts/analyze_joy_blocks.py": "ba3fcfaf13904ce247acddc51319898bdb0456a44cb77facfade0709715304e7",
+      "scripts/admit_joy_current_head1.py": "5268198f61f34ef05d3e07b8eeb1735b1d2574172089abe12c318285ff6eb5f0",
+      "scripts/preflight_diffusion_current_head1.py": "e87fb0903bc2c309e8b2f2c4283fc6fd2d5ed22d0473b967a452a213dfa88f48",
+      "scripts/diffusion_skill_env.py": "954edd99aee9c75fb844ccd4e97b126ff4d4bd5c524b51fdc0577093ab72699f",
+      "inputs/joy-workloads.json": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+      "inputs/reference-teapot.png": "962cb02c131384b341db8aa620b1a2e30dbc7fb7d6f8d9872d3e94445ecd40b7"
+    },
+    "required_admissions": [
+      "evidence/preflight/joy-current-head-tests1-admission.json",
+      "evidence/preflight/joy-current-head-square-aa1-admission.json"
+    ],
+    "physical_gpu_uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+    "status": "frozen_local_not_transferred_or_queued",
+    "timing_protocol_note": "AllSGprimaryarmsSYNC0 withoutobserver/profiler. OriginalhistoricalJoyprimaryusedSYNC1; never poolitslatenciesintothisnewexperiment. Stagecosts/profileareseparatediagnostics. Fourqualificationrequests,2explicitwarmups,4measuredshortrequests perprocess; alloutputsretained. Long/Chinese and repeatquality retained.",
+    "current_head_requalification_not_new_PR": true,
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      },
+      "candidate_original": {
+        "arm": "sgl",
+        "repo": "/task/candidates/joy-image-gelu-pr47022-original",
+        "head": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      },
+      "candidate_current": {
+        "arm": "sgl",
+        "repo": "/task/candidates/joy-image-gelu-pr47022-current",
+        "head": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      },
+      "omni_compile": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "port": 31041,
+        "launcher": "launch_omni_joy_compile.sh"
+      }
+    },
+    "candidate_sources": {
+      "candidate_original": {
+        "candidate_head_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+        "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "candidate_current": {
+        "candidate_head_sha": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+        "candidate_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "pair_indices": {
+      "main_over_current": [
+        [
+          0,
+          2
+        ],
+        [
+          11,
+          9
+        ]
+      ],
+      "omni_over_current": [
+        [
+          3,
+          2
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "original_over_current": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          10,
+          9
+        ]
+      ]
+    },
+    "n_measured_per_arm": {
+      "main": 8,
+      "candidate_original": 16,
+      "candidate_current": 16,
+      "omni_compile": 8
+    },
+    "admission": {
+      "minimum_main_latency_reduction_percent": 1.5,
+      "gain_must_exceed_fresh_AA": true,
+      "each_main_and_omni_pair_must_improve": true,
+      "cleanup_mean_regression_percent_max": "fresh AA max_noise_percent",
+      "cleanup_t95_regression_upper_percent_max": 0.1,
+      "failed_or_uncertain_action": "Preserve all results; explicitly freeze a supplemental experiment before execution. No sample selection or threshold relaxation."
+    }
+  },
+  "index": 7,
+  "config": "candidate_original",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "JOY_CANDIDATE_SHA=4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "-e",
+    "SGL_REPO=/task/candidates/joy-image-gelu-pr47022-original",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-current-head-square-primary1-07-candidate_original/server.pid; exec sh /task/launch_sgl_joy_current_head_primary1.sh"
+  ],
+  "source_sha": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stage_timing_synchronized": false,
+  "status": "complete",
+  "runner_sha256": "ac8755fcf14691eea50bacf98fef0558d11719d4fa6f48628e9d1006e314feb3",
+  "launch_to_ready_seconds": 80.0947028696537,
+  "server_container_pid": 146917,
+  "gpu_container_pids": [
+    [
+      146970
+    ],
+    []
+  ],
+  "qualification_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/submit_joy_candidate_qualification.py",
+    "sgl",
+    "--label",
+    "joy-current-head-square-primary1-07-candidate_original",
+    "--quality",
+    "high",
+    "--contract",
+    "/task/inputs/joy-workloads.json"
+  ],
+  "quality_gate_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/compare_moss_qualification.py",
+    "sgl-joy-joy-current-head-square-primary1-07-candidate_original",
+    "--root",
+    "/task/outputs/qualification",
+    "--fail-on-quality",
+    "--reference",
+    "sgl-joy-gelu-v1-main-high",
+    "--reference",
+    "sgl-joy-gelu-v4-square-pr-high",
+    "--reference",
+    "omni-joy-compile-probe1-omni_compile-high"
+  ],
+  "benchmark_command": [
+    "docker",
+    "exec",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "python",
+    "/task/bench_joy_serving.py",
+    "sgl",
+    "--run-id",
+    "joy-current-head-square-primary1-07-candidate_original",
+    "--repo",
+    "/task/candidates/joy-image-gelu-pr47022-original",
+    "--allowed-gpu-pids",
+    "146970",
+    "--quality",
+    "high",
+    "--configuration-label",
+    "native resident eager SYNC0 candidate_original",
+    "--warmups",
+    "2",
+    "--repeats",
+    "4",
+    "--expected-diff-sha256",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "--expected-sha",
+    "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "--contract",
+    "/task/inputs/joy-workloads.json"
+  ],
+  "capture_lines": []
+}
