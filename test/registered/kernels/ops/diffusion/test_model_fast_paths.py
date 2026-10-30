@@ -2454,6 +2454,23 @@ def test_joy_image_mlp_quality_restore_and_dynamic_lora():
         parameter.normal_(0, 0.01)
     x = torch.randn(1, 7168, 4096, device="cuda", dtype=torch.bfloat16)
     reference = mlp(x)
+    temporary = [x.clone()]
+    input_ref = weakref.ref(temporary[0])
+
+    def check_input_released(_module, _args):
+        # The normalized image input must be freed before fc_out allocates.
+        assert input_ref() is None, "Joy MLP retained its temporary input"
+
+    hook = mlp.fc_out.register_forward_pre_hook(check_input_released)
+    try:
+        torch.testing.assert_close(
+            joy_image._joy_image_mlp(mlp, temporary.pop(), fuse_gelu=True),
+            reference,
+            atol=2e-2,
+            rtol=2e-2,
+        )
+    finally:
+        hook.remove()
     with patch.object(
         joy_image, "fused_linear_gelu_tanh", wraps=joy_image.fused_linear_gelu_tanh
     ) as fused:

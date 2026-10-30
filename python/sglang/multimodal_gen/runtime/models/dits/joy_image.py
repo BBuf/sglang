@@ -278,9 +278,9 @@ def _joy_image_mlp(mlp: MLP, x: torch.Tensor, fuse_gelu: bool) -> torch.Tensor:
         or fc_in.bias.device != x.device
     ):
         return mlp(x)
-    hidden = fused_linear_gelu_tanh(x, fc_in.weight, fc_in.bias)
-    # Keep the output projection wrapper, including LoRA and TP reduction.
-    return mlp.fc_out(hidden)[0]
+    # Release the temporary input before the output projection allocates.
+    x = fused_linear_gelu_tanh(x, fc_in.weight, fc_in.bias)
+    return mlp.fc_out(x)[0]
 
 
 class MMDoubleStreamBlock(nn.Module):
