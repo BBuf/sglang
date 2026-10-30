@@ -1,0 +1,262 @@
+{
+  "at": "2026-10-30T07:36:20.834286+00:00",
+  "passed": true,
+  "run": "qwen21-current-head-1024-primary1",
+  "method": "Independent NumPy means/medians/quantiles and SciPy Student-t quantiles from every raw results.json, excluding all declared warmups. No admission function or cached block statistics reused.",
+  "cases": {
+    "t2i": {
+      "measured_requests": 96,
+      "excluded_warmups": 72,
+      "arms": {
+        "main": {
+          "n": 16,
+          "mean_seconds": 9.501570366497617,
+          "p50_seconds": 9.500171911902726,
+          "p95_seconds": 9.51401659566909
+        },
+        "original": {
+          "n": 32,
+          "mean_seconds": 9.402412370080128,
+          "p50_seconds": 9.401856613811105,
+          "p95_seconds": 9.417416885355488
+        },
+        "current": {
+          "n": 32,
+          "mean_seconds": 9.408172547380673,
+          "p50_seconds": 9.410254172049463,
+          "p95_seconds": 9.417993401736021
+        },
+        "omni_casts": {
+          "n": 16,
+          "mean_seconds": 10.51665391906863,
+          "p50_seconds": 10.515226458664984,
+          "p95_seconds": 10.534325720276684
+        }
+      },
+      "pairs": {
+        "main_over_current": {
+          "process_pairs": 2,
+          "ratios": [
+            1.0096729890329077,
+            1.0104538345171388
+          ],
+          "geometric_ratio": 1.0100633363194025,
+          "log_t95_interval": [
+            1.0051147073604156,
+            1.0150363295906362
+          ],
+          "interval_contains_1": false
+        },
+        "omni_over_current": {
+          "process_pairs": 2,
+          "ratios": [
+            1.1174623190038828,
+            1.1181704149690987
+          ],
+          "geometric_ratio": 1.117816310917363,
+          "log_t95_interval": [
+            1.1133267449360922,
+            1.1223239813794543
+          ],
+          "interval_contains_1": false
+        },
+        "original_over_current": {
+          "process_pairs": 4,
+          "ratios": [
+            0.9993125195635764,
+            0.9998970004294938,
+            1.0003697051553513,
+            0.9980840256575982
+          ],
+          "geometric_ratio": 0.9994154466497569,
+          "log_t95_interval": [
+            0.9978448938181137,
+            1.000988471444941
+          ],
+          "interval_contains_1": true
+        }
+      },
+      "cleanup_mean_latency_change_percent": 0.06126275974529527,
+      "cleanup_t95_regression_upper_percent": 0.21597606955126025,
+      "original_predeclared_admission_passed": false
+    },
+    "edit": {
+      "measured_requests": 96,
+      "excluded_warmups": 72,
+      "arms": {
+        "main": {
+          "n": 16,
+          "mean_seconds": 10.977237992745358,
+          "p50_seconds": 10.978408742230386,
+          "p95_seconds": 10.985958669800311
+        },
+        "original": {
+          "n": 32,
+          "mean_seconds": 10.873791575228097,
+          "p50_seconds": 10.87196092074737,
+          "p95_seconds": 10.885918303532526
+        },
+        "current": {
+          "n": 32,
+          "mean_seconds": 10.878866522165481,
+          "p50_seconds": 10.879124713595957,
+          "p95_seconds": 10.890679547050969
+        },
+        "omni_default": {
+          "n": 16,
+          "mean_seconds": 12.363896572322119,
+          "p50_seconds": 12.365365414414555,
+          "p95_seconds": 12.37455242476426
+        }
+      },
+      "pairs": {
+        "main_over_current": {
+          "process_pairs": 2,
+          "ratios": [
+            1.0093189750364964,
+            1.0097003824861244
+          ],
+          "geometric_ratio": 1.0095096607486496,
+          "log_t95_interval": [
+            1.0070894459678101,
+            1.0119356917353968
+          ],
+          "interval_contains_1": false
+        },
+        "omni_over_current": {
+          "process_pairs": 2,
+          "ratios": [
+            1.137681416158217,
+            1.1363273669792098
+          ],
+          "geometric_ratio": 1.1370041900029415,
+          "log_t95_interval": [
+            1.128434237867392,
+            1.145639227082869
+          ],
+          "interval_contains_1": false
+        },
+        "original_over_current": {
+          "process_pairs": 4,
+          "ratios": [
+            0.9999301254923672,
+            0.9997061093525713,
+            0.9992704570163379,
+            0.9993068873749141
+          ],
+          "geometric_ratio": 0.9995533565351393,
+          "log_t95_interval": [
+            0.9990452499117611,
+            1.000061721577584
+          ],
+          "interval_contains_1": true
+        }
+      },
+      "cleanup_mean_latency_change_percent": 0.046671364834183215,
+      "cleanup_t95_regression_upper_percent": 0.09556625071018843,
+      "original_predeclared_admission_passed": false
+    }
+  },
+  "raw_files": [
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-00-main-t2i/results.json",
+      "sha256": "2b355c8da22b235be3758da7f15b45db1f142460a0cb5fd27852ba036569eb54"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-01-original-t2i/results.json",
+      "sha256": "85d2afe9f3edd86751e68eefe5e4bed1c74864afd1d2b5900b2cf7b2779e78e3"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-02-current-t2i/results.json",
+      "sha256": "4706ec9f01342c198bbf028ea4d291585861a2210bb56197c4aa827bb8e5cf84"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-04-omni_casts-t2i/results.json",
+      "sha256": "57bee9e544203cd9d0b20e197ca43649371930ba2736d0ad8fc1a270c740eb52"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-05-original-t2i/results.json",
+      "sha256": "8a80d80ec1682e09ffe4ab3fbd04cce41ca30cba5982960402b647a826bec148"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-06-current-t2i/results.json",
+      "sha256": "c440b5d78d854d70abd2c03cd5317bd900a95f58403e35a01fb3ce4c2a062061"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-07-current-t2i/results.json",
+      "sha256": "cc34e662ef3d1a00d01a93eebd9214bec69f3b671a83800a3d2e9d5a8a3a76d1"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-08-original-t2i/results.json",
+      "sha256": "6132b7c91b02e70c561353f1446c7e808efd00ce2c986839c4c80bc553915b1f"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-09-omni_casts-t2i/results.json",
+      "sha256": "94e4c7e458595341ee1063fed856fc339a93bdb3edcbe1e06155aebd7c0569e7"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-11-current-t2i/results.json",
+      "sha256": "dc5e4b512a73f8d930bc7ed7488ce49391b0a3810f8060b1d66562e7b38e10e2"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-12-original-t2i/results.json",
+      "sha256": "f43869c5a594548971dcb260cae835f7b464770925bc4c3bbca78a7b30d83ea1"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-13-main-t2i/results.json",
+      "sha256": "8a7771fe2f76e7fb752bc15648c272660fc96460f7f25bc32616db550d06fb84"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-00-main-edit/results.json",
+      "sha256": "87ae551647f47e60bc9c8188a5d860ffbc97017e6e55f22c2acddfe85bd0a5b5"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-01-original-edit/results.json",
+      "sha256": "a2aa3d0795adfe6ff2bdde842bf9ab394ade0727a21324d602328f990ac13d50"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-02-current-edit/results.json",
+      "sha256": "5cb131e10abf0a9b94b1754b7d3fda36f31074c7d6de8fa93e7abfccef00b1bd"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-03-omni_default-edit/results.json",
+      "sha256": "05de3765ccfdb4931e15e83fe868ae07ff1040de1a08f65cad3d5b89bb6e4598"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-05-original-edit/results.json",
+      "sha256": "ef1ab3db740197454de60a6629ff8a09f3ebf95a3c3ef0522695e15c8b12d3ab"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-06-current-edit/results.json",
+      "sha256": "eeb5e0ebc2a87c00719193db6d77d6d79edd11489fa6f6db5256f2bf8b3db38d"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-07-current-edit/results.json",
+      "sha256": "77195c6d4368fa44cc4dbda64d3cdfc884dc54b387e5ca51dd3d514f426e57a9"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-08-original-edit/results.json",
+      "sha256": "e530076287c1e24b9dc9a2f8bb0daf9049472f01994ccddada9ea22483b9d201"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-10-omni_default-edit/results.json",
+      "sha256": "021297faaf667d7743582e72322d5ae671b6bae92082d15dfedb133e4eace19b"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-11-current-edit/results.json",
+      "sha256": "9f6f6d3056d85198227b2010f5160c751473e43a37d6bc9a411f313666ae4ed0"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-12-original-edit/results.json",
+      "sha256": "93ec0571321ee36ff7fbc4a389b68a666717d65f3072714404d58ee78b9f85ce"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-1024-primary1-13-main-edit/results.json",
+      "sha256": "2698a4655b9697bdfcdbe6d9854aaa9051b330fe3840a085b48e856dca11ac9e"
+    }
+  ],
+  "all_samples_retained": true,
+  "unchanged_predeclared_gates": true,
+  "original_admission_passed": false,
+  "limitation": "The statistical calculation is verified; this does not change failed cleanup admission. Both cleanup t95 ratio intervals contain1, so these data do not prove a nonzero population regression, nor meet the original no-regression assurance gates. Do not selectively discard/retry pairs. Primary main/current and Omni/current ratio intervals are above1 in these1024cases;512interval limitations remain separate."
+}

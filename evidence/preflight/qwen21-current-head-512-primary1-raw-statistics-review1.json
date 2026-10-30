@@ -1,0 +1,227 @@
+{
+  "at": "2026-10-30T05:35:12.076979+00:00",
+  "passed": true,
+  "run": "qwen21-current-head-512-primary1",
+  "method": "Independent NumPy means/medians/quantiles and SciPy Student-t quantiles from every raw results.json, excluding all declared warmups. No admission function or cached block statistics reused.",
+  "cases": {
+    "t2i": {
+      "measured_requests": 96,
+      "excluded_warmups": 72,
+      "arms": {
+        "main": {
+          "n": 16,
+          "mean_seconds": 2.435254704207182,
+          "p50_seconds": 2.4355078139342368,
+          "p95_seconds": 2.4384824035223573
+        },
+        "original": {
+          "n": 32,
+          "mean_seconds": 2.3648940536077134,
+          "p50_seconds": 2.366075612138957,
+          "p95_seconds": 2.372967311786488
+        },
+        "current": {
+          "n": 32,
+          "mean_seconds": 2.3641911134764086,
+          "p50_seconds": 2.3647641106508672,
+          "p95_seconds": 2.3719753068871796
+        },
+        "omni_default": {
+          "n": 16,
+          "mean_seconds": 2.586238788499031,
+          "p50_seconds": 2.5856944848783314,
+          "p95_seconds": 2.5915397766511887
+        }
+      },
+      "pairs": {
+        "main_over_current": {
+          "process_pairs": 2,
+          "geometric_ratio": 1.030205213893096,
+          "log_t95_interval": [
+            0.9903432362438617,
+            1.0716716628043692
+          ],
+          "interval_contains_1": true
+        },
+        "omni_over_current": {
+          "process_pairs": 2,
+          "geometric_ratio": 1.094071542913378,
+          "log_t95_interval": [
+            1.0510708232099288,
+            1.138831479840047
+          ],
+          "interval_contains_1": false
+        },
+        "original_over_current": {
+          "process_pairs": 4,
+          "geometric_ratio": 1.00025074539607,
+          "log_t95_interval": [
+            0.9997806520960659,
+            1.0007210597322684
+          ],
+          "interval_contains_1": true
+        }
+      }
+    },
+    "edit": {
+      "measured_requests": 96,
+      "excluded_warmups": 72,
+      "arms": {
+        "main": {
+          "n": 16,
+          "mean_seconds": 2.657522688561585,
+          "p50_seconds": 2.6565518635325134,
+          "p95_seconds": 2.6629171401727945
+        },
+        "original": {
+          "n": 32,
+          "mean_seconds": 2.5788957974873483,
+          "p50_seconds": 2.5787493237294257,
+          "p95_seconds": 2.5849332203157247
+        },
+        "current": {
+          "n": 32,
+          "mean_seconds": 2.5784491494705435,
+          "p50_seconds": 2.5791513109579682,
+          "p95_seconds": 2.5843912322539837
+        },
+        "omni_default": {
+          "n": 16,
+          "mean_seconds": 3.6000920339720324,
+          "p50_seconds": 3.599287454970181,
+          "p95_seconds": 3.618790562497452
+        }
+      },
+      "pairs": {
+        "main_over_current": {
+          "process_pairs": 2,
+          "geometric_ratio": 1.0310550154583138,
+          "log_t95_interval": [
+            0.9942910705194942,
+            1.0691783084668676
+          ],
+          "interval_contains_1": true
+        },
+        "omni_over_current": {
+          "process_pairs": 2,
+          "geometric_ratio": 1.3968089712764196,
+          "log_t95_interval": [
+            1.30298622268909,
+            1.497387515127888
+          ],
+          "interval_contains_1": false
+        },
+        "original_over_current": {
+          "process_pairs": 4,
+          "geometric_ratio": 1.000283286885274,
+          "log_t95_interval": [
+            0.9994369925168698,
+            1.001130297871297
+          ],
+          "interval_contains_1": true
+        }
+      }
+    }
+  },
+  "raw_files": [
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-00-main-t2i/results.json",
+      "sha256": "39ff09fdf6c5ddfa59a8cb0410231a128c44e76eb1e04e0cbee38a315ad667a7"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-01-original-t2i/results.json",
+      "sha256": "a6d0bb4c2b901ea3fc44a5fd62b855ee7a323443cc69a4ad75e6319bc42dbd01"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-02-current-t2i/results.json",
+      "sha256": "e3abad94298bdc80285d584e3caaac6b6c9672c5c6a9de4da443915683033b12"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-03-omni_default-t2i/results.json",
+      "sha256": "06c190940958fab191cebb750d4839190ae69f0ceed4a0c8c8ef6661d07e9bcb"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-04-original-t2i/results.json",
+      "sha256": "0ee58c4f13c7eeaf7f18507562599d7622e3a4effa6ca67d9bdb592c002b9c31"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-05-current-t2i/results.json",
+      "sha256": "d5567188e361833daa97fd23bcaf0316b95fde87e28936a5120f48ea6b7de255"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-06-current-t2i/results.json",
+      "sha256": "044fcdf8b76aa88f0d4a40901379c8cfd80e335db9e575c53cf28e75e6444a72"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-07-original-t2i/results.json",
+      "sha256": "bcada1ed2db63b0d00a660ba1407dfa2fb4ed9d5c2cf0737e5bb29ff2b191a48"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-08-omni_default-t2i/results.json",
+      "sha256": "54d62a29a0ada6dfe4c14c72fdcd9031d08372a1b2ae70a48da64951a50a6118"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-09-current-t2i/results.json",
+      "sha256": "7728cdd8cd1e1ecc59a5957c421504c0939fee9a9ec9abe65c39b31b0b7780dc"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-10-original-t2i/results.json",
+      "sha256": "f9c4554a21660f2c9bc298db93030ff44e87211eeac497b9b0fb4cb681681d7d"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-11-main-t2i/results.json",
+      "sha256": "a8f9e88af974dba80d86fe230f1404fabd5515bd6a8997edccd70737eea7d222"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-00-main-edit/results.json",
+      "sha256": "6c56af2426081d39e95aceb97150292a4591a9bd2d6b72a8a6d444778097ccdf"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-01-original-edit/results.json",
+      "sha256": "1c041ed95cef25a1312a3dd7ae38148b1575b308b0f30bfb0d7d7cd9cb1ba6f3"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-02-current-edit/results.json",
+      "sha256": "f61c4218c33a55dd1144160db5ac0f64ae54af7c3aa22ff516b8e7845e14a7ad"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-03-omni_default-edit/results.json",
+      "sha256": "df54d9e23ecc4e7e299704847f61fa8fd51f123a3a414748be509ccb4a12370f"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-04-original-edit/results.json",
+      "sha256": "0a0420f8d8198f930858173e624bfa22edc9f75e654bf360c77b06a64e9c4885"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-05-current-edit/results.json",
+      "sha256": "52448c3432f81c15f3750e564b0cd25f3188e2db61699b1836d10f1d3d2373a2"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-06-current-edit/results.json",
+      "sha256": "b9d804e5ad5b9dab3fd305a3478188b416b5d078825ab89b0360cb98e393b6a4"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-07-original-edit/results.json",
+      "sha256": "7741b474e173d5d0d46e888db6313b24a3c09c56eb91ca2b0b8debcfbb3061ae"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-08-omni_default-edit/results.json",
+      "sha256": "50db593e92f631c792ee58fa42cdb9cc7f1593034725845a60314f3ada664f84"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-09-current-edit/results.json",
+      "sha256": "7834d739604a68e4f4d5a83a809220d816da96c6e09871232b775f9d97d9b9a2"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-10-original-edit/results.json",
+      "sha256": "3ae2e0407079ea664cb28a8e672402570d0a612327507086c163b3873bb79509"
+    },
+    {
+      "path": "evidence/benchmarks/qwen21-current-head-512-primary1-11-main-edit/results.json",
+      "sha256": "6d4aa3011e862ab6543f1fd699559688b5dee747c61913bea499d6cb7ba4d690"
+    }
+  ],
+  "all_samples_retained": true,
+  "unchanged_predeclared_gates": true,
+  "limitation": "Main/Omni use two process pairs per case. Report the actual broad t95 intervals; a predeclared gate pass does not imply every interval excludes unity."
+}

@@ -1,0 +1,405 @@
+{
+  "plan": {
+    "id": "qwen21-current-head-1024-primary1",
+    "created_at": "2026-10-29T15:03:40.263205+00:00",
+    "phase": "primary",
+    "size": 1024,
+    "order": [
+      "main",
+      "original",
+      "current",
+      "omni_default",
+      "omni_casts",
+      "original",
+      "current",
+      "current",
+      "original",
+      "omni_casts",
+      "omni_default",
+      "current",
+      "original",
+      "main"
+    ],
+    "tasks": [
+      "t2i",
+      "edit"
+    ],
+    "quality": "high",
+    "warmups": 6,
+    "repeats": 8,
+    "benchmark": true,
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "launcher": "launch_sgl_qwen21_current_head_1024.sh"
+      },
+      "original": {
+        "arm": "sgl",
+        "repo": "/task/candidates/qwen21-gate-up-pr47090-original",
+        "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+        "launcher": "launch_sgl_qwen21_current_head_1024.sh"
+      },
+      "current": {
+        "arm": "sgl",
+        "repo": "/task/candidates/qwen21-gate-up-pr47090-current",
+        "head": "188169fa0db0bb2d524d56a97184590f948cca07",
+        "launcher": "launch_sgl_qwen21_current_head_1024.sh"
+      },
+      "omni_default": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "launcher": "launch_omni_qwen21_base_native.sh",
+        "tasks": [
+          "edit"
+        ]
+      },
+      "omni_casts": {
+        "arm": "omni",
+        "repo": "/task/repos/vllm-omni",
+        "head": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+        "launcher": "launch_omni_qwen21_base_casts.sh",
+        "tasks": [
+          "t2i"
+        ]
+      }
+    },
+    "contracts": {
+      "t2i": "qwen21-base-t2i-workloads.json",
+      "edit": "qwen21-base-edit-workloads.json"
+    },
+    "contract_sha256": {
+      "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+      "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+    },
+    "quality_references": {
+      "main": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "original": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "current": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1",
+          "omni-qwen21-base-t2i-casts1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1",
+          "omni-qwen21-base-edit-casts1"
+        ]
+      },
+      "omni_default": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1"
+        ]
+      },
+      "omni_casts": {
+        "t2i": [
+          "sgl-qwen21-base-t2i-mainhigh1"
+        ],
+        "edit": [
+          "sgl-qwen21-base-edit-mainhigh1"
+        ]
+      }
+    },
+    "main_qualification_references": {
+      "t2i": "sgl-qwen21-base-t2i-mainhigh1",
+      "edit": "sgl-qwen21-base-edit-mainhigh1"
+    },
+    "require_sgl_pixel_exact": true,
+    "current_head": "188169fa0db0bb2d524d56a97184590f948cca07",
+    "previous_benchmarked_head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+    "current_head_requalification_not_new_PR": true,
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": 0,
+    "aa_acceptance": {
+      "max_process_median_relative_difference": 0.005,
+      "max_within_process_cv_percent": 0.5
+    },
+    "required_admissions": [
+      "evidence/preflight/qwen21-current-head-tests1-admission.json",
+      "evidence/preflight/qwen21-current-head-1024-aa1-admission.json"
+    ],
+    "task_orders": {
+      "0": [
+        "t2i",
+        "edit"
+      ],
+      "1": [
+        "t2i",
+        "edit"
+      ],
+      "2": [
+        "t2i",
+        "edit"
+      ],
+      "3": [
+        "edit"
+      ],
+      "4": [
+        "t2i"
+      ],
+      "5": [
+        "t2i",
+        "edit"
+      ],
+      "6": [
+        "t2i",
+        "edit"
+      ],
+      "7": [
+        "edit",
+        "t2i"
+      ],
+      "8": [
+        "edit",
+        "t2i"
+      ],
+      "9": [
+        "t2i"
+      ],
+      "10": [
+        "edit"
+      ],
+      "11": [
+        "edit",
+        "t2i"
+      ],
+      "12": [
+        "edit",
+        "t2i"
+      ],
+      "13": [
+        "edit",
+        "t2i"
+      ]
+    },
+    "physical_gpu_uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+    "status": "frozen_local_not_transferred_or_queued",
+    "note": "Supplement existing PR47090 current head; preserve prior trials and failures. All primary servers native/profiler-free SYNC0. Four qualification requests,6warmups,8measured short requests per task/process; reverse task order in second half. Native RGBA PNG and separate RGB/alpha gates. 1024T2I uses the previously qualified native emulate_precision_casts comparator,1024editing native default; failed default1024T2I remains historical. Omni CV is reported descriptively; primary gates require main/current noise and both paired improvements. No aggregate hides failed cells.",
+    "pair_indices": {
+      "t2i": {
+        "main_over_current": [
+          [
+            0,
+            2
+          ],
+          [
+            13,
+            11
+          ]
+        ],
+        "omni_over_current": [
+          [
+            4,
+            2
+          ],
+          [
+            9,
+            11
+          ]
+        ],
+        "original_over_current": [
+          [
+            1,
+            2
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            12,
+            11
+          ]
+        ]
+      },
+      "edit": {
+        "main_over_current": [
+          [
+            0,
+            2
+          ],
+          [
+            13,
+            11
+          ]
+        ],
+        "omni_over_current": [
+          [
+            3,
+            2
+          ],
+          [
+            10,
+            11
+          ]
+        ],
+        "original_over_current": [
+          [
+            1,
+            2
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            12,
+            11
+          ]
+        ]
+      }
+    },
+    "omni_configuration": {
+      "t2i": "omni_casts",
+      "edit": "omni_default"
+    },
+    "n_measured_per_arm": {
+      "main": 16,
+      "original": 32,
+      "current": 32,
+      "omni_default": 16,
+      "omni_casts": 16
+    },
+    "admission": {
+      "minimum_main_latency_reduction_percent": 0,
+      "cleanup_t95_regression_upper_percent_max": 0.1,
+      "cleanup_mean_regression_max": "fresh AA maximum process median difference; all four paired cleanups retained"
+    },
+    "sha256": {
+      "evidence/downloads/qwen21-modelscope-download-manifest.json": "cb4d933a7010de24ddfe75d99d70cc43a41b6459d9e25035ddcd7f5354e4f436",
+      "evidence/plans/qwen21-current-head-restore1.json": "b0d39a23f0e64e8fce7e767ae9697d7da057e7efa6b7e6ec8804a70511031def",
+      "inputs/qwen21-base-edit-workloads.json": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc",
+      "inputs/qwen21-base-t2i-workloads.json": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+      "inputs/reference-teapot.png": "962cb02c131384b341db8aa620b1a2e30dbc7fb7d6f8d9872d3e94445ecd40b7",
+      "scripts/archive_qwen21_current_head1.py": "436bf29d11ed52eed6da0feb7fdbf15b0c877eb1b0c256b3f885a46bcda05249",
+      "scripts/audit_qwen21_current_head_primary1.py": "b54465d3419ee614aa6d96b412d7abbda4fc72ce20dba19985df6d3cacdd21f7",
+      "scripts/audit_qwen21_final_qualification.py": "4a8d317f774d8356adad1b251d5d5533cac3cf6311cc5405108e7ea1efacbbfb",
+      "scripts/bench_qwen21_serving.py": "95d1dedbee5dbedf8d0bc73bd978b06064df424f1ffd0a06204a09b5e3dfade6",
+      "scripts/compare_qwen21_qualification_v2.py": "367b96209b5fec6047d70d2df29c51294fd6aca2fb640a587a57c99e98291247",
+      "scripts/diffusion_skill_env.py": "954edd99aee9c75fb844ccd4e97b126ff4d4bd5c524b51fdc0577093ab72699f",
+      "scripts/launch_omni_qwen21_base_casts.sh": "a21fc268b8602763ee14e023f61ee72525f08ba99ab5186460cadf26968c1907",
+      "scripts/launch_omni_qwen21_base_native.sh": "665aaa1da1cd59ee676ff641905ed610d83c024297b4bf9b94f7afc192e7054c",
+      "scripts/launch_sgl_qwen21_current_head_1024.sh": "d4fe80450283fbc64eaf427b010d90bde73727f17522328fe04c3912f04d2e54",
+      "scripts/preflight_diffusion_current_head1.py": "e87fb0903bc2c309e8b2f2c4283fc6fd2d5ed22d0473b967a452a213dfa88f48",
+      "scripts/run_qwen21_current_head_blocks1.py": "967b30382453ac0216b5fdff13eb89559a99902bfc408ce49bc31f4c312515f0",
+      "scripts/run_qwen21_current_head_tests1.py": "fbbffc288455f9416421514baf7537ebe3f29fcf5f9fa3c85de2448f5ee16ad8",
+      "scripts/submit_qwen21_candidate_qualification.py": "2075339ba3c8698d690ce8b429b0b5476635ace1e00da3d78efeb0016e1826a5"
+    }
+  },
+  "index": 9,
+  "config": "omni_casts",
+  "source_sha": "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "QWEN_CANDIDATE_SHA=817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+    "-e",
+    "SGL_REPO=/task/repos/vllm-omni",
+    "-e",
+    "QWEN_CANDIDATE_DIFF_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bbuf-diffusion-rtx6000-20261026-omni",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/qwen21-current-head-1024-primary1-09-omni_casts/server.pid; exec sh /task/launch_omni_qwen21_base_casts.sh"
+  ],
+  "runner_sha256": "967b30382453ac0216b5fdff13eb89559a99902bfc408ce49bc31f4c312515f0",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-omni",
+      "python",
+      "/task/submit_qwen21_candidate_qualification.py",
+      "omni",
+      "--label",
+      "base-t2i-qwen21-current-head-1024-primary1-09-omni_casts-high",
+      "--quality",
+      "high",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json",
+      "--repo",
+      "/task/repos/vllm-omni",
+      "--expected-sha",
+      "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-omni",
+      "python",
+      "/task/compare_qwen21_qualification_v2.py",
+      "omni-qwen21-base-t2i-qwen21-current-head-1024-primary1-09-omni_casts-high",
+      "--reference",
+      "sgl-qwen21-base-t2i-mainhigh1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-rtx6000-20261026-omni",
+      "python",
+      "/task/bench_qwen21_serving.py",
+      "omni",
+      "--run-id",
+      "qwen21-current-head-1024-primary1-09-omni_casts-t2i",
+      "--repo",
+      "/task/repos/vllm-omni",
+      "--allowed-gpu-pids",
+      "37239",
+      "--quality",
+      "high",
+      "--configuration-label",
+      "omni_casts",
+      "--warmups",
+      "6",
+      "--repeats",
+      "8",
+      "--expected-sha",
+      "817d4c17feb702289a2d2b2cbacfd594c262b7a7",
+      "--expected-diff-sha256",
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "--contract",
+      "/task/inputs/qwen21-base-t2i-workloads.json"
+    ]
+  ],
+  "launch_to_ready_seconds": 40.01823050528765,
+  "gpu_container_pids": [
+    [
+      37239
+    ],
+    []
+  ],
+  "status": "complete"
+}

@@ -1,0 +1,140 @@
+{
+  "tasks": [
+    "t2i",
+    "edit"
+  ],
+  "contracts": {
+    "t2i": "qwen21-base-t2i-workloads.json",
+    "edit": "qwen21-base-edit-workloads.json"
+  },
+  "contract_sha256": {
+    "t2i": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+    "edit": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc"
+  },
+  "main_qualification_references": {
+    "t2i": "sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high",
+    "edit": "sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high"
+  },
+  "require_sgl_pixel_exact": true,
+  "current_head": "188169fa0db0bb2d524d56a97184590f948cca07",
+  "previous_benchmarked_head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+  "physical_gpu_uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+  "id": "qwen21-cleanup-1024-forensics1",
+  "created_at": "2026-10-30T07:49:17.890329+00:00",
+  "order": [
+    "original",
+    "current"
+  ],
+  "quality": "high",
+  "warmups": 2,
+  "repeats": 4,
+  "benchmark": true,
+  "diagnostic_timing": true,
+  "sgl_torch_profiles": true,
+  "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": 1,
+  "primary_timing": false,
+  "expected_processes": 2,
+  "expected_outputs": 44,
+  "expected_traces": 4,
+  "configurations": {
+    "original": {
+      "arm": "sgl",
+      "repo": "/task/candidates/qwen21-gate-up-pr47090-original",
+      "head": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+      "launcher": "launch_sgl_qwen21_current_head_1024_denoise.sh"
+    },
+    "current": {
+      "arm": "sgl",
+      "repo": "/task/candidates/qwen21-gate-up-pr47090-current",
+      "head": "188169fa0db0bb2d524d56a97184590f948cca07",
+      "launcher": "launch_sgl_qwen21_current_head_1024_denoise.sh"
+    }
+  },
+  "quality_references": {
+    "original": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high"
+      ]
+    },
+    "current": {
+      "t2i": [
+        "sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high",
+        "sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high"
+      ],
+      "edit": [
+        "sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high",
+        "sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high"
+      ]
+    }
+  },
+  "required_admissions": [
+    "evidence/preflight/qwen21-current-head-tests1-admission.json",
+    "evidence/preflight/qwen21-current-head-1024-aa1-admission.json"
+  ],
+  "current_head_requalification_not_new_PR": true,
+  "status": "frozen_separate_failure_diagnostic_not_primary",
+  "note": "Separate failure investigation after fully archived failed 1024 cleanup. Same native 1024 high configuration at original and current source; 4 qualification + 2 excluded warmup + 4 synchronized diagnostic + 1 separate Torch profile per task and source. One fresh process per source. These diagnostic timings cannot replace, pool with, or qualify failed SYNC0 primary results. No source edit, no threshold change, no selective primary retry. Native CPU-op/launch and GPU sequence/shape evidence may exclude operator dispatch changes but does not directly isolate Python keyword-call overhead or establish causation of the small primary difference.",
+  "sha256": {
+    "scripts/run_qwen21_current_head_diagnostics1.py": "9bdcffd35ab584d1bd21758bc05a7f9501064ea6cebdb867f7c9f950850604ce",
+    "scripts/bench_qwen21_serving.py": "95d1dedbee5dbedf8d0bc73bd978b06064df424f1ffd0a06204a09b5e3dfade6",
+    "scripts/compare_qwen21_qualification_v2.py": "367b96209b5fec6047d70d2df29c51294fd6aca2fb640a587a57c99e98291247",
+    "scripts/diffusion_skill_env.py": "954edd99aee9c75fb844ccd4e97b126ff4d4bd5c524b51fdc0577093ab72699f",
+    "scripts/launch_sgl_qwen21_current_head_1024_denoise.sh": "5a1eb05a8aa54d870ded804d012934df6b577eb0cf5ade1556bfb5cc7056f908",
+    "scripts/preflight_diffusion_current_head1.py": "e87fb0903bc2c309e8b2f2c4283fc6fd2d5ed22d0473b967a452a213dfa88f48",
+    "scripts/submit_qwen21_candidate_qualification.py": "2075339ba3c8698d690ce8b429b0b5476635ace1e00da3d78efeb0016e1826a5",
+    "scripts/submit_qwen21_compatibility.py": "5c6feef9a99abd958a8b03316355748cdaa283bbfffb7413c51f8520736fbce6",
+    "inputs/qwen21-base-edit-workloads.json": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc",
+    "inputs/qwen21-base-t2i-workloads.json": "ad659ab4eaa906a773b2685833539d35ce571ac0e2f6dd8262ac3d194b0fd69f",
+    "inputs/reference-teapot.png": "962cb02c131384b341db8aa620b1a2e30dbc7fb7d6f8d9872d3e94445ecd40b7",
+    "evidence/preflight/qwen21-current-head-tests1-admission.json": "b204e317655531f280f07f81f91ff5f4012263d3776ab5a0e1c5b1d82c887d6d",
+    "evidence/preflight/qwen21-current-head-1024-aa1-admission.json": "012db8c4eaed2d4f30db69eef79acab64a84d52d3447b4ec3aadbcd628ed9ba6",
+    "evidence/preflight/qwen21-current-head-1024-primary1-admission.json": "a487ad92121d7df17062fda110312a2713a39585f5804b416c60f19006f9b424",
+    "evidence/checkpoints/qwen21-current-head-1024-primary1-local-verification.json": "4e6b60f7d6961b69ce2c05fadf934532cb623f4b33bc9172b3ab122102a71155",
+    "evidence/preflight/qwen21-current-head-1024-primary1-failure-checkpoint1.json": "b9ba08c80b73123d41b7dcfe9be299eb659a538d405019d789cc5400b11212f8"
+  },
+  "hypotheses": [
+    "Check identical packed MLP and native QKV GPU operator sequence/count/shapes at original/current.",
+    "Compare separate CPU operation/launch traces and GPU step spans descriptively; profiler timing is not a performance gate.",
+    "Both failed-primary cleanup confidence intervals include one; no statistically proven nonzero population regression or source mechanism yet."
+  ],
+  "not_run_original_plans": [
+    "qwen21-current-head-compatibility1",
+    "qwen21-current-head-512-diagnostics1",
+    "qwen21-current-head-1024-diagnostics1"
+  ],
+  "preserved_failure": {
+    "admission": "evidence/preflight/qwen21-current-head-1024-primary1-admission.json",
+    "expected_passed": false,
+    "verification": "evidence/checkpoints/qwen21-current-head-1024-primary1-local-verification.json",
+    "checkpoint": "evidence/preflight/qwen21-current-head-1024-primary1-failure-checkpoint1.json"
+  },
+  "reference_files_sha256": {
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high/results.json": "aaf78691fa86d01526efa4665d4ec1fca31fe174d6c047c29f726ec891069af7",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high/metadata.json": "051b2c3caefc896a9dc31303576f85a7065674c97b9a34546d4a6fd80c2b5b92",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high/00-edit-short/output.png": "b5cfe51483b476881e58e9016cad29560bf41ec2dbe675f0992e0591d2841a9d",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high/01-edit-long/output.png": "9146cf937adade2e4c7c53708bda15eed0dc339848a06b330a32c43897c0fbab",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high/02-edit-chinese/output.png": "55d343b8daaf83d3df447336ffdeab860b0756edc7cbe433b04224c2970ed888",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-00-main-high/03-edit-short/output.png": "b5cfe51483b476881e58e9016cad29560bf41ec2dbe675f0992e0591d2841a9d",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high/results.json": "9e8ec257795151a8f22631e88719f8033dee12566fbaacc123d9ddcad919c597",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high/metadata.json": "af6b1206a9b87c570fe2c026829e1332d3c61568568c63bb690f10200187b0eb",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high/00-edit-short/output.png": "b5cfe51483b476881e58e9016cad29560bf41ec2dbe675f0992e0591d2841a9d",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high/01-edit-long/output.png": "9146cf937adade2e4c7c53708bda15eed0dc339848a06b330a32c43897c0fbab",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high/02-edit-chinese/output.png": "55d343b8daaf83d3df447336ffdeab860b0756edc7cbe433b04224c2970ed888",
+    "outputs/qualification/sgl-qwen21-base-edit-qwen21-current-head-1024-primary1-01-original-high/03-edit-short/output.png": "b5cfe51483b476881e58e9016cad29560bf41ec2dbe675f0992e0591d2841a9d",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high/results.json": "8a986c4a1adf6cc55abaa81f88a9a378317e11eb9812cd6ff472f1419aa6ce75",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high/metadata.json": "9813f45ee6845a8caf03ab555aa87017b3d34bc91751d9dbe94871b7b4a997af",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high/00-image-short/output.png": "595b3fec4043ca23419eba87bff36881367d74b1df2fedfab8eb6945f8ccf136",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high/01-image-long/output.png": "62609438abc7f1a6875d229f9479637b3b82a9e4d2d7b414e25567aaad4a8e76",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high/02-image-text/output.png": "3f198cb7797b7c1f54be0bf4b2a10180470ad7f03a8f7b2605c617550d5905eb",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-00-main-high/03-image-short/output.png": "595b3fec4043ca23419eba87bff36881367d74b1df2fedfab8eb6945f8ccf136",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high/results.json": "399a925545e5af852f9e939d3bcbb97532560de45dc933f833ac3c3b1de28cee",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high/metadata.json": "550f3543b5cf52ddc73b0ead549a7565dc94cc8a24429831950421e6c8546bc0",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high/00-image-short/output.png": "595b3fec4043ca23419eba87bff36881367d74b1df2fedfab8eb6945f8ccf136",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high/01-image-long/output.png": "62609438abc7f1a6875d229f9479637b3b82a9e4d2d7b414e25567aaad4a8e76",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high/02-image-text/output.png": "3f198cb7797b7c1f54be0bf4b2a10180470ad7f03a8f7b2605c617550d5905eb",
+    "outputs/qualification/sgl-qwen21-base-t2i-qwen21-current-head-1024-primary1-01-original-high/03-image-short/output.png": "595b3fec4043ca23419eba87bff36881367d74b1df2fedfab8eb6945f8ccf136"
+  }
+}

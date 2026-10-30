@@ -1,0 +1,99 @@
+diff --git a/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py b/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py
+index 9dfe3ea4567f2020109314b6f501508053a8854b..731ebec4d32e9a4e106284711f6c7f79e5222396 100644
+--- a/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py
++++ b/python/sglang/multimodal_gen/runtime/models/dits/qwen_image21.py
+@@ -441,11 +441,11 @@ class QwenImage21FeedForward(nn.Module):
+         self.pack_gate_up_weights()
+         return module
+ 
+-    def forward(self, x, pack_bf16=False):
++    def forward(self, x, use_packed_bf16=False):
+         # GEMM width can change rounding. Only use the measured target lengths;
+         # exact/lossless and conditioning prefixes keep separate projections.
+         if (
+-            pack_bf16
++            use_packed_bf16
+             and not torch.compiler.is_compiling()
+             and x.dim() == 3
+             and x.shape[0] == 1
+@@ -913,7 +913,7 @@ class QwenImage21TransformerBlock(nn.Module):
+         ropes,
+         caches,
+         prefix_pad,
+-        pack_bf16_mlp=False,
++        use_packed_bf16_mlp=False,
+     ):
+         # Cache-DiT's UnifiedBlocks forwards the same args to every layer.
+         # Slice here so prefix KV stays per-layer after that wrap.
+@@ -940,7 +940,7 @@ class QwenImage21TransformerBlock(nn.Module):
+             hidden_states,
+             self.img_mlp(
+                 apply_modulation(hidden_states, self.img_norm2, scale2),
+-                pack_bf16=pack_bf16_mlp,
++                use_packed_bf16=use_packed_bf16_mlp,
+             ),
+             gate2,
+         )
+@@ -1094,7 +1094,7 @@ class QwenImage21Transformer2DModel(CachableDiT, LayerwiseOffloadableModuleMixin
+         **kwargs,
+     ):
+         forward_batch = get_forward_context().forward_batch
+-        pack_bf16_mlp = forward_batch is not None and quality_allows(
++        use_packed_bf16_mlp = forward_batch is not None and quality_allows(
+             forward_batch.sampling_params.quality, "high"
+         )
+         if isinstance(encoder_hidden_states, list):
+@@ -1157,7 +1157,7 @@ class QwenImage21Transformer2DModel(CachableDiT, LayerwiseOffloadableModuleMixin
+                 ropes,
+                 prefix_caches,
+                 prefix_pad,
+-                pack_bf16_mlp,
++                use_packed_bf16_mlp=use_packed_bf16_mlp,
+             )
+         output = self.proj_out(self.norm_out(images, temb))
+         if sp > 1:
+diff --git a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+index 1d096a89d1aa117fd6b902b26f726d2fe07fa8a5..09f732c10c9a28f887cff2df7056c05da6465f48 100644
+--- a/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
++++ b/test/registered/kernels/ops/diffusion/test_model_fast_paths.py
+@@ -1730,22 +1730,26 @@ def test_qwen21_bf16_mlp_packing_restore_and_lora(tokens):
+         "fused_packed_silu_mul_bitexact",
+         wraps=qwen_image21.fused_packed_silu_mul_bitexact,
+     ) as fused:
+-        torch.testing.assert_close(mlp(x, True), reference, atol=2e-2, rtol=2e-2)
++        torch.testing.assert_close(
++            mlp(x, use_packed_bf16=True), reference, atol=2e-2, rtol=2e-2
++        )
+         assert fused.call_count == 1
+         assert torch.equal(mlp(x), reference)
+         prefix = x[:, :33].contiguous()
+-        assert torch.equal(mlp(prefix, True), mlp(prefix))
++        assert torch.equal(mlp(prefix, use_packed_bf16=True), mlp(prefix))
+         assert fused.call_count == 1
+ 
+         compiled = torch.compile(mlp, backend="eager", fullgraph=True)
+-        assert torch.equal(compiled(x, True), reference)
++        assert torch.equal(compiled(x, use_packed_bf16=True), reference)
+         assert fused.call_count == 1
+ 
+         mlp.cpu().cuda()
+-        torch.testing.assert_close(mlp(x, True), reference, atol=2e-2, rtol=2e-2)
++        torch.testing.assert_close(
++            mlp(x, use_packed_bf16=True), reference, atol=2e-2, rtol=2e-2
++        )
+         assert fused.call_count == 2
+         mlp.proj.weight.data = mlp.proj.weight.data.clone()
+-        assert torch.equal(mlp(x, True), reference)
++        assert torch.equal(mlp(x, use_packed_bf16=True), reference)
+         assert fused.call_count == 2
+         mlp.pack_gate_up_weights()
+ 
+@@ -1758,7 +1762,7 @@ def test_qwen21_bf16_mlp_packing_restore_and_lora(tokens):
+         mlp.gate_layer = wrapper
+         adapted = mlp(x)
+         assert not torch.equal(adapted, reference)
+-        assert torch.equal(mlp(x, True), adapted)
++        assert torch.equal(mlp(x, use_packed_bf16=True), adapted)
+         assert fused.call_count == 2
+ 
+ 

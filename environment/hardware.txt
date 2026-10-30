@@ -1,0 +1,39 @@
+ubun
+Mon Oct 26 12:47:57 UTC 2026
+index, name, uuid, memory.total [MiB], compute_cap, pci.bus_id, driver_version, power.limit [W]
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, GPU-1565b45e-a702-2015-9776-61f68c36fd59, 97887 MiB, 12.0, 00000000:49:00.0, 595.84, 600.00 W
+1, NVIDIA RTX PRO 6000 Blackwell Server Edition, GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd, 97887 MiB, 12.0, 00000000:D8:00.0, 595.84, 600.00 W
+	[4mGPU0	GPU1	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	SYS	0-31,64-95	0		N/A
+GPU1	SYS	 X 	32-63,96-127	1		N/A
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+ 	[4mGPU0	GPU1	[0m
+ GPU0	X	OK	
+ GPU1	OK	X	
+
+Legend:
+
+  X    = Self
+  OK   = Status Ok
+  CNS  = Chipset not supported
+  GNS  = GPU not supported
+  TNS  = Topology not supported
+  NS   = Not supported
+  U    = Unknown
+pid, process_name, gpu_uuid, used_gpu_memory [MiB]
+               total        used        free      shared  buff/cache   available
+Mem:           499Gi        13Gi        50Gi       9.1Mi       438Gi       485Gi
+Swap:          8.0Gi       104Mi       7.9Gi
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda         15T  1.6T   13T  12% /data
+/bbuf-diffusion-rtx6000-20261026-sgl sha256:0b3e39704480c423d8a00ca15ebee63154defc62944df2d4b11c594563bab457 [{"Type":"bind","Source":"/data/xyzhang/diffusion-rtx6000-20261026","Destination":"/task","Mode":"","RW":true,"Propagation":"rprivate"},{"Type":"bind","Source":"/data/xyzhang/rtx6000-diffusion/model-cache","Destination":"/seed-cache","Mode":"ro","RW":false,"Propagation":"rprivate"}]
+/bbuf-diffusion-rtx6000-20261026-omni sha256:1c2a64a41377b43916f6b884bcbef9f7f437132921dc838d363571ed8d4639d0 [{"Type":"bind","Source":"/data/xyzhang/rtx6000-diffusion/model-cache","Destination":"/seed-cache","Mode":"ro","RW":false,"Propagation":"rprivate"},{"Type":"bind","Source":"/data/xyzhang/diffusion-rtx6000-20261026","Destination":"/task","Mode":"","RW":true,"Propagation":"rprivate"}]

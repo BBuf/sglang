@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "frozen_at": "2026-10-27T02:28:37.885574+00:00",
+  "matrix_workload": "qwen21-base-edit",
+  "task": "edit",
+  "model": "Qwen/Qwen-Image-2.1",
+  "revision": "d26bb61231c349cf6b7896fa83353113880e1ba3",
+  "model_path": "/task/cache/common/Qwen-Image-2.1",
+  "width": 1024,
+  "height": 1024,
+  "true_cfg_scale": 1.0,
+  "negative_prompt": "",
+  "seed": 1101,
+  "generator_device": "cpu",
+  "batch": 1,
+  "concurrency": 1,
+  "physical_gpus": [
+    0
+  ],
+  "precision": {
+    "dit": "bf16",
+    "text_encoder": "bf16",
+    "vae": "bf16",
+    "latents_and_solver": "audit_runtime_before_performance"
+  },
+  "prompts": [
+    {
+      "id": "edit-short",
+      "prompt": "Change the red ceramic teapot to blue. Preserve the composition, lighting, and all other objects."
+    },
+    {
+      "id": "edit-long",
+      "prompt": "Change only the glossy red ceramic teapot in the center of this photograph to a rich cobalt blue. Keep its exact shape, curved spout, handle, lid, reflections, and position. Preserve the small cup, the wooden table, all background objects, the framing, and the direction and softness of the morning light. Do not add or remove objects and do not change the camera viewpoint."
+    },
+    {
+      "id": "edit-chinese",
+      "prompt": "只把图中的红色陶瓷茶壶改为蓝色。保持茶壶的形状、位置、材质和反光不变，保留杯子、木桌、背景、构图和原有光线，不要添加或删除其他物体。"
+    }
+  ],
+  "output_contract": {
+    "format": "png",
+    "preserve_native_alpha": true,
+    "numeric_comparison": "Compare decoded RGB and alpha separately; retain original PNGs. No alpha loss through RGB-only conversion.",
+    "scope": "Only native SGLang and native Omni; fallback is unsupported evidence."
+  },
+  "quality_gate": {
+    "main_candidate_lossless": "pixel_exact_RGBA",
+    "cross_framework": {
+      "rgb_ssim_min": 0.95,
+      "rgb_psnr_db_min": 28,
+      "alpha_ssim_min": 0.95,
+      "alpha_psnr_db_min": 28
+    },
+    "visual": "Inspect actual outputs and editing fidelity, Chinese glyphs, geometry and transparency; retain every failure."
+  },
+  "execution_order": "short,long,Chinese,short; qualification only before primary timing",
+  "source_contracts": [
+    "inputs/scope-inputs.json",
+    "matrix-draft.json",
+    "inputs/joy-workloads.json"
+  ],
+  "runtime_status": "not_run",
+  "num_inference_steps": 50,
+  "reference_image": {
+    "path": "inputs/reference-teapot.png",
+    "sha256": "962cb02c131384b341db8aa620b1a2e30dbc7fb7d6f8d9872d3e94445ecd40b7",
+    "source": "real frozen SGLang main MOSS generation, seed1101; not a model-output quality oracle"
+  }
+}

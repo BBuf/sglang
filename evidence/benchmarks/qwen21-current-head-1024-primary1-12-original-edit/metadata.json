@@ -1,0 +1,63 @@
+{
+  "arm": "sgl",
+  "source_sha": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_repo": "/task/candidates/qwen21-gate-up-pr47090-original",
+  "args": {
+    "arm": "sgl",
+    "contract": "/task/inputs/qwen21-base-edit-workloads.json",
+    "run_id": "qwen21-current-head-1024-primary1-12-original-edit",
+    "allowed_gpu_pids": [
+      190922
+    ],
+    "repeats": 8,
+    "warmups": 6,
+    "configuration_label": "original",
+    "repo": "/task/candidates/qwen21-gate-up-pr47090-original",
+    "expected_sha": "efcb88a201a41b1fecc516a60df0ca0a34fb6dd5",
+    "expected_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "quality": "high",
+    "diagnostic_profiler": false
+  },
+  "physical_gpus": [
+    0
+  ],
+  "allowed_process_commands": {
+    "190922": "sgl_diffusion::scheduler                                                                                                                 "
+  },
+  "pid_namespace": "container NVML-visible PIDs",
+  "input_sha256": "aefb31e0a17f130af0b34a48f2db68a0fbdeb144219cacbd07890537f16046cc",
+  "torch": "2.14.1+cu130",
+  "driver": "595.84",
+  "harness_sha256": "95d1dedbee5dbedf8d0bc73bd978b06064df424f1ffd0a06204a09b5e3dfade6",
+  "initial_gpu_state": {
+    "monotonic": 5750486.24324024,
+    "gpus": [
+      {
+        "index": 0,
+        "uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+        "pids": [
+          190922
+        ],
+        "memory_bytes": 36624072704,
+        "gpu_util_percent": 0,
+        "power_mw": 90224,
+        "temperature_c": 40,
+        "sm_clock_mhz": 2347
+      },
+      {
+        "index": 1,
+        "uuid": "GPU-7ca33735-71c8-fc89-57a6-c7cdbf8d28cd",
+        "pids": [],
+        "memory_bytes": 666107904,
+        "gpu_util_percent": 0,
+        "power_mw": 33245,
+        "temperature_c": 22,
+        "sm_clock_mhz": 180
+      }
+    ]
+  },
+  "profiler": false,
+  "timing_scope": "localhost HTTP submission through full response bytes; PNG decoding/file I/O excluded",
+  "lane": "batch1 concurrency1 warm resident original; fixed prompt and seed; conditioning cache warm"
+}
