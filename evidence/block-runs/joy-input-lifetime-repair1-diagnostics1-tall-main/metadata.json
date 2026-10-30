@@ -1,0 +1,164 @@
+{
+  "source": "main",
+  "shape": "tall",
+  "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "plan_sha256": "30dc276d3673fb79f4a0311d3717fa1d40c44d292ccef137d40bb44da2938a29",
+  "primary_timing": false,
+  "synchronized_stages": true,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/repos/sglang",
+    "-e",
+    "JOY_CANDIDATE_SHA=af21e2b989e482cfdce39689126562f2209d53ac",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/joy-input-lifetime-repair1-diagnostics1-tall-main",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-input-lifetime-repair1-diagnostics1-tall-main/server.pid; exec sh /task/launch_sgl_joy_current_head_diagnostics1.sh"
+  ],
+  "qualifications": [
+    {
+      "phase": "0",
+      "quality": "lossless",
+      "profiled": false,
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python",
+        "/task/submit_joy_candidate_qualification.py",
+        "sgl",
+        "--label",
+        "joy-input-lifetime-repair1-diagnostics1-tall-main-0-lossless",
+        "--contract",
+        "/task/inputs/joy-workloads-tall.json",
+        "--quality",
+        "lossless"
+      ],
+      "reference": "sgl-joy-gelu-v4-tall-main-lossless",
+      "outputs": 4,
+      "byte_identical_to_reference": true,
+      "stages": [
+        {
+          "request": "00-edit-short",
+          "denoise_seconds": 29.998850325122476,
+          "http_seconds": 30.48482844326645
+        },
+        {
+          "request": "01-edit-long",
+          "denoise_seconds": 30.12382692936808,
+          "http_seconds": 30.483624638989568
+        },
+        {
+          "request": "02-edit-chinese",
+          "denoise_seconds": 30.14102988317609,
+          "http_seconds": 30.49305624794215
+        },
+        {
+          "request": "03-edit-short",
+          "denoise_seconds": 30.118052297271788,
+          "http_seconds": 30.466197123751044
+        }
+      ],
+      "diagnostic_only": true
+    },
+    {
+      "phase": "1",
+      "quality": "high",
+      "profiled": false,
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python",
+        "/task/submit_joy_candidate_qualification.py",
+        "sgl",
+        "--label",
+        "joy-input-lifetime-repair1-diagnostics1-tall-main-1-high",
+        "--contract",
+        "/task/inputs/joy-workloads-tall.json",
+        "--quality",
+        "high"
+      ],
+      "reference": "sgl-joy-gelu-v4-tall-main-high",
+      "outputs": 4,
+      "byte_identical_to_reference": true,
+      "stages": [
+        {
+          "request": "00-edit-short",
+          "denoise_seconds": 30.154196484014392,
+          "http_seconds": 30.50360019132495
+        },
+        {
+          "request": "01-edit-long",
+          "denoise_seconds": 30.18011981062591,
+          "http_seconds": 30.531431378796697
+        },
+        {
+          "request": "02-edit-chinese",
+          "denoise_seconds": 30.14888224005699,
+          "http_seconds": 30.50052674487233
+        },
+        {
+          "request": "03-edit-short",
+          "denoise_seconds": 30.146071064285934,
+          "http_seconds": 30.491867495700717
+        }
+      ],
+      "diagnostic_only": true
+    },
+    {
+      "phase": "2",
+      "quality": "lossless",
+      "profiled": false,
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python",
+        "/task/submit_joy_candidate_qualification.py",
+        "sgl",
+        "--label",
+        "joy-input-lifetime-repair1-diagnostics1-tall-main-2-lossless",
+        "--contract",
+        "/task/inputs/joy-workloads-tall.json",
+        "--quality",
+        "lossless"
+      ],
+      "reference": "sgl-joy-gelu-v4-tall-main-lossless",
+      "outputs": 4,
+      "byte_identical_to_reference": true,
+      "stages": [
+        {
+          "request": "00-edit-short",
+          "denoise_seconds": 30.169286023825407,
+          "http_seconds": 30.516110344789922
+        },
+        {
+          "request": "01-edit-long",
+          "denoise_seconds": 30.194013124331832,
+          "http_seconds": 30.548538793809712
+        },
+        {
+          "request": "02-edit-chinese",
+          "denoise_seconds": 30.160245340317488,
+          "http_seconds": 30.509019329212606
+        },
+        {
+          "request": "03-edit-short",
+          "denoise_seconds": 30.14983556419611,
+          "http_seconds": 30.492231748998165
+        }
+      ],
+      "diagnostic_only": true
+    }
+  ],
+  "status": "raw_quality_and_diagnostics_complete_local_audit_pending",
+  "launch_to_ready_seconds": 80.08625065721571,
+  "server_container_pid": 165375,
+  "high_short_denoise_p50_seconds": 30.150133774150163
+}

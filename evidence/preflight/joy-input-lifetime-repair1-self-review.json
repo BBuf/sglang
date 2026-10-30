@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-30T00:20:07.549826+00:00",
+  "head": "03368cf1c325e526184b8fb223443e1ae931b13c",
+  "base": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+  "changed_files": [
+    "python/sglang/multimodal_gen/runtime/models/dits/joy_image.py",
+    "test/registered/kernels/ops/diffusion/test_model_fast_paths.py"
+  ],
+  "complete_diff_reviewed": true,
+  "cleanup_complete_before_model_measurement": true,
+  "implementation": "Release temporary image input by replacing the input binding with fused hidden before fc_out; retain output projection wrapper.",
+  "regression": "Actual SM120 temporary input must be dead at output projection entry. Unfixed production failed; repaired production and original numerical/fallback/compile/LoRA checks passed.",
+  "retained_constraints": [
+    "Original eligibility and arithmetic unchanged",
+    "No new API/configuration/dependency",
+    "No unrelated lint/format edits",
+    "No model timing conclusion from this operator regression"
+  ],
+  "source_diff_sha256": "33f53dc8debb98b22e87fe7c9bd7884ba5bf98a86d1b12d4013bdc7ccfce2c53"
+}

@@ -1,0 +1,190 @@
+{
+  "plan": {
+    "id": "joy-input-lifetime-repair1-square-aa1",
+    "created_at": "2026-10-30T00:20:07.549826+00:00",
+    "purpose": "Fresh isolated minimal lifetime repair vs original tested Joy/main/native Omni. Preserve failed official head experiment; no replacement PR or new optimization slot.",
+    "order": [
+      "main",
+      "main"
+    ],
+    "quality": "high",
+    "warmups": 2,
+    "repeats": 4,
+    "qualify_each_block": true,
+    "quality_references": {
+      "main": [
+        "sgl-joy-gelu-v1-main-high",
+        "sgl-joy-gelu-v4-square-pr-high",
+        "omni-joy-compile-probe1-omni_compile-high"
+      ]
+    },
+    "require_pixel_identical": [],
+    "configuration_labels": {
+      "main": "native resident eager SYNC0 main"
+    },
+    "contract": "/task/inputs/joy-workloads.json",
+    "frozen_input_sha256": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+    "omni_short_quality_reference": "/task/outputs/qualification/sgl-joy-gelu-v1-main-high/00-edit-short/output.png",
+    "byte_identical_quality_reference": {
+      "main": "sgl-joy-gelu-v1-main-high"
+    },
+    "scope": "square, same frozen input/checkpoint, 30steps CFG4 BF16, GPU0 batch1/concurrency1; short primary, long/Chinese quality only",
+    "primary_performance_evidence": true,
+    "phase": "aa",
+    "current_head": "03368cf1c325e526184b8fb223443e1ae931b13c",
+    "previous_benchmarked_head": "4c135ea92d6b4cbb0ead69bb39976f7dbe995455",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": 0,
+    "sha256": {
+      "scripts/run_joy_current_head_blocks1.py": "ac8755fcf14691eea50bacf98fef0558d11719d4fa6f48628e9d1006e314feb3",
+      "scripts/launch_sgl_joy_current_head_primary1.sh": "cf19ca972595c77e1b261121819fc2ebac8b6580e6ed5533ac76a524184e20fa",
+      "scripts/launch_omni_joy_compile.sh": "8e0562dea9192190321009c33ffca490572b86f81ea970c8bf40acc0287a4409",
+      "scripts/submit_joy_candidate_qualification.py": "96ba6166d8e864d7d5399759b65f3ea2289c5a48bd0fa16888eb069b21a57e53",
+      "scripts/bench_joy_serving.py": "701a60e9a8749822d8e0fb93427c48a0c740da0aa2561e886c7f17cadbf6a581",
+      "scripts/compare_moss_qualification.py": "a29682369f89be0ce1e22e9cc2dbae361314a8b3dcdc02e3845ed3d0be7446ce",
+      "scripts/check_joy_benchmark_quality.py": "ea783e4023949f7ba3ee89ea1b695fdb8cc5ada417e21ab10cea0b9488fe54ca",
+      "scripts/analyze_joy_blocks.py": "ba3fcfaf13904ce247acddc51319898bdb0456a44cb77facfade0709715304e7",
+      "scripts/preflight_diffusion_current_head1.py": "e87fb0903bc2c309e8b2f2c4283fc6fd2d5ed22d0473b967a452a213dfa88f48",
+      "scripts/diffusion_skill_env.py": "954edd99aee9c75fb844ccd4e97b126ff4d4bd5c524b51fdc0577093ab72699f",
+      "inputs/joy-workloads.json": "c18da7ddfaedc60abd0b03b51f6c03497781428f870b029b8ec5b6a229325f5b",
+      "inputs/reference-teapot.png": "962cb02c131384b341db8aa620b1a2e30dbc7fb7d6f8d9872d3e94445ecd40b7",
+      "scripts/admit_joy_input_lifetime_repair1.py": "accdbf1238c6d6a0a819e6e32212d75946ca0a28754f0d2612225cda0c54641a",
+      "scripts/archive_joy_input_lifetime_repair1.py": "bba4fa470e06b35f2f4212e6dd5a1e03fffef2910c7971d4e831a969b547a08a",
+      "evidence/preflight/joy-input-lifetime-repair1-tests-admission.json": "b5a4897334b28c9a6888d5f89b974162bd22fd164cf35626862a06cdabc01ea6"
+    },
+    "required_admissions": [
+      "evidence/preflight/joy-input-lifetime-repair1-tests-admission.json"
+    ],
+    "physical_gpu_uuid": "GPU-1565b45e-a702-2015-9776-61f68c36fd59",
+    "status": "frozen_local_not_transferred_or_queued",
+    "timing_protocol_note": "AllSGprimaryarmsSYNC0 withoutobserver/profiler. OriginalhistoricalJoyprimaryusedSYNC1; never poolitslatenciesintothisnewexperiment. Stagecosts/profileareseparatediagnostics. Fourqualificationrequests,2explicitwarmups,4measuredshortrequests perprocess; alloutputsretained. Long/Chinese and repeatquality retained.",
+    "current_head_requalification_not_new_PR": true,
+    "configurations": {
+      "main": {
+        "arm": "sgl",
+        "repo": "/task/repos/sglang",
+        "head": "af21e2b989e482cfdce39689126562f2209d53ac",
+        "port": 31040,
+        "launcher": "launch_sgl_joy_current_head_primary1.sh"
+      }
+    },
+    "candidate_sources": {},
+    "aa_acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    },
+    "repair_of_head": "b08c24e9630c63790c9f86b48d6c7fc10a0c4301",
+    "prior_failed_square_primary": "joy-current-head-square-primary1",
+    "prior_failed_result_not_superseded_or_discarded": true,
+    "source_self_review": "evidence/preflight/joy-input-lifetime-repair1-self-review.json"
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "config": "main",
+      "name": "joy-input-lifetime-repair1-square-aa1-00-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.97528219502419,
+        35.98234306182712,
+        35.983360555022955,
+        35.98423367086798
+      ],
+      "p50_seconds": 35.98285180842504,
+      "p95_seconds": 35.984102703491224,
+      "cv_percent": 0.011363601467675826,
+      "denoise_seconds": [
+        35.13143310602754,
+        35.13609436992556,
+        35.13659364078194,
+        35.137648430652916
+      ],
+      "denoise_p50_seconds": 35.13634400535375,
+      "engine_total_p50_seconds": 35.532690057531,
+      "sequential_requests_per_second": 0.02779221052693709,
+      "peak_gpu_memory_bytes": 63148851200,
+      "launch_to_ready_seconds": 80.09418470505625,
+      "warmup_http_seconds": [
+        35.84327417425811,
+        35.96820470597595
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.90040204487741,
+        35.975284366868436,
+        36.00791301578283,
+        35.98064907640219
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2392
+      ],
+      "temperature_c_range": [
+        65,
+        71
+      ]
+    },
+    {
+      "index": 1,
+      "config": "main",
+      "name": "joy-input-lifetime-repair1-square-aa1-01-main",
+      "source_sha": "af21e2b989e482cfdce39689126562f2209d53ac",
+      "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_seconds": [
+        35.9823537254706,
+        35.979076377116144,
+        35.97871454432607,
+        35.99234133493155
+      ],
+      "p50_seconds": 35.98071505129337,
+      "p95_seconds": 35.99084319351241,
+      "cv_percent": 0.01767716087057001,
+      "denoise_seconds": [
+        35.13497419562191,
+        35.13711980544031,
+        35.138542286120355,
+        35.13704238831997
+      ],
+      "denoise_p50_seconds": 35.13708109688014,
+      "engine_total_p50_seconds": 35.531262351199985,
+      "sequential_requests_per_second": 0.02779080742414579,
+      "peak_gpu_memory_bytes": 63148851200,
+      "launch_to_ready_seconds": 80.08479778375477,
+      "warmup_http_seconds": [
+        35.86229809187353,
+        35.98379062023014
+      ],
+      "prebenchmark_quality_http_seconds": [
+        35.975411677733064,
+        35.99280472844839,
+        36.01488823443651,
+        35.97832194622606
+      ],
+      "startup_scope": "Fresh server with existing disk/compiler caches; four quality requests then explicit edit warmups before primary timings. No cold-cache startup claim.",
+      "quality_requests_before_warmup": 4,
+      "ownership_and_output_audit_pass": true,
+      "sm_clock_mhz_range": [
+        2250,
+        2385
+      ],
+      "temperature_c_range": [
+        60,
+        72
+      ]
+    }
+  ],
+  "all_planned_blocks_present": true,
+  "scope": "Frozen Joy 1024x1024, 30 steps, CFG 4.0, precision {'dit': 'bf16', 'text_encoder': 'bf16', 'vae': 'bf16', 'latents_and_solver': 'audit_runtime_before_performance'}, GPU0, batch1, concurrency1, high. Short prompt primary timing; long/Chinese quality only. Not full matrix.",
+  "source_and_ownership_audit_pass": true,
+  "aa": {
+    "block_median_relative_difference": 5.9386177529319184e-05,
+    "max_within_block_cv_percent": 0.01767716087057001,
+    "acceptance": {
+      "max_block_median_relative_difference": 0.005,
+      "max_within_block_cv_percent": 0.5
+    },
+    "passed": true
+  }
+}

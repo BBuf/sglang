@@ -1,0 +1,157 @@
+{
+  "run": "joy-input-lifetime-repair1-wide-primary1",
+  "source_sha": "03368cf1c325e526184b8fb223443e1ae931b13c",
+  "phase": "primary",
+  "all_raw_images_and_ownership_audited": true,
+  "final_PR_admitted": false,
+  "primary_stage_times_valid": false,
+  "stage_timing_note": "SYNC0 primary perf dumps are retained as raw data; stage latency must come from separate synchronized diagnostics.",
+  "plan_sha256": "cbe42649d0e8b722651dc2965c97522295f8da3e8c881ba505d2e3aa96fb0470",
+  "analysis_sha256": "90a0d08c131b375e8fd7c9f967025416d0a2c99959a73d5d70b4e3d83f2b58a5",
+  "archive_verification_sha256": "5d79d6a7a7c8feece744a00ee92fe2ad0984d90f89d3bcece3d69824f2db5d96",
+  "script_sha256": "accdbf1238c6d6a0a819e6e32212d75946ca0a28754f0d2612225cda0c54641a",
+  "passed": true,
+  "primary_passed": true,
+  "cleanup_passed": true,
+  "AAmax_noise_percent": 0.026687775023814808,
+  "arms": {
+    "main": {
+      "n": 8,
+      "mean_seconds": 30.459539408329874,
+      "p50_seconds": 30.462034191936255,
+      "p95_seconds": 30.470814360212536,
+      "serial_response_rate_per_second": 0.03283043734162725,
+      "peak_gpu_memory_bytes": 61601153024,
+      "process_medians": [
+        30.466215868946165,
+        30.457456873729825
+      ]
+    },
+    "candidate_original": {
+      "n": 16,
+      "mean_seconds": 29.84751979028806,
+      "p50_seconds": 29.848927936982363,
+      "p95_seconds": 29.858207343611866,
+      "serial_response_rate_per_second": 0.0335036213067655,
+      "peak_gpu_memory_bytes": 61563404288,
+      "process_medians": [
+        29.854717993643135,
+        29.847962523810565,
+        29.8503280938603,
+        29.84128972934559
+      ]
+    },
+    "candidate_current": {
+      "n": 16,
+      "mean_seconds": 29.8502451593522,
+      "p50_seconds": 29.849222759716213,
+      "p95_seconds": 29.86054358817637,
+      "serial_response_rate_per_second": 0.03350056237935775,
+      "peak_gpu_memory_bytes": 61563404288,
+      "process_medians": [
+        29.85426789568737,
+        29.84819052508101,
+        29.850047898013145,
+        29.84799183299765
+      ]
+    },
+    "omni_compile": {
+      "n": 8,
+      "mean_seconds": 31.808078060741536,
+      "p50_seconds": 31.804418170824647,
+      "p95_seconds": 31.818159606773406,
+      "serial_response_rate_per_second": 0.03143855463666726,
+      "peak_gpu_memory_bytes": 68708401152,
+      "process_medians": [
+        31.814649646170437,
+        31.8035350702703
+      ]
+    }
+  },
+  "pairs": {
+    "main_over_current": {
+      "indices": [
+        [
+          0,
+          2
+        ],
+        [
+          11,
+          9
+        ]
+      ],
+      "ratios": [
+        1.0204978388817632,
+        1.020418962995641
+      ],
+      "geometric_mean_ratio": 1.0204584001766175,
+      "log_t95_interval": [
+        1.019957416614454,
+        1.0209596298123185
+      ],
+      "all_pairs_faster": true,
+      "df": 1
+    },
+    "omni_over_current": {
+      "indices": [
+        [
+          3,
+          2
+        ],
+        [
+          8,
+          9
+        ]
+      ],
+      "ratios": [
+        1.0656650418403413,
+        1.0655167439140998
+      ],
+      "geometric_mean_ratio": 1.065590890297399,
+      "log_t95_interval": [
+        1.0646491547751282,
+        1.0665334588319253
+      ],
+      "all_pairs_faster": true,
+      "df": 1
+    },
+    "original_over_current": {
+      "indices": [
+        [
+          1,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          10,
+          9
+        ]
+      ],
+      "ratios": [
+        1.000015076502875,
+        0.9999923613034347,
+        1.0000093867804873,
+        0.9997754588084331
+      ],
+      "geometric_mean_ratio": 0.9999480658474255,
+      "log_t95_interval": [
+        0.9997643200235704,
+        1.0001318454417674
+      ],
+      "all_pairs_faster": false,
+      "df": 3
+    }
+  },
+  "final_vs_main_latency_reduction_percent": 2.0003396663675455,
+  "omni_over_current_speedup": 1.0655885032413526,
+  "cleanup_mean_latency_change_percent": 0.009130973304594114,
+  "cleanup_t95_regression_upper_percent": 0.023573553457478802,
+  "note": "All predeclared samples and process pairs retained. A failed/uncertain gate needs explicit supplemental evidence; no sample dropping or threshold changes. This does not admit missing diagnostics, compatibility, media or PR publication."
+}

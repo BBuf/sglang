@@ -1,0 +1,276 @@
+{
+  "status": "complete_diagnostics_audited_media_ready_visual_review_pending",
+  "parent_pid": 345289,
+  "watcher_pid": 345291,
+  "at": "2026-10-30T04:33:27.003208+00:00",
+  "last_observation": {
+    "at": "2026-10-30T03:40:45.109276+00:00",
+    "parent": null,
+    "watcher": null,
+    "state": {
+      "status": "raw_complete_audit_pending",
+      "completed": [
+        "joy-input-lifetime-repair1-wide-primary1-00-main",
+        "joy-input-lifetime-repair1-wide-primary1-01-candidate_original",
+        "joy-input-lifetime-repair1-wide-primary1-02-candidate_current",
+        "joy-input-lifetime-repair1-wide-primary1-03-omni_compile",
+        "joy-input-lifetime-repair1-wide-primary1-04-candidate_original",
+        "joy-input-lifetime-repair1-wide-primary1-05-candidate_current",
+        "joy-input-lifetime-repair1-wide-primary1-06-candidate_current",
+        "joy-input-lifetime-repair1-wide-primary1-07-candidate_original",
+        "joy-input-lifetime-repair1-wide-primary1-08-omni_compile",
+        "joy-input-lifetime-repair1-wide-primary1-09-candidate_current",
+        "joy-input-lifetime-repair1-wide-primary1-10-candidate_original",
+        "joy-input-lifetime-repair1-wide-primary1-11-main"
+      ],
+      "primary_stage_timings_valid": false,
+      "active_index": null,
+      "active_configuration": null
+    },
+    "archive_state": {
+      "status": "archive_complete_local_transfer_and_audit_pending",
+      "parent_pid": 345289,
+      "parent_command": "python3 -u /data/xyzhang/diffusion-rtx6000-20261026/run_joy_current_head_blocks1.py /data/xyzhang/diffusion-rtx6000-20261026/joy-input-lifetime-repair1-wide-primary1.json",
+      "at": "2026-10-30T02:22:02.229928+00:00",
+      "no_GPU_work_started": true,
+      "manifest": "/data/xyzhang/diffusion-rtx6000-20261026/joy-input-lifetime-repair1-wide-primary1-archive-manifest.json",
+      "updated_at": "2026-10-30T03:40:30.505155+00:00"
+    },
+    "archive_exists": true
+  },
+  "admission": {
+    "run": "joy-input-lifetime-repair1-wide-primary1",
+    "source_sha": "03368cf1c325e526184b8fb223443e1ae931b13c",
+    "phase": "primary",
+    "all_raw_images_and_ownership_audited": true,
+    "final_PR_admitted": false,
+    "primary_stage_times_valid": false,
+    "stage_timing_note": "SYNC0 primary perf dumps are retained as raw data; stage latency must come from separate synchronized diagnostics.",
+    "plan_sha256": "cbe42649d0e8b722651dc2965c97522295f8da3e8c881ba505d2e3aa96fb0470",
+    "analysis_sha256": "90a0d08c131b375e8fd7c9f967025416d0a2c99959a73d5d70b4e3d83f2b58a5",
+    "archive_verification_sha256": "5d79d6a7a7c8feece744a00ee92fe2ad0984d90f89d3bcece3d69824f2db5d96",
+    "script_sha256": "accdbf1238c6d6a0a819e6e32212d75946ca0a28754f0d2612225cda0c54641a",
+    "passed": true,
+    "primary_passed": true,
+    "cleanup_passed": true,
+    "AAmax_noise_percent": 0.026687775023814808,
+    "arms": {
+      "main": {
+        "n": 8,
+        "mean_seconds": 30.459539408329874,
+        "p50_seconds": 30.462034191936255,
+        "p95_seconds": 30.470814360212536,
+        "serial_response_rate_per_second": 0.03283043734162725,
+        "peak_gpu_memory_bytes": 61601153024,
+        "process_medians": [
+          30.466215868946165,
+          30.457456873729825
+        ]
+      },
+      "candidate_original": {
+        "n": 16,
+        "mean_seconds": 29.84751979028806,
+        "p50_seconds": 29.848927936982363,
+        "p95_seconds": 29.858207343611866,
+        "serial_response_rate_per_second": 0.0335036213067655,
+        "peak_gpu_memory_bytes": 61563404288,
+        "process_medians": [
+          29.854717993643135,
+          29.847962523810565,
+          29.8503280938603,
+          29.84128972934559
+        ]
+      },
+      "candidate_current": {
+        "n": 16,
+        "mean_seconds": 29.8502451593522,
+        "p50_seconds": 29.849222759716213,
+        "p95_seconds": 29.86054358817637,
+        "serial_response_rate_per_second": 0.03350056237935775,
+        "peak_gpu_memory_bytes": 61563404288,
+        "process_medians": [
+          29.85426789568737,
+          29.84819052508101,
+          29.850047898013145,
+          29.84799183299765
+        ]
+      },
+      "omni_compile": {
+        "n": 8,
+        "mean_seconds": 31.808078060741536,
+        "p50_seconds": 31.804418170824647,
+        "p95_seconds": 31.818159606773406,
+        "serial_response_rate_per_second": 0.03143855463666726,
+        "peak_gpu_memory_bytes": 68708401152,
+        "process_medians": [
+          31.814649646170437,
+          31.8035350702703
+        ]
+      }
+    },
+    "pairs": {
+      "main_over_current": {
+        "indices": [
+          [
+            0,
+            2
+          ],
+          [
+            11,
+            9
+          ]
+        ],
+        "ratios": [
+          1.0204978388817632,
+          1.020418962995641
+        ],
+        "geometric_mean_ratio": 1.0204584001766175,
+        "log_t95_interval": [
+          1.019957416614454,
+          1.0209596298123185
+        ],
+        "all_pairs_faster": true,
+        "df": 1
+      },
+      "omni_over_current": {
+        "indices": [
+          [
+            3,
+            2
+          ],
+          [
+            8,
+            9
+          ]
+        ],
+        "ratios": [
+          1.0656650418403413,
+          1.0655167439140998
+        ],
+        "geometric_mean_ratio": 1.065590890297399,
+        "log_t95_interval": [
+          1.0646491547751282,
+          1.0665334588319253
+        ],
+        "all_pairs_faster": true,
+        "df": 1
+      },
+      "original_over_current": {
+        "indices": [
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            7,
+            6
+          ],
+          [
+            10,
+            9
+          ]
+        ],
+        "ratios": [
+          1.000015076502875,
+          0.9999923613034347,
+          1.0000093867804873,
+          0.9997754588084331
+        ],
+        "geometric_mean_ratio": 0.9999480658474255,
+        "log_t95_interval": [
+          0.9997643200235704,
+          1.0001318454417674
+        ],
+        "all_pairs_faster": false,
+        "df": 3
+      }
+    },
+    "final_vs_main_latency_reduction_percent": 2.0003396663675455,
+    "omni_over_current_speedup": 1.0655885032413526,
+    "cleanup_mean_latency_change_percent": 0.009130973304594114,
+    "cleanup_t95_regression_upper_percent": 0.023573553457478802,
+    "note": "All predeclared samples and process pairs retained. A failed/uncertain gate needs explicit supplemental evidence; no sample dropping or threshold changes. This does not admit missing diagnostics, compatibility, media or PR publication."
+  },
+  "diagnostics_launch": {
+    "at": "2026-10-30T03:41:11.709111+00:00",
+    "pid": 545671,
+    "command": [
+      "python3",
+      "-u",
+      "/data/xyzhang/diffusion-rtx6000-20261026/run_joy_input_lifetime_repair_diagnostics1.py"
+    ],
+    "source_sha": "03368cf1c325e526184b8fb223443e1ae931b13c",
+    "expected_outputs": 76,
+    "status": "diagnostics_launched_no_automatic_retry"
+  },
+  "last_diagnostics_observation": {
+    "at": "2026-10-30T04:32:35.344819+00:00",
+    "parent": null,
+    "watcher": null,
+    "state": {
+      "status": "raw_complete_archive_and_local_audit_pending",
+      "primary_timing": false,
+      "completed": [
+        "square-main",
+        "square-current",
+        "wide-main",
+        "wide-current",
+        "tall-main",
+        "tall-current"
+      ],
+      "profiles": {
+        "square-main": {
+          "path": "outputs/profiles/joy-input-lifetime-repair1-diagnostics1-square-main/2beb3c37-c144-4bb9-bb06-984365d1e29a-3_steps-global-rank0.trace.json.gz",
+          "sha256": "62812198ccacba07b1c9b39b13455bedc2ecabb24231e434f021179e41613ea0",
+          "bytes": 14156614,
+          "gelu_cpu_calls": 162,
+          "fused_custom_op_calls": 0,
+          "activation_calls": 0,
+          "kernel_count": 2306,
+          "kernel_sum_ms": 1187.5504110000002
+        },
+        "square-current": {
+          "path": "outputs/profiles/joy-input-lifetime-repair1-diagnostics1-square-current/fe5099a2-694e-4d2b-a1f6-75246830b30b-3_steps-global-rank0.trace.json.gz",
+          "sha256": "d82d13317c4315b3cd95bb560134686224fbd1c36742a13b20e7ec16f790f2ad",
+          "bytes": 14521181,
+          "gelu_cpu_calls": 82,
+          "fused_custom_op_calls": 80,
+          "activation_calls": 80,
+          "kernel_count": 2226,
+          "kernel_sum_ms": 1164.016349
+        },
+        "wide-main": {
+          "path": "outputs/profiles/joy-input-lifetime-repair1-diagnostics1-wide-main/fb18b192-ae88-417b-bf72-9d77f6b2ace9-3_steps-global-rank0.trace.json.gz",
+          "sha256": "6f8d70376abe499ab8fb8031a8c8bd52a470f23f67dae263e88dffa8bcff34b8",
+          "bytes": 14102637,
+          "gelu_cpu_calls": 162,
+          "fused_custom_op_calls": 0,
+          "activation_calls": 0,
+          "kernel_count": 2306,
+          "kernel_sum_ms": 1004.333884
+        },
+        "wide-current": {
+          "path": "outputs/profiles/joy-input-lifetime-repair1-diagnostics1-wide-current/695c7054-bc5e-466a-a87f-6734aadde3af-3_steps-global-rank0.trace.json.gz",
+          "sha256": "d374fe3f099740b46e10fec585933b4a5bf16b174693cd09ec8ad267d6ee757b",
+          "bytes": 14469230,
+          "gelu_cpu_calls": 82,
+          "fused_custom_op_calls": 80,
+          "activation_calls": 80,
+          "kernel_count": 2226,
+          "kernel_sum_ms": 983.052261
+        }
+      },
+      "outputs": 76,
+      "active_shape": null,
+      "active_source": null
+    },
+    "archive_state": null,
+    "archive_exists": false
+  },
+  "final_PR_admitted": false,
+  "diagnostics_admission_sha256": "51b3c9068b3c8820c1cfe2af0dfdac49944f03e24bb189d70bc0be3a8c73e50b"
+}

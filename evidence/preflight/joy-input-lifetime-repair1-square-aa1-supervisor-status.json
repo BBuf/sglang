@@ -1,0 +1,75 @@
+{
+  "status": "complete_primary_launched",
+  "parent_pid": 45985,
+  "watcher_pid": 56330,
+  "completed": [],
+  "updated_at": "2026-10-30T00:36:51.132915+00:00",
+  "last_observation": {
+    "parent": null,
+    "watcher": null,
+    "state": {
+      "status": "raw_complete_audit_pending",
+      "completed": [
+        "joy-input-lifetime-repair1-square-aa1-00-main",
+        "joy-input-lifetime-repair1-square-aa1-01-main"
+      ],
+      "primary_stage_timings_valid": false,
+      "active_index": null,
+      "active_configuration": null
+    },
+    "archive_state": {
+      "status": "archive_complete_local_transfer_and_audit_pending",
+      "parent_pid": 45985,
+      "parent_command": "python3 -u /data/xyzhang/diffusion-rtx6000-20261026/run_joy_current_head_blocks1.py /data/xyzhang/diffusion-rtx6000-20261026/joy-input-lifetime-repair1-square-aa1.json",
+      "at": "2026-10-30T00:25:28.861757+00:00",
+      "no_GPU_work_started": true,
+      "manifest": "/data/xyzhang/diffusion-rtx6000-20261026/joy-input-lifetime-repair1-square-aa1-archive-manifest.json",
+      "updated_at": "2026-10-30T00:36:36.790513+00:00"
+    },
+    "archive_exists": true
+  },
+  "admission": {
+    "run": "joy-input-lifetime-repair1-square-aa1",
+    "source_sha": "03368cf1c325e526184b8fb223443e1ae931b13c",
+    "phase": "aa",
+    "all_raw_images_and_ownership_audited": true,
+    "final_PR_admitted": false,
+    "primary_stage_times_valid": false,
+    "stage_timing_note": "SYNC0 primary perf dumps are retained as raw data; stage latency must come from separate synchronized diagnostics.",
+    "plan_sha256": "c3856d8496644a6443c53f866fefa8acebb1c6d88c9fbb30d77839304d3c34e3",
+    "analysis_sha256": "24e2ceaf5522b6d9e3e0f7ea20b0f9dbbb707ce8ca42abb2e5750fdc54c32fd1",
+    "archive_verification_sha256": "c0e0263f14ccc6ff467b93df768993513f2b93dde3676386f33e9b6f742a8aed",
+    "script_sha256": "accdbf1238c6d6a0a819e6e32212d75946ca0a28754f0d2612225cda0c54641a",
+    "passed": true,
+    "max_noise_percent": 0.005938617752931918,
+    "max_within_process_cv_percent": 0.01767716087057001
+  },
+  "primary": "joy-input-lifetime-repair1-square-primary1",
+  "primary_launch": {
+    "launch": {
+      "at": "2026-10-30T00:36:51.585511+00:00",
+      "pid": 84463,
+      "command": [
+        "python3",
+        "-u",
+        "/data/xyzhang/diffusion-rtx6000-20261026/run_joy_current_head_blocks1.py",
+        "/data/xyzhang/diffusion-rtx6000-20261026/joy-input-lifetime-repair1-square-primary1.json"
+      ],
+      "status": "frozen_12_process_primary_launched_no_automatic_retry"
+    },
+    "watcher": {
+      "at": "2026-10-30T00:36:51.645850+00:00",
+      "pid": 84465,
+      "parent_pid": 84463,
+      "command": [
+        "python3",
+        "-u",
+        "/data/xyzhang/diffusion-rtx6000-20261026/archive_joy_input_lifetime_repair_when_done1.py",
+        "joy-input-lifetime-repair1-square-primary1",
+        "--parent-pid",
+        "84463"
+      ],
+      "no_GPU_work_started": true
+    }
+  }
+}

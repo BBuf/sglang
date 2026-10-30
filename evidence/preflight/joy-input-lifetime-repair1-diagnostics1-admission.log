@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "source_sha": "03368cf1c325e526184b8fb223443e1ae931b13c",
+  "plan_sha256": "30dc276d3673fb79f4a0311d3717fa1d40c44d292ccef137d40bb44da2938a29",
+  "archive_verification_sha256": "a896c7cc2568240149b7d709eb5104e146f3f81f41b973de88dfff1df8bb4bec",
+  "all_raw_outputs_rehashed": 76,
+  "profiles": {
+    "square-main": {
+      "sha256": "62812198ccacba07b1c9b39b13455bedc2ecabb24231e434f021179e41613ea0",
+      "kernel_count": 2306,
+      "kernel_sum_ms": 1187.5504110000002,
+      "gelu_cpu_calls": 162,
+      "fused_custom_op_calls": 0,
+      "activation_calls": 0
+    },
+    "square-current": {
+      "sha256": "d82d13317c4315b3cd95bb560134686224fbd1c36742a13b20e7ec16f790f2ad",
+      "kernel_count": 2226,
+      "kernel_sum_ms": 1164.016349,
+      "gelu_cpu_calls": 82,
+      "fused_custom_op_calls": 80,
+      "activation_calls": 80
+    },
+    "wide-main": {
+      "sha256": "6f8d70376abe499ab8fb8031a8c8bd52a470f23f67dae263e88dffa8bcff34b8",
+      "kernel_count": 2306,
+      "kernel_sum_ms": 1004.333884,
+      "gelu_cpu_calls": 162,
+      "fused_custom_op_calls": 0,
+      "activation_calls": 0
+    },
+    "wide-current": {
+      "sha256": "d374fe3f099740b46e10fec585933b4a5bf16b174693cd09ec8ad267d6ee757b",
+      "kernel_count": 2226,
+      "kernel_sum_ms": 983.052261,
+      "gelu_cpu_calls": 82,
+      "fused_custom_op_calls": 80,
+      "activation_calls": 80
+    }
+  },
+  "synchronized_diagnostic_stages": [
+    {
+      "shape": "square",
+      "source": "main",
+      "n_short": 2,
+      "denoise_p50_seconds": 35.64394798083231,
+      "launch_to_ready_seconds": 80.09956007171422,
+      "primary_timing": false
+    },
+    {
+      "shape": "square",
+      "source": "current",
+      "n_short": 2,
+      "denoise_p50_seconds": 34.95951859280467,
+      "launch_to_ready_seconds": 80.09292504098266,
+      "primary_timing": false
+    },
+    {
+      "shape": "wide",
+      "source": "main",
+      "n_short": 2,
+      "denoise_p50_seconds": 30.153283420484513,
+      "launch_to_ready_seconds": 80.09554091561586,
+      "primary_timing": false
+    },
+    {
+      "shape": "wide",
+      "source": "current",
+      "n_short": 2,
+      "denoise_p50_seconds": 29.53081174613908,
+      "launch_to_ready_seconds": 80.09171878546476,
+      "primary_timing": false
+    },
+    {
+      "shape": "tall",
+      "source": "main",
+      "n_short": 2,
+      "denoise_p50_seconds": 30.150133774150163,
+      "launch_to_ready_seconds": 80.08625065721571,
+      "primary_timing": false
+    },
+    {
+      "shape": "tall",
+      "source": "current",
+      "n_short": 2,
+      "denoise_p50_seconds": 29.531863993499428,
+      "launch_to_ready_seconds": 80.09127327054739,
+      "primary_timing": false
+    }
+  ],
+  "actual_SM120_regression_passed": true,
+  "primary_timing": false,
+  "final_PR_admitted": false,
+  "caveats": [
+    "Lossless-high-lossless in one process per shape/source; short/long/Chinese/repeated short each phase.",
+    "Two synchronized short stage samples per diagnostic process; never pool these HTTP latencies with SYNC0 primary timings.",
+    "Tall is quality/shape compatibility only. No new BCG, compiled GPU, full-model LoRA or exact-mode performance claim.",
+    "Actual main/current visual review and publication decision remain separate gates. No new optimization slot is assigned."
+  ]
+}

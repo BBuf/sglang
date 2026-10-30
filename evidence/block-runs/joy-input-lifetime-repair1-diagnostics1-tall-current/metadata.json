@@ -1,0 +1,164 @@
+{
+  "source": "current",
+  "shape": "tall",
+  "source_sha": "03368cf1c325e526184b8fb223443e1ae931b13c",
+  "source_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "plan_sha256": "30dc276d3673fb79f4a0311d3717fa1d40c44d292ccef137d40bb44da2938a29",
+  "primary_timing": false,
+  "synchronized_stages": true,
+  "launch_command": [
+    "docker",
+    "exec",
+    "-e",
+    "SGL_REPO=/task/candidates/joy-input-lifetime-repair1",
+    "-e",
+    "JOY_CANDIDATE_SHA=03368cf1c325e526184b8fb223443e1ae931b13c",
+    "-e",
+    "SGLANG_DIFFUSION_TORCH_PROFILER_DIR=/task/outputs/profiles/joy-input-lifetime-repair1-diagnostics1-tall-current",
+    "bbuf-diffusion-rtx6000-20261026-sgl",
+    "sh",
+    "-c",
+    "echo $$ > /task/block-runs/joy-input-lifetime-repair1-diagnostics1-tall-current/server.pid; exec sh /task/launch_sgl_joy_current_head_diagnostics1.sh"
+  ],
+  "qualifications": [
+    {
+      "phase": "0",
+      "quality": "lossless",
+      "profiled": false,
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python",
+        "/task/submit_joy_candidate_qualification.py",
+        "sgl",
+        "--label",
+        "joy-input-lifetime-repair1-diagnostics1-tall-current-0-lossless",
+        "--contract",
+        "/task/inputs/joy-workloads-tall.json",
+        "--quality",
+        "lossless"
+      ],
+      "reference": "sgl-joy-gelu-v4-tall-pr-lossless",
+      "outputs": 4,
+      "byte_identical_to_reference": true,
+      "stages": [
+        {
+          "request": "00-edit-short",
+          "denoise_seconds": 30.01006357371807,
+          "http_seconds": 30.501960328780115
+        },
+        {
+          "request": "01-edit-long",
+          "denoise_seconds": 30.121568009257317,
+          "http_seconds": 30.48348720278591
+        },
+        {
+          "request": "02-edit-chinese",
+          "denoise_seconds": 30.139247518964112,
+          "http_seconds": 30.48928179498762
+        },
+        {
+          "request": "03-edit-short",
+          "denoise_seconds": 30.120790532790124,
+          "http_seconds": 30.464421222917736
+        }
+      ],
+      "diagnostic_only": true
+    },
+    {
+      "phase": "1",
+      "quality": "high",
+      "profiled": false,
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python",
+        "/task/submit_joy_candidate_qualification.py",
+        "sgl",
+        "--label",
+        "joy-input-lifetime-repair1-diagnostics1-tall-current-1-high",
+        "--contract",
+        "/task/inputs/joy-workloads-tall.json",
+        "--quality",
+        "high"
+      ],
+      "reference": "sgl-joy-gelu-v4-tall-pr-high",
+      "outputs": 4,
+      "byte_identical_to_reference": true,
+      "stages": [
+        {
+          "request": "00-edit-short",
+          "denoise_seconds": 29.536905966699123,
+          "http_seconds": 29.889018681831658
+        },
+        {
+          "request": "01-edit-long",
+          "denoise_seconds": 29.55679737776518,
+          "http_seconds": 29.90609813760966
+        },
+        {
+          "request": "02-edit-chinese",
+          "denoise_seconds": 29.5325165130198,
+          "http_seconds": 29.884515422396362
+        },
+        {
+          "request": "03-edit-short",
+          "denoise_seconds": 29.526822020299733,
+          "http_seconds": 29.868652279488742
+        }
+      ],
+      "diagnostic_only": true
+    },
+    {
+      "phase": "2",
+      "quality": "lossless",
+      "profiled": false,
+      "command": [
+        "docker",
+        "exec",
+        "bbuf-diffusion-rtx6000-20261026-sgl",
+        "python",
+        "/task/submit_joy_candidate_qualification.py",
+        "sgl",
+        "--label",
+        "joy-input-lifetime-repair1-diagnostics1-tall-current-2-lossless",
+        "--contract",
+        "/task/inputs/joy-workloads-tall.json",
+        "--quality",
+        "lossless"
+      ],
+      "reference": "sgl-joy-gelu-v4-tall-pr-lossless",
+      "outputs": 4,
+      "byte_identical_to_reference": true,
+      "stages": [
+        {
+          "request": "00-edit-short",
+          "denoise_seconds": 30.163248780183494,
+          "http_seconds": 30.512710110284388
+        },
+        {
+          "request": "01-edit-long",
+          "denoise_seconds": 30.184838962741196,
+          "http_seconds": 30.537015703506768
+        },
+        {
+          "request": "02-edit-chinese",
+          "denoise_seconds": 30.144991364330053,
+          "http_seconds": 30.492105031386018
+        },
+        {
+          "request": "03-edit-short",
+          "denoise_seconds": 30.14334327634424,
+          "http_seconds": 30.4850161857903
+        }
+      ],
+      "diagnostic_only": true
+    }
+  ],
+  "status": "raw_quality_and_diagnostics_complete_local_audit_pending",
+  "launch_to_ready_seconds": 80.09127327054739,
+  "server_container_pid": 165742,
+  "high_short_denoise_p50_seconds": 29.531863993499428
+}
