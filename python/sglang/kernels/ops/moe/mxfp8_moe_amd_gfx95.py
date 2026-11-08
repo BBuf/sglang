@@ -391,12 +391,18 @@ def fused_experts_mxfp8(
     Keeps the SGLang ``fused_experts_mxfp8`` call contract but routes to the
     single grouped-GEMM kernel. Only the MiniMax-M3 SwiGLU-OAI (split,
     uninterleaved, gated silu with ``gemm1_alpha``/``gemm1_limit``) configuration
-    is supported -- the unsupported cases below never occur on the M3 path.
+    is supported; every other configuration raises ``NotImplementedError``.
     """
     if not (activation == "silu" and is_gated):
         raise NotImplementedError(
             f"native MXFP8 MoE only supports gated swiglu-oai, got "
             f"{activation=} {is_gated=}."
+        )
+    if gemm1_alpha is None or swiglu_limit is not None:
+        raise NotImplementedError(
+            "native MXFP8 MoE only implements the MiniMax-M3 SwiGLU-OAI contract "
+            "(gemm1_alpha set, clamp passed as gemm1_limit); plain SiLU and "
+            f"swiglu_limit are unsupported, got {gemm1_alpha=} {swiglu_limit=}."
         )
     if b1 is not None or b2 is not None:
         raise NotImplementedError("native MXFP8 MoE does not support expert bias.")
@@ -409,8 +415,7 @@ def fused_experts_mxfp8(
             "native MXFP8 MoE expects uninterleaved (split) gate/up layout."
         )
 
-    # SwiGLU-OAI default activation alpha (gpt-oss); M3 may override via gemm1_alpha.
-    alpha = 1.702 if gemm1_alpha is None else float(gemm1_alpha)
+    alpha = float(gemm1_alpha)
     beta = 1.0
     limit = None if gemm1_limit is None else float(gemm1_limit)
     # NOTE: routed_scaling_factor is intentionally NOT re-applied here. For M3
