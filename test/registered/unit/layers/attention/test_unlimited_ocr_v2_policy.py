@@ -29,7 +29,7 @@ from sglang.srt.layers.attention.unlimited_ocr_v2_backend import (  # noqa: E402
     _uses_static_width,
 )
 
-register_cpu_ci(est_time=5, suite="base-a-test-cpu")
+register_cpu_ci(est_time=2, suite="base-a-test-cpu")
 
 
 class TestUnlimitedOCRV2Policy(CustomTestCase):
