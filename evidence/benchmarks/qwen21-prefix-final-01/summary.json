@@ -1,0 +1,4171 @@
+{
+  "at": "2026-11-14T12:58:42.150596+00:00",
+  "rule": {
+    "main_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+    "prototype_sha": "4b45ef7fd5b3106e577634561e7f6d5911632692",
+    "cleanup_sha": "718f582ed2680d45ad3c4c18dc283ed4b738b5c6",
+    "omni_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+    "physical_gpus": [
+      0
+    ],
+    "visits": [
+      {
+        "phase": "OmniAA",
+        "mode": "omni",
+        "arm": "omni",
+        "run": "qwen21-prefix-final-omni-AA-01",
+        "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json"
+      },
+      {
+        "phase": "OmniAA",
+        "mode": "omni",
+        "arm": "omni",
+        "run": "qwen21-prefix-final-omni-AA-02",
+        "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "omni",
+        "arm": "omni",
+        "run": "qwen21-prefix-final-omni-paired-01",
+        "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "main",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-main-paired-01",
+        "plan": "inputs/qwen21-prefix-final-main-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "prototype",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-prototype-paired-01",
+        "plan": "inputs/qwen21-prefix-final-prototype-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "cleanup",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-cleanup-paired-01",
+        "plan": "inputs/qwen21-prefix-final-cleanup-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "cleanup",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-cleanup-paired-02",
+        "plan": "inputs/qwen21-prefix-final-cleanup-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "prototype",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-prototype-paired-02",
+        "plan": "inputs/qwen21-prefix-final-prototype-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "main",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-main-paired-02",
+        "plan": "inputs/qwen21-prefix-final-main-quiet-01.json"
+      },
+      {
+        "phase": "paired",
+        "mode": "omni",
+        "arm": "omni",
+        "run": "qwen21-prefix-final-omni-paired-02",
+        "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json"
+      }
+    ],
+    "plan_sha256": {
+      "inputs/qwen21-prefix-final-main-quiet-01.json": "f2e00964321d7ab60c8a3e3bca0380e9647b9a9bc962d4aba622485b4421e877",
+      "inputs/qwen21-prefix-final-prototype-quiet-01.json": "6713e58a5fb717bd2119d9158c93c3f602b1ee07766faef5c8b41ecd5977fd27",
+      "inputs/qwen21-prefix-final-cleanup-quiet-01.json": "d4ebf8bcfd2088a2bef523451273209265b1d0d19a26582541eaf825e1b92131",
+      "inputs/qwen21-prefix-final-omni-quiet-01.json": "c3a6c8af6832bbe7a15ebb8afef359e9d34cb7f234ed4caaa40e1d0a9a1dd88c"
+    },
+    "baseline_AA": "evidence/benchmarks/qwen21-prefix-cudnn-pilot-01/summary.json",
+    "description": "Two Omni AA visits first; then V-M-P-C-C-P-M-V balanced visits, each2warm+7measure full50step1024edit. M=frozenmainBCG,P=precleanup,C=cleanup,V=nativeOmni. Pair ordinal requests within first/second visit perarm. No clocks/power tweaks, profiler, audit hooks or concurrent work. Report everyrawsample and perarmA/A noise; do not infer BCGeager netgain from this sequence.",
+    "required_proof": [
+      "cleanup tests and actual outputs",
+      "real highfusion capture/replay",
+      "CPU exact main/cleanup render audits complete before timing",
+      "no native fallback",
+      "same frozen physicalGPU0,weights,input,seed,steps,dtype"
+    ],
+    "final_qualification_pending": true
+  },
+  "visits": [
+    {
+      "phase": "OmniAA",
+      "mode": "omni",
+      "arm": "omni",
+      "run": "qwen21-prefix-final-omni-AA-01",
+      "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json",
+      "head_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+      "measured_serial_client_wall_seconds": 86.181882394,
+      "measured_serial_client_requests_per_second": 0.0812235681740846,
+      "launch_to_ready_seconds": 34.53237860929221,
+      "warmup_seconds": [
+        15.533473792,
+        12.165597751
+      ],
+      "measured_seconds": [
+        12.210694552,
+        12.254910266,
+        12.277962556,
+        12.303293179,
+        12.318626201,
+        12.386572174,
+        12.34949638
+      ],
+      "sampled_device_peak_MiB": 43095.0,
+      "native_memory_or_response_metrics": [
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 15404.9232006073,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 308.098464012146,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 15405.875205993652,
+              "image_time_to_first_output_ms": 15404.893636703491,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.7917257025837898,
+            "stage_0_gen_ms": 15404.9232006073
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12097.83673286438,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 241.9567346572876,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12099.369525909424,
+              "image_time_to_first_output_ms": 12097.802877426147,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 1.4430200681090355,
+            "stage_0_gen_ms": 12097.83673286438
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12145.790576934814,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 242.9158115386963,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12146.48151397705,
+              "image_time_to_first_output_ms": 12145.771503448486,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.5329102277755737,
+            "stage_0_gen_ms": 12145.790576934814
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12185.39547920227,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 243.7079095840454,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12185.768365859985,
+              "image_time_to_first_output_ms": 12185.373783111572,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.273275189101696,
+            "stage_0_gen_ms": 12185.39547920227
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12217.68832206726,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.35376644134521,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12218.269109725952,
+              "image_time_to_first_output_ms": 12217.669248580933,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4717959091067314,
+            "stage_0_gen_ms": 12217.68832206726
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12240.53144454956,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.8106288909912,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12241.07813835144,
+              "image_time_to_first_output_ms": 12240.511655807495,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4676626995205879,
+            "stage_0_gen_ms": 12240.53144454956
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12258.147478103638,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.16294956207275,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12258.641481399536,
+              "image_time_to_first_output_ms": 12258.098840713501,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4520490765571594,
+            "stage_0_gen_ms": 12258.147478103638
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12314.432382583618,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 246.28864765167236,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12315.202474594116,
+              "image_time_to_first_output_ms": 12314.405679702759,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.608738511800766,
+            "stage_0_gen_ms": 12314.432382583618
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12285.168409347534,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.70336818695068,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12285.755157470703,
+              "image_time_to_first_output_ms": 12285.124778747559,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.5130348727107048,
+            "stage_0_gen_ms": 12285.168409347534
+          },
+          "peak_memory_mb": 42304.0
+        }
+      ]
+    },
+    {
+      "phase": "OmniAA",
+      "mode": "omni",
+      "arm": "omni",
+      "run": "qwen21-prefix-final-omni-AA-02",
+      "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json",
+      "head_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+      "measured_serial_client_wall_seconds": 86.344342005,
+      "measured_serial_client_requests_per_second": 0.081070743461044,
+      "launch_to_ready_seconds": 34.50718111731112,
+      "warmup_seconds": [
+        15.571206666,
+        12.217665481
+      ],
+      "measured_seconds": [
+        12.243129945,
+        12.309956953,
+        12.304069158,
+        12.325383509,
+        12.351598834,
+        12.364443884,
+        12.365678233
+      ],
+      "sampled_device_peak_MiB": 43095.0,
+      "native_memory_or_response_metrics": [
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 15442.114114761353,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 308.84228229522705,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 15443.13359260559,
+              "image_time_to_first_output_ms": 15442.085266113281,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.8396413177251816,
+            "stage_0_gen_ms": 15442.114114761353
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12149.53899383545,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 242.99077987670898,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12151.042461395264,
+              "image_time_to_first_output_ms": 12149.497509002686,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 1.3322234153747559,
+            "stage_0_gen_ms": 12149.53899383545
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12184.346199035645,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 243.6869239807129,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12184.893608093262,
+              "image_time_to_first_output_ms": 12184.326887130737,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4688240587711334,
+            "stage_0_gen_ms": 12184.346199035645
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12243.12949180603,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.8625898361206,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12243.749141693115,
+              "image_time_to_first_output_ms": 12243.109703063965,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4917336627840996,
+            "stage_0_gen_ms": 12243.12949180603
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12244.51208114624,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.8902416229248,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12245.089054107666,
+              "image_time_to_first_output_ms": 12244.493007659912,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.49786362797021866,
+            "stage_0_gen_ms": 12244.51208114624
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12255.602598190308,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.11205196380615,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12256.047248840332,
+              "image_time_to_first_output_ms": 12255.547046661377,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4058815538883209,
+            "stage_0_gen_ms": 12255.602598190308
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12286.380052566528,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.72760105133057,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12287.185192108154,
+              "image_time_to_first_output_ms": 12286.323070526123,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.6433604285120964,
+            "stage_0_gen_ms": 12286.380052566528
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12296.480178833008,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.92960357666016,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12297.309160232544,
+              "image_time_to_first_output_ms": 12296.42939567566,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.66375732421875,
+            "stage_0_gen_ms": 12296.480178833008
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12298.743486404419,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.97486972808838,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12299.54719543457,
+              "image_time_to_first_output_ms": 12298.698425292969,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.6386907771229744,
+            "stage_0_gen_ms": 12298.743486404419
+          },
+          "peak_memory_mb": 42304.0
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "omni",
+      "arm": "omni",
+      "run": "qwen21-prefix-final-omni-paired-01",
+      "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json",
+      "head_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+      "measured_serial_client_wall_seconds": 86.298941452,
+      "measured_serial_client_requests_per_second": 0.08111339353905567,
+      "launch_to_ready_seconds": 32.3966771773994,
+      "warmup_seconds": [
+        15.605451699,
+        12.216559048
+      ],
+      "measured_seconds": [
+        12.244416428,
+        12.282246595,
+        12.304044342,
+        12.330767998,
+        12.340205807,
+        12.348212555,
+        12.361682185
+      ],
+      "sampled_device_peak_MiB": 43095.0,
+      "native_memory_or_response_metrics": [
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 15475.091457366943,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 309.50182914733887,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 15476.081371307373,
+              "image_time_to_first_output_ms": 15475.051641464233,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.8238339796662331,
+            "stage_0_gen_ms": 15475.091457366943
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12146.773099899292,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 242.93546199798584,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12148.389339447021,
+              "image_time_to_first_output_ms": 12146.73638343811,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 1.5108510851860046,
+            "stage_0_gen_ms": 12146.773099899292
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12185.304164886475,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 243.7060832977295,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12185.864686965942,
+              "image_time_to_first_output_ms": 12185.283422470093,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4592789337038994,
+            "stage_0_gen_ms": 12185.304164886475
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12214.419841766357,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.28839683532715,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12214.962482452393,
+              "image_time_to_first_output_ms": 12214.401245117188,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.45581627637147903,
+            "stage_0_gen_ms": 12214.419841766357
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12244.890928268433,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.89781856536865,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12245.509624481201,
+              "image_time_to_first_output_ms": 12244.868755340576,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4975702613592148,
+            "stage_0_gen_ms": 12244.890928268433
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12264.758110046387,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.29516220092773,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12265.300035476685,
+              "image_time_to_first_output_ms": 12264.734506607056,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4659118130803108,
+            "stage_0_gen_ms": 12264.758110046387
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12272.330045700073,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.44660091400146,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12272.828340530396,
+              "image_time_to_first_output_ms": 12272.270917892456,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.46425871551036835,
+            "stage_0_gen_ms": 12272.330045700073
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12289.228677749634,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.78457355499268,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12289.988994598389,
+              "image_time_to_first_output_ms": 12289.182901382446,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.6046583876013756,
+            "stage_0_gen_ms": 12289.228677749634
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12297.688722610474,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.95377445220947,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12298.251628875732,
+              "image_time_to_first_output_ms": 12297.636032104492,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.5144365131855011,
+            "stage_0_gen_ms": 12297.688722610474
+          },
+          "peak_memory_mb": 42304.0
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "main",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-main-paired-01",
+      "plan": "inputs/qwen21-prefix-final-main-quiet-01.json",
+      "head_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+      "measured_serial_client_wall_seconds": 91.165188687,
+      "measured_serial_client_requests_per_second": 0.07678369453096068,
+      "launch_to_ready_seconds": 47.448665781877935,
+      "warmup_seconds": [
+        13.231727682,
+        12.929675552
+      ],
+      "measured_seconds": [
+        12.950003869,
+        12.959679378,
+        12.978948674,
+        12.98666709,
+        12.993132309,
+        12.998749306,
+        13.004842026
+      ],
+      "sampled_device_peak_MiB": 48243.0,
+      "native_memory_or_response_metrics": [
+        {
+          "before_forward": {
+            "allocated_mb": 33586.03,
+            "reserved_mb": 39304.0,
+            "peak_allocated_mb": 33586.03,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2418.88
+          },
+          "after_forward": {
+            "allocated_mb": 33594.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2472.5
+          },
+          "load_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2472.5
+          },
+          "runtime_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2472.5
+          },
+          "warmup_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2472.5
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2472.53
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.08
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.08
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.08
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.08
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.08
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.1
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.1
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.1
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.1
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.1
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.13
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.13
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.13
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.13
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.13
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.15
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.15
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.15
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.15
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.15
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.18
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.18
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.18
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.2
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.2
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.2
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.2
+          }
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "prototype",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-prototype-paired-01",
+      "plan": "inputs/qwen21-prefix-final-prototype-quiet-01.json",
+      "head_sha": "4b45ef7fd5b3106e577634561e7f6d5911632692",
+      "measured_serial_client_wall_seconds": 88.624285936,
+      "measured_serial_client_requests_per_second": 0.07898512158456258,
+      "launch_to_ready_seconds": 47.507007107138634,
+      "warmup_seconds": [
+        12.853768966,
+        12.561528934
+      ],
+      "measured_seconds": [
+        12.581008284,
+        12.60270422,
+        12.613923372,
+        12.626975386,
+        12.633745996,
+        12.642303892,
+        12.633521306
+      ],
+      "sampled_device_peak_MiB": 48135.0,
+      "native_memory_or_response_metrics": [
+        {
+          "before_forward": {
+            "allocated_mb": 33586.03,
+            "reserved_mb": 39972.0,
+            "peak_allocated_mb": 33586.03,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2419.1
+          },
+          "after_forward": {
+            "allocated_mb": 33594.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2473.14
+          },
+          "load_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2473.14
+          },
+          "runtime_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2473.14
+          },
+          "warmup_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2473.14
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2473.17
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.62
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.64
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.66
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.66
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.68
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.68
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.68
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.68
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.68
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.69
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.71
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.71
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.71
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.71
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.71
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.72
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.72
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.72
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.72
+          }
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "cleanup",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-cleanup-paired-01",
+      "plan": "inputs/qwen21-prefix-final-cleanup-quiet-01.json",
+      "head_sha": "718f582ed2680d45ad3c4c18dc283ed4b738b5c6",
+      "measured_serial_client_wall_seconds": 88.659411794,
+      "measured_serial_client_requests_per_second": 0.07895382857112214,
+      "launch_to_ready_seconds": 47.47874787822366,
+      "warmup_seconds": [
+        12.854283658,
+        12.559017907
+      ],
+      "measured_seconds": [
+        12.586697493,
+        12.605191189,
+        12.617763773,
+        12.627457476,
+        12.634636758,
+        12.644710473,
+        12.649116993
+      ],
+      "sampled_device_peak_MiB": 48135.0,
+      "native_memory_or_response_metrics": [
+        {
+          "before_forward": {
+            "allocated_mb": 33586.03,
+            "reserved_mb": 39972.0,
+            "peak_allocated_mb": 33586.03,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2419.12
+          },
+          "after_forward": {
+            "allocated_mb": 33594.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2472.76
+          },
+          "load_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2472.76
+          },
+          "runtime_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2472.76
+          },
+          "warmup_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2472.76
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2472.78
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.25
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.25
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.28
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.28
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.31
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.31
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.33
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.33
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.33
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.33
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.33
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.35
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.35
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.35
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.35
+          }
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "cleanup",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-cleanup-paired-02",
+      "plan": "inputs/qwen21-prefix-final-cleanup-quiet-01.json",
+      "head_sha": "718f582ed2680d45ad3c4c18dc283ed4b738b5c6",
+      "measured_serial_client_wall_seconds": 88.638537506,
+      "measured_serial_client_requests_per_second": 0.0789724221197373,
+      "launch_to_ready_seconds": 47.479422734119,
+      "warmup_seconds": [
+        12.864638019,
+        12.561123129
+      ],
+      "measured_seconds": [
+        12.585064754,
+        12.605457252,
+        12.616466137,
+        12.622043723,
+        12.634771627,
+        12.642098356,
+        12.639339141
+      ],
+      "sampled_device_peak_MiB": 48135.0,
+      "native_memory_or_response_metrics": [
+        {
+          "before_forward": {
+            "allocated_mb": 33586.03,
+            "reserved_mb": 39972.0,
+            "peak_allocated_mb": 33586.03,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2419.16
+          },
+          "after_forward": {
+            "allocated_mb": 33594.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2472.73
+          },
+          "load_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2472.73
+          },
+          "runtime_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2472.73
+          },
+          "warmup_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2472.73
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2472.75
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.27
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.27
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.27
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.27
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.27
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.28
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.31
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.31
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.88
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.88
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.88
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.88
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.88
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.88
+          }
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "prototype",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-prototype-paired-02",
+      "plan": "inputs/qwen21-prefix-final-prototype-quiet-01.json",
+      "head_sha": "4b45ef7fd5b3106e577634561e7f6d5911632692",
+      "measured_serial_client_wall_seconds": 88.652322355,
+      "measured_serial_client_requests_per_second": 0.0789601424311159,
+      "launch_to_ready_seconds": 47.52331845276058,
+      "warmup_seconds": [
+        12.862087729,
+        12.564875924
+      ],
+      "measured_seconds": [
+        12.585617647,
+        12.604764915,
+        12.622985008,
+        12.629675856,
+        12.632497355,
+        12.638303355,
+        12.64627897
+      ],
+      "sampled_device_peak_MiB": 48135.0,
+      "native_memory_or_response_metrics": [
+        {
+          "before_forward": {
+            "allocated_mb": 33586.03,
+            "reserved_mb": 39972.0,
+            "peak_allocated_mb": 33586.03,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2419.05
+          },
+          "after_forward": {
+            "allocated_mb": 33594.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2473.07
+          },
+          "load_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2473.07
+          },
+          "runtime_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2473.07
+          },
+          "warmup_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2473.07
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2473.09
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.58
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.58
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.58
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.58
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.58
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.59
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.59
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.59
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.59
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.59
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.61
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.61
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.61
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.61
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.61
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.62
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.62
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.64
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.64
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.66
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.66
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.66
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46868.0,
+            "peak_host_anon_mb": 2485.69
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46868.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39972.0,
+            "peak_host_anon_mb": 2485.69
+          }
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "main",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-main-paired-02",
+      "plan": "inputs/qwen21-prefix-final-main-quiet-01.json",
+      "head_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+      "measured_serial_client_wall_seconds": 91.186134746,
+      "measured_serial_client_requests_per_second": 0.07676605680785328,
+      "launch_to_ready_seconds": 47.469573142938316,
+      "warmup_seconds": [
+        13.221021907,
+        12.930577278
+      ],
+      "measured_seconds": [
+        12.94902576,
+        12.963507915,
+        12.980198721,
+        12.987837247,
+        12.99782938,
+        13.004271281,
+        13.009455556
+      ],
+      "sampled_device_peak_MiB": 48243.0,
+      "native_memory_or_response_metrics": [
+        {
+          "before_forward": {
+            "allocated_mb": 33586.03,
+            "reserved_mb": 39304.0,
+            "peak_allocated_mb": 33586.03,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2418.98
+          },
+          "after_forward": {
+            "allocated_mb": 33594.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2472.61
+          },
+          "load_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2472.61
+          },
+          "runtime_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2472.61
+          },
+          "warmup_peak": {
+            "allocated_mb": 33586.85,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43945.94,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2472.61
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2472.62
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.18
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.18
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.19
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.21
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.21
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.21
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.21
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.21
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.24
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.24
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.24
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.25
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.28
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.28
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.29
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.29
+          }
+        },
+        {
+          "before_forward": {
+            "allocated_mb": 33586.27,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 33586.27,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.29
+          },
+          "after_forward": {
+            "allocated_mb": 33595.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.3
+          },
+          "load_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 31081.31,
+            "peak_reserved_mb": 36896.0,
+            "peak_host_anon_mb": 2485.3
+          },
+          "runtime_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 46976.0,
+            "peak_host_anon_mb": 2485.3
+          },
+          "warmup_peak": {
+            "allocated_mb": 33587.1,
+            "reserved_mb": 46976.0,
+            "peak_allocated_mb": 43946.18,
+            "peak_reserved_mb": 39304.0,
+            "peak_host_anon_mb": 2485.3
+          }
+        }
+      ]
+    },
+    {
+      "phase": "paired",
+      "mode": "omni",
+      "arm": "omni",
+      "run": "qwen21-prefix-final-omni-paired-02",
+      "plan": "inputs/qwen21-prefix-final-omni-quiet-01.json",
+      "head_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+      "measured_serial_client_wall_seconds": 86.31016046,
+      "measured_serial_client_requests_per_second": 0.0811028500317076,
+      "launch_to_ready_seconds": 32.39829814340919,
+      "warmup_seconds": [
+        15.528390022,
+        12.212102989
+      ],
+      "measured_seconds": [
+        12.247169842,
+        12.309249003,
+        12.300313623,
+        12.313735803,
+        12.344160542,
+        12.347647724,
+        12.360317245
+      ],
+      "sampled_device_peak_MiB": 43095.0,
+      "native_memory_or_response_metrics": [
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 15401.543378829956,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 308.0308675765991,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 15402.513980865479,
+              "image_time_to_first_output_ms": 15401.512384414673,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.8137784898281097,
+            "stage_0_gen_ms": 15401.543378829956
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12141.70217514038,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 242.83404350280762,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12143.169403076172,
+              "image_time_to_first_output_ms": 12141.676187515259,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 1.3643447309732437,
+            "stage_0_gen_ms": 12141.70217514038
+          },
+          "peak_memory_mb": 42614.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12182.97290802002,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 243.6594581604004,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12183.360576629639,
+              "image_time_to_first_output_ms": 12182.951927185059,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.31942687928676605,
+            "stage_0_gen_ms": 12182.97290802002
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12241.920948028564,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.8384189605713,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12242.509603500366,
+              "image_time_to_first_output_ms": 12241.899728775024,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.4775840789079666,
+            "stage_0_gen_ms": 12241.920948028564
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12240.453720092773,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 244.80907440185547,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12241.01185798645,
+              "image_time_to_first_output_ms": 12240.432739257812,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.482361763715744,
+            "stage_0_gen_ms": 12240.453720092773
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12254.59623336792,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.0919246673584,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12255.10549545288,
+              "image_time_to_first_output_ms": 12254.552841186523,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.45800674706697464,
+            "stage_0_gen_ms": 12254.59623336792
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12277.320623397827,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.54641246795654,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12278.167724609375,
+              "image_time_to_first_output_ms": 12277.295112609863,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.6762221455574036,
+            "stage_0_gen_ms": 12277.320623397827
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12284.607648849487,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.69215297698975,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12285.173654556274,
+              "image_time_to_first_output_ms": 12284.558057785034,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.5098693072795868,
+            "stage_0_gen_ms": 12284.607648849487
+          },
+          "peak_memory_mb": 42304.0
+        },
+        {
+          "stage_metrics": {
+            "0": {
+              "stage_id": 0,
+              "final_output_type": "image",
+              "finish_reason": null,
+              "num_tokens_in": 0,
+              "num_tokens_out": 0,
+              "stage_gen_time_ms": 12297.592878341675,
+              "postprocess_time_ms": 0.0,
+              "audio_frames": 0,
+              "audio_sample_rate": 0,
+              "audio_duration_s": 0.0,
+              "image_pixels": 1048576,
+              "denoise_step_latency_ms": 245.9518575668335,
+              "output_unit_type": "image",
+              "output_unit_count": 1,
+              "serving_time_to_first_output_ms": 12298.356056213379,
+              "image_time_to_first_output_ms": 12297.565460205078,
+              "time_per_output_unit_ms": 0.0,
+              "inter_output_latency_ms": 0.0,
+              "inter_output_latencies_ms": [],
+              "vllm_ttft_ms": 0.0,
+              "vllm_tpot_ms": 0.0,
+              "vllm_itl_ms": 0.0,
+              "vllm_itls_ms": [],
+              "stage_name": "diffusion"
+            }
+          },
+          "stage_id": 0,
+          "final_output_type": "image",
+          "num_tokens_in": 0,
+          "num_tokens_out": 0,
+          "stage_durations": {
+            "queue_wait_ms": 0.6090132519602776,
+            "stage_0_gen_ms": 12297.592878341675
+          },
+          "peak_memory_mb": 42304.0
+        }
+      ]
+    }
+  ],
+  "omni_AA": {
+    "n": 14,
+    "raw_seconds": [
+      12.210694552,
+      12.254910266,
+      12.277962556,
+      12.303293179,
+      12.318626201,
+      12.386572174,
+      12.34949638,
+      12.243129945,
+      12.309956953,
+      12.304069158,
+      12.325383509,
+      12.351598834,
+      12.364443884,
+      12.365678233
+    ],
+    "p50_seconds": 12.314291577,
+    "p95_seconds": 12.37299111235,
+    "mad_seconds": 0.036818139000000194,
+    "inverse_mean_latency_requests_per_second": 0.08122260166885513,
+    "observed_noise_floor_fraction": 0.014403572315318636,
+    "serial_client_requests_per_second": 0.08114708386373955,
+    "sampled_device_peak_MiB": 43095.0
+  },
+  "paired": {
+    "omni": {
+      "n": 14,
+      "raw_seconds": [
+        12.244416428,
+        12.282246595,
+        12.304044342,
+        12.330767998,
+        12.340205807,
+        12.348212555,
+        12.361682185,
+        12.247169842,
+        12.309249003,
+        12.300313623,
+        12.313735803,
+        12.344160542,
+        12.347647724,
+        12.360317245
+      ],
+      "p50_seconds": 12.3222519005,
+      "p95_seconds": 12.360794974,
+      "mad_seconds": 0.023667050500000286,
+      "inverse_mean_latency_requests_per_second": 0.08119040457588333,
+      "observed_noise_floor_fraction": 0.009577080107455505,
+      "serial_client_requests_per_second": 0.08110812144273548,
+      "sampled_device_peak_MiB": 43095.0
+    },
+    "main": {
+      "n": 14,
+      "raw_seconds": [
+        12.950003869,
+        12.959679378,
+        12.978948674,
+        12.98666709,
+        12.993132309,
+        12.998749306,
+        13.004842026,
+        12.94902576,
+        12.963507915,
+        12.980198721,
+        12.987837247,
+        12.99782938,
+        13.004271281,
+        13.009455556
+      ],
+      "p50_seconds": 12.9872521685,
+      "p95_seconds": 13.0064567615,
+      "mad_seconds": 0.014258125000000454,
+      "inverse_mean_latency_requests_per_second": 0.07702288990766365,
+      "observed_noise_floor_fraction": 0.004666744596853789,
+      "serial_client_requests_per_second": 0.07677487465641518,
+      "sampled_device_peak_MiB": 48243.0
+    },
+    "prototype": {
+      "n": 14,
+      "raw_seconds": [
+        12.581008284,
+        12.60270422,
+        12.613923372,
+        12.626975386,
+        12.633745996,
+        12.642303892,
+        12.633521306,
+        12.585617647,
+        12.604764915,
+        12.622985008,
+        12.629675856,
+        12.632497355,
+        12.638303355,
+        12.64627897
+      ],
+      "p50_seconds": 12.628325621,
+      "p95_seconds": 12.643695169299999,
+      "mad_seconds": 0.011978002499999363,
+      "inverse_mean_latency_requests_per_second": 0.07923288730483485,
+      "observed_noise_floor_fraction": 0.004872074369266066,
+      "serial_client_requests_per_second": 0.07897263003260399,
+      "sampled_device_peak_MiB": 48135.0
+    },
+    "cleanup": {
+      "n": 14,
+      "raw_seconds": [
+        12.586697493,
+        12.605191189,
+        12.617763773,
+        12.627457476,
+        12.634636758,
+        12.644710473,
+        12.649116993,
+        12.585064754,
+        12.605457252,
+        12.616466137,
+        12.622043723,
+        12.634771627,
+        12.642098356,
+        12.639339141
+      ],
+      "p50_seconds": 12.6247505995,
+      "p95_seconds": 12.646252754999999,
+      "mad_seconds": 0.015968148999999876,
+      "inverse_mean_latency_requests_per_second": 0.07922548480415477,
+      "observed_noise_floor_fraction": 0.004959164231500113,
+      "serial_client_requests_per_second": 0.07896312425086803,
+      "sampled_device_peak_MiB": 48135.0
+    }
+  },
+  "comparisons": {
+    "main_over_cleanup": {
+      "paired_speedups": [
+        1.0288643129940995,
+        1.0281223968510171,
+        1.0286251119848098,
+        1.0284467094569687,
+        1.02837402909688,
+        1.0279989671377587,
+        1.0281225190024614,
+        1.0289200741604703,
+        1.0284044168999256,
+        1.0288299893211215,
+        1.0289805305723547,
+        1.0287348092801425,
+        1.0286481654232749,
+        1.02928289294805
+      ],
+      "geometric_mean_speedup": 1.0285967183027458,
+      "latency_reduction_fraction": 0.027801681449978077,
+      "minimum_paired_speedup": 1.0279989671377587,
+      "maximum_paired_speedup": 1.02928289294805
+    },
+    "main_over_prototype": {
+      "paired_speedups": [
+        1.029329571737845,
+        1.0283252825559053,
+        1.0289382844048562,
+        1.0284859749072452,
+        1.0284465362144994,
+        1.0281946563731599,
+        1.0293917041026124,
+        1.028874873144317,
+        1.0284609036677141,
+        1.0282986720473495,
+        1.028358716018024,
+        1.0289200159504013,
+        1.0289570455558985,
+        1.0287180590323481
+      ],
+      "geometric_mean_speedup": 1.028692811724711,
+      "latency_reduction_fraction": 0.0278924975441448,
+      "minimum_paired_speedup": 1.0281946563731599,
+      "maximum_paired_speedup": 1.0293917041026124
+    },
+    "prototype_over_cleanup": {
+      "paired_speedups": [
+        0.9995479982733226,
+        0.9998027027942131,
+        0.9996956353701741,
+        0.9999618220848563,
+        0.9999294984084576,
+        0.9998096768601274,
+        0.9987670533043034,
+        1.0000439324716088,
+        0.9999450764072926,
+        1.0005166954778948,
+        1.0006046669752928,
+        0.9998199989626136,
+        0.9996998124130082,
+        1.0005490658113196
+      ],
+      "geometric_mean_speedup": 0.999906586863571,
+      "latency_reduction_fraction": -9.34218632582251e-05,
+      "minimum_paired_speedup": 0.9987670533043034,
+      "maximum_paired_speedup": 1.0006046669752928
+    },
+    "omni_over_main": {
+      "paired_speedups": [
+        0.9455144995987954,
+        0.9477276587451698,
+        0.9480000769744934,
+        0.9494944247469734,
+        0.9497483373160347,
+        0.9499538966645257,
+        0.9505445864152628,
+        0.9457985541917712,
+        0.9495307199031398,
+        0.9476213644633922,
+        0.9480974829619375,
+        0.9497093846295741,
+        0.9495070855712334,
+        0.9501025766831098
+      ],
+      "geometric_mean_speedup": 0.9486666771492664,
+      "latency_reduction_fraction": -0.054111021381070934,
+      "minimum_paired_speedup": 0.9455144995987954,
+      "maximum_paired_speedup": 0.9505445864152628
+    },
+    "omni_over_cleanup": {
+      "paired_speedups": [
+        0.9728061260556744,
+        0.9743800320710868,
+        0.9751366853394965,
+        0.9765044167787622,
+        0.9766965242737532,
+        0.9765516245996216,
+        0.9772762946094129,
+        0.9731511185198627,
+        0.9765015863305551,
+        0.9749412782813384,
+        0.9755738510524885,
+        0.9769991026684665,
+        0.9767087216292497,
+        0.9779243287257876
+      ],
+      "geometric_mean_speedup": 0.9757954308789059,
+      "latency_reduction_fraction": -0.024804962551723486,
+      "minimum_paired_speedup": 0.9728061260556744,
+      "maximum_paired_speedup": 0.9779243287257876
+    }
+  },
+  "main_and_cleanup_observed_noise_floor_fraction": 0.004959164231500113,
+  "cleanup_absolute_change_fraction": 9.34218632582251e-05,
+  "cleanup_change_within_observed_floor": true,
+  "main_to_cleanup_gain_exceeds_observed_floor": true,
+  "all90_outputs_exact_to_admitted_arm": true,
+  "receipts": {
+    "inputs/qwen21-prefix-final-quiet-rule-01.json": "70813d1c265d47d7816b059bd086f437f8d103b5bd589eac489e8d5ff82e6f38",
+    "evidence/preflight/qwen21-prefix-final-quiet01-status.json": "88d2ac5c3d96287a36e38c9f6bec26a5346736fa0bc7b89dcf3adc3e40aa2367",
+    "evidence/benchmarks/qwen21-prefix-cudnn-pilot-01/summary.json": "a4a359a45d47de27988c9481e59b2954b9b4318ebf3ad4d9de2786ab461b266e",
+    "runs/qwen21-prefix-final-omni-AA-01/status.json": "898dfa51e17da153919f02ff109366943987409156a5f200aef5ad32aeab508c",
+    "runs/qwen21-prefix-final-omni-AA-01/visit.json": "c3a6c8af6832bbe7a15ebb8afef359e9d34cb7f234ed4caaa40e1d0a9a1dd88c",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/results.json": "2990552877aeeaa65415ab213bae1c76a409d958ff1ed5e7d1f43f76f295897c",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/00-image-edit/response.json": "9ede2400422b8ef1fa248e69d217f09b1b97c8cd162555930a966ad0f1797964",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/01-image-edit/response.json": "3b570657cbdbaa17e99841e6072317fd8f68f7e13f110881ebcae5602a6ccbd6",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/02-image-edit/response.json": "c4e5d888081e4b4600a55ee1ea2547c412df262ff6ba7ef86c8261ff17d1b76b",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/03-image-edit/response.json": "ddb0d696d1bd39423ae09694efbcef9aa5326896c1f4ff419f184fa513294a55",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/04-image-edit/response.json": "07d0f5d66d0ee9eecdae437c4cf36f42650f2455bb30ea5c24e38863c8836d63",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/05-image-edit/response.json": "9866048c275cc2516c47fb13c0b7e83357fca67bd9a8410f9bd77517b0c073d0",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/06-image-edit/response.json": "ccd7e563c1331e4de2750dbf76a5e4254ba9c364f16c4b0f64a233583d51e2e2",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/07-image-edit/response.json": "3ae82256fa2bf1e0f7d3c3f70e01c33414eb40d8276a84b606973bcf7494028d",
+    "runs/qwen21-prefix-final-omni-AA-01/outputs/08-image-edit/response.json": "282f50ad4e0ed038e8646cea78537b6971f47c2e419b302707dcda695ac81ef2",
+    "runs/qwen21-prefix-final-omni-AA-01/gpu-samples.jsonl": "dacba0539911c36430ad2024bf4d33e48307f05972ae8cbb8de06ee2009acecb",
+    "runs/qwen21-prefix-final-omni-AA-02/status.json": "66877c68e6707ab291cfe8e53a8244b4a390be1f59ae32ddcc16ac6560d57ce8",
+    "runs/qwen21-prefix-final-omni-AA-02/visit.json": "c3a6c8af6832bbe7a15ebb8afef359e9d34cb7f234ed4caaa40e1d0a9a1dd88c",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/results.json": "f973024dc8e2b6e4ffdd812d37fab1f302767d2117a6fc0b097808b830868d39",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/00-image-edit/response.json": "b382ccba2c44238498a41aacd82f914a9230eabd625e295c488610ecd2c2c601",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/01-image-edit/response.json": "c6cb88c3ee1c197ef8c41f1650a2c3c0e1942bcdc2252a62d5af0ec7a10d4f90",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/02-image-edit/response.json": "45cf009178a2e7975d8b5cc988b4dde7e82d3996bcc88edb65eaadce61dacb0f",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/03-image-edit/response.json": "860e47a492a532e1406e025ba511b496f0017e21d1e481fa8bb51dbab8c344e2",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/04-image-edit/response.json": "94468caef51ee69c7feb016d69541de0f1338dd1254bea758335152da1a787a6",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/05-image-edit/response.json": "51ff9081d3ce134980843fde4c162b3913f08cfd20303aa6116c78a543017f62",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/06-image-edit/response.json": "29ccc10399ab25070c85d21cf2fc52bfb40d6d18740bcb2860d5b6e0945f2590",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/07-image-edit/response.json": "86340e153883957d1af210269d39c93c8e5d0b05d919836a2ce30257a6c22276",
+    "runs/qwen21-prefix-final-omni-AA-02/outputs/08-image-edit/response.json": "fc1f71ea4867c948db987b25c0602a3d159c337fe203c08636d9438eb6662099",
+    "runs/qwen21-prefix-final-omni-AA-02/gpu-samples.jsonl": "3ba69a30dd5bacb0602a62fe43ca9790f87cc81fd55c5558786d07868b8eab15",
+    "runs/qwen21-prefix-final-omni-paired-01/status.json": "f2d8d868e3bf35318e0636e9644243e672cc8240fb5f1636d0e36dc56aa0cba0",
+    "runs/qwen21-prefix-final-omni-paired-01/visit.json": "c3a6c8af6832bbe7a15ebb8afef359e9d34cb7f234ed4caaa40e1d0a9a1dd88c",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/results.json": "822611cff4b73a656e60e99daee4633261e749c90fa1fdf1fe04f35f47faa5b2",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/00-image-edit/response.json": "92dd50d281480f3b020e9b5a9064aef3b9df9cd2dfa95e456025529ff1847df3",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/01-image-edit/response.json": "6b6f366a9b4e90b2b305f0773a5da152b0a7ab8cf361c76d1d6aece73bebe2af",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/02-image-edit/response.json": "0ce5c247250e949aaea184fe78ffe3b91546231085481c419bb4ae75eed4d4c6",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/03-image-edit/response.json": "292c767e9689eb0a0a8a91b9655ef9966201c1cf2a81aa2ed5d34e5f29ff1b41",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/04-image-edit/response.json": "8f63a79685ab7e6edfdc3f92f161338823fba3fa75cb013d5c71d7971e1b6f96",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/05-image-edit/response.json": "589095e2c6af8bedef4e6104948a607c33bf5b91bf5d8f022bf9af270cd64238",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/06-image-edit/response.json": "881dfd7c25ab3eccb43e70615320342cdc9ee9e04c10ab58a5ce4648ebb6ba0f",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/07-image-edit/response.json": "326449a282a339916e98e860377cd14c2323124c2c1cb1a72671db1a71574d7c",
+    "runs/qwen21-prefix-final-omni-paired-01/outputs/08-image-edit/response.json": "f405fe13437210fc0c5ff538526226684ef395dfd06cbb9ee17aac63abcb95c8",
+    "runs/qwen21-prefix-final-omni-paired-01/gpu-samples.jsonl": "ae534afe46cb7786f2c941c4ec1e855d3e4ad8ba31d2d3bea7be817264b7bcec",
+    "runs/qwen21-prefix-final-main-paired-01/status.json": "7690be40da62dbdb2d76aaf228425fa61671b99261cb40fa3d9612a72da9c7fd",
+    "runs/qwen21-prefix-final-main-paired-01/visit.json": "f2e00964321d7ab60c8a3e3bca0380e9647b9a9bc962d4aba622485b4421e877",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/results.json": "e1c702d0691751924c1eb6dc3f069f4c8bd3520b188edeb8b097ac4dec3a9314",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/00-image-edit/perf.json": "8e38e7cfd6d8b57c12db1c3d0a2217f61926e9ef0ec9c2a1bc46120ed08cb129",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/01-image-edit/perf.json": "a810c2574591b0f1b79288ad8cc9fd06730db733832e83f8e0942eab1c348394",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/02-image-edit/perf.json": "7ab895649a8efb6d54984b69b1def0a1c8bfb02e20b48be997946f364b9826f1",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/03-image-edit/perf.json": "643175d8207d4d0c61980a839d660cedfc68c09625058f82d56c56635cba278b",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/04-image-edit/perf.json": "a7ac24d514d958caaafc52b64477150800f424216d85a24c2617ba240b736656",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/05-image-edit/perf.json": "bda10c4809d47d1f4ac9b9b586f12961cf745379593367e668c32a284cac0eca",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/06-image-edit/perf.json": "e86928558dab52ec65f2790286f686fbabb761df36536265ee614c8c5ff2f653",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/07-image-edit/perf.json": "185adc3ee75f9c8761a0983456848e3f32309154baf1c6859683ac5f07f18265",
+    "runs/qwen21-prefix-final-main-paired-01/outputs/08-image-edit/perf.json": "b7bac1d1f37f84880c7ade4a8f44e63fbfa48da0beca924ef935ec4fa7847ee8",
+    "runs/qwen21-prefix-final-main-paired-01/gpu-samples.jsonl": "c4fc7b51e44bcad9f4798b64c62cfbde15cbeaab476c12f030a96406e43f8ff9",
+    "runs/qwen21-prefix-final-prototype-paired-01/status.json": "ec598ba8778ade465920ce504262b00c6543c2ca3c36f072eecd5a3b3065b996",
+    "runs/qwen21-prefix-final-prototype-paired-01/visit.json": "6713e58a5fb717bd2119d9158c93c3f602b1ee07766faef5c8b41ecd5977fd27",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/results.json": "b34a741f833f0acbafeeb467cfce287b9c5798eb9b62188c5dd8045dfe16fe30",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/00-image-edit/perf.json": "e1e4428487dfbd439e148ef40554560d31cc89f756ca99038cfa701aab15c749",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/01-image-edit/perf.json": "6a849421fa9b5f8c120a77735cdfc71b81ed26c07c49357d2e9dd21ff4cbc956",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/02-image-edit/perf.json": "db67324cb2095cc747993e8405ca9b9d83c73607a2f07835614e9fd92c79f4ea",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/03-image-edit/perf.json": "2c592ddcf44bfcb798d3f330355da51ce46280695975bb048981db763283d431",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/04-image-edit/perf.json": "d5bb65c4ecff9d69446c981cec1f836f9ab1334f76f0e09fc2f4423941ea6d4d",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/05-image-edit/perf.json": "cb8c79aeab5ceb42eafe3267c2a81e9a26eba34dc5f40211ff6c6b732b719094",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/06-image-edit/perf.json": "bcc0cb716f087ddefcc62e82378f8551014ac13e7ee1964762be7c33bd4aa591",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/07-image-edit/perf.json": "c023a4ff2b2dba9ee117eb6202e2fbd5b643e494bd7c78e2ddc973d05fa63615",
+    "runs/qwen21-prefix-final-prototype-paired-01/outputs/08-image-edit/perf.json": "f35107e000057282c9872f7d95ef18bd75af48f996f3683d67cb0ec676c85979",
+    "runs/qwen21-prefix-final-prototype-paired-01/gpu-samples.jsonl": "d5eb4425df6d7c8eda5c4c97aeb61f691c29831f7ba8ceb5a079238b7194f28e",
+    "runs/qwen21-prefix-final-cleanup-paired-01/status.json": "778c743ee567792470526630900958628c360d03fc17c1f2942d6ed1a8118d77",
+    "runs/qwen21-prefix-final-cleanup-paired-01/visit.json": "d4ebf8bcfd2088a2bef523451273209265b1d0d19a26582541eaf825e1b92131",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/results.json": "70813a9b0be22c6e59cb334607befcb681cb81d7a82b27641f626db95d46e44b",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/00-image-edit/perf.json": "6ff075d5dcd7c104a4a503e20d584d57d4f63cbc39d376557a3bf03d92b06911",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/01-image-edit/perf.json": "4115268666b78c73a39d45c489a189dbb10b7eb2008f28e2ff1c4d44269f98f0",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/02-image-edit/perf.json": "c9c09f3b8887c6f5f5dfa2a675dbeea9c75d9daddef0f7bb7b015c95f7047123",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/03-image-edit/perf.json": "1538a983d8ad41e6b7ce1de994b0ecf79d8b04d00be290d33047844f30c66278",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/04-image-edit/perf.json": "820a75771f2caaf297608b2b9e8118d71fd629299948013f43f8041ed81e0c79",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/05-image-edit/perf.json": "df78794fd1f0d90d8df23157b9fc79731ff4016675ca54c82d4307bfb1ad4f69",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/06-image-edit/perf.json": "fe7f273fba87b55bc52bb133a095e462fc821e9e9acc856bca93396f613fc2f6",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/07-image-edit/perf.json": "a25728d66c64daddaecad17afb04391d71511baa47f1bf4346751694f22e7658",
+    "runs/qwen21-prefix-final-cleanup-paired-01/outputs/08-image-edit/perf.json": "2e1a357c47982f09b20ee06dafb9f805b6f969638419fe4b4386ee19b2fcadeb",
+    "runs/qwen21-prefix-final-cleanup-paired-01/gpu-samples.jsonl": "3bde6cc43666c057693e1aa6cc3b188423012bfee12282f22aa88da91121645d",
+    "runs/qwen21-prefix-final-cleanup-paired-02/status.json": "943028f1966926c6a1cdeae8f449fc447ad13ad55c992cf2b132655517d26a5f",
+    "runs/qwen21-prefix-final-cleanup-paired-02/visit.json": "d4ebf8bcfd2088a2bef523451273209265b1d0d19a26582541eaf825e1b92131",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/results.json": "1ad2ed1ea60492d924563b799d42f3972f44c4ab57ecd5d698d66c208f3e5c5e",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/00-image-edit/perf.json": "eb24193ffa88ca3f47d7558e89b466511c7e174efc6acf4ae4de68f04ea107f6",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/01-image-edit/perf.json": "23c12120a6d18095ff960165e49a67873460f5ede2ed7a775884214c4837c7ca",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/02-image-edit/perf.json": "8b88b47b677d8ac4538dd43a7eea0e36b84d51c1c9f2aca6d2dc2db98893bd80",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/03-image-edit/perf.json": "4ab3d121c32bd3061696148904005e5cee25712ea7df9d0663ba8fcc209c85d9",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/04-image-edit/perf.json": "a4aeaa7777be9a335a2b2d8358c2ea974eeeae25d7c978439a6b11cfab81369f",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/05-image-edit/perf.json": "684ce96a825aa67e289257d774ba6577fc36f450e9c8c74f28924ee53cdca6e2",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/06-image-edit/perf.json": "2c2265c787ef83942bc71eb82c4087c8c1aa0ba72f674d7f8604073cfc8f227f",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/07-image-edit/perf.json": "f88cba07d0a16f7c20526fe5d911d7404c736943447550be5e4da048e4969721",
+    "runs/qwen21-prefix-final-cleanup-paired-02/outputs/08-image-edit/perf.json": "0e599398da342b1d4fd77e4c9bbda82ea1714a91556f61f7d7e2c3f8b7b03be0",
+    "runs/qwen21-prefix-final-cleanup-paired-02/gpu-samples.jsonl": "960943e8feae4b102f330e05cffa35877dcce117707a77a4b2cdf57cdfe1dba1",
+    "runs/qwen21-prefix-final-prototype-paired-02/status.json": "55501b329b38cf97c1ab7f88531bc98afbe456d76cce74adc92c33c5feef357b",
+    "runs/qwen21-prefix-final-prototype-paired-02/visit.json": "6713e58a5fb717bd2119d9158c93c3f602b1ee07766faef5c8b41ecd5977fd27",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/results.json": "0295d8f643fe28940ca9bf960aa46706bb004becf65d367ded1ae7989c56fb4f",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/00-image-edit/perf.json": "f22a0100e2b56d609b3e660dbdefa37f5961cbbbba644d25f67424d264a1306b",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/01-image-edit/perf.json": "ce814fe4b50cc3cd87466e10d6569e43e0fc4e41b2a15eb313d7027c3ba3791f",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/02-image-edit/perf.json": "bedf7bf73d2dfc15380254f3c2df5c2c3473a3b85af6f7086c6fc328d1085a58",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/03-image-edit/perf.json": "aa5fab508aeb0963c362dd26976dc00a9c26ed3986a96d776b101e0890e93eb8",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/04-image-edit/perf.json": "8692a5f62a6ff18c2f1a50248d70e3ef5527a315c4fdde4c91a6ebf24207b7f3",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/05-image-edit/perf.json": "ecf8bc1e57d900fec30a18dfa8c030dfc9db610afd220488b92b179780126bdd",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/06-image-edit/perf.json": "b4c52b492a1f06dd738cefb39c780af8503aa126eaa8d825622fc3d5392bd132",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/07-image-edit/perf.json": "b37debe4aefc403b2694431ae1016402ff05f2579cc3d0b5b84a406ba5a43a33",
+    "runs/qwen21-prefix-final-prototype-paired-02/outputs/08-image-edit/perf.json": "c041fb0ccdfe6b46b7fc1acef04e96317653f2a59758c758a068a3b43dba0cda",
+    "runs/qwen21-prefix-final-prototype-paired-02/gpu-samples.jsonl": "5fd05557fadb592490fa38dbd5828391483b29d9d05197648bb686498d6f7dce",
+    "runs/qwen21-prefix-final-main-paired-02/status.json": "9f4560d48dc5f68a33e13df5c2a82b154aa543164e5d16264fe48419dab3d745",
+    "runs/qwen21-prefix-final-main-paired-02/visit.json": "f2e00964321d7ab60c8a3e3bca0380e9647b9a9bc962d4aba622485b4421e877",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/results.json": "2e9bfb1149162741512b16a76dae6e0ebb87484bc900be20b98602039d68af9a",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/00-image-edit/perf.json": "673c7fc17c44628f7aabb532903382973a3803d9c7745295378c377866b30097",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/01-image-edit/perf.json": "34ef92a5aef0eee4245c37ee167b56a49941817addb8d229eeefdc368031461a",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/02-image-edit/perf.json": "21d4e5bf5da36507ffcda121bd2ef55fe45345f56f8df583f8bfff896dba4d77",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/03-image-edit/perf.json": "46eb665b417ca04984515c301274a9a7a08461dd9def239c668486811057aee7",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/04-image-edit/perf.json": "fa09bed09ee86b6ec7ce86ad7137ca7c53474a55cd08ae63b7bf20bf8a6fe84b",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/05-image-edit/perf.json": "a8f09080741e96ffca4dbcce50c07f67350e8dddd4c54dbad3adcd01ca53381e",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/06-image-edit/perf.json": "2d7f4f40a0739bff58900b64fcc5d95850b7d062700dd8df1b537d30213b0607",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/07-image-edit/perf.json": "d20741746fcf03c47284bc6fee946e14f933ca75b10a3758eb9c8d1ec924cd01",
+    "runs/qwen21-prefix-final-main-paired-02/outputs/08-image-edit/perf.json": "770c5093c7695e9ed8ade4c06bb3c11b3ae2320e79b7607b32a614a232a74db5",
+    "runs/qwen21-prefix-final-main-paired-02/gpu-samples.jsonl": "56e76d64ba8afa8def0310883dea56f199ed39026ce6f7eb9eb14b1ccff08861",
+    "runs/qwen21-prefix-final-omni-paired-02/status.json": "0279fd7e87a4f2c1127c1ed44db6144563f658f8acbd254aa96b83e7112aab10",
+    "runs/qwen21-prefix-final-omni-paired-02/visit.json": "c3a6c8af6832bbe7a15ebb8afef359e9d34cb7f234ed4caaa40e1d0a9a1dd88c",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/results.json": "956a0729add827c1f256ee63990dfa8573c79059183492b601aed0d84b8a2fd4",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/00-image-edit/response.json": "7b3a26460a955a3c1c446285dd3fdb7b25c6894efc7e59e697ca081d4d37eed0",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/01-image-edit/response.json": "3089ab936b47fbe30bf4bc9225ab22e767a4f0e2b62b0efa1b1f42b2a243e01d",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/02-image-edit/response.json": "2344445d32b2ae241dda2b030553cd88fbf82a8335e7b121ea438879c33e02a6",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/03-image-edit/response.json": "d16b36125194acf770a2961c1604a2541d4948b545811cebe4683a95d2d5342d",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/04-image-edit/response.json": "51dda8a1aa61d7c771306ab2f318945af37a2998ebcb8bf42e0e8dd186baecae",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/05-image-edit/response.json": "4dd1242e8f1a56ef545231851120c4a7197023bad11547d730764da4b40fb10c",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/06-image-edit/response.json": "9b6f2725134533721e5ec0c814b0ec86bbc0f2631b40be4d5484005bcc0cb900",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/07-image-edit/response.json": "116f89202d643ee8ea4cfde444d49a3e1985b86338984f3137d54bea4e877c9c",
+    "runs/qwen21-prefix-final-omni-paired-02/outputs/08-image-edit/response.json": "343b166fe710336bfbe629c8e03f7ee6f713f2c968719dac9033e77fde6489ea",
+    "runs/qwen21-prefix-final-omni-paired-02/gpu-samples.jsonl": "16f537c24161a67b7d3cc38b5a17f8eff1b00b8d1e06e6e97867cd745a60aee5"
+  },
+  "qualified_PR": false,
+  "new_beneficial_BCG_scenario": false,
+  "limitations": [
+    "Two starts and 14 measurements per paired arm. Pair ordinal requests within first/second visits; V-M-P-C-C-P-M-V balances temporal placement but does not remove all drift.",
+    "A/A noise floors and p95 are descriptive, not confidence intervals. All samples retained.",
+    "Default native Omni fast paths retained. Different outputs pass the preregistered edit quality gate; they are not cross-framework bit-identical.",
+    "T2I quality failures remain in the frozen matrix and receive no cross-framework performance claim.",
+    "Stage synchronization disabled for saved-request E2E. No denoise claim from asynchronous perf dumps or Omni default stage/steps metrics.",
+    "Saved-request E2E includes synchronous POST, raw response write, JSON/base64 decode and PNG write without fsync. PIL decode and hashes excluded.",
+    "Serial client throughput includes between-request validation gaps within each seven-request visit. Inverse mean latency is a separate quantity.",
+    "NVML peak is sampled total-device memory; native memory metrics have different definitions and are retained separately.",
+    "BCG versus eager is not paired here. Earlier pilot showed optimized BCG still slower than eager; no newly beneficial BCG claim."
+  ]
+}

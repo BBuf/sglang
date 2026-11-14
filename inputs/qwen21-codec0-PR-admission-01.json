@@ -1,0 +1,132 @@
+{
+  "physical_gpus": [
+    0
+  ],
+  "purpose": "actual_equal_PNG_level0_admission_and_RGBA_equivalence",
+  "benchmark": false,
+  "admission_hold": false,
+  "server_args": {
+    "sgl": [
+      "--model-path",
+      "/prior-task/cache/common/Qwen-Image-2.1",
+      "--pipeline-class-name",
+      "QwenImage21Pipeline",
+      "--backend",
+      "sglang",
+      "--num-gpus",
+      "1",
+      "--tp-size",
+      "1",
+      "--ulysses-degree",
+      "1",
+      "--ring-degree",
+      "1",
+      "--performance-mode",
+      "speed",
+      "--dit-cpu-offload",
+      "false",
+      "--dit-layerwise-offload",
+      "false",
+      "--text-encoder-cpu-offload",
+      "false",
+      "--vae-cpu-offload",
+      "false",
+      "--enable-torch-compile",
+      "false",
+      "--enable-breakable-cuda-graph",
+      "true",
+      "--disable-autocast",
+      "true",
+      "--warmup-resolutions",
+      "1024x1024",
+      "--warmup-steps",
+      "50",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32150",
+      "--component-attention-backends",
+      "transformer=torch_cudnn_sdpa",
+      "--bcg-text-buckets",
+      "64",
+      "384",
+      "4224",
+      "--warmup-sampling-params",
+      "{\"quality\":\"lossless\"}"
+    ],
+    "omni": [
+      "/prior-task/cache/common/Qwen-Image-2.1",
+      "--omni",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32151",
+      "--num-gpus",
+      "1",
+      "--tensor-parallel-size",
+      "1"
+    ]
+  },
+  "server_env": {
+    "sgl": {
+      "HF_HUB_OFFLINE": "1",
+      "PYTHONPATH": "/task/scripts/qwen21-bcg-audit:/task/candidates/qwen21-bcg-prefix-release/python",
+      "QWEN21_BCG_AUDIT_DIR": "/task/runs/qwen21-codec0-PR-admission-01/bcg-audit",
+      "QWEN21_BCG_AUDIT_SOURCE_SHA256": "f52bb16b4f0d5f7084259d3cccae8cf4adc1d2715ee2aacfb2b06ee0ab776034"
+    },
+    "omni": {
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "require_own_repeat": true,
+  "requests": [
+    {
+      "prompt_id": "image-short",
+      "role": "admission",
+      "task": "t2i"
+    },
+    {
+      "prompt_id": "image-long",
+      "role": "admission",
+      "task": "t2i"
+    },
+    {
+      "prompt_id": "image-quality",
+      "role": "admission",
+      "task": "t2i"
+    },
+    {
+      "prompt_id": "image-edit",
+      "role": "admission",
+      "task": "edit"
+    },
+    {
+      "prompt_id": "image-short",
+      "role": "admission",
+      "task": "t2i"
+    },
+    {
+      "prompt_id": "image-edit",
+      "role": "admission",
+      "task": "edit"
+    }
+  ],
+  "quality_metrics": {
+    "image_min_ssim": 0.99,
+    "image_min_psnr_db": 40,
+    "RGBA_alpha_report_required": true,
+    "own_repeat": "PNG bytes and decoded RGBA exact"
+  },
+  "note": "Both frameworks actualPNGcompressionlevel0, numericAPIvalues SGL0 vsOmni100. FullnativeBF16 model config unchanged. Compare decodedRGBA against prior PNGlevel9 outputs before accepting new encoding.",
+  "model": "Qwen/Qwen-Image-2.1",
+  "weights_revision": "d26bb61231c349cf6b7896fa83353113880e1ba3",
+  "quality": "lossless",
+  "cli_note": "Canonical component-map CLI spelling; frozen main also supports the dot-style alias. Existing flag, not a candidate change.",
+  "repository": "/task/candidates/qwen21-bcg-prefix-release",
+  "head_sha": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5",
+  "output_compression": {
+    "sgl": 0,
+    "omni": 100
+  },
+  "actual_png_compress_level": 0
+}

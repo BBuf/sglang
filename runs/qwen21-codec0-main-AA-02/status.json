@@ -1,0 +1,56 @@
+{
+  "arm": "sgl",
+  "run": "qwen21-codec0-main-AA-02",
+  "purpose": "semantic_codec_equal_level0_paired_E2E",
+  "benchmark": true,
+  "status": "raw_complete",
+  "started_at": "2026-11-14T13:52:13.632374+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/qwen21-codec0-visits/serve.py",
+      "start",
+      "sgl",
+      "qwen21-codec0-main-AA-02"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/qwen21-codec0-visits/submit.py",
+      "sgl",
+      "qwen21-codec0-main-AA-02"
+    ]
+  ],
+  "profiler": false,
+  "repository": "/task/repos/sglang-main",
+  "head_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+  "main_baseline_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+  "updated_at": "2026-11-14T13:54:52.720631+00:00",
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/qwen21-native-workloads.json": "2e186d78cd20bc36886e42dd85008d5e23c924c35c15e9e630ac7bc2a5ecd49d",
+    "inputs/qwen21-codec0-main-quiet-01.json": "5e03cab12f76a906a6698c5cca9374b9cd82cfde848941d042755ce53f02544b",
+    "scripts/qwen21-codec0-visits/run.py": "c2e74c5202fad9120bf710c336dc55fd76ef78eda3618c9c541391e3132d21f8",
+    "scripts/qwen21-codec0-visits/serve.py": "769b798d2a1a21e409d25f72dad1589eec1bc54c2ce09775164cfc4cb610485f",
+    "scripts/qwen21-codec0-visits/submit.py": "fdb9bcecd07210c0a9a3b74f06f8c8c1eace232276027ef3e577d64d3b67ddb2"
+  },
+  "launch_to_ready_seconds": 47.507334287278354,
+  "completed_outputs": 9,
+  "reference_checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "gpu_cleanup": "idle_verified"
+}

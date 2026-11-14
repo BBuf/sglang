@@ -1,0 +1,143 @@
+{
+  "physical_gpus": [
+    0
+  ],
+  "purpose": "semantic_codec_equal_level0_paired_E2E",
+  "benchmark": true,
+  "admission_hold": false,
+  "server_args": {
+    "sgl": [
+      "--model-path",
+      "/prior-task/cache/common/Qwen-Image-2.1",
+      "--pipeline-class-name",
+      "QwenImage21Pipeline",
+      "--backend",
+      "sglang",
+      "--num-gpus",
+      "1",
+      "--tp-size",
+      "1",
+      "--ulysses-degree",
+      "1",
+      "--ring-degree",
+      "1",
+      "--performance-mode",
+      "speed",
+      "--dit-cpu-offload",
+      "false",
+      "--dit-layerwise-offload",
+      "false",
+      "--text-encoder-cpu-offload",
+      "false",
+      "--vae-cpu-offload",
+      "false",
+      "--enable-torch-compile",
+      "false",
+      "--enable-breakable-cuda-graph",
+      "true",
+      "--disable-autocast",
+      "true",
+      "--warmup-resolutions",
+      "1024x1024",
+      "--warmup-steps",
+      "50",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32150",
+      "--bcg-text-buckets",
+      "64",
+      "384",
+      "4224",
+      "--warmup-sampling-params",
+      "{\"quality\":\"lossless\"}",
+      "--component-attention-backends",
+      "transformer=torch_cudnn_sdpa"
+    ],
+    "omni": [
+      "/prior-task/cache/common/Qwen-Image-2.1",
+      "--omni",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32151",
+      "--num-gpus",
+      "1",
+      "--tensor-parallel-size",
+      "1"
+    ]
+  },
+  "server_env": {
+    "sgl": {
+      "HF_HUB_OFFLINE": "1"
+    },
+    "omni": {
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "require_own_repeat": true,
+  "requests": [
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "warmup"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "warmup"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "measure"
+    }
+  ],
+  "quality_metrics": {
+    "image_min_ssim": 0.99,
+    "image_min_psnr_db": 40,
+    "RGBA_alpha_report_required": true,
+    "own_repeat": "PNG bytes and decoded RGBA exact"
+  },
+  "note": "SGLcompression0 andOmnicompression100 bothproduceactualPNGlevel0. Losslesspixelquality unchanged; newRGBAadmission andactualmain/PRbytesmatch required. SameGPU0 weights seed1101 steps50 shape1024 andBF16. No SGLcompile/offload; Omni nativeoptimizeddefaults retained. The earlier100/100 crossframeworkE2E had unequalPNGencoding work and is excluded.",
+  "model": "Qwen/Qwen-Image-2.1",
+  "weights_revision": "d26bb61231c349cf6b7896fa83353113880e1ba3",
+  "quality": "lossless",
+  "quality_gate_metrics": "evidence/quality/qwen21-codec0-cross-framework-01/cross-image-edit/metrics.json",
+  "synchronized_stage_profiling": false,
+  "output_compression": {
+    "sgl": 0,
+    "omni": 100
+  },
+  "actual_png_compress_level": 0
+}

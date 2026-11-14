@@ -1,0 +1,31 @@
+{
+  "at": "2026-11-14T13:31:25.063425+00:00",
+  "finding": "Same API numeric output_compression=100 maps to different actual PNG compression levels",
+  "sglang": {
+    "api_value": 100,
+    "png_level": 9,
+    "formula": "round(output_compression / 100 * 9)"
+  },
+  "omni": {
+    "api_value": 100,
+    "png_level": 0,
+    "formula": "9 - output_compression // 11"
+  },
+  "affected_evidence": [
+    "evidence/benchmarks/qwen21-prefix-final-01",
+    "planned qwen21-prefix-release-01"
+  ],
+  "within_SGL_main_PR_comparisons_valid": true,
+  "cross_framework_E2E_equivalence_admitted": false,
+  "correction": {
+    "sglang_output_compression": 0,
+    "omni_output_compression": 100,
+    "both_actual_png_level": 0,
+    "both_lossless": true,
+    "new_native_admission_RGBA_equivalence_and_paired_measurements_required": true
+  },
+  "sources": {
+    "repos/sglang-main/python/sglang/multimodal_gen/runtime/entrypoints/utils.py": "a9970b3b6af1177b52436cd3f1a60f30faaace4a601f82350069e046b8776afd",
+    "repos/vllm-omni/vllm_omni/entrypoints/openai/image_api_utils.py": "93e2bb74e4f73b7d129af7f1a4248078abaa822d69abd89ecf14ad5bc70bc2ea"
+  }
+}

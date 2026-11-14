@@ -1,0 +1,1978 @@
+{
+  "at": "2026-11-14T13:26:14.996630+00:00",
+  "rule": {
+    "main_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+    "cleanup_sha": "718f582ed2680d45ad3c4c18dc283ed4b738b5c6",
+    "omni_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+    "physical_gpus": [
+      0
+    ],
+    "visits": [
+      {
+        "mode": "omni",
+        "arm": "omni",
+        "run": "qwen21-prefix-final-omni-stages-01",
+        "plan": "inputs/qwen21-prefix-final-omni-stages-01.json"
+      },
+      {
+        "mode": "main",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-main-stages-01",
+        "plan": "inputs/qwen21-prefix-final-main-stages-01.json"
+      },
+      {
+        "mode": "cleanup",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-cleanup-stages-01",
+        "plan": "inputs/qwen21-prefix-final-cleanup-stages-01.json"
+      },
+      {
+        "mode": "cleanup",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-cleanup-stages-02",
+        "plan": "inputs/qwen21-prefix-final-cleanup-stages-01.json"
+      },
+      {
+        "mode": "main",
+        "arm": "sgl",
+        "run": "qwen21-prefix-final-main-stages-02",
+        "plan": "inputs/qwen21-prefix-final-main-stages-01.json"
+      },
+      {
+        "mode": "omni",
+        "arm": "omni",
+        "run": "qwen21-prefix-final-omni-stages-02",
+        "plan": "inputs/qwen21-prefix-final-omni-stages-01.json"
+      }
+    ],
+    "plan_sha256": {
+      "inputs/qwen21-prefix-final-main-stages-01.json": "b0a0de5a83b8fbe5f0f814e96929d66e93b283c21e2fb213d3fabb4b5080aa0c",
+      "inputs/qwen21-prefix-final-cleanup-stages-01.json": "bc3bd675f084685dae63b6583a8b291938eadf11e85581b41cae15c0f4f15a3c",
+      "inputs/qwen21-prefix-final-omni-stages-01.json": "d0f1e8102eb95f9d401994d6a92e79bf3e63a55b5648e6bc862b65e6d769858c"
+    },
+    "created_at": "2026-11-14T12:30:59.008969+00:00",
+    "description": "Native synchronized stage attribution in O-M-C-C-M-O order. Separate from quiet timing; retain every output and log. No Torch profiler; output must remain admitted exact perarm. Inspect actual Omni diffuse calls and SGL synchronized stage/step boundaries before comparing denoise."
+  },
+  "visits": [
+    {
+      "mode": "omni",
+      "arm": "omni",
+      "run": "qwen21-prefix-final-omni-stages-01",
+      "plan": "inputs/qwen21-prefix-final-omni-stages-01.json",
+      "rows": [
+        {
+          "index": 0,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 15.609760462,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.226594
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.049116
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              14.92058
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.129319
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              15.365824
+            ]
+          ],
+          "denoise_seconds": 14.92058,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 15479.097843170166,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 298.41160053387284,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 15480.133533477783,
+                "image_time_to_first_output_ms": 15479.06470298767,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.22659449838101864,
+              "QwenImage21Pipeline.vae.encode": 0.049116041511297226,
+              "QwenImage21Pipeline.diffuse": 14.920580026693642,
+              "QwenImage21Pipeline.vae.decode": 0.12931854743510485,
+              "queue_wait_ms": 0.8803745731711388,
+              "stage_0_gen_ms": 15479.097843170166
+            },
+            "peak_memory_mb": 42614.0
+          }
+        },
+        {
+          "index": 1,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.194036656,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097065
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035355
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.745858
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.123001
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.030325
+            ]
+          ],
+          "denoise_seconds": 11.745858,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12127.532482147217,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 234.91715660318732,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12128.023147583008,
+                "image_time_to_first_output_ms": 12127.503871917725,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09706518985331059,
+              "QwenImage21Pipeline.vae.encode": 0.03535468317568302,
+              "QwenImage21Pipeline.diffuse": 11.745857830159366,
+              "QwenImage21Pipeline.vae.decode": 0.12300122436136007,
+              "queue_wait_ms": 0.3677979111671448,
+              "stage_0_gen_ms": 12127.532482147217
+            },
+            "peak_memory_mb": 42614.0
+          }
+        },
+        {
+          "index": 2,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.231906952,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097097
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035382
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.789358
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.123708
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.071895
+            ]
+          ],
+          "denoise_seconds": 11.789358,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12171.506881713867,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 235.7871611788869,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12172.043561935425,
+                "image_time_to_first_output_ms": 12171.487808227539,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09709690790623426,
+              "QwenImage21Pipeline.vae.encode": 0.03538241423666477,
+              "QwenImage21Pipeline.diffuse": 11.789358058944345,
+              "QwenImage21Pipeline.vae.decode": 0.12370773497968912,
+              "queue_wait_ms": 0.46391692012548447,
+              "stage_0_gen_ms": 12171.506881713867
+            },
+            "peak_memory_mb": 42304.0
+          }
+        },
+        {
+          "index": 3,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.268104144,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097584
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035339
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.826735
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.123859
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.108863
+            ]
+          ],
+          "denoise_seconds": 11.826735,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12207.480907440186,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 236.5346934273839,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12208.130359649658,
+                "image_time_to_first_output_ms": 12207.460880279541,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09758437238633633,
+              "QwenImage21Pipeline.vae.encode": 0.035339255817234516,
+              "QwenImage21Pipeline.diffuse": 11.826734671369195,
+              "QwenImage21Pipeline.vae.decode": 0.12385911587625742,
+              "queue_wait_ms": 0.5350960418581963,
+              "stage_0_gen_ms": 12207.480907440186
+            },
+            "peak_memory_mb": 42304.0
+          }
+        },
+        {
+          "index": 4,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.291070459,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097406
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035324
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.851972
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.123403
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.134375
+            ]
+          ],
+          "denoise_seconds": 11.851972,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12230.238437652588,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 237.03943204134703,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12230.839967727661,
+                "image_time_to_first_output_ms": 12230.221271514893,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09740570932626724,
+              "QwenImage21Pipeline.vae.encode": 0.03532437514513731,
+              "QwenImage21Pipeline.diffuse": 11.851971602067351,
+              "QwenImage21Pipeline.vae.decode": 0.12340271100401878,
+              "queue_wait_ms": 0.5241846665740013,
+              "stage_0_gen_ms": 12230.238437652588
+            },
+            "peak_memory_mb": 42304.0
+          }
+        }
+      ]
+    },
+    {
+      "mode": "main",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-main-stages-01",
+      "plan": "inputs/qwen21-prefix-final-main-stages-01.json",
+      "rows": [
+        {
+          "index": 0,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 13.243252349,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.047650059685111046,
+            "QwenImage21EncodingStage": 0.24905955605208874,
+            "LatentPreparationStage": 0.0018247487023472786,
+            "TimestepPreparationStage": 0.00046801473945379257,
+            "QwenImage21DenoisingStage": 11.452039133757353,
+            "DecodingStage": 0.06336920149624348
+          },
+          "denoise_seconds": 11.452039133757353,
+          "denoise_step_sum_seconds": 11.44819267746061,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.03,
+              "reserved_mb": 39304.0,
+              "peak_allocated_mb": 33586.03,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2418.96
+            },
+            "after_forward": {
+              "allocated_mb": 33594.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2472.97
+            },
+            "load_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2472.97
+            },
+            "runtime_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2472.97
+            },
+            "warmup_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2472.97
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.939216742,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04396409820765257,
+            "QwenImage21EncodingStage": 0.03795100003480911,
+            "LatentPreparationStage": 0.0018106820061802864,
+            "TimestepPreparationStage": 0.0005034171044826508,
+            "QwenImage21DenoisingStage": 11.386586270295084,
+            "DecodingStage": 0.06334371957927942
+          },
+          "denoise_seconds": 11.386586270295084,
+          "denoise_step_sum_seconds": 11.3833137312904,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2473.0
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.54
+            }
+          }
+        },
+        {
+          "index": 2,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.962628981,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.043874154798686504,
+            "QwenImage21EncodingStage": 0.035179355181753635,
+            "LatentPreparationStage": 0.001814344897866249,
+            "TimestepPreparationStage": 0.0004973700270056725,
+            "QwenImage21DenoisingStage": 11.415347624570131,
+            "DecodingStage": 0.06345751788467169
+          },
+          "denoise_seconds": 11.415347624570131,
+          "denoise_step_sum_seconds": 11.411951335147023,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.54
+            }
+          }
+        },
+        {
+          "index": 3,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.97755053,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04386081639677286,
+            "QwenImage21EncodingStage": 0.03665315639227629,
+            "LatentPreparationStage": 0.0018262295052409172,
+            "TimestepPreparationStage": 0.0005089240148663521,
+            "QwenImage21DenoisingStage": 11.433889607898891,
+            "DecodingStage": 0.06409404519945383
+          },
+          "denoise_seconds": 11.433889607898891,
+          "denoise_step_sum_seconds": 11.43049205467105,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.54
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.57
+            }
+          }
+        },
+        {
+          "index": 4,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.99996144,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04360936488956213,
+            "QwenImage21EncodingStage": 0.03629447054117918,
+            "LatentPreparationStage": 0.0018035322427749634,
+            "TimestepPreparationStage": 0.0005092481151223183,
+            "QwenImage21DenoisingStage": 11.451588571071625,
+            "DecodingStage": 0.06414436083287
+          },
+          "denoise_seconds": 11.451588571071625,
+          "denoise_step_sum_seconds": 11.447694341652095,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.57
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.57
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "cleanup",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-cleanup-stages-01",
+      "plan": "inputs/qwen21-prefix-final-cleanup-stages-01.json",
+      "rows": [
+        {
+          "index": 0,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.868095148,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.047663427889347076,
+            "QwenImage21EncodingStage": 0.24604078195989132,
+            "LatentPreparationStage": 0.0018382817506790161,
+            "TimestepPreparationStage": 0.00044386181980371475,
+            "QwenImage21DenoisingStage": 11.087373292073607,
+            "DecodingStage": 0.06344069167971611
+          },
+          "denoise_seconds": 11.087373292073607,
+          "denoise_step_sum_seconds": 11.083533043041825,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.03,
+              "reserved_mb": 39972.0,
+              "peak_allocated_mb": 33586.03,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2419.18
+            },
+            "after_forward": {
+              "allocated_mb": 33594.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2472.79
+            },
+            "load_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2472.79
+            },
+            "runtime_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2472.79
+            },
+            "warmup_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2472.79
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.563373358,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04398175794631243,
+            "QwenImage21EncodingStage": 0.03760650847107172,
+            "LatentPreparationStage": 0.0017859423533082008,
+            "TimestepPreparationStage": 0.00044771935790777206,
+            "QwenImage21DenoisingStage": 11.015793778002262,
+            "DecodingStage": 0.06358142849057913
+          },
+          "denoise_seconds": 11.015793778002262,
+          "denoise_step_sum_seconds": 11.012589065358043,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2472.81
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.34
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.34
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.34
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.34
+            }
+          }
+        },
+        {
+          "index": 2,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.586482208,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04379569087177515,
+            "QwenImage21EncodingStage": 0.033975886180996895,
+            "LatentPreparationStage": 0.0018141213804483414,
+            "TimestepPreparationStage": 0.00044623296707868576,
+            "QwenImage21DenoisingStage": 11.045694458298385,
+            "DecodingStage": 0.06360376253724098
+          },
+          "denoise_seconds": 11.045694458298385,
+          "denoise_step_sum_seconds": 11.042328257113695,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.34
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.36
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.36
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.36
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.36
+            }
+          }
+        },
+        {
+          "index": 3,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.605404069,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04359616432338953,
+            "QwenImage21EncodingStage": 0.03502248413860798,
+            "LatentPreparationStage": 0.0018131332471966743,
+            "TimestepPreparationStage": 0.0004733065143227577,
+            "QwenImage21DenoisingStage": 11.06437436491251,
+            "DecodingStage": 0.0635996786877513
+          },
+          "denoise_seconds": 11.06437436491251,
+          "denoise_step_sum_seconds": 11.06099090911448,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.36
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.38
+            }
+          }
+        },
+        {
+          "index": 4,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.618633107,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.0438199145719409,
+            "QwenImage21EncodingStage": 0.03474021516740322,
+            "LatentPreparationStage": 0.001842680387198925,
+            "TimestepPreparationStage": 0.00044998154044151306,
+            "QwenImage21DenoisingStage": 11.077893815934658,
+            "DecodingStage": 0.0638616057112813
+          },
+          "denoise_seconds": 11.077893815934658,
+          "denoise_step_sum_seconds": 11.07457143906504,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.38
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.38
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "cleanup",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-cleanup-stages-02",
+      "plan": "inputs/qwen21-prefix-final-cleanup-stages-01.json",
+      "rows": [
+        {
+          "index": 0,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.877586894,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04768065828830004,
+            "QwenImage21EncodingStage": 0.24744038004428148,
+            "LatentPreparationStage": 0.0018445458263158798,
+            "TimestepPreparationStage": 0.00048209261149168015,
+            "QwenImage21DenoisingStage": 11.092866946011782,
+            "DecodingStage": 0.06340078823268414
+          },
+          "denoise_seconds": 11.092866946011782,
+          "denoise_step_sum_seconds": 11.088668611831963,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.03,
+              "reserved_mb": 39972.0,
+              "peak_allocated_mb": 33586.03,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2418.97
+            },
+            "after_forward": {
+              "allocated_mb": 33594.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2472.55
+            },
+            "load_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2472.55
+            },
+            "runtime_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2472.55
+            },
+            "warmup_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2472.55
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.56691121,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04389708861708641,
+            "QwenImage21EncodingStage": 0.03542524017393589,
+            "LatentPreparationStage": 0.0018103430047631264,
+            "TimestepPreparationStage": 0.0004902919754385948,
+            "QwenImage21DenoisingStage": 11.0196474455297,
+            "DecodingStage": 0.06352854799479246
+          },
+          "denoise_seconds": 11.0196474455297,
+          "denoise_step_sum_seconds": 11.016183478757739,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2472.58
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.14
+            }
+          }
+        },
+        {
+          "index": 2,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.595132269,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04361350554972887,
+            "QwenImage21EncodingStage": 0.032834955491125584,
+            "LatentPreparationStage": 0.0017972178757190704,
+            "TimestepPreparationStage": 0.00047589652240276337,
+            "QwenImage21DenoisingStage": 11.051852409727871,
+            "DecodingStage": 0.06353991199284792
+          },
+          "denoise_seconds": 11.051852409727871,
+          "denoise_step_sum_seconds": 11.04809201695025,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.16
+            }
+          }
+        },
+        {
+          "index": 3,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.614052442,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04374394379556179,
+            "QwenImage21EncodingStage": 0.03538933023810387,
+            "LatentPreparationStage": 0.0018208213150501251,
+            "TimestepPreparationStage": 0.0005177315324544907,
+            "QwenImage21DenoisingStage": 11.071641605347395,
+            "DecodingStage": 0.06373497657477856
+          },
+          "denoise_seconds": 11.071641605347395,
+          "denoise_step_sum_seconds": 11.067888752557337,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.18
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.18
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.18
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2485.18
+            }
+          }
+        },
+        {
+          "index": 4,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.627414531,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04620031453669071,
+            "QwenImage21EncodingStage": 0.0338264349848032,
+            "LatentPreparationStage": 0.0018072249367833138,
+            "TimestepPreparationStage": 0.0004911776632070541,
+            "QwenImage21DenoisingStage": 11.081193150952458,
+            "DecodingStage": 0.06396668497473001
+          },
+          "denoise_seconds": 11.081193150952458,
+          "denoise_step_sum_seconds": 11.077786876820028,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2485.18
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2509.07
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2509.07
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46868.0,
+              "peak_host_anon_mb": 2509.07
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46868.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39972.0,
+              "peak_host_anon_mb": 2509.07
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "main",
+      "arm": "sgl",
+      "run": "qwen21-prefix-final-main-stages-02",
+      "plan": "inputs/qwen21-prefix-final-main-stages-01.json",
+      "rows": [
+        {
+          "index": 0,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 13.257077883,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04784887097775936,
+            "QwenImage21EncodingStage": 0.24644748494029045,
+            "LatentPreparationStage": 0.0018756920471787453,
+            "TimestepPreparationStage": 0.0004978720098733902,
+            "QwenImage21DenoisingStage": 11.451629728078842,
+            "DecodingStage": 0.0654509887099266
+          },
+          "denoise_seconds": 11.451629728078842,
+          "denoise_step_sum_seconds": 11.447773335501552,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.03,
+              "reserved_mb": 39304.0,
+              "peak_allocated_mb": 33586.03,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2418.96
+            },
+            "after_forward": {
+              "allocated_mb": 33594.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2472.62
+            },
+            "load_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2472.62
+            },
+            "runtime_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2472.62
+            },
+            "warmup_peak": {
+              "allocated_mb": 33586.85,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43945.94,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2472.62
+            }
+          }
+        },
+        {
+          "index": 1,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.937511705,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04386344738304615,
+            "QwenImage21EncodingStage": 0.04103632178157568,
+            "LatentPreparationStage": 0.0018077855929732323,
+            "TimestepPreparationStage": 0.0005062781274318695,
+            "QwenImage21DenoisingStage": 11.384665962308645,
+            "DecodingStage": 0.06386016588658094
+          },
+          "denoise_seconds": 11.384665962308645,
+          "denoise_step_sum_seconds": 11.381224682554603,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2472.64
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.14
+            }
+          }
+        },
+        {
+          "index": 2,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.960518684,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.04372670501470566,
+            "QwenImage21EncodingStage": 0.03642358724027872,
+            "LatentPreparationStage": 0.001818682998418808,
+            "TimestepPreparationStage": 0.000499773770570755,
+            "QwenImage21DenoisingStage": 11.413816917687654,
+            "DecodingStage": 0.06373165734112263
+          },
+          "denoise_seconds": 11.413816917687654,
+          "denoise_step_sum_seconds": 11.410544382408261,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.14
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.16
+            }
+          }
+        },
+        {
+          "index": 3,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.976867662,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.0437510097399354,
+            "QwenImage21EncodingStage": 0.037687813863158226,
+            "LatentPreparationStage": 0.001827099360525608,
+            "TimestepPreparationStage": 0.0005136923864483833,
+            "QwenImage21DenoisingStage": 11.43590931687504,
+            "DecodingStage": 0.06346028950065374
+          },
+          "denoise_seconds": 11.43590931687504,
+          "denoise_step_sum_seconds": 11.432341258972883,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.16
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.19
+            }
+          }
+        },
+        {
+          "index": 4,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.989666903,
+          "stages_seconds": {
+            "QwenImage21InputValidationStage": 0.044005333445966244,
+            "QwenImage21EncodingStage": 0.036471026949584484,
+            "LatentPreparationStage": 0.001807425171136856,
+            "TimestepPreparationStage": 0.0005070352926850319,
+            "QwenImage21DenoisingStage": 11.446593240834773,
+            "DecodingStage": 0.06394669972360134
+          },
+          "denoise_seconds": 11.446593240834773,
+          "denoise_step_sum_seconds": 11.443209247663617,
+          "native_memory": {
+            "before_forward": {
+              "allocated_mb": 33586.27,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 33586.27,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "after_forward": {
+              "allocated_mb": 33595.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "load_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 31081.31,
+              "peak_reserved_mb": 36896.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "runtime_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 46976.0,
+              "peak_host_anon_mb": 2485.19
+            },
+            "warmup_peak": {
+              "allocated_mb": 33587.1,
+              "reserved_mb": 46976.0,
+              "peak_allocated_mb": 43946.18,
+              "peak_reserved_mb": 39304.0,
+              "peak_host_anon_mb": 2485.19
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "omni",
+      "arm": "omni",
+      "run": "qwen21-prefix-final-omni-stages-02",
+      "plan": "inputs/qwen21-prefix-final-omni-stages-01.json",
+      "rows": [
+        {
+          "index": 0,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 15.629813784,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.224405
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.048897
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              14.941716
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.130319
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              15.385438
+            ]
+          ],
+          "denoise_seconds": 14.941716,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 15499.93371963501,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 298.8343133404851,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 15500.87571144104,
+                "image_time_to_first_output_ms": 15499.902248382568,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.2244054414331913,
+              "QwenImage21Pipeline.vae.encode": 0.048897032625973225,
+              "QwenImage21Pipeline.diffuse": 14.941715667024255,
+              "QwenImage21Pipeline.vae.decode": 0.13031894341111183,
+              "queue_wait_ms": 0.7760357111692429,
+              "stage_0_gen_ms": 15499.93371963501
+            },
+            "peak_memory_mb": 42614.0
+          }
+        },
+        {
+          "index": 1,
+          "role": "warmup",
+          "instrumented_e2e_seconds": 12.217290404,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097095
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035394
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.75868
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.123567
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.044832
+            ]
+          ],
+          "denoise_seconds": 11.75868,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12145.586252212524,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 235.17359787598252,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12146.2984085083,
+                "image_time_to_first_output_ms": 12145.560264587402,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09709542524069548,
+              "QwenImage21Pipeline.vae.encode": 0.03539402224123478,
+              "QwenImage21Pipeline.diffuse": 11.758679893799126,
+              "QwenImage21Pipeline.vae.decode": 0.12356714531779289,
+              "queue_wait_ms": 0.532456673681736,
+              "stage_0_gen_ms": 12145.586252212524
+            },
+            "peak_memory_mb": 42614.0
+          }
+        },
+        {
+          "index": 2,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.241841805,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097191
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035347
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.803654
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.12335
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.085883
+            ]
+          ],
+          "denoise_seconds": 11.803654,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12180.622100830078,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 236.07308771461248,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12181.218385696411,
+                "image_time_to_first_output_ms": 12180.601358413696,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09719112422317266,
+              "QwenImage21Pipeline.vae.encode": 0.03534689266234636,
+              "QwenImage21Pipeline.diffuse": 11.803654385730624,
+              "QwenImage21Pipeline.vae.decode": 0.12334970571100712,
+              "queue_wait_ms": 0.4854006692767143,
+              "stage_0_gen_ms": 12180.622100830078
+            },
+            "peak_memory_mb": 42304.0
+          }
+        },
+        {
+          "index": 3,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.271822546,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097105
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035405
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.833736
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.123738
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.116127
+            ]
+          ],
+          "denoise_seconds": 11.833736,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12211.476802825928,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 236.67471064254642,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12212.015628814697,
+                "image_time_to_first_output_ms": 12211.458921432495,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09710517525672913,
+              "QwenImage21Pipeline.vae.encode": 0.03540512267500162,
+              "QwenImage21Pipeline.diffuse": 11.83373553212732,
+              "QwenImage21Pipeline.vae.decode": 0.12373780272901058,
+              "queue_wait_ms": 0.4491889849305153,
+              "stage_0_gen_ms": 12211.476802825928
+            },
+            "peak_memory_mb": 42304.0
+          }
+        },
+        {
+          "index": 4,
+          "role": "measure",
+          "instrumented_e2e_seconds": 12.301323233,
+          "native_profiler_calls": [
+            [
+              "QwenImage21Pipeline.text_encoder.forward",
+              0.097028
+            ],
+            [
+              "QwenImage21Pipeline.vae.encode",
+              0.035315
+            ],
+            [
+              "QwenImage21Pipeline.diffuse",
+              11.862558
+            ],
+            [
+              "QwenImage21Pipeline.vae.decode",
+              0.12348
+            ],
+            [
+              "QwenImage21Pipeline.forward",
+              12.144069
+            ]
+          ],
+          "denoise_seconds": 11.862558,
+          "denoise_call_count": 1,
+          "native_response_metrics": {
+            "stage_metrics": {
+              "0": {
+                "stage_id": 0,
+                "final_output_type": "image",
+                "finish_reason": null,
+                "num_tokens_in": 0,
+                "num_tokens_out": 0,
+                "stage_gen_time_ms": 12240.091323852539,
+                "postprocess_time_ms": 0.0,
+                "audio_frames": 0,
+                "audio_sample_rate": 0,
+                "audio_duration_s": 0.0,
+                "image_pixels": 1048576,
+                "denoise_step_latency_ms": 237.25116366520524,
+                "output_unit_type": "image",
+                "output_unit_count": 1,
+                "serving_time_to_first_output_ms": 12240.620136260986,
+                "image_time_to_first_output_ms": 12240.066289901733,
+                "time_per_output_unit_ms": 0.0,
+                "inter_output_latency_ms": 0.0,
+                "inter_output_latencies_ms": [],
+                "vllm_ttft_ms": 0.0,
+                "vllm_tpot_ms": 0.0,
+                "vllm_itl_ms": 0.0,
+                "vllm_itls_ms": [],
+                "stage_name": "diffusion"
+              }
+            },
+            "stage_id": 0,
+            "final_output_type": "image",
+            "num_tokens_in": 0,
+            "num_tokens_out": 0,
+            "stage_durations": {
+              "QwenImage21Pipeline.text_encoder.forward": 0.09702807385474443,
+              "QwenImage21Pipeline.vae.encode": 0.035314531065523624,
+              "QwenImage21Pipeline.diffuse": 11.862558183260262,
+              "QwenImage21Pipeline.vae.decode": 0.12347977422177792,
+              "queue_wait_ms": 0.45770592987537384,
+              "stage_0_gen_ms": 12240.091323852539
+            },
+            "peak_memory_mb": 42304.0
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "main": {
+      "n": 6,
+      "raw_denoise_seconds": [
+        11.415347624570131,
+        11.433889607898891,
+        11.451588571071625,
+        11.413816917687654,
+        11.43590931687504,
+        11.446593240834773
+      ],
+      "median_denoise_seconds": 11.434899462386966,
+      "min_denoise_seconds": 11.413816917687654,
+      "max_denoise_seconds": 11.451588571071625
+    },
+    "cleanup": {
+      "n": 6,
+      "raw_denoise_seconds": [
+        11.045694458298385,
+        11.06437436491251,
+        11.077893815934658,
+        11.051852409727871,
+        11.071641605347395,
+        11.081193150952458
+      ],
+      "median_denoise_seconds": 11.068007985129952,
+      "min_denoise_seconds": 11.045694458298385,
+      "max_denoise_seconds": 11.081193150952458
+    },
+    "omni": {
+      "n": 6,
+      "raw_denoise_seconds": [
+        11.789358,
+        11.826735,
+        11.851972,
+        11.803654,
+        11.833736,
+        11.862558
+      ],
+      "median_denoise_seconds": 11.8302355,
+      "min_denoise_seconds": 11.789358,
+      "max_denoise_seconds": 11.862558
+    }
+  },
+  "receipts": {
+    "inputs/qwen21-prefix-final-stages-rule-01.json": "e2d32b188d0a8b33a91da9383b25f0a469e5cc8c000bf302675db47452b776f9",
+    "evidence/preflight/qwen21-prefix-final-stages01-status.json": "3514fd7dcec766482382887a93838ba98a842eea12fccff658d7827d5e1f20b1",
+    "runs/qwen21-prefix-final-omni-stages-01/status.json": "3d6592424e8877c71dd09f147ff533ec19d8a3fcc45127142884187cf352c3ae",
+    "runs/qwen21-prefix-final-omni-stages-01/visit.json": "d0f1e8102eb95f9d401994d6a92e79bf3e63a55b5648e6bc862b65e6d769858c",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/results.json": "1d0a5ec141af024bee9d8b0a75bc891390983cbc36e3a95cad0cc0aeb7faa320",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/00-image-edit/server-request.log": "52e1cdc6cf7f5975c79f41ded0e0e6cd61e9a296672ae7a0e39e60df71fa5e37",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/00-image-edit/response.json": "614c4df61697b7fb3d38f423d0ffcdee0fcf92e0eb43668e43666d0d84fd35fe",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/01-image-edit/server-request.log": "02c41628bae2477fe2841333cec0157968d6e69fbd8c5304dd013ea482840702",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/01-image-edit/response.json": "38485e67b6160d5a38d2f267c5477b0e72879979a1f0a4054141a3def637cede",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/02-image-edit/server-request.log": "a2654d98bd96ee5737a5dbcb552ebe4bd9b5794fd9699a18cd0bd6ee74de32fb",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/02-image-edit/response.json": "b470d276466d7f450b41b1eac19ea4646a12406b503499624f9f496c5382ff45",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/03-image-edit/server-request.log": "66b7e93e6b82c67e7f54aed379aa1fd5cc5644956c3b3b02f6b38c7c458db7a7",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/03-image-edit/response.json": "b2a263bbec0d920cdad5a4d6e0cd361ab913b4d7dd871c8119fe369318b289e2",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/04-image-edit/server-request.log": "93049967d66f9693c98fc6470075e1f26b3cc4a3e0b9e03a015b7fceb6a2ec40",
+    "runs/qwen21-prefix-final-omni-stages-01/outputs/04-image-edit/response.json": "0ba352c8f9a300d63a950185bea1c57f9fa96ab17b27c988d4686649be568f16",
+    "runs/qwen21-prefix-final-main-stages-01/status.json": "37495553d003f0c3807ec7aad5f2be17735adb908c5ab7cc5a8b5474dd227bd4",
+    "runs/qwen21-prefix-final-main-stages-01/visit.json": "b0a0de5a83b8fbe5f0f814e96929d66e93b283c21e2fb213d3fabb4b5080aa0c",
+    "runs/qwen21-prefix-final-main-stages-01/outputs/results.json": "f43525069ba3d21bc5c744a9686f9593d48072dd513385acf5322310c5aeabb8",
+    "runs/qwen21-prefix-final-main-stages-01/outputs/00-image-edit/perf.json": "275bdfed3fa605ad9e84456a6ed1b9f82a241736f07af622b6f97a44fd1475f6",
+    "runs/qwen21-prefix-final-main-stages-01/outputs/01-image-edit/perf.json": "1cddaeb65a56617ae95cfa22c4c114c0c421d16b4f5bca954570f5007e0a22ac",
+    "runs/qwen21-prefix-final-main-stages-01/outputs/02-image-edit/perf.json": "849d05a333bc8ad5d6f63a1f2422edfbabeb4415afc65afb5f5fdcd465833aa4",
+    "runs/qwen21-prefix-final-main-stages-01/outputs/03-image-edit/perf.json": "6815d062f0e479c94087480ae56ce6e1e15bb526571274b517b20130f61a354c",
+    "runs/qwen21-prefix-final-main-stages-01/outputs/04-image-edit/perf.json": "7f1331abe9f3c708198c3f0afec78bd462bcadf6ac4c150da195a9d34ecf6d42",
+    "runs/qwen21-prefix-final-cleanup-stages-01/status.json": "3d895798c785b6943f64b6d856d8949e93b11a62242af6b5a3c07e2b6282459b",
+    "runs/qwen21-prefix-final-cleanup-stages-01/visit.json": "bc3bd675f084685dae63b6583a8b291938eadf11e85581b41cae15c0f4f15a3c",
+    "runs/qwen21-prefix-final-cleanup-stages-01/outputs/results.json": "72b3148d90f2ea1dedda071f596311319f5f5324ec988b4879bd39bde505d69e",
+    "runs/qwen21-prefix-final-cleanup-stages-01/outputs/00-image-edit/perf.json": "ed4714585e3a703e6fbbc2888c83df1fd737e52cc189afe25c857a83a3d541a3",
+    "runs/qwen21-prefix-final-cleanup-stages-01/outputs/01-image-edit/perf.json": "2c5fbad0555168ebfb68019e1ce737104feafa5851505bd938d271b54199f1d6",
+    "runs/qwen21-prefix-final-cleanup-stages-01/outputs/02-image-edit/perf.json": "3d4cdf568612924353d501cc8f036113edc96428ad8324eb1c14ef80df484d1d",
+    "runs/qwen21-prefix-final-cleanup-stages-01/outputs/03-image-edit/perf.json": "c6f8bf52cb76ab1977977cba58aabad77dd97049baf88a16a5bf40b8e91fef66",
+    "runs/qwen21-prefix-final-cleanup-stages-01/outputs/04-image-edit/perf.json": "9b115d2f51e87f1be660dbac4b74049eff29349943f43385d933b446c57db014",
+    "runs/qwen21-prefix-final-cleanup-stages-02/status.json": "d4095ac1a90e529e8bffc5e8740c3364cc5fe39bd5fb7ee81cf87690e60374ee",
+    "runs/qwen21-prefix-final-cleanup-stages-02/visit.json": "bc3bd675f084685dae63b6583a8b291938eadf11e85581b41cae15c0f4f15a3c",
+    "runs/qwen21-prefix-final-cleanup-stages-02/outputs/results.json": "c9f3f2b8293e4250270383a03aa5acf9bdc676145afcbc50191b105b778232bc",
+    "runs/qwen21-prefix-final-cleanup-stages-02/outputs/00-image-edit/perf.json": "e1a9b2094bc551d1e2a879625bdf77b71edcfc90a000b26bb1fb5c601c88bc79",
+    "runs/qwen21-prefix-final-cleanup-stages-02/outputs/01-image-edit/perf.json": "a086130f4a9c9a91e800e6afec2d4c0561e7d34b108d7bcd59cfd87a5db8d802",
+    "runs/qwen21-prefix-final-cleanup-stages-02/outputs/02-image-edit/perf.json": "fb16ad790e0df31240f296bb00673861b35750fd30129a6d6ca8049850b1b537",
+    "runs/qwen21-prefix-final-cleanup-stages-02/outputs/03-image-edit/perf.json": "86e5c748261e579707b896c2cb52678936a0c19f107c9b208a9ea3b097bc646a",
+    "runs/qwen21-prefix-final-cleanup-stages-02/outputs/04-image-edit/perf.json": "9a7abfb62a2f89d29a4b458156028d7daab06a1835bc3e9077d4f43cb168eed1",
+    "runs/qwen21-prefix-final-main-stages-02/status.json": "621065be0f8660a4449425219d1ea7800f05172ca761f1c6bbfa52fbbf9e4373",
+    "runs/qwen21-prefix-final-main-stages-02/visit.json": "b0a0de5a83b8fbe5f0f814e96929d66e93b283c21e2fb213d3fabb4b5080aa0c",
+    "runs/qwen21-prefix-final-main-stages-02/outputs/results.json": "eecaabc3cbd3ec5dc93c1c86c6afaaf94d2e91eba7d65af0def6bc90df8414e4",
+    "runs/qwen21-prefix-final-main-stages-02/outputs/00-image-edit/perf.json": "81775e387b721c547dbc77ca052b7fe1896cff0ea3c3c48de0df242c40499bb2",
+    "runs/qwen21-prefix-final-main-stages-02/outputs/01-image-edit/perf.json": "198f0822047da65065d0fd81f86d2af912a3d75ad4341a8a25ae84636f7ff2c2",
+    "runs/qwen21-prefix-final-main-stages-02/outputs/02-image-edit/perf.json": "1c4e800d633204abaed2970532f183b7146780c37f8235b5108d2f26162f6897",
+    "runs/qwen21-prefix-final-main-stages-02/outputs/03-image-edit/perf.json": "004df10f916bde72b894115be11c267df11011696cd028403ca2da2913a5b87c",
+    "runs/qwen21-prefix-final-main-stages-02/outputs/04-image-edit/perf.json": "57bd3487d170aa142146d6e79032dcadd2925b3074a597be4e081813c4b1735a",
+    "runs/qwen21-prefix-final-omni-stages-02/status.json": "e8353bb71d39e70c97e153eb1e7da2c66de39de528f31f9a3fab667ca02b9765",
+    "runs/qwen21-prefix-final-omni-stages-02/visit.json": "d0f1e8102eb95f9d401994d6a92e79bf3e63a55b5648e6bc862b65e6d769858c",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/results.json": "e6873ce57803888c45187fc0e3b6c2e3f1175ff79b01e9a1fa2e12568c44302f",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/00-image-edit/server-request.log": "364cfaae8eb2639b00ffddf72c25fa9f3f0548f82644a0aa5b7e691a961bf01f",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/00-image-edit/response.json": "7f42a27c4b733c5c3ff67dfa383d8406e3ec685795cc1c86aa2db55bfb6d514f",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/01-image-edit/server-request.log": "c67a44419fbc7356c6f3bac8227d4b9c1e2749c411aac9eb1b7f363e8a2cd5a3",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/01-image-edit/response.json": "3369bf7d936f8924fbc9eaa7a08ddac2e291b75f8e0c8efb80beab8287ac4ade",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/02-image-edit/server-request.log": "c4336ccb99cb30ab787de7078aaf5891c9405030ae9ff81d67810274ff0606c5",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/02-image-edit/response.json": "209ddc88ec8dd1e838881816c451aa3bc756ed20e81649d3eb96474634732864",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/03-image-edit/server-request.log": "1c609b7408a019bbd3bc8c264aa7ab075a9151b5439f1787b9fcd0fafe98ebc7",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/03-image-edit/response.json": "fb9e634a12a736515388777075622cb55bf110903cdf17257acec3b006a47f5d",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/04-image-edit/server-request.log": "4b98855a8fdc9094c31f09929375b79568da6e2c82d3c78e206ed4dc4dd4fe52",
+    "runs/qwen21-prefix-final-omni-stages-02/outputs/04-image-edit/response.json": "7cd4b975ff6e394da1cb9ba67394d193a0cf5bc74f4d62e300e7a23a2e583dae"
+  },
+  "limitations": [
+    "Native synchronized wall timers, not Torch Profiler. Instrumented E2E is retained but excluded from quiet latency and throughput claims.",
+    "SGLang DenoisingStage includes loop/scheduler and synchronous per-step timers. Omni native diffuse may be one full loop or 50 denoise_step calls; actual count is reported. With 50 calls, scheduler work outside denoise_step is excluded, so boundaries are not identical.",
+    "No inferred denoise time from default stage_gen_time_ms / steps.",
+    "Six measured samples per arm, all retained; no distributional confidence claim."
+  ]
+}

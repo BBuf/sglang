@@ -1,0 +1,97 @@
+{
+  "frozen_at": "2026-11-14T13:47:01.455855+00:00",
+  "heads": {
+    "main": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+    "eager": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+    "PR": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5",
+    "omni": "aa2968e858a718989332a61ad40758024cb4a3a5"
+  },
+  "visits": [
+    {
+      "mode": "eager",
+      "phase": "AA",
+      "arm": "sgl",
+      "run": "qwen21-codec0-eager-AA-01",
+      "plan": "inputs/qwen21-codec0-eager-quiet-01.json"
+    },
+    {
+      "mode": "main",
+      "phase": "AA",
+      "arm": "sgl",
+      "run": "qwen21-codec0-main-AA-01",
+      "plan": "inputs/qwen21-codec0-main-quiet-01.json"
+    },
+    {
+      "mode": "main",
+      "phase": "AA",
+      "arm": "sgl",
+      "run": "qwen21-codec0-main-AA-02",
+      "plan": "inputs/qwen21-codec0-main-quiet-01.json"
+    },
+    {
+      "mode": "eager",
+      "phase": "AA",
+      "arm": "sgl",
+      "run": "qwen21-codec0-eager-AA-02",
+      "plan": "inputs/qwen21-codec0-eager-quiet-01.json"
+    },
+    {
+      "mode": "omni",
+      "phase": "paired",
+      "arm": "omni",
+      "run": "qwen21-codec0-omni-paired-01",
+      "plan": "inputs/qwen21-codec0-omni-quiet-01.json"
+    },
+    {
+      "mode": "main",
+      "phase": "paired",
+      "arm": "sgl",
+      "run": "qwen21-codec0-main-paired-01",
+      "plan": "inputs/qwen21-codec0-main-quiet-01.json"
+    },
+    {
+      "mode": "PR",
+      "phase": "paired",
+      "arm": "sgl",
+      "run": "qwen21-codec0-PR-paired-01",
+      "plan": "inputs/qwen21-codec0-PR-quiet-01.json"
+    },
+    {
+      "mode": "PR",
+      "phase": "paired",
+      "arm": "sgl",
+      "run": "qwen21-codec0-PR-paired-02",
+      "plan": "inputs/qwen21-codec0-PR-quiet-01.json"
+    },
+    {
+      "mode": "main",
+      "phase": "paired",
+      "arm": "sgl",
+      "run": "qwen21-codec0-main-paired-02",
+      "plan": "inputs/qwen21-codec0-main-quiet-01.json"
+    },
+    {
+      "mode": "omni",
+      "phase": "paired",
+      "arm": "omni",
+      "run": "qwen21-codec0-omni-paired-02",
+      "plan": "inputs/qwen21-codec0-omni-quiet-01.json"
+    }
+  ],
+  "physical_gpus": [
+    0
+  ],
+  "actual_png_compress_level": 0,
+  "API_values": {
+    "sglang": 0,
+    "omni": 100
+  },
+  "prior_non_equivalent_E2E_retained_but_excluded": true,
+  "plan_sha256": {
+    "inputs/qwen21-codec0-eager-quiet-01.json": "6cb7bfbbab1a67beee8db6ffd95539208aa034e7141fe5f3c5119c715d487780",
+    "inputs/qwen21-codec0-main-quiet-01.json": "5e03cab12f76a906a6698c5cca9374b9cd82cfde848941d042755ce53f02544b",
+    "inputs/qwen21-codec0-PR-quiet-01.json": "979b7489e699588f55e3662bc28e8472080154971b48a5eb7fc85809d24fdb31",
+    "inputs/qwen21-codec0-omni-quiet-01.json": "82bedf4c45185b9685a4979cb92f5aa29b5cebf1dce79d5e738d38a3f956f07c"
+  },
+  "protocol": "E-M-M-E AA, then O-M-F-F-M-O paired; each2warm+7measure; full50step1024edit. E=main eager,M=mainBCG,F=PR15bBCG. All requests admitted before timing; allactualPNGdeflateblocks stored, decodedRGBA unchanged frompreviousencoding. No source change, SGLcompile/offload or disabledOmnifastpath."
+}

@@ -1,0 +1,28 @@
+{
+  "pid": 25576,
+  "pgid": 25576,
+  "start_ticks": "707152276",
+  "command": [
+    "/task/envs/omni/bin/vllm",
+    "serve",
+    "/prior-task/cache/common/Qwen-Image-2.1",
+    "--omni",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "32151",
+    "--num-gpus",
+    "1",
+    "--tensor-parallel-size",
+    "1"
+  ],
+  "explicit_environment": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "TOKENIZERS_PARALLELISM": "false",
+    "FLASHINFER_DISABLE_VERSION_CHECK": "1",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "0",
+    "LD_PRELOAD": "/task/envs/omni-cudnn/nvidia/cudnn/lib/libcudnn.so.9",
+    "LD_LIBRARY_PATH": "/task/envs/omni-cudnn/nvidia/cudnn/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+    "VLLM_OMNI_SERVER_STORAGE__PATH": "/task/runs/qwen21-codec0-omni-paired-02/server-storage"
+  }
+}

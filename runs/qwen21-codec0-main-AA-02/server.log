@@ -1,0 +1,421 @@
+[11-14 13:52:28] Applying performance_mode=speed
+[11-14 13:52:28] server_args: {"model_path": "/prior-task/cache/common/Qwen-Image-2.1", "model_subfolder": null, "model_variant": null, "model_id": null, "served_model_name": "/prior-task/cache/common/Qwen-Image-2.1", "backend": "sglang", "attention_backend": null, "enable_attention_backend_autotune": false, "attention_backend_config": {}, "component_attention_backends": {"transformer": "torch_cudnn_sdpa"}, "component_attention_backend_roles": {}, "cache_dit_config": null, "nccl_port": null, "enable_nccl_nvls": false, "trust_remote_code": false, "revision": null, "num_gpus": 1, "performance_mode": "speed", "base_gpu_id": 0, "gpu_ids": null, "numa_node": null, "nnodes": 1, "node_rank": 0, "dist_init_addr": null, "tp_size": 1, "sp_degree": 1, "ulysses_degree": 1, "ring_degree": 1, "kv_gather_degree": 1, "sp_split_auto": false, "dp_size": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "encoder_parallel": "auto", "hsdp_replicate_dim": 1, "hsdp_shard_dim": 1, "dist_timeout": 3600, "scheduler_rpc_timeout": null, "pipeline_class_name": "QwenImage21Pipeline", "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_alpha": null, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "component_weights_paths": {}, "component_direct_gpu_weight_loading": {}, "component_quantizations": {}, "component_precisions": {}, "component_quantization_ignored_layers": {}, "load_diffusion_decoder": false, "transformer_weights_path": null, "minimax_h3_adaln_cache_path": null, "minimax_h3_adaln_online": null, "minimax_h3_adaln_plan_width": null, "minimax_h3_adaln_host_cache_gb": null, "quantization": null, "quantization_ignored_layers": null, "lora_target_modules": null, "component_residency": null, "cpu_offload_components": null, "dit_cpu_offload": false, "direct_gpu_weight_loading": false, "dit_layerwise_offload": false, "layerwise_offload_components": null, "dit_offload_prefetch_size": 0.0, "dit_layerwise_resident_layers": 0.0, "dit_layerwise_residency_policy": "leading", "dit_layerwise_residency_lifetime": "forward", "layerwise_prefetch_size": {}, "layerwise_resident_layers": {}, "layerwise_residency_policy": {}, "layerwise_residency_lifetime": {}, "offload_during_compile": true, "text_encoder_cpu_offload": false, "image_encoder_cpu_offload": false, "vae_cpu_offload": false, "use_fsdp_inference": false, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": null, "comfyui_mode": false, "enable_torch_compile": false, "regional_compile": false, "allow_cudnn_tf32": true, "allow_bf16_reduced_precision_reduction": true, "enable_breakable_cuda_graph": true, "bcg_text_buckets": [64, 384, 4224], "enable_layerwise_nvtx_marker": false, "warmup_mode": "server", "warmup_resolutions": ["1024x1024"], "warmup_num_frames": null, "warmup_steps": 50, "warmup_sampling_params": "{\"quality\":\"lossless\"}", "disable_autocast": true, "master_port": 30005, "host": "127.0.0.1", "port": 32150, "http_graceful_shutdown_timeout": null, "enable_metrics": false, "webui": false, "webui_port": 12312, "scheduler_port": 5609, "scheduler_ports": [5609], "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "async_output_save": false, "sleep_on_idle": false, "strict_ports": false, "output_path": "outputs/", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_transfer_pool_size": 268435456, "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "prompt_encoder_urls": null, "image_encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "log_level": "info", "log_requests": false, "log_requests_level": 2, "log_requests_format": "text", "log_requests_target": null, "uvicorn_access_log_exclude_prefixes": [], "enable_cache_report": false, "disable_conditioning_cache": false, "conditioning_cache_max_size_mb": 512.0, "enable_trace": false, "otlp_traces_endpoint": "localhost:4317", "otlp_service_name": null, "srt_encoder_url": null, "srt_encoder_connect_timeout": 3.05, "srt_encoder_timeout": 100, "pe_server_url": null, "prompt_enhancer_config": null}
+[11-14 13:52:28] Starting server...
+[11-14 13:52:39] GPU 0 worker bound to NUMA node 0
+[11-14 13:52:39] Scheduler (dp replica 0) bind at endpoint: tcp://127.0.0.1:5609
+[11-14 13:52:39] Numerics policy: cudnn TF32 and bf16 reduced-precision reduction enabled. These lower precision below the reference, so quality='exact' is bit-reproducible on this server but not free of approximate library defaults. Pass --allow-cudnn-tf32 false --allow-bf16-reduced-precision-reduction false for the strict contract (slower fp32 convolutions).
+[11-14 13:52:39] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/root/.cache/sgl_diffusion/torch_compile_cache/inductor TRITON_CACHE_DIR=/root/.cache/sgl_diffusion/torch_compile_cache/triton
+[11-14 13:52:39] Initializing distributed environment with world_size=1, device=cuda:0, timeout=3600
+[11-14 13:52:39] Setting distributed timeout to 3600 seconds
+[11-14 13:52:41] Requested pipeline_class_name: QwenImage21Pipeline
+[11-14 13:52:41] Available pipelines in registry: ['AnimaModularPipeline', 'Cosmos3OmniPipeline', 'Cosmos3OmniDiffusersPipeline', 'CosmosDreamsPipeline', 'Cosmos3NanoSimBimanualPipeline', 'CosmosDreamsRealtimePipeline', 'Cosmos3NanoSimTransferPipeline', 'Cosmos3MultiviewPipeline', 'Cosmos3NanoSimAutoPipeline', 'DiffusersPipeline', 'ErnieImagePipeline', 'FluxPipeline', 'Flux3ActionPipeline', 'Flux3ImagePipeline', 'Flux2Pipeline', 'Flux2KleinPipeline', 'Flux2NvfpPipeline', 'GlmImagePipeline', 'HeliosPipeline', 'HeliosPyramidPipeline', 'HiDreamO1ImagePipeline', 'Hunyuan3D2Pipeline', 'HunyuanImage3Pipeline', 'HunyuanVideoPipeline', 'Ideogram4Pipeline', 'Ideogram4Nvfp4Pipeline', 'Ideogram4FastPipeline', 'Ideogram4InstantPipeline', 'JoyEchoPipeline', 'JoyImageEditPipeline', 'Kandinsky6TI2VAPipeline', 'Kandinsky6SRPipeline', 'Krea2Pipeline', 'LingBotVideoPipeline', 'LingBotWorldCausalDMDPipeline', 'LLaDAImagePipeline', 'LongCatImagePipeline', 'LongCatImageEditPipeline', 'LongLive2Pipeline', 'LTX2Pipeline', 'LTX2TwoStagePipeline', 'LTX2TwoStageHQPipeline', 'MingImagePipeline', 'MiniMaxH3Pipeline', 'FastH3Pipeline', 'PikaH3FlexPipeline', 'MiniMaxH3ImagePipeline', 'VDNH3Pipeline', 'MOSSImagePipeline', 'MOVA', 'MOVAPipeline', 'NomasPipeline', 'Pi05Pipeline', 'PraxisPipeline', 'QwenImagePipeline', 'QwenImageEditPipeline', 'QwenImageEditPlusPipeline', 'QwenImageLayeredPipeline', 'QwenImage21Pipeline', 'SanaPipeline', 'SanaVideoPipeline', 'SanaVideo2Pipeline', 'SanaWMPipeline', 'SanaWMTwoStagePipeline', 'SanaWMRealtimePipeline', 'SenseNovaU1Pipeline', 'StableDiffusion3Pipeline', 'WanAnimate2Pipeline', 'WanCausalDMDPipeline', 'WanDMDPipeline', 'WanImageToVideoDmdPipeline', 'WanImageToVideoPipeline', 'WanPipeline', 'ZImagePipeline']
+[11-14 13:52:41] ✓ Using explicitly specified pipeline: QwenImage21Pipeline (class: QwenImage21Pipeline)
+[11-14 13:52:41] Loading pipeline modules...
+[11-14 13:52:41] Model already exists locally and is complete
+[11-14 13:52:41] Model path: /prior-task/cache/common/Qwen-Image-2.1
+[11-14 13:52:41] Diffusers version: 0.37.0.dev0
+[11-14 13:52:41] Loading pipeline modules from config: {'_class_name': 'QwenImage21Pipeline', '_diffusers_version': '0.37.0.dev0', 'processor': ['transformers', 'Qwen3VLProcessor'], 'scheduler': ['diffusers', 'FlowMatchEulerDiscreteScheduler'], 'text_encoder': ['transformers', 'Qwen3VLForConditionalGeneration'], 'transformer': ['diffusers', 'QwenImage21Transformer2DModel'], 'vae': ['diffusers', 'AutoencoderKLQwenImage21']}
+[11-14 13:52:41] Loading required components: ['processor', 'text_encoder', 'transformer', 'vae', 'scheduler']
+[11-14 13:52:41] Memory-aware component load order: ['text_encoder', 'transformer', 'vae', 'processor', 'scheduler']
+Loading required modules:   0%|          | 0/5 [00:00<?, ?it/s][11-14 13:52:41] Loading text_encoder from /prior-task/cache/common/Qwen-Image-2.1/text_encoder. avail mem: 93.77 GB
+[11-14 13:52:41] Defaulting to Torch SDPA backend on SM12.x
+[11-14 13:52:41] Defaulting to Torch SDPA backend on SM12.x
+
+Loading safetensors checkpoint shards: 0%|          | 0/4[A
+Loading safetensors checkpoint shards: 25%|██▌       | 1/4[A
+Loading safetensors checkpoint shards: 50%|█████     | 2/4[A
+Loading safetensors checkpoint shards: 75%|███████▌  | 3/4[A
+Loading safetensors checkpoint shards: 100%|██████████| 4/4[ALoading safetensors checkpoint shards: 100%|██████████| 4/4
+[11-14 13:52:43] Attention backends for text_encoder: torch_sdpa
+[11-14 13:52:43] Loaded text_encoder: Qwen3VLForConditionalGeneration (sgl-diffusion version). model size: 16.46 GB, vram: 16.46 GB. avail GPU mem: 77.15 GB
+Loading required modules:  20%|██        | 1/5 [00:02<00:08,  2.20s/it][11-14 13:52:43] Using torch_cudnn_sdpa backend for component: transformer
+[11-14 13:52:43] Loading transformer from /prior-task/cache/common/Qwen-Image-2.1/transformer. avail mem: 77.15 GB
+[11-14 13:52:43] Loading QwenImage21Transformer2DModel from 2 safetensors file(s) , param_dtype: torch.bfloat16
+
+Loading safetensors checkpoint shards: 0%|          | 0/2[ALoading safetensors checkpoint shards: 100%|██████████| 2/2
+[11-14 13:52:45] Attention backends for transformer: torch_cudnn_sdpa
+[11-14 13:52:45] Loaded transformer: QwenImage21Transformer2DModel (sgl-diffusion version). model size: 13.25 GB, vram: 13.25 GB. avail GPU mem: 61.90 GB
+Loading required modules:  40%|████      | 2/5 [00:03<00:05,  1.95s/it][11-14 13:52:45] Loading vae from /prior-task/cache/common/Qwen-Image-2.1/vae. avail mem: 61.90 GB
+[11-14 13:52:45] Qwen-Image 2.1 VAE: 35 fused RMSNorm+SiLU sites, 43 convs with folded padding, 4 channels_last upsamplers, 4 folded upsample+conv pairs (channels_last decode and the fold at quality extra-high/high).
+/opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+[11-14 13:52:45] Loaded vae: AutoencoderKLQwenImage21 (sgl-diffusion version). model size: 0.63 GB, vram: 0.63 GB. avail GPU mem: 61.89 GB
+Loading required modules:  60%|██████    | 3/5 [00:04<00:02,  1.21s/it][11-14 13:52:45] Loading processor from /prior-task/cache/common/Qwen-Image-2.1/processor. avail mem: 61.89 GB
+[11-14 13:52:46] Loaded processor: Qwen3VLProcessor (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 61.89 GB
+Loading required modules:  80%|████████  | 4/5 [00:05<00:01,  1.14s/it][11-14 13:52:46] Loading scheduler from /prior-task/cache/common/Qwen-Image-2.1/scheduler. avail mem: 61.89 GB
+[11-14 13:52:46] Loaded scheduler: FlowMatchEulerDiscreteScheduler (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 61.89 GB
+Loading required modules: 100%|██████████| 5/5 [00:05<00:00,  1.07s/it]
+[11-14 13:52:46] Creating pipeline stages...
+[11-14 13:52:46] Using torch_cudnn_sdpa attention backend
+[11-14 13:52:46] Pipeline instantiated
+[11-14 13:52:46] Worker 0: Initialized device, model, and distributed environment.
+[11-14 13:52:47] Worker 0: Scheduler loop started.
+[11-14 13:52:47] [server-load] workers_ready_monotonic_ns=7070460065328829
+[11-14 13:52:47] Starting FastAPI server.
+[2026-11-14 13:52:48] [32mINFO[0m:     Started server process [[36m75601[0m]
+[2026-11-14 13:52:48] [32mINFO[0m:     Waiting for application startup.
+[11-14 13:52:48] ZMQ Broker is listening for offline jobs on tcp://127.0.0.1:32151
+[2026-11-14 13:52:48] [32mINFO[0m:     Application startup complete.
+[2026-11-14 13:52:48] [32mINFO[0m:     Uvicorn running on [1mhttp://127.0.0.1:32150[0m (Press CTRL+C to quit)
+[2026-11-14 13:52:49] [32mINFO[0m:     127.0.0.1:44610 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+Warmup requests:   0%|          | 0/1 [00:00<?, ?req/s][2026-11-14 13:52:49] [32mINFO[0m:     127.0.0.1:44616 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:52:51] [Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 64, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))
+[11-14 13:52:51] [Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 384, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))
+[2026-11-14 13:52:51] [32mINFO[0m:     127.0.0.1:44628 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:52:51] [Diffusion BCG] captured 33 segment(s), 5 tensor input(s) for signature (('condition_latents', ('const', None)), ('encoder_attention_mask', ('const', None)), ('encoder_hidden_states', ('const', None)), ('encoder_hidden_states_2', ('const', None)), ('encoder_hidden_states_image', ('const', None)), ('encoder_hidden_states_mask', ('const', None)), ('guidance', ('const', None)), ('hidden_states', ('tensor', (1, 4096, 64), 'torch.bfloat16')), ('layouts', ('list', 1, (('dict', 1, (('target_rope', ('tensor', (4096, 64), 'torch.complex64')),)),))), ('prefix_caches', ('const', None)), ('prefix_kv', ('tensor', (64, 1, 4224, 32, 128), 'torch.bfloat16')), ('prefix_pad', ('tensor', (), 'torch.int64')), ('timestep', ('tensor', (1,), 'torch.float32')))
+[2026-11-14 13:52:53] [32mINFO[0m:     127.0.0.1:39938 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-14 13:52:55] [32mINFO[0m:     127.0.0.1:39942 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-14 13:52:58] [32mINFO[0m:     127.0.0.1:39946 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-14 13:53:00] [32mINFO[0m:     127.0.0.1:39962 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+Warmup requests: 100%|██████████| 1/1 [00:12<00:00, 12.95s/req, server warmup req (1024x1024, 50/40 steps), last=12.35s]Warmup requests: 100%|██████████| 1/1 [00:12<00:00, 12.95s/req, server warmup req (1024x1024, 50/40 steps), last=12.35s]
+[11-14 13:53:02] The server is fired up and ready to roll!
+[2026-11-14 13:53:02] [32mINFO[0m:     127.0.0.1:39966 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:53:02] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/ef9188b5-9279-4e7a-92f5-04951688318c_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/ef9188b5-9279-4e7a-92f5-04951688318c.png
+        
+[11-14 13:53:02] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:53:02] [QwenImage21InputValidationStage] started...
+[11-14 13:53:02] [QwenImage21InputValidationStage] finished in 0.0479 seconds
+[11-14 13:53:02] [QwenImage21EncodingStage] started...
+[11-14 13:53:02] [QwenImage21EncodingStage] finished in 0.2463 seconds
+[11-14 13:53:02] [LatentPreparationStage] started...
+[11-14 13:53:02] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:53:02] [TimestepPreparationStage] started...
+[11-14 13:53:02] [TimestepPreparationStage] finished in 0.0004 seconds
+[11-14 13:53:02] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:09,  5.24it/s]  4%|▍         | 2/50 [00:00<00:13,  3.65it/s]  6%|▌         | 3/50 [00:00<00:11,  4.01it/s]  8%|▊         | 4/50 [00:00<00:10,  4.19it/s] 10%|█         | 5/50 [00:01<00:10,  4.29it/s] 12%|█▏        | 6/50 [00:01<00:10,  4.35it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.40it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.42it/s] 18%|█▊        | 9/50 [00:02<00:09,  4.44it/s] 20%|██        | 10/50 [00:02<00:08,  4.46it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.46it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.47it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.47it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.47it/s] 30%|███       | 15/50 [00:03<00:07,  4.48it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.48it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.48it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.48it/s] 38%|███▊      | 19/50 [00:04<00:06,  4.48it/s] 40%|████      | 20/50 [00:04<00:06,  4.48it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.48it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.48it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.48it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.48it/s] 50%|█████     | 25/50 [00:05<00:05,  4.47it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.48it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.48it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.48it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.48it/s] 60%|██████    | 30/50 [00:06<00:04,  4.47it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.47it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.48it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.48it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.48it/s] 70%|███████   | 35/50 [00:07<00:03,  4.48it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.47it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.47it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.47it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.47it/s] 80%|████████  | 40/50 [00:09<00:02,  4.47it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.47it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.47it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.47it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.47it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.47it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.47it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.47it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.47it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.47it/s]100%|██████████| 50/50 [00:11<00:00,  4.47it/s]100%|██████████| 50/50 [00:11<00:00,  4.45it/s]
+[11-14 13:53:14] [QwenImage21DenoisingStage] average time per step: 0.2249 seconds
+[11-14 13:53:14] [QwenImage21DenoisingStage] finished in 11.2450 seconds
+[11-14 13:53:14] [DecodingStage] started...
+[11-14 13:53:14] [DecodingStage] finished in 0.0099 seconds
+[11-14 13:53:14] Output saved to [1;36moutputs/ef9188b5-9279-4e7a-92f5-04951688318c.png[0;0m
+[11-14 13:53:14] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/00-image-edit/perf.json[0;0m
+[11-14 13:53:14] Pixel data generated successfully in [92m11.85[0;0m seconds
+[11-14 13:53:14] Peak memory usage: 46976.00 MB
+[2026-11-14 13:53:14] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:53:14] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/9bb0a3e7-862a-4f8a-ab45-c95d950b5c61_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/9bb0a3e7-862a-4f8a-ab45-c95d950b5c61.png
+        
+[11-14 13:53:14] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:53:14] [QwenImage21InputValidationStage] started...
+[11-14 13:53:14] [QwenImage21InputValidationStage] finished in 0.0435 seconds
+[11-14 13:53:14] [QwenImage21EncodingStage] started...
+[11-14 13:53:14] [QwenImage21EncodingStage] finished in 0.0352 seconds
+[11-14 13:53:14] [LatentPreparationStage] started...
+[11-14 13:53:14] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:53:14] [TimestepPreparationStage] started...
+[11-14 13:53:14] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:53:14] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.14it/s]  4%|▍         | 2/50 [00:00<00:10,  4.42it/s]  6%|▌         | 3/50 [00:00<00:10,  4.44it/s]  8%|▊         | 4/50 [00:00<00:10,  4.45it/s] 10%|█         | 5/50 [00:01<00:10,  4.46it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.46it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.46it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.46it/s] 18%|█▊        | 9/50 [00:01<00:09,  4.46it/s] 20%|██        | 10/50 [00:02<00:08,  4.46it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.46it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.46it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.46it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.46it/s] 30%|███       | 15/50 [00:03<00:07,  4.46it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.46it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.46it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.46it/s] 38%|███▊      | 19/50 [00:04<00:06,  4.46it/s] 40%|████      | 20/50 [00:04<00:06,  4.46it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.46it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.46it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.46it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.46it/s] 50%|█████     | 25/50 [00:05<00:05,  4.46it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.46it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.46it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.46it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.45it/s] 60%|██████    | 30/50 [00:06<00:04,  4.45it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.46it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.46it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.46it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.45it/s] 70%|███████   | 35/50 [00:07<00:03,  4.46it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.46it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.46it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.46it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.45it/s] 80%|████████  | 40/50 [00:08<00:02,  4.46it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.45it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.45it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.45it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.45it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.45it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.45it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.45it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.45it/s] 98%|█████████▊| 49/50 [00:10<00:00,  4.46it/s]100%|██████████| 50/50 [00:11<00:00,  4.46it/s]100%|██████████| 50/50 [00:11<00:00,  4.47it/s]
+[11-14 13:53:25] [QwenImage21DenoisingStage] average time per step: 0.2238 seconds
+[11-14 13:53:25] [QwenImage21DenoisingStage] finished in 11.1882 seconds
+[11-14 13:53:25] [DecodingStage] started...
+[11-14 13:53:25] [DecodingStage] finished in 0.0092 seconds
+[11-14 13:53:26] Output saved to [1;36moutputs/9bb0a3e7-862a-4f8a-ab45-c95d950b5c61.png[0;0m
+[11-14 13:53:26] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/01-image-edit/perf.json[0;0m
+[11-14 13:53:26] Pixel data generated successfully in [92m11.56[0;0m seconds
+[11-14 13:53:26] Peak memory usage: 46976.00 MB
+[2026-11-14 13:53:26] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:53:26] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/ae3f7d12-5da1-4357-a1da-5e44168271f1_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/ae3f7d12-5da1-4357-a1da-5e44168271f1.png
+        
+[11-14 13:53:26] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:53:26] [QwenImage21InputValidationStage] started...
+[11-14 13:53:26] [QwenImage21InputValidationStage] finished in 0.0443 seconds
+[11-14 13:53:26] [QwenImage21EncodingStage] started...
+[11-14 13:53:26] [QwenImage21EncodingStage] finished in 0.0360 seconds
+[11-14 13:53:26] [LatentPreparationStage] started...
+[11-14 13:53:26] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:53:26] [TimestepPreparationStage] started...
+[11-14 13:53:26] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:53:26] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.12it/s]  4%|▍         | 2/50 [00:00<00:10,  4.41it/s]  6%|▌         | 3/50 [00:00<00:10,  4.43it/s]  8%|▊         | 4/50 [00:00<00:10,  4.44it/s] 10%|█         | 5/50 [00:01<00:10,  4.44it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.44it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.44it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.45it/s] 18%|█▊        | 9/50 [00:01<00:09,  4.45it/s] 20%|██        | 10/50 [00:02<00:08,  4.45it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.45it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.45it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.45it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.45it/s] 30%|███       | 15/50 [00:03<00:07,  4.45it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.44it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.45it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.45it/s] 38%|███▊      | 19/50 [00:04<00:06,  4.45it/s] 40%|████      | 20/50 [00:04<00:06,  4.44it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.45it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.45it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.45it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.44it/s] 50%|█████     | 25/50 [00:05<00:05,  4.44it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.45it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.44it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.44it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.44it/s] 60%|██████    | 30/50 [00:06<00:04,  4.44it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.44it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.44it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.44it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.45it/s] 70%|███████   | 35/50 [00:07<00:03,  4.44it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.44it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.44it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.45it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.44it/s] 80%|████████  | 40/50 [00:08<00:02,  4.44it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.44it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.45it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.44it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.44it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.44it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.44it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.44it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.44it/s] 98%|█████████▊| 49/50 [00:10<00:00,  4.44it/s]100%|██████████| 50/50 [00:11<00:00,  4.44it/s]100%|██████████| 50/50 [00:11<00:00,  4.46it/s]
+[11-14 13:53:37] [QwenImage21DenoisingStage] average time per step: 0.2244 seconds
+[11-14 13:53:37] [QwenImage21DenoisingStage] finished in 11.2229 seconds
+[11-14 13:53:37] [DecodingStage] started...
+[11-14 13:53:37] [DecodingStage] finished in 0.0092 seconds
+[11-14 13:53:37] Output saved to [1;36moutputs/ae3f7d12-5da1-4357-a1da-5e44168271f1.png[0;0m
+[11-14 13:53:37] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/02-image-edit/perf.json[0;0m
+[11-14 13:53:37] Pixel data generated successfully in [92m11.60[0;0m seconds
+[11-14 13:53:37] Peak memory usage: 46976.00 MB
+[2026-11-14 13:53:37] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:53:37] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/3ae3dfe9-197f-407b-b6c9-d8792f7545c3_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/3ae3dfe9-197f-407b-b6c9-d8792f7545c3.png
+        
+[11-14 13:53:37] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:53:37] [QwenImage21InputValidationStage] started...
+[11-14 13:53:37] [QwenImage21InputValidationStage] finished in 0.0435 seconds
+[11-14 13:53:37] [QwenImage21EncodingStage] started...
+[11-14 13:53:37] [QwenImage21EncodingStage] finished in 0.0313 seconds
+[11-14 13:53:37] [LatentPreparationStage] started...
+[11-14 13:53:37] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:53:37] [TimestepPreparationStage] started...
+[11-14 13:53:37] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:53:37] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.12it/s]  4%|▍         | 2/50 [00:00<00:10,  4.40it/s]  6%|▌         | 3/50 [00:00<00:10,  4.42it/s]  8%|▊         | 4/50 [00:00<00:10,  4.43it/s] 10%|█         | 5/50 [00:01<00:10,  4.43it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.43it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.44it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.44it/s] 18%|█▊        | 9/50 [00:01<00:09,  4.44it/s] 20%|██        | 10/50 [00:02<00:09,  4.44it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.44it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.44it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.44it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.44it/s] 30%|███       | 15/50 [00:03<00:07,  4.44it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.44it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.44it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.44it/s] 38%|███▊      | 19/50 [00:04<00:06,  4.44it/s] 40%|████      | 20/50 [00:04<00:06,  4.44it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.44it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.44it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.44it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.44it/s] 50%|█████     | 25/50 [00:05<00:05,  4.43it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.44it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.44it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.44it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.43it/s] 60%|██████    | 30/50 [00:06<00:04,  4.44it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.44it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.44it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.44it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.44it/s] 70%|███████   | 35/50 [00:07<00:03,  4.44it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.43it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.44it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.44it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.43it/s] 80%|████████  | 40/50 [00:08<00:02,  4.43it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.43it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.43it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.43it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.43it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.43it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.43it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.43it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.43it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.44it/s]100%|██████████| 50/50 [00:11<00:00,  4.43it/s]100%|██████████| 50/50 [00:11<00:00,  4.45it/s]
+[11-14 13:53:49] [QwenImage21DenoisingStage] average time per step: 0.2249 seconds
+[11-14 13:53:49] [QwenImage21DenoisingStage] finished in 11.2448 seconds
+[11-14 13:53:49] [DecodingStage] started...
+[11-14 13:53:49] [DecodingStage] finished in 0.0094 seconds
+[11-14 13:53:49] Output saved to [1;36moutputs/3ae3dfe9-197f-407b-b6c9-d8792f7545c3.png[0;0m
+[11-14 13:53:49] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/03-image-edit/perf.json[0;0m
+[11-14 13:53:49] Pixel data generated successfully in [92m11.61[0;0m seconds
+[11-14 13:53:49] Peak memory usage: 46976.00 MB
+[2026-11-14 13:53:49] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:53:49] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/386089f4-b8b6-43aa-a80a-fe3d81ec9ab0_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/386089f4-b8b6-43aa-a80a-fe3d81ec9ab0.png
+        
+[11-14 13:53:49] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:53:49] [QwenImage21InputValidationStage] started...
+[11-14 13:53:49] [QwenImage21InputValidationStage] finished in 0.0435 seconds
+[11-14 13:53:49] [QwenImage21EncodingStage] started...
+[11-14 13:53:49] [QwenImage21EncodingStage] finished in 0.0321 seconds
+[11-14 13:53:49] [LatentPreparationStage] started...
+[11-14 13:53:49] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:53:49] [TimestepPreparationStage] started...
+[11-14 13:53:49] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:53:49] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.12it/s]  4%|▍         | 2/50 [00:00<00:10,  4.40it/s]  6%|▌         | 3/50 [00:00<00:10,  4.41it/s]  8%|▊         | 4/50 [00:00<00:10,  4.42it/s] 10%|█         | 5/50 [00:01<00:10,  4.42it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.43it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.43it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.43it/s] 18%|█▊        | 9/50 [00:02<00:09,  4.43it/s] 20%|██        | 10/50 [00:02<00:09,  4.43it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.43it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.43it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.43it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.43it/s] 30%|███       | 15/50 [00:03<00:07,  4.43it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.43it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.43it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.43it/s] 38%|███▊      | 19/50 [00:04<00:07,  4.43it/s] 40%|████      | 20/50 [00:04<00:06,  4.43it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.43it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.43it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.43it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.43it/s] 50%|█████     | 25/50 [00:05<00:05,  4.43it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.43it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.43it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.43it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.43it/s] 60%|██████    | 30/50 [00:06<00:04,  4.43it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.43it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.43it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.43it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.43it/s] 70%|███████   | 35/50 [00:07<00:03,  4.43it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.42it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.43it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.43it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.43it/s] 80%|████████  | 40/50 [00:09<00:02,  4.43it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.43it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.43it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.43it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.43it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.43it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.42it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.43it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.43it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.44it/s]
+[11-14 13:54:00] [QwenImage21DenoisingStage] average time per step: 0.2253 seconds
+[11-14 13:54:00] [QwenImage21DenoisingStage] finished in 11.2638 seconds
+[11-14 13:54:00] [DecodingStage] started...
+[11-14 13:54:00] [DecodingStage] finished in 0.0092 seconds
+[11-14 13:54:01] Output saved to [1;36moutputs/386089f4-b8b6-43aa-a80a-fe3d81ec9ab0.png[0;0m
+[11-14 13:54:01] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/04-image-edit/perf.json[0;0m
+[11-14 13:54:01] Pixel data generated successfully in [92m11.64[0;0m seconds
+[11-14 13:54:01] Peak memory usage: 46976.00 MB
+[2026-11-14 13:54:01] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:54:01] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/4faff366-ce1f-4938-8a27-1b59f8c514b7_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/4faff366-ce1f-4938-8a27-1b59f8c514b7.png
+        
+[11-14 13:54:01] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:54:01] [QwenImage21InputValidationStage] started...
+[11-14 13:54:01] [QwenImage21InputValidationStage] finished in 0.0435 seconds
+[11-14 13:54:01] [QwenImage21EncodingStage] started...
+[11-14 13:54:01] [QwenImage21EncodingStage] finished in 0.0297 seconds
+[11-14 13:54:01] [LatentPreparationStage] started...
+[11-14 13:54:01] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:54:01] [TimestepPreparationStage] started...
+[11-14 13:54:01] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:54:01] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.11it/s]  4%|▍         | 2/50 [00:00<00:10,  4.39it/s]  6%|▌         | 3/50 [00:00<00:10,  4.41it/s]  8%|▊         | 4/50 [00:00<00:10,  4.42it/s] 10%|█         | 5/50 [00:01<00:10,  4.42it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.42it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.42it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.42it/s] 18%|█▊        | 9/50 [00:02<00:09,  4.42it/s] 20%|██        | 10/50 [00:02<00:09,  4.42it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.43it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.43it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.42it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.42it/s] 30%|███       | 15/50 [00:03<00:07,  4.42it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.42it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.42it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.43it/s] 38%|███▊      | 19/50 [00:04<00:07,  4.42it/s] 40%|████      | 20/50 [00:04<00:06,  4.42it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.42it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.42it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.42it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.42it/s] 50%|█████     | 25/50 [00:05<00:05,  4.42it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.42it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.42it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.43it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.42it/s] 60%|██████    | 30/50 [00:06<00:04,  4.42it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.42it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.42it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.42it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.42it/s] 70%|███████   | 35/50 [00:07<00:03,  4.42it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.42it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.43it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.42it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.42it/s] 80%|████████  | 40/50 [00:09<00:02,  4.42it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.42it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.42it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.42it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.42it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.42it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.42it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.42it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.42it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.43it/s]
+[11-14 13:54:12] [QwenImage21DenoisingStage] average time per step: 0.2255 seconds
+[11-14 13:54:12] [QwenImage21DenoisingStage] finished in 11.2759 seconds
+[11-14 13:54:12] [DecodingStage] started...
+[11-14 13:54:12] [DecodingStage] finished in 0.0093 seconds
+[11-14 13:54:12] Output saved to [1;36moutputs/4faff366-ce1f-4938-8a27-1b59f8c514b7.png[0;0m
+[11-14 13:54:12] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/05-image-edit/perf.json[0;0m
+[11-14 13:54:12] Pixel data generated successfully in [92m11.64[0;0m seconds
+[11-14 13:54:12] Peak memory usage: 46976.00 MB
+[2026-11-14 13:54:12] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:54:13] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/e5875cee-0508-4ed1-93cf-ae8cfc677caf_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/e5875cee-0508-4ed1-93cf-ae8cfc677caf.png
+        
+[11-14 13:54:13] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:54:13] [QwenImage21InputValidationStage] started...
+[11-14 13:54:13] [QwenImage21InputValidationStage] finished in 0.0441 seconds
+[11-14 13:54:13] [QwenImage21EncodingStage] started...
+[11-14 13:54:13] [QwenImage21EncodingStage] finished in 0.0331 seconds
+[11-14 13:54:13] [LatentPreparationStage] started...
+[11-14 13:54:13] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:54:13] [TimestepPreparationStage] started...
+[11-14 13:54:13] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:54:13] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.10it/s]  4%|▍         | 2/50 [00:00<00:10,  4.39it/s]  6%|▌         | 3/50 [00:00<00:10,  4.41it/s]  8%|▊         | 4/50 [00:00<00:10,  4.42it/s] 10%|█         | 5/50 [00:01<00:10,  4.42it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.42it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.42it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.42it/s] 18%|█▊        | 9/50 [00:02<00:09,  4.42it/s] 20%|██        | 10/50 [00:02<00:09,  4.42it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.42it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.42it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.42it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.42it/s] 30%|███       | 15/50 [00:03<00:07,  4.42it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.42it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.42it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.42it/s] 38%|███▊      | 19/50 [00:04<00:07,  4.42it/s] 40%|████      | 20/50 [00:04<00:06,  4.42it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.42it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.42it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.42it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.42it/s] 50%|█████     | 25/50 [00:05<00:05,  4.42it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.42it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.42it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.42it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.42it/s] 60%|██████    | 30/50 [00:06<00:04,  4.42it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.42it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.42it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.42it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.42it/s] 70%|███████   | 35/50 [00:07<00:03,  4.42it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.42it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.42it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.42it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.42it/s] 80%|████████  | 40/50 [00:09<00:02,  4.42it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.42it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.42it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.42it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.42it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.42it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.42it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.42it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.42it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.43it/s]
+[11-14 13:54:24] [QwenImage21DenoisingStage] average time per step: 0.2257 seconds
+[11-14 13:54:24] [QwenImage21DenoisingStage] finished in 11.2872 seconds
+[11-14 13:54:24] [DecodingStage] started...
+[11-14 13:54:24] [DecodingStage] finished in 0.0099 seconds
+[11-14 13:54:24] Output saved to [1;36moutputs/e5875cee-0508-4ed1-93cf-ae8cfc677caf.png[0;0m
+[11-14 13:54:24] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/06-image-edit/perf.json[0;0m
+[11-14 13:54:24] Pixel data generated successfully in [92m11.66[0;0m seconds
+[11-14 13:54:24] Peak memory usage: 46976.00 MB
+[2026-11-14 13:54:24] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:54:24] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/26790910-558f-45c2-af15-2dc045d89e78_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/26790910-558f-45c2-af15-2dc045d89e78.png
+        
+[11-14 13:54:24] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:54:24] [QwenImage21InputValidationStage] started...
+[11-14 13:54:24] [QwenImage21InputValidationStage] finished in 0.0436 seconds
+[11-14 13:54:24] [QwenImage21EncodingStage] started...
+[11-14 13:54:24] [QwenImage21EncodingStage] finished in 0.0302 seconds
+[11-14 13:54:24] [LatentPreparationStage] started...
+[11-14 13:54:24] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:54:24] [TimestepPreparationStage] started...
+[11-14 13:54:24] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:54:24] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.10it/s]  4%|▍         | 2/50 [00:00<00:10,  4.39it/s]  6%|▌         | 3/50 [00:00<00:10,  4.40it/s]  8%|▊         | 4/50 [00:00<00:10,  4.41it/s] 10%|█         | 5/50 [00:01<00:10,  4.41it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.41it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.42it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.42it/s] 18%|█▊        | 9/50 [00:02<00:09,  4.42it/s] 20%|██        | 10/50 [00:02<00:09,  4.42it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.42it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.42it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.42it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.42it/s] 30%|███       | 15/50 [00:03<00:07,  4.42it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.42it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.42it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.41it/s] 38%|███▊      | 19/50 [00:04<00:07,  4.42it/s] 40%|████      | 20/50 [00:04<00:06,  4.42it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.42it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.42it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.42it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.42it/s] 50%|█████     | 25/50 [00:05<00:05,  4.42it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.42it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.42it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.41it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.42it/s] 60%|██████    | 30/50 [00:06<00:04,  4.42it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.41it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.42it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.42it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.42it/s] 70%|███████   | 35/50 [00:07<00:03,  4.41it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.42it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.41it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.42it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.42it/s] 80%|████████  | 40/50 [00:09<00:02,  4.42it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.42it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.42it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.41it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.42it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.42it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.42it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.42it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.42it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.42it/s]100%|██████████| 50/50 [00:11<00:00,  4.41it/s]100%|██████████| 50/50 [00:11<00:00,  4.43it/s]
+[11-14 13:54:36] [QwenImage21DenoisingStage] average time per step: 0.2259 seconds
+[11-14 13:54:36] [QwenImage21DenoisingStage] finished in 11.2933 seconds
+[11-14 13:54:36] [DecodingStage] started...
+[11-14 13:54:36] [DecodingStage] finished in 0.0092 seconds
+[11-14 13:54:36] Output saved to [1;36moutputs/26790910-558f-45c2-af15-2dc045d89e78.png[0;0m
+[11-14 13:54:36] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/07-image-edit/perf.json[0;0m
+[11-14 13:54:36] Pixel data generated successfully in [92m11.66[0;0m seconds
+[11-14 13:54:36] Peak memory usage: 46976.00 MB
+[2026-11-14 13:54:36] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[11-14 13:54:36] Sampling params:
+                       width: 1024
+                      height: 1024
+                  num_frames: 1
+                         fps: 24
+                      prompt: <redacted, len=122>
+                  neg_prompt: None
+                        seed: 1101
+                 infer_steps: 50
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: None
+                  image_path: ['/task/inputs/uploads/8d270921-7445-4ba4-affb-d0238fb19253_0_reference.png']
+                 save_output: True
+            output_file_path: outputs/8d270921-7445-4ba4-affb-d0238fb19253.png
+        
+[11-14 13:54:36] Running pipeline stages: ['QwenImage21InputValidationStage', 'conditioning_stage', 'LatentPreparationStage', 'TimestepPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-14 13:54:36] [QwenImage21InputValidationStage] started...
+[11-14 13:54:36] [QwenImage21InputValidationStage] finished in 0.0436 seconds
+[11-14 13:54:36] [QwenImage21EncodingStage] started...
+[11-14 13:54:36] [QwenImage21EncodingStage] finished in 0.0326 seconds
+[11-14 13:54:36] [LatentPreparationStage] started...
+[11-14 13:54:36] [LatentPreparationStage] finished in 0.0018 seconds
+[11-14 13:54:36] [TimestepPreparationStage] started...
+[11-14 13:54:36] [TimestepPreparationStage] finished in 0.0005 seconds
+[11-14 13:54:36] [QwenImage21DenoisingStage] started...
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:06,  8.10it/s]  4%|▍         | 2/50 [00:00<00:10,  4.39it/s]  6%|▌         | 3/50 [00:00<00:10,  4.40it/s]  8%|▊         | 4/50 [00:00<00:10,  4.41it/s] 10%|█         | 5/50 [00:01<00:10,  4.41it/s] 12%|█▏        | 6/50 [00:01<00:09,  4.41it/s] 14%|█▍        | 7/50 [00:01<00:09,  4.41it/s] 16%|█▌        | 8/50 [00:01<00:09,  4.41it/s] 18%|█▊        | 9/50 [00:02<00:09,  4.41it/s] 20%|██        | 10/50 [00:02<00:09,  4.41it/s] 22%|██▏       | 11/50 [00:02<00:08,  4.41it/s] 24%|██▍       | 12/50 [00:02<00:08,  4.41it/s] 26%|██▌       | 13/50 [00:02<00:08,  4.41it/s] 28%|██▊       | 14/50 [00:03<00:08,  4.42it/s] 30%|███       | 15/50 [00:03<00:07,  4.41it/s] 32%|███▏      | 16/50 [00:03<00:07,  4.41it/s] 34%|███▍      | 17/50 [00:03<00:07,  4.42it/s] 36%|███▌      | 18/50 [00:04<00:07,  4.41it/s] 38%|███▊      | 19/50 [00:04<00:07,  4.42it/s] 40%|████      | 20/50 [00:04<00:06,  4.42it/s] 42%|████▏     | 21/50 [00:04<00:06,  4.42it/s] 44%|████▍     | 22/50 [00:04<00:06,  4.41it/s] 46%|████▌     | 23/50 [00:05<00:06,  4.42it/s] 48%|████▊     | 24/50 [00:05<00:05,  4.42it/s] 50%|█████     | 25/50 [00:05<00:05,  4.41it/s] 52%|█████▏    | 26/50 [00:05<00:05,  4.42it/s] 54%|█████▍    | 27/50 [00:06<00:05,  4.42it/s] 56%|█████▌    | 28/50 [00:06<00:04,  4.41it/s] 58%|█████▊    | 29/50 [00:06<00:04,  4.42it/s] 60%|██████    | 30/50 [00:06<00:04,  4.42it/s] 62%|██████▏   | 31/50 [00:06<00:04,  4.41it/s] 64%|██████▍   | 32/50 [00:07<00:04,  4.42it/s] 66%|██████▌   | 33/50 [00:07<00:03,  4.42it/s] 68%|██████▊   | 34/50 [00:07<00:03,  4.41it/s] 70%|███████   | 35/50 [00:07<00:03,  4.42it/s] 72%|███████▏  | 36/50 [00:08<00:03,  4.41it/s] 74%|███████▍  | 37/50 [00:08<00:02,  4.41it/s] 76%|███████▌  | 38/50 [00:08<00:02,  4.42it/s] 78%|███████▊  | 39/50 [00:08<00:02,  4.42it/s] 80%|████████  | 40/50 [00:09<00:02,  4.41it/s] 82%|████████▏ | 41/50 [00:09<00:02,  4.41it/s] 84%|████████▍ | 42/50 [00:09<00:01,  4.41it/s] 86%|████████▌ | 43/50 [00:09<00:01,  4.41it/s] 88%|████████▊ | 44/50 [00:09<00:01,  4.41it/s] 90%|█████████ | 45/50 [00:10<00:01,  4.41it/s] 92%|█████████▏| 46/50 [00:10<00:00,  4.41it/s] 94%|█████████▍| 47/50 [00:10<00:00,  4.41it/s] 96%|█████████▌| 48/50 [00:10<00:00,  4.41it/s] 98%|█████████▊| 49/50 [00:11<00:00,  4.41it/s]100%|██████████| 50/50 [00:11<00:00,  4.41it/s]100%|██████████| 50/50 [00:11<00:00,  4.43it/s]
+[11-14 13:54:47] [QwenImage21DenoisingStage] average time per step: 0.2260 seconds
+[11-14 13:54:47] [QwenImage21DenoisingStage] finished in 11.2992 seconds
+[11-14 13:54:47] [DecodingStage] started...
+[11-14 13:54:47] [DecodingStage] finished in 0.0100 seconds
+[11-14 13:54:48] Output saved to [1;36moutputs/8d270921-7445-4ba4-affb-d0238fb19253.png[0;0m
+[11-14 13:54:48] Metrics dumped to: [1;36m/task/runs/qwen21-codec0-main-AA-02/outputs/08-image-edit/perf.json[0;0m
+[11-14 13:54:48] Pixel data generated successfully in [92m11.67[0;0m seconds
+[11-14 13:54:48] Peak memory usage: 46976.00 MB
+[2026-11-14 13:54:48] [32mINFO[0m:     127.0.0.1:39980 - "[1mPOST /v1/images/edits HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-14 13:54:50] [32mINFO[0m:     Shutting down
+[2026-11-14 13:54:50] [32mINFO[0m:     Waiting for application shutdown.
+[11-14 13:54:50] FastAPI app is shutting down...
+[2026-11-14 13:54:50] [32mINFO[0m:     Application shutdown complete.
+[2026-11-14 13:54:50] [32mINFO[0m:     Finished server process [[36m75601[0m]
+/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

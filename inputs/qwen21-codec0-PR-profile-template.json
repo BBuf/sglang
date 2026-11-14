@@ -1,0 +1,122 @@
+{
+  "physical_gpus": [
+    0
+  ],
+  "purpose": "cleanup_head_separate_profile",
+  "benchmark": false,
+  "admission_hold": false,
+  "server_args": {
+    "sgl": [
+      "--model-path",
+      "/prior-task/cache/common/Qwen-Image-2.1",
+      "--pipeline-class-name",
+      "QwenImage21Pipeline",
+      "--backend",
+      "sglang",
+      "--num-gpus",
+      "1",
+      "--tp-size",
+      "1",
+      "--ulysses-degree",
+      "1",
+      "--ring-degree",
+      "1",
+      "--performance-mode",
+      "speed",
+      "--dit-cpu-offload",
+      "false",
+      "--dit-layerwise-offload",
+      "false",
+      "--text-encoder-cpu-offload",
+      "false",
+      "--vae-cpu-offload",
+      "false",
+      "--enable-torch-compile",
+      "false",
+      "--enable-breakable-cuda-graph",
+      "true",
+      "--disable-autocast",
+      "true",
+      "--warmup-resolutions",
+      "1024x1024",
+      "--warmup-steps",
+      "50",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32150",
+      "--bcg-text-buckets",
+      "64",
+      "384",
+      "4224",
+      "--warmup-sampling-params",
+      "{\"quality\":\"lossless\"}",
+      "--component-attention-backends",
+      "transformer=torch_cudnn_sdpa"
+    ],
+    "omni": [
+      "/prior-task/cache/common/Qwen-Image-2.1",
+      "--omni",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32151",
+      "--num-gpus",
+      "1",
+      "--tensor-parallel-size",
+      "1"
+    ]
+  },
+  "server_env": {
+    "sgl": {
+      "HF_HUB_OFFLINE": "1",
+      "SGLANG_DIFFUSION_TORCH_PROFILER_DIR": "/task/runs/qwen21-codec0-PR-profile-01/profiles",
+      "PYTHONPATH": "/task/candidates/qwen21-bcg-prefix-release/python"
+    },
+    "omni": {
+      "HF_HUB_OFFLINE": "1"
+    }
+  },
+  "require_own_repeat": true,
+  "requests": [
+    {
+      "prompt_id": "image-long",
+      "task": "t2i",
+      "role": "warmup"
+    },
+    {
+      "prompt_id": "image-long",
+      "task": "t2i",
+      "role": "admission",
+      "profile": true
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "warmup"
+    },
+    {
+      "prompt_id": "image-edit",
+      "task": "edit",
+      "role": "admission",
+      "profile": true
+    }
+  ],
+  "quality_metrics": {
+    "image_min_ssim": 0.99,
+    "image_min_psnr_db": 40,
+    "RGBA_alpha_report_required": true,
+    "own_repeat": "PNG bytes and decoded RGBA exact"
+  },
+  "note": "Prepared only, do not overlap quiet timing. Full50steps and exact corresponding main output required. Compare packing and copies by op shape and correlation; no performance claim from profiler.",
+  "model": "Qwen/Qwen-Image-2.1",
+  "weights_revision": "d26bb61231c349cf6b7896fa83353113880e1ba3",
+  "quality": "lossless",
+  "repository": "/task/candidates/qwen21-bcg-prefix-release",
+  "head_sha": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5",
+  "output_compression": {
+    "sgl": 0,
+    "omni": 100
+  },
+  "actual_png_compress_level": 0
+}

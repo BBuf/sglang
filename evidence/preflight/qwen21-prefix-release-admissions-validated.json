@@ -1,0 +1,88 @@
+{
+  "at": "2026-11-14T13:38:54.767624+00:00",
+  "status": "release_admissions_verified_remaining_codec9_measurements_superseded",
+  "head_sha": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5",
+  "tests": [
+    {
+      "name": "padding",
+      "passed": true
+    },
+    {
+      "name": "CUDA-replay",
+      "passed": true
+    }
+  ],
+  "admissions": [
+    {
+      "run": "qwen21-prefix-release-torch-admission-01",
+      "arm": "sgl",
+      "status": "raw_complete",
+      "head_sha": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5"
+    },
+    {
+      "run": "qwen21-prefix-release-cudnn-admission-01",
+      "arm": "sgl",
+      "status": "raw_complete",
+      "head_sha": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5"
+    },
+    {
+      "run": "qwen21-prefix-release-cudnn-high-admission-01",
+      "arm": "sgl",
+      "status": "raw_complete",
+      "head_sha": "15b28203ba81c96fac1b3692d7bc67bac01d8ff5"
+    }
+  ],
+  "high_capture_intervals": [
+    {
+      "run": "qwen21-prefix-cudnn-high-main-admission-01",
+      "capture_fusion_calls": [
+        32,
+        32,
+        32
+      ],
+      "capture_seconds": [
+        0.57172021,
+        0.428718872,
+        0.438552813
+      ],
+      "warmup_noop_capture_probes": 144,
+      "serving_replays": 294,
+      "serving_captures": 0
+    },
+    {
+      "run": "qwen21-prefix-cleanup-cudnn-high-admission-01",
+      "capture_fusion_calls": [
+        32,
+        32,
+        32
+      ],
+      "capture_seconds": [
+        0.569912559,
+        0.428291562,
+        0.435908421
+      ],
+      "warmup_noop_capture_probes": 144,
+      "serving_replays": 294,
+      "serving_captures": 0
+    },
+    {
+      "run": "qwen21-prefix-release-cudnn-high-admission-01",
+      "capture_fusion_calls": [
+        32,
+        32,
+        32
+      ],
+      "capture_seconds": [
+        0.570073894,
+        0.429019928,
+        0.439899425
+      ],
+      "warmup_noop_capture_probes": 144,
+      "serving_replays": 294,
+      "serving_captures": 0
+    }
+  ],
+  "prior_controller_failure": "Analysis bug: repeated already-present warmup capture probes overwrote the true capture start. First added-entry interval contains32actualCUDA-capturing packedMLPcalls for each bucket.",
+  "superseded": "Unexecuted same-API100 quiet/stage/profile plans replaced by actual-equivalent PNGlevel0 measurements. Originalfailed status remains untouched.",
+  "gpu_idle": true
+}

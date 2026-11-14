@@ -1,0 +1,64 @@
+{
+  "at": "2026-11-14T02:46:14.487225+00:00",
+  "baseline_sglang": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+  "baseline_omni": "aa2968e858a718989332a61ad40758024cb4a3a5",
+  "models": [
+    {
+      "model": "Qwen/Qwen-Image-2.1",
+      "revision": "d26bb61231c349cf6b7896fa83353113880e1ba3",
+      "num_inference_steps": 50,
+      "expected_iterations": 50
+    },
+    {
+      "model": "Qwen/Qwen-Image-2.1-Turbo",
+      "revision": "fc13ba1986fcb905854dc8de2f52eee395f49b5b",
+      "num_inference_steps": null,
+      "expected_iterations": 8,
+      "payload_policy": "Omit num_inference_steps; native model_index sampling grid retained"
+    }
+  ],
+  "seed": 1101,
+  "generator_device": "cpu",
+  "guidance_scale": 1.0,
+  "true_cfg_scale": 1.0,
+  "negative_prompt": "",
+  "width": 1024,
+  "height": 1024,
+  "batch": 1,
+  "concurrency": 1,
+  "output_format": "png",
+  "preserve_RGBA": true,
+  "prompts": [
+    {
+      "id": "image-short",
+      "prompt": "A red bicycle leaning against a white plaster wall, afternoon sunlight, realistic photograph."
+    },
+    {
+      "id": "image-long",
+      "prompt": "The image is a photorealistic overhead food photograph capturing a rustic farm-to-table feast spread across a heavily weathered, dark brown wooden table with deep visible grain and scratches. The composition is a top-down view looking directly at the table surface. In the center sits a large woven jute placemat supporting a freshly baked rustic sourdough loaf with a deeply scored, golden-brown crust and a dusting of flour. To the upper left, a hammered copper bowl overflows with a colorful mix of fresh seasonal vegetables, including purple kale, bright orange carrots, red beets, and vibrant green salad leaves. In the upper right, a dark wooden cheese board holds neatly arranged artisanal cheeses: a wedge of bloomy rind brie with a creamy yellow interior, a wedge of aged cheddar with a golden rind, and a log of goat cheese sprinkled with cracked peppercorns and rosemary sprigs. The lower left contains a cluster of heirloom tomatoes, small cherry tomatoes on the vine, scattered toasted walnuts, and a small ceramic bowl of green olives. In the lower right, a clear glass wine glass filled with dark red wine sits beside a vintage brass candle holder with a lit white taper candle. A smaller wooden cutting board holding sliced apples and a wedge of brie overlaps the center of the table. The warm natural sunlight originates from the left, creating a realistic interplay of dappled shadows, crisp highlights on the polished glass and glossy tomatoes, and rich drop shadows that emphasize the rough wood grain and textured vegetables."
+    },
+    {
+      "id": "image-quality",
+      "prompt": "A small lighthouse on a rocky coast at dawn, waves breaking below, weathered brick, warm window light, delicate clouds and detailed grass in the foreground. Documentary photograph with natural colors."
+    }
+  ],
+  "edit": {
+    "prompt": "<Picture 1> is the reference image. Preserve its subject and composition, and change the season to a snowy winter evening.",
+    "input_path": "/task/runs/moss-base-main-high-sgl-01/outputs/00-image-short/output.png",
+    "sha256": "9e409c2f318732a2f1d2e2bbb6717e2b3ee8ab3bd07843c5e9da7b19128f48a2",
+    "source": "Actual current-task MOSS main-high output; explicit1024square editing keeps native resizing equivalent.",
+    "reference_count": 1
+  },
+  "precision": "Native BF16 DiT/text encoder/VAE, CPU BF16 initial noise; no quantization for first admission. Request solver policy and actual attention kernels require runtime logs.",
+  "quality": {
+    "lossless_candidate_main": "Byte-exact PNG and decoded RGBA",
+    "cross_framework": {
+      "ssim_min": 0.99,
+      "psnr_min_db": 40.0,
+      "source": "repos/vllm-omni/tests/e2e/accuracy/qwen_image_21/thresholds.json",
+      "source_sha256": "2dc34bebabfb5c30fa02a2898ea1ffccbdbdc4a253ff43ee66214a606702b5bc",
+      "scope": "Strict default native/reference image bounds; record raw RGBA and alpha errors separately. No Ascend/ROCm relaxation borrowed for SM120. Not an output quality pass in advance."
+    }
+  },
+  "status": "prepared_current_source_contract_GPU_not_queued"
+}

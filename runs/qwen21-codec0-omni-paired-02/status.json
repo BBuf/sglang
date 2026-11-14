@@ -1,0 +1,56 @@
+{
+  "arm": "omni",
+  "run": "qwen21-codec0-omni-paired-02",
+  "purpose": "semantic_codec_equal_level0_paired_E2E",
+  "benchmark": true,
+  "status": "raw_complete",
+  "started_at": "2026-11-14T14:10:28.931297+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-omni",
+      "/task/envs/omni/bin/python",
+      "/task/scripts/qwen21-codec0-visits/serve.py",
+      "start",
+      "omni",
+      "qwen21-codec0-omni-paired-02"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-omni",
+      "/task/envs/omni/bin/python",
+      "/task/scripts/qwen21-codec0-visits/submit.py",
+      "omni",
+      "qwen21-codec0-omni-paired-02"
+    ]
+  ],
+  "profiler": false,
+  "repository": "/task/repos/vllm-omni",
+  "head_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+  "main_baseline_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+  "updated_at": "2026-11-14T14:13:02.349799+00:00",
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/qwen21-native-workloads.json": "2e186d78cd20bc36886e42dd85008d5e23c924c35c15e9e630ac7bc2a5ecd49d",
+    "inputs/qwen21-codec0-omni-quiet-01.json": "82bedf4c45185b9685a4979cb92f5aa29b5cebf1dce79d5e738d38a3f956f07c",
+    "scripts/qwen21-codec0-visits/run.py": "c2e74c5202fad9120bf710c336dc55fd76ef78eda3618c9c541391e3132d21f8",
+    "scripts/qwen21-codec0-visits/serve.py": "769b798d2a1a21e409d25f72dad1589eec1bc54c2ce09775164cfc4cb610485f",
+    "scripts/qwen21-codec0-visits/submit.py": "fdb9bcecd07210c0a9a3b74f06f8c8c1eace232276027ef3e577d64d3b67ddb2"
+  },
+  "launch_to_ready_seconds": 32.422091737389565,
+  "completed_outputs": 9,
+  "reference_checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "gpu_cleanup": "idle_verified"
+}
