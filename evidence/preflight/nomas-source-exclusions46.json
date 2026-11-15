@@ -1,0 +1,50 @@
+{
+  "at": "2026-11-15T14:02:41.590582+00:00",
+  "scope": "Read actual frozen native guards; no new CPU/GPU execution or resource-feasibility claim.",
+  "main_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+  "omni_sha": "aa2968e858a718989332a61ad40758024cb4a3a5",
+  "sources": {
+    "repos/sglang-main/python/sglang/multimodal_gen/configs/pipeline_configs/nomas.py": {
+      "sha256": "61658fd6dac736b6fec5475ac40baf739ac545f1459b77132d04c7f188767d92",
+      "functions": [
+        {
+          "name": "supports_dynamic_batching",
+          "line": 112,
+          "end_line": 113
+        },
+        {
+          "name": "prepare_latent_shape",
+          "line": 167,
+          "end_line": 172
+        }
+      ]
+    },
+    "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/processing_hy_nomas.py": {
+      "sha256": "c8eb6f6c722231054fa6ffaa31296a51ec9df8939befbd444e7bd9872312c08f",
+      "functions": [
+        {
+          "name": "normalize_request",
+          "line": 44,
+          "end_line": 141
+        }
+      ]
+    },
+    "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/pipeline_hy_nomas.py": {
+      "sha256": "8df503950df31bf12e63b163d47da9adaa138f021ab93c4b06b7a37e4822588f",
+      "functions": [
+        {
+          "name": "validate_config",
+          "line": 139,
+          "end_line": 182
+        }
+      ]
+    }
+  },
+  "exclusions": {
+    "batch2": "Omni normalize_request rejects num_outputs_per_prompt !=1; SGL prepare_latent_shape rejects batch_size !=1, and supports_dynamic_batching returnsFalse",
+    "matched_FP8_NVFP4": "Omni validate_config rejects non-None quantization_config and requiresBF16; do not attempt or claim a matched quantized comparison",
+    "TP_CFG_DP": "Omni allows onlystrictUlyssesSP, world_size==ulysses_degree; noTP,PP,DP,CFG,HSDP",
+    "cache": "Omni rejects non-none diffusioncache backend; Nomas own causalKVcache is a distinct native mechanism"
+  },
+  "remaining": "High121/241 and additional SGL-only feature combinations are not newly executed by this source review; all frozen cells remain visible."
+}

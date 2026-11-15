@@ -1,0 +1,227 @@
+{
+  "physical_gpus": [
+    0
+  ],
+  "purpose": "Complete predeclared three-round final-head protocol; fresh A/A then balanced rounds2/3, all original round1 evidence retained",
+  "benchmark": true,
+  "poll_seconds": 0.02,
+  "require_own_repeat": true,
+  "model": "tencent/Hy-Nomas-Diffusers",
+  "weights_revision": "a1ae04d11ae4ea176d1f76de634c115944f9882d",
+  "requests": [
+    {
+      "id": "nomas-49-short-seed42",
+      "prompt_id": "short",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "warmup",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "b859d9350c979c152ba2bb9e355800ca0ba722e5f6c27dfec0f2a32f2ae6e3eb"
+      }
+    },
+    {
+      "id": "nomas-49-long-seed42",
+      "prompt_id": "long",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "warmup",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "f91359e44b1e38802d0c4a1413124978dd74c4c3147e8ba9189ab46823c0c948"
+      }
+    },
+    {
+      "id": "nomas-49-short-seed42",
+      "prompt_id": "short",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "measure",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "b859d9350c979c152ba2bb9e355800ca0ba722e5f6c27dfec0f2a32f2ae6e3eb"
+      }
+    },
+    {
+      "id": "nomas-49-long-seed42",
+      "prompt_id": "long",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "measure",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "f91359e44b1e38802d0c4a1413124978dd74c4c3147e8ba9189ab46823c0c948"
+      }
+    },
+    {
+      "id": "nomas-49-short-seed42",
+      "prompt_id": "short",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "measure",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "b859d9350c979c152ba2bb9e355800ca0ba722e5f6c27dfec0f2a32f2ae6e3eb"
+      }
+    },
+    {
+      "id": "nomas-49-long-seed42",
+      "prompt_id": "long",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "measure",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "f91359e44b1e38802d0c4a1413124978dd74c4c3147e8ba9189ab46823c0c948"
+      }
+    },
+    {
+      "id": "nomas-49-short-seed42",
+      "prompt_id": "short",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "measure",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "b859d9350c979c152ba2bb9e355800ca0ba722e5f6c27dfec0f2a32f2ae6e3eb"
+      }
+    },
+    {
+      "id": "nomas-49-long-seed42",
+      "prompt_id": "long",
+      "frames": 49,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "measure",
+      "profile": false,
+      "expected_sha256": {
+        "sgl": "f91359e44b1e38802d0c4a1413124978dd74c4c3147e8ba9189ab46823c0c948"
+      }
+    }
+  ],
+  "server_args": {
+    "sgl": [
+      "--model-path",
+      "/task/cache/nomas-native-common02",
+      "--backend",
+      "sglang",
+      "--num-gpus",
+      "1",
+      "--tp-size",
+      "1",
+      "--ulysses-degree",
+      "1",
+      "--ring-degree",
+      "1",
+      "--component-residency",
+      "all=resident",
+      "--performance-mode",
+      "auto",
+      "--enable-torch-compile",
+      "false",
+      "--enable-breakable-cuda-graph",
+      "false",
+      "--warmup-mode",
+      "off",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32150"
+    ]
+  },
+  "server_env": {
+    "sgl": {
+      "HF_HUB_OFFLINE": "1",
+      "PYTHONPATH": "/task/repos/sglang-main/python"
+    }
+  },
+  "quality_metrics": {
+    "within_sgl_lossless": "Exact generated artifact and decoded pixels; retain native raw tensors for diagnosis",
+    "cross_framework": {
+      "ssim_min": 0.92,
+      "psnr_min_db": 24.0,
+      "source": "Benchmark skill video defaults; fixed before any Nomas currentmachine outputs",
+      "all_frames": true,
+      "semantic_or_temporal_metrics": "Supplementary only; never erase failed SSIM/PSNR cells"
+    }
+  },
+  "measurement_note": "20ms protocol10. Exact native outputs required. Stage-synchronized runs are separate diagnostic component measurements; never pooled with native E2E. No cross-framework performance admission.",
+  "checkpoint_adaptation": "Only safetensors header keys changed; canonical BF16 payload bytes proven identical. Main source unchanged; first unadapted-load failure retained.",
+  "diagnostic_only": false,
+  "cross_framework_performance_admitted": false,
+  "comparison_scope": "within_sglang_main_candidate_final",
+  "source_repo": "/task/repos/sglang-main",
+  "source_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+  "quality_admission": "runs/nomas-49-sgl-mean-quality11",
+  "sync_stage_profiling": 0,
+  "protocol_audit33": {
+    "phase": "AA",
+    "round": null,
+    "source_round1": "nomas-49-mean-final12-A1/B1/B2/A2",
+    "main_SHA": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+    "PR_SHA": "37999f7ab31809bd8a9f3cabee3fa50c54f179d6"
+  }
+}

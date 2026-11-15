@@ -1,0 +1,124 @@
+{
+  "physical_gpus": [
+    0,
+    1
+  ],
+  "purpose": "Complete frozen long-video resource coverage; actual native ranks or overlapping jobs; byte-exact reference; diagnostic only",
+  "benchmark": false,
+  "poll_seconds": 0.1,
+  "require_own_repeat": false,
+  "model": "tencent/Hy-Nomas-Diffusers",
+  "weights_revision": "a1ae04d11ae4ea176d1f76de634c115944f9882d",
+  "requests": [
+    {
+      "id": "nomas-241-short-seed42-sp229-0",
+      "prompt_id": "short",
+      "frames": 241,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission",
+      "expected_sha256": {
+        "sgl": "8252d8ac41c2d0f17d024c13185b1595b45aa11d88df77cc09f35df90c5d708d"
+      },
+      "expected_fusions_per_rank": 2166
+    },
+    {
+      "id": "nomas-241-long-seed42-sp229-1",
+      "prompt_id": "long",
+      "frames": 241,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission",
+      "expected_sha256": {
+        "sgl": "469f2c065f5d56d544ddad6cbd80e9a1e3e8365d2aa7a14289a83f457465e02a"
+      },
+      "expected_fusions_per_rank": 2166
+    },
+    {
+      "id": "nomas-241-short-seed42-sp229-2",
+      "prompt_id": "short",
+      "frames": 241,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission",
+      "expected_sha256": {
+        "sgl": "8252d8ac41c2d0f17d024c13185b1595b45aa11d88df77cc09f35df90c5d708d"
+      },
+      "expected_fusions_per_rank": 2166
+    }
+  ],
+  "server_args": {
+    "sgl": [
+      "--model-path",
+      "/task/cache/nomas-native-common02",
+      "--backend",
+      "sglang",
+      "--num-gpus",
+      "2",
+      "--tp-size",
+      "1",
+      "--ulysses-degree",
+      "2",
+      "--ring-degree",
+      "1",
+      "--component-residency",
+      "all=resident",
+      "--performance-mode",
+      "auto",
+      "--enable-torch-compile",
+      "false",
+      "--enable-breakable-cuda-graph",
+      "false",
+      "--warmup-mode",
+      "off",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32150"
+    ]
+  },
+  "server_env": {
+    "sgl": {
+      "HF_HUB_OFFLINE": "1",
+      "PYTHONPATH": "/task/scripts/nomas-sp2-observer18:/task/repos/sglang-main/python",
+      "NOMAS_AUDIT_DIR": "/task/runs/nomas-sp2-long-sgl-native29/runtime-audit",
+      "NOMAS_AUDIT_ARM": "sgl"
+    }
+  },
+  "quality_metrics": {
+    "within_sgl_lossless": "Exact generated artifact and decoded pixels; retain native raw tensors for diagnosis",
+    "cross_framework": {
+      "ssim_min": 0.92,
+      "psnr_min_db": 24.0,
+      "source": "Benchmark skill video defaults; fixed before any Nomas currentmachine outputs",
+      "all_frames": true,
+      "semantic_or_temporal_metrics": "Supplementary only; never erase failed SSIM/PSNR cells"
+    }
+  },
+  "measurement_note": "Observer synchronizes/saves actual tensors and adds step receipts; these diagnostic timings cannot establish performance. Native full-model/DiT eager; intrinsic compiled FlexAttention is allowed/disclosed. Offline one segment, SGL omits unused finalKVcommit; Omni native final commit retained and counted.",
+  "checkpoint_adaptation": "Only safetensors header keys changed; canonical BF16 payload bytes proven identical. Main source unchanged; first unadapted-load failure retained.",
+  "candidate_mean_fusion": false,
+  "source_repo": "/task/repos/sglang-main",
+  "source_sha": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03"
+}
