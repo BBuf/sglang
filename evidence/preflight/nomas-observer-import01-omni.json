@@ -1,0 +1,33 @@
+{
+  "arm": "omni",
+  "returncode": 0,
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "CUDA_VISIBLE_DEVICES=",
+    "-e",
+    "SGLANG_DIFFUSION_PLATFORM_OVERRIDE=cpu",
+    "-e",
+    "PYTHONPATH=/task/scripts/nomas-native-observer01:/task/repos/vllm-omni",
+    "-e",
+    "NOMAS_AUDIT_ARM=omni",
+    "-e",
+    "NOMAS_AUDIT_DIR=/task/evidence/preflight/nomas-observer-import01-omni",
+    "bbuf-diffusion-6000-20261113-omni",
+    "/task/envs/omni/bin/python",
+    "-c",
+    "import torch,sys; assert not torch.cuda.is_initialized(); print(\"CPU import complete\")"
+  ],
+  "events": [
+    {
+      "event": "observer_installed",
+      "arm": "omni",
+      "pid": 31935,
+      "wall_ns": 1794728733342106936,
+      "request": null,
+      "source_sha256": "258b2f1ff11d51bef59f4feab8a97c7b8b3f34f8c91154d93321547666621ee1"
+    }
+  ],
+  "tail": "/task/repos/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:\n --> vLLM-Omni version 0.1.dev1+gaa2968e85\n --> vLLM version 0.33.0\nThis will likely cause compatibility issues.\n  warn_if_misaligned_vllm_version()\nW1115 07:45:23.872000 31935 torch/_opaque_base.py:6] torch._opaque_base is deprecated, use torch._custom_class_base instead\nW1115 07:45:23.873000 31935 torch/_library/opaque_object.py:288] register_opaque_type is deprecated, use register_custom_class instead\nW1115 07:45:23.873000 31935 torch/_library/opaque_object.py:211] typ='value' is deprecated, use typ='constant' instead\nW1115 07:45:27.255000 31935 torch/utils/cpp_extension.py:183] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'\nCPU import complete\n"
+}

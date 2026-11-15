@@ -1,0 +1,25 @@
+{
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "CUDA_VISIBLE_DEVICES=0",
+    "-e",
+    "FLASHINFER_DISABLE_VERSION_CHECK=1",
+    "-e",
+    "PYTHONPATH=/task/candidates/nomas-vae-mean-cleanup/python",
+    "bbuf-diffusion-6000-20261113-sgl",
+    "/opt/sglang/bin/python",
+    "-m",
+    "pytest",
+    "/task/candidates/nomas-vae-mean-cleanup/test/registered/kernels/ops/diffusion/test_norm.py",
+    "-k",
+    "mean_square",
+    "-q"
+  ],
+  "returncode": 0,
+  "source_sha": "37999f7ab31809bd8a9f3cabee3fa50c54f179d6",
+  "physical_gpus": [
+    0
+  ]
+}

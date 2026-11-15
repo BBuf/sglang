@@ -1,0 +1,31 @@
+{
+  "at": "2026-11-15T06:50:26.781167+00:00",
+  "status": "source_checked_before_first_model_output_actual_runtime_pending",
+  "benchmark": false,
+  "sgl": {
+    "output_compression": 64,
+    "x264_preset": "ultrafast",
+    "calculated_crf": 18,
+    "pixel_format": "yuv420p"
+  },
+  "omni": {
+    "video_codec_options_override": null,
+    "native_crf": 18,
+    "native_preset": "ultrafast",
+    "native_threads": "0"
+  },
+  "reason": "Omni native Hy-Nomas rejects unknown extra_args including video_codec_options; serving merges extras into model args. Preserve native fastpath and match SGL encoder to native Omni default. Do not inject a transport option that fails model validation.",
+  "limitations": [
+    "Source-only until actual native API requests and bitstream receipts",
+    "Matching codecs does not imply matching model output",
+    "SGL/Omni raw-frame and cross-framework quality audit remains necessary"
+  ],
+  "source_sha256": {
+    "repos/vllm-omni/vllm_omni/entrypoints/openai/serving_video.py": "c3e9b726b4413b47ef0db0798c023404905eb7d8c1f79b6c43514f40bb2873f1",
+    "repos/vllm-omni/vllm_omni/diffusion/utils/media_utils.py": "1324ddaf2e4f0f030f39717871ead846d8b9fb525d2255bcb1d20f2df5c702a3",
+    "repos/vllm-omni/vllm_omni/model_extras/hy_nomas.py": "33581deee4945680c96971f02e2c67781bd65925f5e3063d1cd4e860f59ea5e3",
+    "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/processing_hy_nomas.py": "c8eb6f6c722231054fa6ffaa31296a51ec9df8939befbd444e7bd9872312c08f",
+    "repos/sglang-main/python/sglang/multimodal_gen/runtime/entrypoints/utils.py": "a9970b3b6af1177b52436cd3f1a60f30faaace4a601f82350069e046b8776afd"
+  },
+  "payload_source_sha256": "0d45bcb2659969fc5e22ef5682222d1c4d33a8e68fba23c892ffb34369d3e052"
+}

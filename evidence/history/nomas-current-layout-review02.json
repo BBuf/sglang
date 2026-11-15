@@ -1,0 +1,67 @@
+{
+  "at": "2026-11-15T05:46:37.263452+00:00",
+  "source_reads": [
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/runtime/loader/nomas_weights.py",
+      "sha256": "dd666f150f7642bb86f177c128736ddc45fdbb9a40291c145683b380982a8e92"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/configs/models/dits/nomas.py",
+      "sha256": "6f2d414272dcfdc2cc7c4fac36ae617aec74353b51dd5d57e2b327545464c31a"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/configs/models/vaes/nomas.py",
+      "sha256": "698606244e7019e56acae609d6bf9d249f200cec1657fbbb2d486bca70dfd27f"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/configs/sample/nomas.py",
+      "sha256": "fedd819d30f103abd817e3bd65dcb37b5eff09caaf658f246584e70ee74c0703"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/runtime/models/encoders/qwen2_5vl.py",
+      "sha256": "611f38b99a1f9c001fcbf44a9ba2c30c342117e1ab63e0542cbe47ca5e68bca6"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/runtime/pipelines_core/stages/model_specific_stages/nomas/denoise_loop.py",
+      "sha256": "e29ddb07f3d6a676b39c145d3c15898865a0631b1852d2849bd1aea01087da2a"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/runtime/pipelines_core/stages/model_specific_stages/nomas/request_validation.py",
+      "sha256": "5e47fe331133f3cc2d8a902a267e55be60084acd8dcdee3069016f672e604481"
+    },
+    {
+      "file": "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/processing_hy_nomas.py",
+      "sha256": "c8eb6f6c722231054fa6ffaa31296a51ec9df8939befbd444e7bd9872312c08f"
+    },
+    {
+      "file": "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/text_encoder.py",
+      "sha256": "001931f4c4677badfed92b9da76106f69593ec1f819a5dd6aef41c688ab20dd7"
+    },
+    {
+      "file": "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/hy_nomas_transformer.py",
+      "sha256": "5c3ffb8fa17dcf71505603e76e096cfe9f3d350e3c220b9e09363b0f44c72c6d"
+    },
+    {
+      "file": "inputs/nomas-metadata01/Hy-Nomas-overlay/_overlay/materialize.py",
+      "sha256": "3668ac9bcb7bcc35db9e897a2b7f1d33ffeec81d9060294a0d329a8790cff2c1"
+    },
+    {
+      "file": "inputs/nomas-metadata01/Hy-Nomas-overlay/_overlay/overlay_manifest.json",
+      "sha256": "1b7d9ab03853a7922f20d6b6663de4d2d0c7210c0cdc99299194272699938a51"
+    }
+  ],
+  "metadata_verified": "inputs/nomas-metadata01/verified-metadata-receipt02.json",
+  "findings": [
+    "Canonical pinned BF16 model has2268DiT/476decoder/338language tensors. Both native frameworks can be given canonical DiT/decoder shards via metadata-only directory adaptation; runtime admission not yet proven.",
+    "SGL existing native Qwen loader expects original full wrapper and model.* key prefixes. Task will compare all338 used BF16 tensors bytewise to pinned original Qwen cc594898 before accepting equivalence; original has729 tensors incl unused vision/lm_head. No fake lm_head or synthesized weight will be introduced.",
+    "Materializer script is local-only and unexecuted. It freshly checks all38 downloaded files and every used text tensor before creating private symlinks; no upstream model materializer executed.",
+    "Current Omni ordinary offline has bound=None, so plan_chunks receives all latent frames, rather than AR default16. SGL must explicitly receive a single segment covering each frozen49/121/241 frame clip. Both use8steps/shift5/CFG1/CPU seed/BF16; actual noise/conditioning/decoded quality still need verification.",
+    "SGL plain caption mode warns experimental; structured prompt mode should be reviewed for representative pretrained validation. Do not use a PE service silently.",
+    "6000 directHF metadata TLS EOF; two ModelScope Nomas candidate namespaces404. All access observations retained. OriginalQwen directMS metadata available but fullhash equivalence not yet reviewed."
+  ],
+  "queued_download": "scripts/stage_nomas_local_weights01.py",
+  "local_pid": 13951,
+  "waits": "Exact6000TP2quietpilot terminal; no downloads until then; no remote transfer or GPU work",
+  "download_plan": "inputs/nomas-weight-staging01.json",
+  "runtime_validated": false
+}

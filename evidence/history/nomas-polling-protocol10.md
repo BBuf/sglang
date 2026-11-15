@@ -1,0 +1,3 @@
+# Saved-request measurement protocol10
+
+Declared before any20ms-poll measurement. Same physicalGPU0 and source/weights/prompts/seeds/steps/precision/encoding, unchanged native API. Change only client readiness poll interval100ms->20ms in both arms. Noise06 full shortrange1.319624% containsone100ms step; pilot08 candidate processlong medians differ~100ms. No rows deleted. Repeat independent-mainA/A before accepting new ABBA. Use newprotocol consistently for cleanup and final-head tests. Eachrawrequest retains lower/upperready bounds, E2Ethroughcontentwrite, firstwarmup cost. No timing fromobserver/profile admitted, and no crossframeworkspeedupadmission.

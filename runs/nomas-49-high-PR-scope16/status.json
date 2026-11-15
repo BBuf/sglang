@@ -1,0 +1,54 @@
+{
+  "arm": "sgl",
+  "run": "nomas-49-high-PR-scope16",
+  "purpose": "Native high-request compatibility; actual effective quality and repeated prompts; no performance claim",
+  "benchmark": false,
+  "status": "raw_complete",
+  "started_at": "2026-11-15T10:10:07.714485+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-scope-visits15/serve.py",
+      "start",
+      "sgl",
+      "nomas-49-high-PR-scope16"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-scope-visits15/submit.py",
+      "sgl",
+      "nomas-49-high-PR-scope16"
+    ]
+  ],
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/nomas-native-workloads01.json": "0d407ba41a9749f65c9f29e131ec35a2665ab9f3e73d3896b2351b28041aff7e",
+    "inputs/nomas-49-high-PR-scope16.json": "83a4bd5bcc0a77e5cc629324e74195b545246505bb4d2a7dcc01af670f0d51c6",
+    "scripts/nomas-scope-visits15/build_nomas_video_payload.py": "abba82baa4b93b6383444dcbb3ec2a426c0f6764e1c318da170566225754627a",
+    "scripts/nomas-scope-visits15/run.py": "3c97983ed28c57f5c5058fae005da9d308ead10406264d16123bc7f019556238",
+    "scripts/nomas-scope-visits15/serve.py": "7ca2502c5c441149eb9145bd69b60975cc46b7df934d41b07151d7ca22c1cc60",
+    "scripts/nomas-scope-visits15/submit.py": "abeb7af1fbe6b46d15c7e09cda85152f12ce11927af2a42ad5156eb54364e1cd",
+    "scripts/nomas-native-observer15/sitecustomize.py": "de4f1d82e43d839fcbbdf482bd066f6efccedf957e60e7fda9d3e323fc0e84b2",
+    "scripts/nomas-scope-observer15/sitecustomize.py": "6f49d04d0f47b0b05cd9ccf31e54cdb9a13463f11471e81f0d32a50277320050",
+    "scripts/materialize_nomas_keys02.py": "79e837829f901da84ee559bb3775fc1894cd8a45c285aec1627204c99c32ebb1",
+    "scripts/nomas_checkpoint_key_audit02.py": "5df609929f5acccad3f79719cd8b0c8313a3842256a8f0a9a17a8bf7ad9369da",
+    "evidence/preflight/nomas-key-only-materialization02.json": "a58730eea74afa5247ae22a8782b5ef5384dbff88f53dd08b7fad522dafa1055"
+  },
+  "source_repo": "/task/candidates/nomas-vae-mean-cleanup",
+  "source_sha": "37999f7ab31809bd8a9f3cabee3fa50c54f179d6",
+  "updated_at": "2026-11-15T10:11:31.065398+00:00",
+  "launch_to_ready_seconds": 43.342915386892855,
+  "completed_outputs": 3,
+  "reference_checks": [
+    true,
+    true,
+    true
+  ],
+  "gpu_cleanup": "idle_verified"
+}

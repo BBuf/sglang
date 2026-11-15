@@ -1,0 +1,38 @@
+{
+  "at": "2026-11-15T05:21:29.199565+00:00",
+  "runtime_validated": false,
+  "baselines": {
+    "sglang": "0745bfe49b855ae48e0c1ef3305362b8e0c78a03",
+    "omni": "aa2968e858a718989332a61ad40758024cb4a3a5"
+  },
+  "source_reads": [
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/configs/pipeline_configs/nomas.py",
+      "sha256": "61658fd6dac736b6fec5475ac40baf739ac545f1459b77132d04c7f188767d92"
+    },
+    {
+      "file": "repos/sglang-main/python/sglang/multimodal_gen/runtime/utils/model_overlay.py",
+      "sha256": "668a907df7d8e43ed7d09eaf3f16008b957e4b88a4b423ef31a3650d625cb203"
+    },
+    {
+      "file": "repos/vllm-omni/vllm_omni/diffusion/models/hy_nomas/pipeline_hy_nomas.py",
+      "sha256": "8df503950df31bf12e63b163d47da9adaa138f021ab93c4b06b7a37e4822588f"
+    }
+  ],
+  "findings": [
+    "Current SGL NomasPipelineConfig natively supports BF16 with Ulysses, noCFG/DP/ring or dynamicbatching. Native transformer/VAE/TE only; differentname is not itself a coveragegap.",
+    "Current Omni validate_config requires mp/ray isolation, BF16, strictUlysses only, noTP/CFG/TE-TP/VAEparallel/quantization/LoRA/approximatecache; moduleoffload only. Run only these common combos if admitted.",
+    "Frozen Omni model revision differs from builtin SGL officialsource+overlay; actual tensor mapping/value identity remains unproven. Readonly smallmetadata checks started; no newweights or GPUwork.",
+    "Current SGL default segment_latent_frames10 must not be compared to Omni singleprompt single-denoising-block defaults. Prior source contract is a lead requiring current requestlowering validation."
+  ],
+  "metadata_followup": {
+    "at": "2026-11-15T05:25:18.055166+00:00",
+    "correct_native_index": "modular_model_index.json",
+    "index_sha256": "cefa9dfdf5ce2b8c7e37c70d5044035f581fc44b21e6b3fa28d5a8850af14f6e",
+    "metadata_available": true,
+    "checkpoint_runtime_weight_bytes": 45192041648,
+    "weights_downloaded": false,
+    "not_an_access_gap": "The initial model_index.json404 was an inapplicable filename probe. Current Omni REQUIRED_FILES uses modular_model_index.json, now retrieved successfully. transformerconfig and SGL overlay modelindex also200.",
+    "remaining": "Prove component tensor/name/value correspondence and scheduler/conditioning/noise/segment semantics on exact frozen weights before comparing runtime. No GPU Nomas run."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "arm": "sgl",
+  "run": "nomas-49-sgl-noise10-A1",
+  "purpose": "Fresh native main A/A noise with20ms HTTP polling; preceding100ms-poll evidence retained",
+  "benchmark": true,
+  "status": "raw_complete",
+  "started_at": "2026-11-15T09:20:50.670892+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-quiet-visits/serve.py",
+      "start",
+      "sgl",
+      "nomas-49-sgl-noise10-A1"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-quiet-visits/submit.py",
+      "sgl",
+      "nomas-49-sgl-noise10-A1"
+    ]
+  ],
+  "comparison_scope": "within_sglang_main_AA",
+  "cross_framework_performance_admitted": false,
+  "cross_framework_quality_passed": false,
+  "quality_evidence": "evidence/quality/nomas-49-native02/summary.json",
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/nomas-native-workloads01.json": "0d407ba41a9749f65c9f29e131ec35a2665ab9f3e73d3896b2351b28041aff7e",
+    "inputs/nomas-49-sgl-noise10-A1.json": "cf046997cccdc8b5ee66eee464960f75953423fa3bdf407975b074b29c5a11e7",
+    "scripts/nomas-quiet-visits/build_nomas_video_payload.py": "9282ee477285948fbaaed3b6ae503c880db14a0ad70e44ff859dfa37f3c16e22",
+    "scripts/nomas-quiet-visits/run.py": "6fc9a8bec295fe22ede21cf50fb9d40f241fb373f1629b512254c92f07805e33",
+    "scripts/nomas-quiet-visits/serve.py": "7ca2502c5c441149eb9145bd69b60975cc46b7df934d41b07151d7ca22c1cc60",
+    "scripts/nomas-quiet-visits/submit.py": "b483146e43c103921e6cd88f512f62ed98c27071ff79509925ca0959771e5d00"
+  },
+  "updated_at": "2026-11-15T09:22:51.345713+00:00",
+  "launch_to_ready_seconds": 41.182395479641855,
+  "completed_outputs": 8,
+  "reference_checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "gpu_cleanup": "idle_verified"
+}

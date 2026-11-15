@@ -1,0 +1,297 @@
+diff --git a/python/sglang/kernels/ops/diffusion/README.md b/python/sglang/kernels/ops/diffusion/README.md
+index 4d82dd76..ee4f8760 100644
+--- a/python/sglang/kernels/ops/diffusion/README.md
++++ b/python/sglang/kernels/ops/diffusion/README.md
+@@ -168,6 +168,7 @@ Several norms look interchangeable and are not. Start here.
+ | Entry point | Backend | Contract | Applies to |
+ |---|---|---|---|
+ | `rmsnorm_cast_before_weight_bitexact` | Triton / aten | FP32 reduction, BF16 round before learned scale | MOSS-Image token and head RMSNorm |
++| `rmsnorm_mean_square_bitexact` | Triton | ATen-ordered `x.float().square().mean(-1, keepdim=True)` | BF16 head-64/128 views or contiguous width 4096, at least 16 rows and fewer than 2^29 elements; Nomas DiT/VAE, verified against the live reference per reduction layout |
+ | `triton_group_norm_silu` / `apply_group_norm_silu` | Triton | close | NCHW-contiguous, any channels-per-group, always applies SiLU |
+ | `group_norm_silu_4d` / `group_norm_silu_rows` | Triton | close | **channels_last only**; power-of-two `C <= 2048`; optional SiLU. This is what lets a VAE decoder run channels_last end-to-end with no `nchwToNhwc` |
+ | `wan_rmsnorm_silu` | Triton | close | dense `channels_last_3d` 5D (`stride(C) == 1`), Wan VAE channel-first RMSNorm + SiLU; `[ROWS, C]` tiles (~3 TB/s at C = 96); optional `conv_bias` folds the preceding conv's bias with aten `add_` arithmetic |
+diff --git a/python/sglang/kernels/ops/diffusion/__init__.py b/python/sglang/kernels/ops/diffusion/__init__.py
+index 200115d9..e973397b 100644
+--- a/python/sglang/kernels/ops/diffusion/__init__.py
++++ b/python/sglang/kernels/ops/diffusion/__init__.py
+@@ -45,6 +45,12 @@ _CUDA_SM10X = frozenset({CapabilityRequirement.cuda(min_sm=(10, 0), max_sm=(10,
+ # inventory: callers name the one they want via ``select_kernel``.
+ # ---------------------------------------------------------------------------
+ _SPECS: tuple[tuple[str, KernelBackend, str, frozenset], ...] = (
++    (
++        "diffusion.rmsnorm_mean_square_bitexact",
++        KernelBackend.TRITON,
++        "norm.rmsnorm_cast_before_weight_bitexact:rmsnorm_mean_square_bitexact",
++        _CUDA,
++    ),
+     (
+         "diffusion.depthwise_conv3x3_bias_glu",
+         KernelBackend.KDA,
+@@ -730,6 +736,8 @@ _EXPORTS: dict[str, str] = {
+     "try_fused_scale_residual_norm_scale_shift_fp8": "sglang.kernels.kda_kernels.norm_scale_shift_jit",
+     "validate_scale_shift": "norm.scale_residual_norm_cutedsl",
+     "try_fused_scale_residual_norm_scale_shift_nvfp4": "sglang.kernels.kda_kernels.norm_scale_shift_jit",
++    "can_use_rmsnorm_mean_square": "norm.rmsnorm_cast_before_weight_bitexact",
++    "rmsnorm_mean_square_bitexact": "norm.rmsnorm_cast_before_weight_bitexact",
+     "can_use_rmsnorm_cast_before_weight": "norm.rmsnorm_cast_before_weight_bitexact",
+     "can_use_rmsnorm_cast_before_weight_scale": "norm.rmsnorm_cast_before_weight_bitexact",
+     "can_use_rmsnorm_cast_before_weight_modulate": "norm.rmsnorm_cast_before_weight_bitexact",
+diff --git a/python/sglang/kernels/ops/diffusion/norm/rmsnorm_cast_before_weight_bitexact.py b/python/sglang/kernels/ops/diffusion/norm/rmsnorm_cast_before_weight_bitexact.py
+index 207a8c95..a8338cf7 100644
+--- a/python/sglang/kernels/ops/diffusion/norm/rmsnorm_cast_before_weight_bitexact.py
++++ b/python/sglang/kernels/ops/diffusion/norm/rmsnorm_cast_before_weight_bitexact.py
+@@ -77,10 +77,30 @@ def _ordered_rstd(
+ 
+ @triton.jit
+ def _mean_square_kernel(
+-    X, Out, M: tl.constexpr, HEADS: tl.constexpr, TOKEN_STRIDE: tl.constexpr
++    X,
++    Out,
++    M: tl.constexpr,
++    DIM: tl.constexpr,
++    HEADS: tl.constexpr,
++    TOKEN_STRIDE: tl.constexpr,
++    HEAD_STRIDE: tl.constexpr,
+ ):
+     rows = tl.program_id(0).to(tl.int64) * 16 + tl.arange(0, 16)
+-    mean = _ordered_mean_square(X, M, 128, 16, HEADS, TOKEN_STRIDE)
++    if DIM == 64:
++        offsets = (rows // HEADS) * TOKEN_STRIDE + (rows % HEADS) * HEAD_STRIDE
++        x = tl.load(
++            X + offsets[:, None] + tl.arange(0, 64)[None, :], rows[:, None] < M, 0
++        ).to(tl.float32)
++        # ATen does not vectorize width 64: each lane adds columns i and i+32.
++        total = _fold_halves(mul_rn_f32(x, x), 16, 32)
++        total = _fold_halves(total, 16, 16)
++        total = _fold_halves(total, 16, 8)
++        total = _fold_halves(total, 16, 4)
++        total = _fold_halves(total, 16, 2)
++        total = _fold_halves(total, 16, 1)
++        mean = mul_rn_f32(tl.reshape(total, (16,)), 1.0 / 64)
++    else:
++        mean = _ordered_mean_square(X, M, DIM, 16, HEADS, TOKEN_STRIDE)
+     tl.store(Out + rows, mean, rows < M)
+ 
+ 
+@@ -89,18 +109,24 @@ def _fake_mean_square(x):
+ 
+ 
+ def can_use_rmsnorm_mean_square(x: torch.Tensor) -> bool:
+-    return (
++    if not (
+         is_cuda()
+         and x.is_cuda
+         and x.dtype == torch.bfloat16
+-        and x.ndim == 4
+-        and x.shape[-1] == 128
++        and x.ndim >= 2
++        and x.shape[-1] in (64, 128, 4096)
++        and 16 <= x.numel() // x.shape[-1]
++        and x.numel() < 2**29
++    ):
++        return False
++    if x.shape[-1] == 4096:
++        return x.is_contiguous()
++    return (
++        x.ndim == 4
+         and x.stride(-1) == 1
+-        and x.stride(-2) == 128
+-        and x.stride(1) >= x.shape[2] * 128
++        and x.stride(-2) in (x.shape[-1], 128)
++        and x.stride(1) >= x.shape[2] * x.stride(-2)
+         and (x.shape[0] == 1 or x.stride(0) == x.shape[1] * x.stride(1))
+-        and 16 <= x.numel() // 128
+-        and x.numel() < 2**29
+     )
+ 
+ 
+@@ -108,14 +134,28 @@ def can_use_rmsnorm_mean_square(x: torch.Tensor) -> bool:
+     op_name="rmsnorm_mean_square_bitexact", mutates_args=[], fake_impl=_fake_mean_square
+ )
+ def rmsnorm_mean_square_bitexact(x: torch.Tensor) -> torch.Tensor:
+-    """Match ``x.float().square().mean(-1, keepdim=True)`` for BF16 head-128 views."""
++    """ATen-ordered BF16 mean-square for head-64/128 views or contiguous width 4096.
++
++    At least 16 rows keeps the reduction at 32 lanes. Head-64 views may select
++    either half of a head-128 allocation; token strides and storage offsets
++    are preserved. Larger workspaces and other layouts require the reference.
++    """
+     if not can_use_rmsnorm_mean_square(x):
+-        raise ValueError("Unsupported head-128 mean-square inputs")
++        raise ValueError("Unsupported ordered mean-square inputs")
+     with torch.cuda.device(x.device):
+         out = _fake_mean_square(x)
+-        rows = x.numel() // 128
++        dim = x.shape[-1]
++        rows = x.numel() // dim
+         _mean_square_kernel[(triton.cdiv(rows, 16),)](
+-            x, out, rows, x.shape[2], x.stride(1), num_warps=4, enable_fp_fusion=False
++            x,
++            out,
++            rows,
++            dim,
++            x.shape[2] if dim != 4096 else 1,
++            x.stride(1) if dim != 4096 else 0,
++            x.stride(-2),
++            num_warps=4,
++            enable_fp_fusion=False,
+         )
+     return out
+ 
+diff --git a/python/sglang/multimodal_gen/runtime/models/vaes/nomas.py b/python/sglang/multimodal_gen/runtime/models/vaes/nomas.py
+index fbf25e30..21658160 100644
+--- a/python/sglang/multimodal_gen/runtime/models/vaes/nomas.py
++++ b/python/sglang/multimodal_gen/runtime/models/vaes/nomas.py
+@@ -21,7 +21,11 @@ from torch import nn
+ from torch.nn import functional as F
+ 
+ from sglang.kernels.arch import current_arch
+-from sglang.kernels.ops.diffusion import BitExactFusionGate
++from sglang.kernels.ops.diffusion import (
++    BitExactFusionGate,
++    can_use_rmsnorm_mean_square,
++    rmsnorm_mean_square_bitexact,
++)
+ from sglang.multimodal_gen.configs.models.vaes.nomas import NomasVAEConfig
+ from sglang.multimodal_gen.runtime.distributed.parallel_state import (
+     get_decode_parallel_group_coordinator,
+@@ -40,12 +44,13 @@ from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger
+ 
+ logger = init_logger(__name__)
+ _QK_MROPE_FUSION = BitExactFusionGate("Nomas VAE Q/K norm + MRoPE", per_signature=True)
++_MEAN_SQUARE_FUSION = BitExactFusionGate("Nomas VAE mean-square", per_signature=True)
+ TUBELET = (4, 16, 16)
+ TUBE_DIM = TUBELET[0] * TUBELET[1] * TUBELET[2] * 3
+ LATENT_CHANNELS = 32
+ # A DCAE latent cell is (4, 32, 32) pixels: 1 tubelet in time, 2 x 2 in space.
+ LATENT_TOKEN_GRID = 2
+-# Target FP32 bytes per fused Q/K chunk; only the squares are materialised.
++# Bound the FP32 square buffer used by the mean-square fallback per Q/K chunk.
+ _QK_FUSED_CHUNK_BYTES = 256 * 2**20
+ 
+ 
+@@ -142,7 +147,7 @@ def apply_mrope(
+     return x * cos + rotated * sin
+ 
+ 
+-# Mean-square reductions stay in ATen to keep their summation order.
++# The fallback retains ATen's mean-square summation order.
+ def _square(x):
+     return x.float().pow(2)
+ 
+@@ -188,7 +193,17 @@ def _compiled_silu_mul():
+ 
+ 
+ def _mean_square(x):
+-    return _compiled_square()(x).mean(-1, keepdim=True)
++    def reference():
++        return _compiled_square()(x).mean(-1, keepdim=True)
++
++    if can_use_rmsnorm_mean_square(x):
++        return _MEAN_SQUARE_FUSION.run(
++            lambda: rmsnorm_mean_square_bitexact(x),
++            reference,
++            sig=(x.shape, x.stride(), x.device),
++            logger=logger,
++        )
++    return reference()
+ 
+ 
+ def local_attention_layout(grid: tuple[int, int, int], tile: int, device):
+@@ -301,7 +316,7 @@ class GenAttention(nn.Module):
+         return apply_mrope(normalized, cos, sin, self.arch.rope_sections).to(dtype)
+ 
+     def _prepare_qk_fused(self, x, cos, sin, norm_t, norm_hw, dtype):
+-        """Keep ATen mean squares and the compiled reference's FP32 rounding."""
++        """Keep ATen's reduction order and the compiled reference's FP32 rounding."""
+         half = x.shape[-1] // 2
+         result = torch.empty_like(x, dtype=dtype)
+         use_fused = (
+@@ -317,7 +332,7 @@ class GenAttention(nn.Module):
+         if use_fused:
+             from sglang.kernels.ops.diffusion import fused_nomas_qk_norm_mrope
+ 
+-        # Only the FP32 squares are materialised now, so far larger chunks fit.
++        # First-use verification and unsupported layouts materialize FP32 squares.
+         chunk = max(
+             1, _QK_FUSED_CHUNK_BYTES // (x.shape[0] * x.shape[2] * x.shape[3] * 4)
+         )
+diff --git a/test/registered/kernels/ops/diffusion/test_norm.py b/test/registered/kernels/ops/diffusion/test_norm.py
+index e98bc144..e9f76bb3 100644
+--- a/test/registered/kernels/ops/diffusion/test_norm.py
++++ b/test/registered/kernels/ops/diffusion/test_norm.py
+@@ -880,25 +880,68 @@ def test_head128_mean_square_exact(batch, seq, heads, packed, amplitude):
+ 
+ 
+ @pytest.mark.skipif(torch.version.hip is not None, reason="Requires CUDA PTX")
+-def test_head128_mean_square_capture_replay_and_compile():
+-    from sglang.kernels.ops.diffusion.norm.rmsnorm_cast_before_weight_bitexact import (
+-        rmsnorm_mean_square_bitexact,
+-    )
++@pytest.mark.parametrize("width", [64, 128, 4096])
++def test_mean_square_capture_replay_and_compile(width):
++    from sglang.kernels.ops.diffusion import rmsnorm_mean_square_bitexact
+ 
+     x = torch.randn(1, 31, 4, 128, device="cuda", dtype=torch.bfloat16)
++    if width == 64:
++        x = x[..., 64:]
++    elif width == 4096:
++        x = torch.randn(17, width, device=DEVICE, dtype=torch.bfloat16)
+     rmsnorm_mean_square_bitexact(x)
+     graph = torch.cuda.CUDAGraph()
+     with torch.cuda.graph(graph):
+         captured = rmsnorm_mean_square_bitexact(x)
+     compiled = torch.compile(rmsnorm_mean_square_bitexact, fullgraph=True)
+-    for _ in range(2):
+-        x.normal_()
++    for amplitude in (1.0, 1000.0):
++        x.normal_().mul_(amplitude)
+         graph.replay()
+         expected = x.float().square().mean(-1, keepdim=True)
+         assert torch.equal(captured, expected)
+         assert torch.equal(compiled(x), expected)
+ 
+ 
++@pytest.mark.skipif(torch.version.hip is not None, reason="Requires CUDA PTX")
++@pytest.mark.parametrize("layout", ["head64", "first_half", "second_half", "width4096"])
++@pytest.mark.parametrize("amplitude", [1.0, 1e-38, 1e19])
++def test_vae_mean_square_reduction_and_offsets(layout, amplitude):
++    from sglang.kernels.ops.diffusion import rmsnorm_mean_square_bitexact
++
++    if layout == "width4096":
++        x = torch.randn(17 * 4096 + 1, device=DEVICE, dtype=torch.bfloat16)[1:].view(
++            17, 4096
++        )
++    else:
++        width = 64 if layout == "head64" else 128
++        shape = (1, 2, 8, width) if layout == "first_half" else (2, 17, 8, width)
++        x = torch.randn(shape, device=DEVICE, dtype=torch.bfloat16)
++        if layout != "head64":
++            x = x[..., :64] if layout == "first_half" else x[..., 64:]
++    x.mul_(amplitude)
++    expected = x.float().square().mean(-1, keepdim=True)
++    assert torch.equal(rmsnorm_mean_square_bitexact(x), expected)
++
++
++@pytest.mark.skipif(torch.version.hip is not None, reason="Requires CUDA PTX")
++def test_vae_mean_square_rejects_other_reduction_layouts():
++    from sglang.kernels.ops.diffusion import (
++        can_use_rmsnorm_mean_square,
++        rmsnorm_mean_square_bitexact,
++    )
++
++    for x in (
++        torch.empty(15, 4096, device=DEVICE, dtype=torch.bfloat16),
++        torch.empty(17, 8192, device=DEVICE, dtype=torch.bfloat16)[:, ::2],
++        torch.empty(2, 19, 8, 128, device=DEVICE, dtype=torch.bfloat16)[
++            :, 1:-1, :, 64:
++        ],
++    ):
++        assert not can_use_rmsnorm_mean_square(x)
++        with pytest.raises(ValueError, match="Unsupported ordered mean-square"):
++            rmsnorm_mean_square_bitexact(x)
++
++
+ def _moss_image_norm_eager(x, weight):
+     normalized = x.float() * torch.rsqrt(
+         x.float().square().mean(-1, keepdim=True) + 1e-6

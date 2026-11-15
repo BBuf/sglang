@@ -1,0 +1,55 @@
+{
+  "arm": "omni",
+  "run": "nomas-121-omni-native09",
+  "purpose": "Native BF16 Nomas121-frame resource/quality admission; actual inputs and full8steps, no performance claim",
+  "benchmark": false,
+  "status": "raw_complete",
+  "started_at": "2026-11-15T09:36:05.639068+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-omni",
+      "/task/envs/omni/bin/python",
+      "/task/scripts/nomas-native-visits02/serve.py",
+      "start",
+      "omni",
+      "nomas-121-omni-native09"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-omni",
+      "/task/envs/omni/bin/python",
+      "/task/scripts/nomas-native-visits02/submit.py",
+      "omni",
+      "nomas-121-omni-native09"
+    ]
+  ],
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/nomas-native-workloads01.json": "0d407ba41a9749f65c9f29e131ec35a2665ab9f3e73d3896b2351b28041aff7e",
+    "inputs/nomas-121-omni-native09.json": "1e29be79385b0bc47b631ef5ab38b15e2141dc47306283c7afedcdeb59c93169",
+    "scripts/nomas-native-visits02/build_nomas_video_payload.py": "9282ee477285948fbaaed3b6ae503c880db14a0ad70e44ff859dfa37f3c16e22",
+    "scripts/nomas-native-visits02/run.py": "ffa265db1794e38a5ebf70905fece1ff4787b0f4aea7f2408c4ac824387ca73f",
+    "scripts/nomas-native-visits02/serve.py": "7ca2502c5c441149eb9145bd69b60975cc46b7df934d41b07151d7ca22c1cc60",
+    "scripts/nomas-native-visits02/submit.py": "10ca00ac98a69b29fd01f27bf6c564378f24bf63669e7624c2a6b794bc6eb83b",
+    "scripts/nomas-native-observer01/sitecustomize.py": "258b2f1ff11d51bef59f4feab8a97c7b8b3f34f8c91154d93321547666621ee1",
+    "scripts/materialize_nomas_keys02.py": "79e837829f901da84ee559bb3775fc1894cd8a45c285aec1627204c99c32ebb1",
+    "scripts/nomas_checkpoint_key_audit02.py": "5df609929f5acccad3f79719cd8b0c8313a3842256a8f0a9a17a8bf7ad9369da",
+    "evidence/preflight/nomas-key-only-materialization02.json": "a58730eea74afa5247ae22a8782b5ef5384dbff88f53dd08b7fad522dafa1055"
+  },
+  "updated_at": "2026-11-15T09:41:33.842234+00:00",
+  "launch_to_ready_seconds": 41.26755079627037,
+  "completed_outputs": 7,
+  "reference_checks": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "gpu_cleanup": "idle_verified"
+}

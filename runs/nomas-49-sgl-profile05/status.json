@@ -1,0 +1,53 @@
+{
+  "arm": "sgl",
+  "run": "nomas-49-sgl-profile05",
+  "purpose": "Diagnostic full-stage profile of unchanged native SGLang main; own-repeat exact, cross-framework quality remains failed",
+  "benchmark": false,
+  "status": "raw_complete",
+  "started_at": "2026-11-15T08:47:57.598666+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-profile-visits/serve.py",
+      "start",
+      "sgl",
+      "nomas-49-sgl-profile05"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-profile-visits/submit.py",
+      "sgl",
+      "nomas-49-sgl-profile05"
+    ]
+  ],
+  "diagnostic_only": true,
+  "cross_framework_performance_admitted": false,
+  "cross_framework_quality_passed": false,
+  "quality_evidence": "evidence/quality/nomas-49-native02/summary.json",
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/nomas-native-workloads01.json": "0d407ba41a9749f65c9f29e131ec35a2665ab9f3e73d3896b2351b28041aff7e",
+    "inputs/nomas-49-sgl-profile05.json": "da1fcb4efe5bb694bdc45450ae490220de8835d78ef76c2a731e27c9764861f5",
+    "scripts/nomas-profile-visits/build_nomas_video_payload.py": "9282ee477285948fbaaed3b6ae503c880db14a0ad70e44ff859dfa37f3c16e22",
+    "scripts/nomas-profile-visits/run.py": "eac437e641d907a373f797cb0736fccfad5823e6b05b1a88c78e6f3139d690c6",
+    "scripts/nomas-profile-visits/serve.py": "7ca2502c5c441149eb9145bd69b60975cc46b7df934d41b07151d7ca22c1cc60",
+    "scripts/nomas-profile-visits/submit.py": "e824351c23a4e67d64f0a5daa3e0b933f085db4bceed3241a4faff8ee51a37f5"
+  },
+  "updated_at": "2026-11-15T08:50:08.779438+00:00",
+  "launch_to_ready_seconds": 41.138337216340005,
+  "profiles": [
+    "/data/xyzhang/diffusion-6000-20261113/runs/nomas-49-sgl-profile05/profiles/d4d297c3-14b2-404c-9f91-8a0159b0c5d8-full_stages-global-rank0.trace.json.gz"
+  ],
+  "completed_outputs": 2,
+  "reference_checks": [
+    true,
+    true
+  ],
+  "gpu_cleanup": "idle_verified"
+}

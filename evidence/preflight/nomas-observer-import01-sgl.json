@@ -1,0 +1,33 @@
+{
+  "arm": "sgl",
+  "returncode": 0,
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "CUDA_VISIBLE_DEVICES=",
+    "-e",
+    "SGLANG_DIFFUSION_PLATFORM_OVERRIDE=cpu",
+    "-e",
+    "PYTHONPATH=/task/scripts/nomas-native-observer01:/task/repos/sglang-main/python",
+    "-e",
+    "NOMAS_AUDIT_ARM=sgl",
+    "-e",
+    "NOMAS_AUDIT_DIR=/task/evidence/preflight/nomas-observer-import01-sgl",
+    "bbuf-diffusion-6000-20261113-sgl",
+    "/opt/sglang/bin/python",
+    "-c",
+    "import torch,sys; assert not torch.cuda.is_initialized(); print(\"CPU import complete\")"
+  ],
+  "events": [
+    {
+      "event": "observer_installed",
+      "arm": "sgl",
+      "pid": 136336,
+      "wall_ns": 1794728732277332604,
+      "request": null,
+      "source_sha256": "258b2f1ff11d51bef59f4feab8a97c7b8b3f34f8c91154d93321547666621ee1"
+    }
+  ],
+  "tail": "/task/repos/sglang-main/python/sglang/srt/layers/quantization/awq/awq.py:53: UserWarning: Only CUDA, HIP and XPU support AWQ currently.\n  warnings.warn(f\"Only CUDA, HIP and XPU support AWQ currently.\")\nCPU import complete\n"
+}

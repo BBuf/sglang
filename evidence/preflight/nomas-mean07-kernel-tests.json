@@ -1,0 +1,29 @@
+{
+  "at": "2026-11-15T09:04:12.381482+00:00",
+  "head": "fbfb89d4c73ae6adc1d2d769af4a34a4cd881541",
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "CUDA_VISIBLE_DEVICES=0",
+    "-e",
+    "PYTHONPATH=/task/candidates/nomas-vae-mean/python",
+    "-e",
+    "FLASHINFER_DISABLE_VERSION_CHECK=1",
+    "bbuf-diffusion-6000-20261113-sgl",
+    "/opt/sglang/bin/python",
+    "-m",
+    "pytest",
+    "/task/candidates/nomas-vae-mean/test/registered/kernels/ops/diffusion/test_norm.py",
+    "-k",
+    "mean_square",
+    "-q"
+  ],
+  "status": "passed",
+  "benchmark": false,
+  "physical_gpus": [
+    0
+  ],
+  "exit_code": 0,
+  "gpu_processes_after": ""
+}

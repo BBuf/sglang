@@ -1,0 +1,550 @@
+{
+  "at": "2026-11-15T06:04:48.838Z",
+  "prs": [
+    {
+      "number": 49270,
+      "info": {
+        "url": "https://github.com/sgl-project/sglang/pull/49270",
+        "number": 49270,
+        "state": "closed",
+        "merged": true,
+        "mergeable": false,
+        "draft": false,
+        "body": "## Motivation\n\nGroupwise INT8 linears currently convert the active weight matrix to FP32, multiply by group scales, and cast to the activation dtype before every GEMM. For the Hy-Nomas INT8 DiT, this creates intermediate FP32 tensors and separate GPU launches on each use.\n\nFuse group-128 INT8-to-BF16 weight preparation into one Triton kernel while preserving FP32 multiplication and the final BF16 rounding. The linear computation remains BF16 GEMM.\n\n## Modifications\n\n- Add and register `quantization.groupwise_int8_dequant` under `sglang.kernels.ops.quantization`. The checked public API accepts contiguous 2-D CUDA INT8 weights and FP32 scales, supports partial final groups and empty tensors, and produces BF16 weights.\n- Dispatch eligible NVIDIA CUDA/BF16 group-128 linears to this API. Preserve the existing PyTorch paths for other configurations. Validate groupwise weight metadata during loading; runtime calls use the checked interface without cached validation state.\n- Add kernel numerical/contract tests, compile and CUDA Graph coverage, a registered microbenchmark, and Nomas loading/device-move integration coverage.\n\n## Accuracy Tests\n\n### End-to-end Inference: Bitwise Identical\n\nThe final checked interface and the preceding validated-fast-path implementation produced **bitwise-identical outputs (zero numerical difference)** throughout the tested end-to-end inference pipeline:\n\n- **All model predictions**\n- **Historical KV cache tensors**\n- **Final latents for both events**\n- **Decoded video pixels before MP4 encoding**\n\nTested on RTX 4090 D with the official Hy-Nomas INT8 DiT and FP8 VAE: 352×640 resolution, two 40-frame events, eight inference steps, seed 42, and camera motion. Both runs used the same test-only decoder inference-mode workaround.\n\nThe fused kernel also matched the original PyTorch dequantization reference **bit for bit** in all tested numerical cases.\n\n## Speed Tests and Profiling\n\n### End-to-end inference\n\nConfiguration: RTX 4090 D, official Hy-Nomas distilled INT8 DiT and FP8 VAE, 352×640 resolution, two 40-frame events (80 frames total), eight inference steps per event, seed 42, guidance scale 1, and camera motion. Component CPU offload was enabled; DiT layerwise offload was disabled. Conditioning cache remained enabled, so these are warm repeated-prompt measurements. Both variants used the same test-only decoder inference-mode workaround.\n\n| E2E latency | PyTorch | Fused Triton |\n| --- | ---: | ---: |\n| Mean | 14.335 s | 11.221 s |\n| Median | 13.999 s | 11.141 s |\n| Range | 12.403–16.938 s | 10.443–12.158 s |\n| Sample standard deviation | 2.238 s | 0.728 s |\n\n### Synchronized stage breakdown\n\n| Component | PyTorch mean | Fused Triton mean | Latency reduction |\n| --- | ---: | ---: | ---: |\n| Whole request, diagnostic pass | 12.360 s | 10.990 s | **11.1%** |\n| Text encoding, warm cache | 0.025 s | 0.034 s | — |\n| Input validation, timestep and latent preparation | 0.003 s | 0.003 s | — |\n| DiT denoising | 7.181 s | 5.791 s | **19.4%** |\n| VAE decoding | 4.011 s | 4.016 s | Essentially unchanged |\n| Outside measured stages | 1.142 s | 1.147 s | Essentially unchanged |\n\nWithin DiT, event 1 generation decreased from **3.375 s to 2.600 s**, and event 2 from **3.288 s to 2.673 s**. These are nested measurements, not additional stages to sum into the total. Outside-stage time includes component residency/transfer work, scheduling/IPC, output saving and other overhead; it is not a pure transfer measurement.\n\nThe improvement is concentrated in DiT denoising. The synchronized pass shows a smaller whole-request reduction than the ordinary timing pass, so both results are reported rather than attributing the entire noisier E2E difference to the kernel. The GPU was idle before the experiment; other GPUs and host resources remained shared.\n\n### Dequantization microbenchmark\n\nMeasured separately on an initially idle RTX 4090 D; latency in microseconds:\n\n| Weight shape | PyTorch | Fused Triton |\n| --- | ---: | ---: |\n| 2048 × 2048 | 41.65 | 13.93 |\n| 8192 × 2048 | 310.38 | 55.97 |\n| 2048 × 8192 | 310.58 | 55.97 |\n| 12288 × 2048 | 516.65 | 83.91 |\n\nThe benchmark uses CUDA Graph replay and rotates inputs and outputs to avoid repeated hot-L2 output reuse. The PyTorch reference performs FP32 conversion/multiplication and copies into a preallocated BF16 output. These measurements exclude BF16 GEMM and Python submission overhead. Separate eager measurements found roughly 10–14 µs of additional host submission time per full linear call for most tested shapes when using the checked API instead of an unchecked launcher; the final implementation retains validation.\n\n## Checklist\n\n- [x] Format your code according to the [Format code with pre-commit](https://docs.sglang.io/developer_guide/contribution_guide.html#format-code-with-pre-commit).\n- [x] Add unit tests according to the [Run and add unit tests](https://docs.sglang.io/developer_guide/contribution_guide.html#run-and-add-unit-tests).\n- [x] Update documentation according to [Write documentations](https://docs.sglang.io/developer_guide/contribution_guide.html#write-documentations). The operator contract is documented in its docstring; no user-facing configuration changes.\n- [x] Provide accuracy and speed benchmark results according to [Test the accuracy](https://docs.sglang.io/developer_guide/contribution_guide.html#test-the-accuracy) and [Benchmark the speed](https://docs.sglang.io/developer_guide/contribution_guide.html#benchmark-the-speed). Local results and their limits are reported above; isolated end-to-end performance remains unverified.\n- [x] Follow the SGLang code style [guidance](https://docs.sglang.io/developer_guide/contribution_guide.html#code-style-guidance).\n\n<!-- pr-states:start -->\n---\n### CI States\n\nLatest PR Test (Base): <!-- slot:pr-test:start -->:x: [Run #43373746624](https://github.com/sgl-project/sglang/actions/runs/43373746624)<!-- slot:pr-test:end -->\nLatest PR Test (Extra): <!-- slot:pr-test-extra:start -->:x: [Run #43373746508](https://github.com/sgl-project/sglang/actions/runs/43373746508)<!-- slot:pr-test-extra:end -->\nLatest PR Test (AMD ROCm 10): <!-- slot:pr-test-amd:start -->:x: [Run #43373746430](https://github.com/sgl-project/sglang/actions/runs/43373746430)<!-- slot:pr-test-amd:end -->\n\n> [!TIP]\n> Base CI only covers the core cases, and its workload may not exercise your change. Use `/rerun-test` to run the tests your change touches, or copy this prompt for an agent:\n>\n> ```text\n> Find the registered tests this PR affects and run them with /rerun-test, following https://github.com/sgl-project/sglang/blob/main/.agents/skills/rerun-test/SKILL.md\n> ```\n<!-- pr-states:end -->",
+        "title": "[Perf] diffusion: Hy-Nomas fuse groupwise INT8 weight dequantization",
+        "base": "main",
+        "base_sha": "112ecb1303efe813723afa79606b116fa32dc79f",
+        "head": "perf/nomas-fused-int8-dequant",
+        "head_sha": "75ba2c240cb83e362d6f82c7fa2fbece9e87a962",
+        "head_repo_id": 1286868015,
+        "head_repo_full_name": "trebladev/sglang",
+        "merge_commit_sha": "999a6fa3dc7cb4f9e10d7be8fab9ce5853ae2d4d",
+        "user": {
+          "login": "trebladev",
+          "name": "trebladev",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/54441939?v=4",
+          "id": 54441939
+        },
+        "requested_reviewers": [
+          {
+            "login": "HaiShaw",
+            "name": "HaiShaw",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/3349073?v=4",
+            "id": 3349073
+          },
+          {
+            "login": "yuan-luo",
+            "name": "yuan-luo",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/4908075?v=4",
+            "id": 4908075
+          },
+          {
+            "login": "BowenBao",
+            "name": "BowenBao",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/9376104?v=4",
+            "id": 9376104
+          },
+          {
+            "login": "mickqian",
+            "name": "mickqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+            "id": 30898949
+          },
+          {
+            "login": "ping1jing2",
+            "name": "ping1jing2",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/32810407?v=4",
+            "id": 32810407
+          },
+          {
+            "login": "AgainstEntropy",
+            "name": "AgainstEntropy",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/42559837?v=4",
+            "id": 42559837
+          },
+          {
+            "login": "kevin-mii",
+            "name": "kevin-mii",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/45493463?v=4",
+            "id": 45493463
+          },
+          {
+            "login": "HydraQYH",
+            "name": "HydraQYH",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/45795032?v=4",
+            "id": 45795032
+          },
+          {
+            "login": "OrangeRedeng",
+            "name": "OrangeRedeng",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/58187114?v=4",
+            "id": 58187114
+          },
+          {
+            "login": "DarkSharpness",
+            "name": "DarkSharpness",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/76582120?v=4",
+            "id": 76582120
+          },
+          {
+            "login": "celve",
+            "name": "celve",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/95223577?v=4",
+            "id": 95223577
+          },
+          {
+            "login": "yichiche",
+            "name": "yichiche",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/179548237?v=4",
+            "id": 179548237
+          }
+        ],
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-11-09T08:20:28Z",
+        "updated_at": "2026-11-14T14:48:42Z",
+        "closed_at": "2026-11-14T14:48:42Z",
+        "merged_at": "2026-11-14T14:48:42Z",
+        "commits": 5,
+        "changed_files": 6,
+        "additions": 273,
+        "deletions": 4,
+        "display_url": "https://github.com/sgl-project/sglang/pull/49270",
+        "display_title": "[Perf] diffusion: Hy-Nomas fuse groupwise INT8 weight dequantization"
+      },
+      "patch": {
+        "patches": [
+          {
+            "filename": "python/sglang/kernels/ops/quantization/__init__.py",
+            "patch": "@@ -17,6 +17,16 @@\n     import torch\n \n \n+register_kernel(\n+    KernelSpec(\n+        op=\"quantization.groupwise_int8_dequant\",\n+        backend=KernelBackend.TRITON,\n+        target=\"sglang.kernels.ops.quantization.groupwise_int8_dequant:groupwise_int8_dequant\",\n+        capabilities=CUDA_ONLY,\n+    )\n+)\n+\n+\n register_kernel(\n     KernelSpec(\n         op=\"quantization.sgl_per_token_quant_fp8\","
+          },
+          {
+            "filename": "python/sglang/kernels/ops/quantization/groupwise_int8_dequant.py",
+            "patch": "@@ -0,0 +1,73 @@\n+from __future__ import annotations\n+\n+import torch\n+import triton\n+import triton.language as tl\n+\n+from sglang.srt.utils.custom_op import register_custom_op\n+\n+\n+@triton.jit\n+def _groupwise_int8_dequant_kernel(\n+    weight,\n+    scales,\n+    output,\n+    N: tl.constexpr,\n+    WIDTH: tl.constexpr,\n+    BLOCK: tl.constexpr,\n+):\n+    offsets = tl.program_id(0).to(tl.int64) * BLOCK + tl.arange(0, BLOCK)\n+    if WIDTH % 128 == 0:\n+        scale_offsets = offsets // 128\n+    else:\n+        # A partial final group restarts at the next row.\n+        rows = offsets // WIDTH\n+        groups = (offsets % WIDTH) // 128\n+        scale_offsets = rows * tl.cdiv(WIDTH, 128) + groups\n+    values = tl.load(weight + offsets, offsets < N, other=0).to(tl.float32)\n+    scale = tl.load(scales + scale_offsets, offsets < N, other=0)\n+    result = (values * scale).to(tl.bfloat16, fp_downcast_rounding=\"rtne\")\n+    tl.store(output + offsets, result, offsets < N)\n+\n+\n+def _launch_dequant(weight, scales, output):\n+    count = weight.numel()\n+    if count:\n+        block = 1024\n+        _groupwise_int8_dequant_kernel[(triton.cdiv(count, block),)](\n+            weight, scales, output, count, weight.shape[1], block\n+        )\n+\n+\n+@register_custom_op(op_name=\"groupwise_int8_dequant\", mutates_args=[\"output\"])\n+def _dequant_into(\n+    weight: torch.Tensor, scales: torch.Tensor, output: torch.Tensor\n+) -> None:\n+    if weight.ndim != 2 or scales.ndim != 2:\n+        raise ValueError(\"Weight and scales must be two-dimensional\")\n+    rows, width = weight.shape\n+    if weight.dtype != torch.int8 or scales.dtype != torch.float32:\n+        raise ValueError(\"Weight must be INT8 and scales must be FP32\")\n+    if scales.shape != (rows, triton.cdiv(width, 128)):\n+        raise ValueError(\"Scales must have shape [rows, ceil(width / 128)]\")\n+    if output.shape != weight.shape or output.dtype != torch.bfloat16:\n+        raise ValueError(\"Output must match the weight shape and have BF16 dtype\")\n+    if not weight.is_cuda or not (weight.device == scales.device == output.device):\n+        raise ValueError(\"Weight, scales and output must be on the same CUDA device\")\n+    if not (\n+        weight.is_contiguous() and scales.is_contiguous() and output.is_contiguous()\n+    ):\n+        raise ValueError(\"Weight, scales and output must be contiguous\")\n+    with torch.cuda.device(weight.device):\n+        _launch_dequant(weight, scales, output)\n+\n+\n+def groupwise_int8_dequant(weight: torch.Tensor, scales: torch.Tensor) -> torch.Tensor:\n+    \"\"\"Dequantize contiguous CUDA INT8 weights with FP32 scales, group size 128.\n+\n+    Scales have shape [rows, ceil(width / 128)]. Multiplication is performed\n+    in FP32 before rounding once to BF16, including a partial final group.\n+    \"\"\"\n+    output = torch.empty_like(weight, dtype=torch.bfloat16)\n+    _dequant_into(weight, scales, output)\n+    return output"
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/runtime/layers/quantization/quanto_int8.py",
+            "patch": "@@ -75,10 +75,12 @@ def create_weights(\n         weight_scale = Parameter(\n             torch.empty(\n                 sum(output_partition_sizes),\n-                1\n-                if self.group_size is None\n-                else (input_size_per_partition + self.group_size - 1)\n-                // self.group_size,\n+                (\n+                    1\n+                    if self.group_size is None\n+                    else (input_size_per_partition + self.group_size - 1)\n+                    // self.group_size\n+                ),\n                 dtype=self.scale_dtype or params_dtype,\n             ),\n             requires_grad=False,\n@@ -92,7 +94,13 @@ def create_weights(\n \n     def process_weights_after_loading(self, layer: torch.nn.Module) -> None:\n         if self.group_size is not None:\n+            weight = layer.weight\n             scales = layer.weight_scale\n+            if weight.ndim != 2 or weight.dtype != torch.int8:\n+                raise ValueError(\"INT8 weight must be a two-dimensional INT8 tensor\")\n+            rows, width = weight.shape\n+            if scales.shape != (rows, (width + self.group_size - 1) // self.group_size):\n+                raise ValueError(\"INT8 scales have an incompatible groupwise shape\")\n             if not torch.isfinite(scales).all() or not (scales > 0).all():\n                 raise ValueError(\"INT8 scales must be finite and positive\")\n \n@@ -119,6 +127,21 @@ def apply(\n         if self.group_size is None:\n             weight = layer.weight.to(dtype=x.dtype)\n             weight.mul_(layer.weight_scale.to(dtype=x.dtype))\n+        elif (\n+            self.group_size == 128\n+            and x.is_cuda\n+            and torch.version.hip is None\n+            and x.dtype == torch.bfloat16\n+            and layer.weight.dtype == torch.int8\n+            and layer.weight_scale.dtype == torch.float32\n+            and layer.weight.is_contiguous()\n+            and layer.weight_scale.is_contiguous()\n+        ):\n+            from sglang.kernels.ops.quantization.groupwise_int8_dequant import (\n+                groupwise_int8_dequant,\n+            )\n+\n+            weight = groupwise_int8_dequant(layer.weight, layer.weight_scale)\n         else:\n             out, width = layer.weight.shape\n             if width % self.group_size == 0:"
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/test/unit/test_nomas.py",
+            "patch": "@@ -1460,6 +1460,39 @@ def test_int8_group_boundary_and_partial_final_group(int8_layer):\n     torch.testing.assert_close(int8_layer(inputs), expected, rtol=0, atol=0)\n \n \n+def test_int8_loading_rejects_invalid_group_metadata(int8_layer):\n+    \"\"\"Reject malformed groupwise scales during weight loading.\"\"\"\n+    int8_layer.quant_method.process_weights_after_loading(int8_layer)\n+    int8_layer.weight_scale = torch.nn.Parameter(\n+        torch.ones((2, 1), dtype=torch.float32), requires_grad=False\n+    )\n+    with pytest.raises(ValueError, match=\"groupwise shape\"):\n+        int8_layer.quant_method.process_weights_after_loading(int8_layer)\n+\n+\n+@torch.inference_mode()\n+def test_int8_dequant_survives_device_moves_and_compile(int8_layer):\n+    \"\"\"Fused dequantization supports component offload and compiled inference.\"\"\"\n+    if not torch.cuda.is_available():\n+        pytest.skip(\"CUDA required\")\n+    inputs = torch.ones(2, 130, dtype=torch.bfloat16)\n+    expected = int8_layer(inputs)\n+    int8_layer.quant_method.process_weights_after_loading(int8_layer)\n+    for device in (\"cuda\", \"cpu\", \"cuda\"):\n+        int8_layer.to(device)\n+        actual = int8_layer(inputs.to(device)).cpu()\n+        torch.testing.assert_close(actual, expected, rtol=0, atol=0)\n+    compiled = torch.compile(int8_layer, fullgraph=True)\n+    torch.testing.assert_close(compiled(inputs.cuda()).cpu(), expected, rtol=0, atol=0)\n+    if torch.cuda.device_count() > 1:\n+        current = torch.cuda.current_device()\n+        other = (current + 1) % torch.cuda.device_count()\n+        int8_layer.to(f\"cuda:{other}\")\n+        actual = int8_layer(inputs.to(f\"cuda:{other}\")).cpu()\n+        torch.testing.assert_close(actual, expected, rtol=0, atol=0)\n+        assert torch.cuda.current_device() == current\n+\n+\n @pytest.mark.parametrize(\n     \"cls\", [torch.nn.Linear, ColumnParallelLinear, RowParallelLinear]\n )"
+          },
+          {
+            "filename": "test/registered/kernels/benchmark/quantization/bench_groupwise_int8_dequant.py",
+            "patch": "@@ -0,0 +1,37 @@\n+import torch\n+\n+from sglang.kernels.jit.benchmark import marker\n+from sglang.kernels.ops.quantization.groupwise_int8_dequant import _dequant_into\n+from sglang.test.ci.ci_register import register_cuda_ci\n+\n+register_cuda_ci(\n+    est_time=15, stage=\"base-b-kernel-benchmark\", runner_config=\"1-gpu-small\"\n+)\n+\n+\n+def _torch_dequant(weight, scales, output):\n+    rows, width = weight.shape\n+    output.copy_(\n+        (weight.reshape(rows, -1, 128).float() * scales[..., None]).reshape(rows, width)\n+    )\n+\n+\n+@marker.parametrize(\"shape\", [(2048, 2048), (8192, 2048), (2048, 8192), (12288, 2048)])\n+@marker.benchmark(\"impl\", [\"torch\", \"fused\"])\n+def benchmark(shape, impl):\n+    rows, width = shape\n+    weight = torch.randint(-128, 128, shape, dtype=torch.int8, device=\"cuda\")\n+    scales = torch.rand((rows, width // 128), device=\"cuda\")\n+    output = torch.empty(shape, dtype=torch.bfloat16, device=\"cuda\")\n+    fn = _torch_dequant if impl == \"torch\" else _dequant_into\n+    # Rotate outputs as well as both inputs to avoid hot-L2 output reuse.\n+    return marker.do_bench(\n+        fn,\n+        input_args=(weight, scales, output),\n+        memory_args=(weight, scales),\n+        memory_output=(output,),\n+    )\n+\n+\n+if __name__ == \"__main__\":\n+    benchmark.run()"
+          },
+          {
+            "filename": "test/registered/kernels/ops/quantization/test_groupwise_int8_dequant.py",
+            "patch": "@@ -0,0 +1,93 @@\n+import sys\n+\n+import pytest\n+import torch\n+\n+from sglang.kernels.ops.quantization.groupwise_int8_dequant import (\n+    groupwise_int8_dequant,\n+)\n+from sglang.test.ci.ci_register import register_cuda_ci\n+\n+register_cuda_ci(est_time=12, stage=\"base-b-kernel-unit\", runner_config=\"1-gpu-small\")\n+\n+\n+@pytest.mark.parametrize(\n+    \"shape\", [(3, 128), (7, 2048), (3, 130), (2, 1), (0, 128), (3, 0)]\n+)\n+@pytest.mark.parametrize(\"offset\", [0, 1])\n+def test_group_boundaries_and_alignment(shape, offset):\n+    \"\"\"Partial groups restart on each row; contiguous views need not be aligned.\"\"\"\n+    rows, width = shape\n+    count = rows * width\n+    weight = (torch.arange(count + offset, device=\"cuda\") % 256 - 128).to(torch.int8)\n+    weight = weight[offset:].reshape(shape)\n+    scales = torch.linspace(\n+        0.01003, 0.93009, rows * ((width + 127) // 128), device=\"cuda\"\n+    ).reshape(rows, (width + 127) // 128)\n+    expected = (\n+        weight.float() * scales.repeat_interleave(128, dim=1)[:, :width]\n+    ).bfloat16()\n+    actual = groupwise_int8_dequant(weight, scales)\n+    assert torch.equal(actual.view(torch.int16), expected.view(torch.int16))\n+\n+\n+def test_fp32_multiply_before_bf16_rounding():\n+    \"\"\"Early BF16 scale rounding or flushing FP32 subnormals changes output bits.\"\"\"\n+    weight = torch.arange(-128, 128, device=\"cuda\", dtype=torch.int16).to(torch.int8)\n+    weight = weight.repeat(8).reshape(8, 256)\n+    scales = (\n+        torch.tensor(\n+            [0.01003, 0.03009, 1.00390625, 1.01171875, 2**-140, 2**-130, 2**-126, 1e30],\n+            dtype=torch.float32,\n+            device=\"cuda\",\n+        )[:, None]\n+        .expand(8, 2)\n+        .contiguous()\n+    )\n+    expected = (weight.float() * scales.repeat_interleave(128, dim=1)).bfloat16()\n+    actual = groupwise_int8_dequant(weight, scales)\n+    assert torch.equal(actual.view(torch.int16), expected.view(torch.int16))\n+\n+\n+@pytest.mark.parametrize(\n+    \"invalid\",\n+    [\"dtype\", \"scales\", \"layout\", \"scale_dtype\", \"scale_layout\", \"rank\", \"cpu\"],\n+)\n+def test_invalid_contract(invalid):\n+    weight = torch.ones((2, 256), dtype=torch.int8, device=\"cuda\")\n+    scales = torch.ones((2, 2), device=\"cuda\")\n+    if invalid == \"dtype\":\n+        weight = weight.float()\n+    elif invalid == \"scales\":\n+        scales = scales[:, :1].contiguous()\n+    elif invalid == \"layout\":\n+        weight = weight.t()\n+    elif invalid == \"scale_dtype\":\n+        scales = scales.bfloat16()\n+    elif invalid == \"scale_layout\":\n+        scales = scales.t()\n+    elif invalid == \"rank\":\n+        weight = weight.flatten()\n+    else:\n+        weight, scales = weight.cpu(), scales.cpu()\n+    with pytest.raises((RuntimeError, ValueError)):\n+        groupwise_int8_dequant(weight, scales)\n+\n+\n+def test_compile_and_cuda_graph():\n+    \"\"\"The allocating facade must retain its output and current-stream dependency.\"\"\"\n+    weight = torch.full((2, 256), 127, dtype=torch.int8, device=\"cuda\")\n+    scales = torch.full((2, 2), 0.01003, device=\"cuda\")\n+    compiled = torch.compile(groupwise_int8_dequant, fullgraph=True)\n+    expected = groupwise_int8_dequant(weight, scales)\n+    assert torch.equal(compiled(weight, scales), expected)\n+    graph = torch.cuda.CUDAGraph()\n+    with torch.cuda.graph(graph):\n+        result = groupwise_int8_dequant(weight, scales)\n+    scales.mul_(2)\n+    graph.replay()\n+    assert torch.equal(result, groupwise_int8_dequant(weight, scales))\n+\n+\n+if __name__ == \"__main__\":\n+    sys.exit(pytest.main([__file__]))"
+          }
+        ],
+        "url": "https://github.com/sgl-project/sglang/pull/49270",
+        "title": "sgl-project/sglang#49270 (patch)",
+        "display_url": "https://github.com/sgl-project/sglang/pull/49270",
+        "display_title": "sgl-project/sglang#49270 (patch)"
+      }
+    },
+    {
+      "number": 49354,
+      "info": {
+        "url": "https://github.com/sgl-project/sglang/pull/49354",
+        "number": 49354,
+        "state": "closed",
+        "merged": true,
+        "mergeable": false,
+        "draft": false,
+        "body": "## Motivation\n\nThe Nomas PixelUMM VAE computes Q/K mean squares with ATen and then runs three compiled pointwise kernels for normalization and three-axis rotary embedding. Those three kernels are repeated 864 times in the profiled 1280×704×121 decode.\n\nThis change fuses the pointwise epilogue into one Triton kernel while retaining the ATen reductions, existing chunking and output-copy behavior. It preserves the actual Parameter-backed compiled reference's FP32 multiply/FMA rounding. A per-signature `BitExactFusionGate` verifies the result before retaining the fast path. The existing head-64, autograd/compiler and unsupported-layout paths remain available. The fusion is eligible for BF16 head-128 inputs with rotary sections `(64,32,32)` on SM100+; model performance below is measured on SM103 only.\n\nThis is independent of [#49308](https://github.com/sgl-project/sglang/pull/49308), which changes the DiT mean-square reduction. This branch starts directly from the frozen main and contains no DiT change or new configuration flag.\n\n- Main baseline: `5325cfabd757819e2e01bb7eb3b28c5b39b8cec9`.\n- PR head: `aef7b894a610f6c04fe43d00ea9decca2ab1f718`.\n- Native vLLM-Omni reference: `725c1c9acd108d9f5248bd937489f19a2c560205`.\n\n## Accuracy and cleanup\n\nThe exact committed head passes 14 focused operator cases and one model-wrapper test against the actual Parameter-backed compiled reference. The cases cover chunk views with storage offsets and batch gaps, extreme amplitudes, changed inputs during CUDA Graph replay, invalid mean shapes, activation on the real head-128 wrapper and head-64 fallback.\n\nFinal-head quality comprises **18 explicit main/PR request pairs and 1,962 frame comparisons**: 640×352×49 seed42; 1280×704×121 seeds42/123/2026 in lossless mode on one GPU; and the same high-resolution seed42 workload in high mode on one GPU and lossless mode with Ulysses2. Every native BF16 byte and decoded pixel matches the corresponding main configuration. Each configuration includes short/long/short request reuse. The high and two-GPU checks establish compatibility only; their latency is not claimed here.\n\nThe 12 one-GPU initial quality requests also audit actual fusion activation: 144 calls per small-video request and 864 per large-video request, with verified signatures and no disabled gate. Before/after cleanup has six additional exact native-byte/pixel pairs at both resolutions.\n\nThe existing baseline test comparing its compiled epilogue to an unfused eager expression already fails for two larger layouts with this Torch runtime. Those assertions are unchanged. This PR preserves the actual compiled baseline rounding and includes the separate diagnostic in the evidence bundle.\n\nThe six-file diff was reviewed and simplified before the cleanup and final-head tests. Cleanup follows the actual source/review patterns in [#40265](https://github.com/sgl-project/sglang/pull/40265), [#48366](https://github.com/sgl-project/sglang/pull/48366) and [#49189](https://github.com/sgl-project/sglang/pull/49189). It removes redundant test temporaries and keeps one public entry point, focused eligibility checks and the existing verification utility. The fused-kernel inventory is updated. Ruff, isort, `git diff --check`, Mint validation and broken-link checks pass.\n\n## Final-head performance\n\nHardware: the same physical NVIDIA B300 SXM6 AC for all arms. Native Hy-Nomas, BF16, 1280×704, 121 frames, 24 FPS, 8 steps, CFG1, flow shift5, seed42, CPU RNG, batch/concurrency1, no offload. Both SGLang arms disable full-model compilation and BCG while retaining pre-existing compiled pointwise epilogues and the same numerical-policy defaults. cuDNN TF32 and BF16 reduced-precision reductions are allowed; exactness means preservation of this native main configuration.\n\nA/A uses two independent main processes with two warmups and five measured requests each. Full per-prompt observed ranges are 0.4252% and 0.4193%, below the preregistered 0.5% bound.\n\n| Arm | E2E median / p95 (s) | Denoise median (ms, async diagnostic) | Peak reserved (MiB) | Measured requests |\n| --- | ---: | ---: | ---: | ---: |\n| Main `5325cfabd7` | 13.2703 / 13.3314 | 7587.42 | 51656 | 30 |\n| PR `aef7b894a6` | 13.0499 / 13.1716 | 7587.57 | 51656 | 30 |\n\nThree new ABBA rounds give paired geometric speedup **1.016975×**, or **1.6692% lower E2E latency**. The round-cluster bootstrap 95% interval is [1.014385×, 1.020799×]. These are three independent rounds, not sixty independent experiments. All 60 measured and 24 warmup outputs match per prompt. The source/configuration audit verifies all 84 records against the clean committed SHAs and fixed GPU UUID.\n\nProcess initialization: 37.83–39.56s. First/second warmup generation: 21.17–22.12s / 12.98–13.35s. Compiler caches are retained, so these are not fresh-container cold-start measurements.\n\n| Arm | E2E median / p95 (s) | Denoise median (ms, async diagnostic) | Peak reserved (MiB) | Measured requests |\n| --- | ---: | ---: | ---: | ---: |\n| Before cleanup | 12.9795 / 13.0209 | 7595.35 | 51656 | 20 |\n| After cleanup (runtime/tests identical to final head) | 12.9544 / 12.9872 | 7587.22 | 51656 | 20 |\n\nTwo independent cleanup ABBA rounds give before/after **1.002597×**, or after-latency change **-0.2591%**. Overall and every round/prompt pair stay inside the fixed 0.5% neutrality bound; all 40 measured and 16 warmup outputs match. No confidence interval is inferred from two rounds. The final commit adds documentation to this exact cleaned runtime/test tree.\n\nThe timer includes native generation and frame materialization, excluding hashing, array saving and video encoding. Profiling, verification hooks, archive I/O and downloads are excluded from latency measurements. This is offline latency; no HTTP throughput claim is made. Asynchronous denoise-stage metrics are diagnostics rather than synchronized GPU time.\n\n## Native Omni reference and quality limits\n\n| Same workload/GPU | E2E median / p95 (s) | Measured requests | Allocated / reserved peak (MiB, separate attribution) |\n| --- | ---: | ---: | ---: |\n| Native Omni `725c1c9acd` | 19.5245 / 19.8001 | 10, two independent processes | 59764.14 / 64064 |\n\nThe supplied native Hy-Nomas deploy configuration requires `enforce_eager=True`; full transformer compilation is unsupported at this revision. Native compiled FlexAttention remains enabled. The separate environment and wheel pins are recorded, including the required private cuDNN runtime. The zero-valued denoise output metric is a placeholder, not measured zero. Separate synchronized attribution gives 10164.40ms across eight denoise steps plus 1273.53ms for the clean KV-cache commit forward; these values are excluded from the latency samples.\n\nEffective BF16 weights (all 3,082 loaded tensors), tokens, masks, initial noise and timesteps were audited across the frameworks. Outputs nevertheless differ visibly. For the 1280×704×121 seed42 baseline, short/long mean all-frame SSIM is 0.821916/0.818989 and PSNR is 24.0311/24.8243dB. Seed2026's long prompt is worse: SSIM0.581538, PSNR19.3859dB, minimum frame SSIM0.552361 at frame56. These rows are reference context and **do not qualify as cross-framework performance wins**. The PR's accepted improvement is against frozen SGLang main. Every frozen matrix row and the current result overlay, including pending/failed cases, are in the bundle.\n\n## Matched profile and actual output media\n\nBoth separate final-head traces use synchronized stage profiling. Every GPU kernel is assigned once to its stage. DiT keeps all 28,990 kernel calls, with every per-kernel count unchanged. VAE decode drops from **10,262 to 8,534 calls**: 2,592 old pointwise calls become 864 `_qk_norm_mrope_kernel` calls. Their summed GPU duration is 360.38ms →69.76ms. The VAE stage span is 4077.86ms →3815.11ms. All other kernel call counts are unchanged. These trace durations explain the mechanism; they are not latency samples.\n\nTrace SHA256: main `412e720e8fa0ee8bb7110ef5e87ea6cb209af71656555fa4f9c4344760b3cc73`; final `d2d41f2ebece12b36e673a13421577979617216766dd2dbf795c49f064e1f4ce`. [Full stage/kernel report](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-final-gpu-profile-digest-v1.json).\n\nThe following are actual main/final-head videos, Hy-Nomas BF16, one B300, 1280×704×121, 8 steps, CFG1, seed123. Each montage shows frames0/60/120 at 0/2.5/5 seconds. Every native byte and decoded pixel agrees.\n\n![Actual main and PR short-prompt video frames at 0, 2.5 and 5 seconds](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/main-vs-final-00-short-1280x704-f121-seed123.png)\n\nShort prompt: [main video](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/main-00-short-1280x704-f121-seed123.mp4) · [PR video](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/final-00-short-1280x704-f121-seed123.mp4).\n\n![Actual main and PR long-prompt video frames at 0, 2.5 and 5 seconds](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/main-vs-final-01-long-1280x704-f121-seed123.png)\n\nLong prompt: [main video](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/main-01-long-1280x704-f121-seed123.mp4) · [PR video](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/final-01-long-1280x704-f121-seed123.mp4).\n\n## Reproduction and scope\n\n[Commands and environment setup](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-reproduction.txt) · [Original measurements, scripts, frozen matrix and audits](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-reproduction-and-results.tar.gz) · [Bundle hashes](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-reproduction-and-results-manifest.json) · [Media provenance](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-final-media-provenance.json).\n\nTraces: [main](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-main-profile.trace.json.gz) · [final head](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-final-profile.trace.json.gz). Audits: [final-head quality](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-final-quality-audit-v1.json) · [final-head performance](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-final-source-statistics-audit-v1.json) · [cleanup](https://github.com/BBuf/sglang/releases/download/b300-nomas-vae-rope-evidence-20261109/nomas-vae-cleanup-source-statistics-audit-v1.json).\n\nThe original container tag is mutable; the recorded package inventories describe the measured environment. Native tensors and full frame arrays remain in the complete experiment archive. Operator graph replay does not establish new model-level BCG support. No gains are claimed for untested hardware, quality-mismatched native frameworks or unmeasured matrix cells.\n\n<!-- pr-states:start -->\n---\n### CI States\n\nLatest PR Test (Base): <!-- slot:pr-test:start -->:white_check_mark: [Run #43116456756](https://github.com/sgl-project/sglang/actions/runs/43116456756)<!-- slot:pr-test:end -->\nLatest PR Test (Extra): <!-- slot:pr-test-extra:start -->:x: [Run #43116456473](https://github.com/sgl-project/sglang/actions/runs/43116456473)<!-- slot:pr-test-extra:end -->\nLatest PR Test (AMD ROCm 10): <!-- slot:pr-test-amd:start -->:x: [Run #43116456477](https://github.com/sgl-project/sglang/actions/runs/43116456477)<!-- slot:pr-test-amd:end -->\n\n> [!TIP]\n> Base CI only covers the core cases, and its workload may not exercise your change. Use `/rerun-test` to run the tests your change touches, or copy this prompt for an agent:\n>\n> ```text\n> Find the registered tests this PR affects and run them with /rerun-test, following https://github.com/sgl-project/sglang/blob/main/.agents/skills/rerun-test/SKILL.md\n> ```\n<!-- pr-states:end -->",
+        "title": "[Perf] [NVIDIA] diffusion/nomas: Fuse VAE QK normalization and MRoPE epilogue",
+        "base": "main",
+        "base_sha": "fc6d3b6f91bb3aecc03aff8183c212d0ef8888a1",
+        "head": "bbuf/b300-nomas-vae-rope-1109",
+        "head_sha": "785cc5dd0610c9d497088b775e9c4d4297cfc6f6",
+        "head_repo_id": 905188926,
+        "head_repo_full_name": "BBuf/sglang",
+        "merge_commit_sha": "47cb6521fafe0f647bd4d992b58164604fcbc4b1",
+        "user": {
+          "login": "BBuf",
+          "name": "BBuf",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+          "id": 35585791
+        },
+        "requested_reviewers": [
+          {
+            "login": "HaiShaw",
+            "name": "HaiShaw",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/3349073?v=4",
+            "id": 3349073
+          },
+          {
+            "login": "wisclmy0611",
+            "name": "wisclmy0611",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/27337995?v=4",
+            "id": 27337995
+          },
+          {
+            "login": "mickqian",
+            "name": "mickqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+            "id": 30898949
+          },
+          {
+            "login": "ping1jing2",
+            "name": "ping1jing2",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/32810407?v=4",
+            "id": 32810407
+          },
+          {
+            "login": "zijiexia",
+            "name": "zijiexia",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/37504505?v=4",
+            "id": 37504505
+          },
+          {
+            "login": "sogalin",
+            "name": "sogalin",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/39478626?v=4",
+            "id": 39478626
+          },
+          {
+            "login": "niehen6174",
+            "name": "niehen6174",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/42087078?v=4",
+            "id": 42087078
+          },
+          {
+            "login": "AgainstEntropy",
+            "name": "AgainstEntropy",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/42559837?v=4",
+            "id": 42559837
+          },
+          {
+            "login": "kevin-mii",
+            "name": "kevin-mii",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/45493463?v=4",
+            "id": 45493463
+          },
+          {
+            "login": "yingluosanqian",
+            "name": "yingluosanqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/65484791?v=4",
+            "id": 65484791
+          },
+          {
+            "login": "JustinTong0323",
+            "name": "JustinTong0323",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/115166877?v=4",
+            "id": 115166877
+          },
+          {
+            "login": "yichiche",
+            "name": "yichiche",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/179548237?v=4",
+            "id": 179548237
+          }
+        ],
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-11-09T17:45:32Z",
+        "updated_at": "2026-11-12T11:30:09Z",
+        "closed_at": "2026-11-12T11:30:08Z",
+        "merged_at": "2026-11-12T11:30:08Z",
+        "commits": 10,
+        "changed_files": 6,
+        "additions": 337,
+        "deletions": 4,
+        "display_url": "https://github.com/sgl-project/sglang/pull/49354",
+        "display_title": "[Perf] [NVIDIA] diffusion/nomas: Fuse VAE QK normalization and MRoPE epilogue"
+      },
+      "patch": {
+        "patches": [
+          {
+            "filename": "docs/docs/sglang-diffusion/fused_kernels.mdx",
+            "patch": "@@ -162,6 +162,7 @@ kernel replay support does not enable BCG for a model configuration that disable\n | `helios_qk_rope` | JIT CUDA | bit-exact | paired in-place Helios Q/K RoPE with transposed frequency layout |\n | `ltx2_qknorm_split_rope` | KDA (JIT CUDA) | close (validated on B200) | LTX-2 QK-norm + split RoPE |\n | `ltx25_decoder_rope` | JIT CUDA | bit-exact | paired LTX-2.5 decoder 3D RoPE from cached compact axis tables |\n+| `fused_nomas_qk_norm_mrope` | Triton | bit-exact against the compiled parameter graph, verified per signature | Nomas PixelUMM VAE BF16 Q/K normalization and 64/32/32-axis RoPE on SM100+, retaining ATen mean squares and the compiled fallback |\n | `hunyuan_qkv_rope_pack` | Triton | bit-exact | QKV pack and RoPE in one pass |\n \n The Klein strided path preserves the BF16 rounding between RMSNorm and RoPE,"
+          },
+          {
+            "filename": "python/sglang/kernels/ops/diffusion/__init__.py",
+            "patch": "@@ -357,6 +357,12 @@\n         \"sglang.kernels.kda_kernels.ltx2_qknorm_split_rope_jit:ltx2_qknorm_split_rope_cuda\",\n         _CUDA_SM100_PLUS,\n     ),\n+    (\n+        \"diffusion.nomas_qk_norm_mrope\",\n+        KernelBackend.TRITON,\n+        \"rope.nomas_qk_norm_mrope_triton:fused_nomas_qk_norm_mrope\",\n+        _CUDA_SM100_PLUS,\n+    ),\n     (\n         \"diffusion.ltx25_decoder_rope\",\n         KernelBackend.JIT,\n@@ -773,6 +779,7 @@\n     \"timestep_embedding\": \"modulate.timestep_embedding_jit\",\n     \"fused_temb_table_slices\": \"modulate.wan_temb_table_slices_triton\",\n     # Rotary embeddings and the QK-norm chains fused around them\n+    \"fused_nomas_qk_norm_mrope\": \"rope.nomas_qk_norm_mrope_triton\",\n     \"try_fused_flux2_qkv_epilogue\": \"sglang.kernels.kda_kernels.flux2_qkv_epilogue_jit\",\n     \"hunyuan_qkv_rope_pack\": \"rope.hunyuan_qkv_pack_triton\",\n     \"joint_qkv_cat\": \"layout.joint_qkv_cat_triton\","
+          },
+          {
+            "filename": "python/sglang/kernels/ops/diffusion/rope/nomas_qk_norm_mrope_triton.py",
+            "patch": "@@ -0,0 +1,140 @@\n+# SPDX-License-Identifier: Apache-2.0\n+\"\"\"Nomas PixelUMM Q/K normalization and three-axis RoPE, with FP32 products.\"\"\"\n+\n+import math\n+\n+import torch\n+import triton\n+import triton.language as tl\n+from triton.language.extra.cuda import libdevice\n+\n+from sglang.kernels.numerics import mul_rn_f32\n+from sglang.kernels.ops.diffusion.common.fast_launch import replay_launches\n+\n+\n+@triton.jit\n+def _qk_norm_mrope_kernel(\n+    X,\n+    MT,\n+    MH,\n+    WT,\n+    WH,\n+    COS,\n+    SIN,\n+    OUT,\n+    N: tl.constexpr,\n+    TOKENS: tl.constexpr,\n+    HEADS: tl.constexpr,\n+    BS: tl.constexpr,\n+    TS: tl.constexpr,\n+    HS: tl.constexpr,\n+    EPS: tl.constexpr,\n+    BLOCK: tl.constexpr,\n+):\n+    off = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)\n+    valid = off < N\n+    col = off % 128\n+    row = off // 128\n+    token = (row // HEADS) % TOKENS\n+    batch = row // (HEADS * TOKENS)\n+    head = row % HEADS\n+    src = batch * BS + token * TS + head * HS\n+    half = tl.where(col < 64, 32, 16)\n+    partner = col ^ half\n+    x = tl.load(X + src + col, valid, 0).to(tl.float32)\n+    xp = tl.load(X + src + partner, valid, 0).to(tl.float32)\n+    wt = tl.load(WT + col, valid & (col < 64), 0).to(tl.float32)\n+    wh = tl.load(WH + col - 64, valid & (col >= 64), 0).to(tl.float32)\n+    wtp = tl.load(WT + partner, valid & (partner < 64), 0).to(tl.float32)\n+    whp = tl.load(WH + partner - 64, valid & (partner >= 64), 0).to(tl.float32)\n+    mt = tl.load(MT + row, valid, 0)\n+    mh = tl.load(MH + row, valid, 0)\n+    rstd = libdevice.rsqrt(tl.where(col < 64, mt, mh) + EPS)\n+    normal = mul_rn_f32(tl.where(col < 64, wt, wh), mul_rn_f32(x, rstd))\n+    rotated = mul_rn_f32(tl.where(partner < 64, wtp, whp), mul_rn_f32(xp, rstd))\n+    rotated = tl.where((col & half) == 0, -rotated, rotated)\n+    c = tl.load(COS + token * 128 + col, valid, 0)\n+    s = tl.load(SIN + token * 128 + col, valid, 0)\n+    # The compiled parameter graph rounds the sine product, then contracts\n+    # the cosine product and sum on Blackwell. Keep that operand order.\n+    result = tl.fma(normal, c, mul_rn_f32(rotated, s))\n+    tl.store(OUT + off, result, valid)\n+\n+\n+@replay_launches\n+def fused_nomas_qk_norm_mrope(\n+    x: torch.Tensor,\n+    mean_t: torch.Tensor,\n+    mean_hw: torch.Tensor,\n+    eps: float,\n+    weight_t: torch.Tensor,\n+    weight_hw: torch.Tensor,\n+    cos: torch.Tensor,\n+    sin: torch.Tensor,\n+) -> torch.Tensor:\n+    \"\"\"Reuse ATen means and the compiled parameter graph's FP32 rounding.\"\"\"\n+    if not (\n+        x.is_cuda\n+        and torch.version.hip is None\n+        and x.dtype == torch.bfloat16\n+        and x.ndim == 4\n+        and all(size > 0 for size in x.shape)\n+        and x.shape[-1] == 128\n+        and x.stride(-1) == 1\n+    ):\n+        raise ValueError(\"Expected CUDA BF16 [B,S,H,128] with contiguous columns\")\n+    batch, tokens, heads, _ = x.shape\n+    for mean in (mean_t, mean_hw):\n+        if not (\n+            mean.device == x.device\n+            and mean.dtype == torch.float32\n+            and mean.shape == (batch, tokens, heads, 1)\n+            and mean.is_contiguous()\n+        ):\n+            raise ValueError(\n+                \"Expected contiguous FP32 [B,S,H,1] mean squares on the input device\"\n+            )\n+    for weight in (weight_t, weight_hw):\n+        if not (\n+            weight.device == x.device\n+            and weight.dtype == torch.bfloat16\n+            and weight.shape == (64,)\n+            and weight.is_contiguous()\n+        ):\n+            raise ValueError(\n+                \"Expected contiguous BF16 [64] weights on the input device\"\n+            )\n+    for table in (cos, sin):\n+        if not (\n+            table.device == x.device\n+            and table.dtype == torch.float32\n+            and table.shape == (1, tokens, 1, 128)\n+            and table.is_contiguous()\n+        ):\n+            raise ValueError(\n+                \"Expected contiguous FP32 [1,S,1,128] RoPE tables on the input device\"\n+            )\n+    if not math.isfinite(eps) or eps < 0:\n+        raise ValueError(\"eps must be finite and nonnegative\")\n+    out = torch.empty(x.shape, dtype=x.dtype, device=x.device)\n+    with torch.cuda.device(x.device):\n+        _qk_norm_mrope_kernel[(triton.cdiv(x.numel(), 1024),)](\n+            x,\n+            mean_t,\n+            mean_hw,\n+            weight_t,\n+            weight_hw,\n+            cos,\n+            sin,\n+            out,\n+            x.numel(),\n+            tokens,\n+            heads,\n+            x.stride(0),\n+            x.stride(1),\n+            x.stride(2),\n+            eps,\n+            1024,\n+            enable_fp_fusion=False,\n+        )\n+    return out"
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/runtime/models/vaes/nomas.py",
+            "patch": "@@ -20,6 +20,8 @@\n from torch import nn\n from torch.nn import functional as F\n \n+from sglang.kernels.arch import current_arch\n+from sglang.kernels.ops.diffusion import BitExactFusionGate\n from sglang.multimodal_gen.configs.models.vaes.nomas import NomasVAEConfig\n from sglang.multimodal_gen.runtime.distributed.parallel_state import (\n     get_decode_parallel_group_coordinator,\n@@ -34,7 +36,10 @@\n     _compile_exact,\n     _fused_ok,\n )\n+from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger\n \n+logger = init_logger(__name__)\n+_QK_MROPE_FUSION = BitExactFusionGate(\"Nomas VAE Q/K norm + MRoPE\", per_signature=True)\n TUBELET = (4, 16, 16)\n TUBE_DIM = TUBELET[0] * TUBELET[1] * TUBELET[2] * 3\n LATENT_CHANNELS = 32\n@@ -296,16 +301,29 @@ def _prepare_qk(self, x, cos, sin, norm_t, norm_hw, dtype):\n         return apply_mrope(normalized, cos, sin, self.arch.rope_sections).to(dtype)\n \n     def _prepare_qk_fused(self, x, cos, sin, norm_t, norm_hw, dtype):\n-        \"\"\"Same values as the eager path: ATen mean squares, one fused kernel for the rest.\"\"\"\n+        \"\"\"Keep ATen mean squares and the compiled reference's FP32 rounding.\"\"\"\n         half = x.shape[-1] // 2\n         result = torch.empty_like(x, dtype=dtype)\n+        use_fused = (\n+            x.dtype\n+            == dtype\n+            == norm_t.weight.dtype\n+            == norm_hw.weight.dtype\n+            == torch.bfloat16\n+            and self.arch.rope_sections == (64, 32, 32)\n+            and x.stride(-1) == 1\n+            and current_arch().is_sm_at_least(10)\n+        )\n+        if use_fused:\n+            from sglang.kernels.ops.diffusion import fused_nomas_qk_norm_mrope\n+\n         # Only the FP32 squares are materialised now, so far larger chunks fit.\n         chunk = max(\n             1, _QK_FUSED_CHUNK_BYTES // (x.shape[0] * x.shape[2] * x.shape[3] * 4)\n         )\n         for first in range(0, x.shape[1], chunk):\n             part = x[:, first : first + chunk]\n-            result[:, first : first + chunk] = _compiled_qk_norm_mrope()(\n+            args = (\n                 part,\n                 _mean_square(part[..., :half]),\n                 _mean_square(part[..., half:]),\n@@ -314,9 +332,21 @@ def _prepare_qk_fused(self, x, cos, sin, norm_t, norm_hw, dtype):\n                 norm_hw.weight,\n                 cos[:, first : first + chunk],\n                 sin[:, first : first + chunk],\n-                self.arch.rope_sections,\n-                dtype,\n             )\n+            reference = lambda: _compiled_qk_norm_mrope()(\n+                *args, self.arch.rope_sections, dtype\n+            )\n+            if use_fused:\n+                output = _QK_MROPE_FUSION.run(\n+                    lambda: fused_nomas_qk_norm_mrope(*args),\n+                    reference,\n+                    sig=(part.device, part.shape, part.stride(), norm_t.eps),\n+                    logger=logger,\n+                    reraise=(ValueError,),\n+                )\n+            else:\n+                output = reference()\n+            result[:, first : first + chunk] = output\n         return result\n \n     def forward("
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/test/unit/test_nomas.py",
+            "patch": "@@ -839,6 +839,69 @@ def test_pixelumm_fused_qk_norm_mrope_is_bitwise_exact(tokens, heads, batch):\n     assert torch.equal(actual, expected)\n \n \n+@pytest.mark.skipif(\n+    not torch.cuda.is_available() or torch.version.hip is not None,\n+    reason=\"requires NVIDIA CUDA\",\n+)\n+@torch.inference_mode()\n+def test_pixelumm_mrope_fusion_matches_compiled_reference_and_fallback(monkeypatch):\n+    from sglang.kernels import ops\n+    from sglang.kernels.arch import current_arch\n+    from sglang.kernels.ops.diffusion import BitExactFusionGate\n+    from sglang.multimodal_gen.runtime.models.vaes import nomas\n+\n+    if not current_arch().is_sm_at_least(10):\n+        pytest.skip(\"fusion requires SM100+\")\n+    gate = BitExactFusionGate(\"test Nomas VAE MRoPE\", per_signature=True)\n+    monkeypatch.setattr(nomas, \"_QK_MROPE_FUSION\", gate)\n+    kernel = ops.diffusion.fused_nomas_qk_norm_mrope\n+    calls = []\n+\n+    def counted(*args):\n+        calls.append(args[0].shape)\n+        return kernel(*args)\n+\n+    monkeypatch.setattr(ops.diffusion, \"fused_nomas_qk_norm_mrope\", counted)\n+    torch.manual_seed(831)\n+    for dim, batch, tokens, heads in (\n+        (128, 1, 16384, 32),\n+        (128, 2, 36, 8),\n+        (64, 2, 36, 8),\n+    ):\n+        attention = (\n+            nomas.GenAttention(nomas.GenExpertArch(hidden_size=128, head_dim=dim))\n+            .cuda()\n+            .bfloat16()\n+        )\n+        attention.q_norm_t.weight.normal_()\n+        attention.q_norm_hw.weight.normal_()\n+        x = torch.randn(batch, 35200, heads, dim, device=\"cuda\", dtype=torch.bfloat16)[\n+            :, :tokens\n+        ]\n+        cos, sin = nomas.mrope_tables(attention.arch, (10, 44, 80), \"cuda\")\n+        cos, sin = cos[:, :tokens], sin[:, :tokens]\n+        half = dim // 2\n+        expected = nomas._compiled_qk_norm_mrope()(\n+            x,\n+            nomas._mean_square(x[..., :half]),\n+            nomas._mean_square(x[..., half:]),\n+            attention.q_norm_t.eps,\n+            attention.q_norm_t.weight,\n+            attention.q_norm_hw.weight,\n+            cos,\n+            sin,\n+            attention.arch.rope_sections,\n+            x.dtype,\n+        )\n+        before = len(calls)\n+        actual = attention._prepare_qk(\n+            x, cos, sin, attention.q_norm_t, attention.q_norm_hw, x.dtype\n+        )\n+        assert torch.equal(actual.view(torch.int16), expected.view(torch.int16))\n+        assert (len(calls) > before) == (dim == 128)\n+    assert gate.verified_sigs and not gate.disabled\n+\n+\n def test_scheduler_loader_uses_effective_shift(tmp_path):\n \n     from sglang.multimodal_gen.runtime.loader.component_loaders.scheduler_loader import ("
+          },
+          {
+            "filename": "test/registered/kernels/ops/diffusion/test_nomas_qk_norm_mrope.py",
+            "patch": "@@ -0,0 +1,92 @@\n+# SPDX-License-Identifier: Apache-2.0\n+\n+import sys\n+\n+import pytest\n+import torch\n+\n+from sglang.test.ci.ci_register import register_cuda_ci\n+\n+register_cuda_ci(est_time=20, stage=\"base-b-kernel-unit\", runner_config=\"1-gpu-small\")\n+\n+pytestmark = pytest.mark.skipif(\n+    not torch.cuda.is_available() or torch.version.hip is not None,\n+    reason=\"requires NVIDIA CUDA\",\n+)\n+\n+\n+def reference(x, mean_t, mean_hw, eps, weight_t, weight_hw, cos, sin):\n+    t, hw = x.float().chunk(2, dim=-1)\n+    normalized = torch.cat(\n+        (\n+            weight_t * (t * torch.rsqrt(mean_t + eps)),\n+            weight_hw * (hw * torch.rsqrt(mean_hw + eps)),\n+        ),\n+        dim=-1,\n+    )\n+    rotated = []\n+    for section in normalized.split((64, 32, 32), dim=-1):\n+        left, right = section.chunk(2, dim=-1)\n+        rotated.append(torch.cat((-right, left), dim=-1))\n+    return torch.addcmul(torch.cat(rotated, dim=-1) * sin, normalized, cos).to(x.dtype)\n+\n+\n+def inputs(batch, tokens, heads, offset, amplitude=1.0):\n+    torch.manual_seed(831)\n+    storage = torch.randn(\n+        batch, offset + tokens + 3, heads, 128, device=\"cuda\", dtype=torch.bfloat16\n+    )\n+    # Retain a real chunk view, including the gap between batch members.\n+    x = storage[:, offset : offset + tokens]\n+    x.mul_(amplitude)\n+    means = [part.float().square().mean(-1, keepdim=True) for part in x.chunk(2, -1)]\n+    weights = [torch.randn(64, device=\"cuda\", dtype=x.dtype) for _ in range(2)]\n+    angles = torch.randn(1, tokens, 1, 128, device=\"cuda\")\n+    return (x, *means, 1e-6, *weights, angles.cos(), angles.sin())\n+\n+\n+@pytest.mark.parametrize(\n+    \"shape\", [(1, 17, 8, 3), (2, 1025, 32, 7), (1, 16384, 32, 0), (1, 2432, 32, 32768)]\n+)\n+@pytest.mark.parametrize(\"amplitude\", [1e-30, 1.0, 1e15])\n+@torch.inference_mode()\n+def test_qk_norm_mrope_exact_chunk_views(shape, amplitude):\n+    from sglang.kernels.ops.diffusion import fused_nomas_qk_norm_mrope\n+\n+    args = inputs(*shape, amplitude)\n+    expected = reference(*args)\n+    actual = fused_nomas_qk_norm_mrope(*args)\n+    assert torch.equal(actual.view(torch.int16), expected.view(torch.int16))\n+\n+\n+@torch.inference_mode()\n+def test_qk_norm_mrope_graph_reads_updated_inputs():\n+    from sglang.kernels.ops.diffusion import fused_nomas_qk_norm_mrope\n+\n+    args = inputs(2, 37, 8, 5)\n+    for _ in range(3):\n+        fused_nomas_qk_norm_mrope(*args)\n+    graph = torch.cuda.CUDAGraph()\n+    with torch.cuda.graph(graph):\n+        actual = fused_nomas_qk_norm_mrope(*args)\n+    args[0].add_(0.25)\n+    for source, mean in zip(args[0].chunk(2, -1), args[1:3]):\n+        mean.copy_(source.float().square().mean(-1, keepdim=True))\n+    args[4].mul_(0.75)\n+    args[6].neg_()\n+    graph.replay()\n+    assert torch.equal(actual.view(torch.int16), reference(*args).view(torch.int16))\n+\n+\n+@torch.inference_mode()\n+def test_qk_norm_mrope_rejects_invalid_mean_shape():\n+    from sglang.kernels.ops.diffusion import fused_nomas_qk_norm_mrope\n+\n+    args = list(inputs(1, 17, 8, 0))\n+    args[1] = args[1][..., 0]\n+    with pytest.raises(ValueError, match=\"mean squares\"):\n+        fused_nomas_qk_norm_mrope(*args)\n+\n+\n+if __name__ == \"__main__\":\n+    sys.exit(pytest.main([__file__, \"-v\"]))"
+          }
+        ],
+        "url": "https://github.com/sgl-project/sglang/pull/49354",
+        "title": "sgl-project/sglang#49354 (patch)",
+        "display_url": "https://github.com/sgl-project/sglang/pull/49354",
+        "display_title": "sgl-project/sglang#49354 (patch)"
+      }
+    },
+    {
+      "number": 49308,
+      "info": {
+        "url": "https://github.com/sgl-project/sglang/pull/49308",
+        "number": 49308,
+        "state": "closed",
+        "merged": true,
+        "mergeable": false,
+        "draft": false,
+        "body": "## Motivation\n\nNomas calls its Q/K RMSNorm + RoPE wrapper repeatedly during denoising. The existing wrapper materializes the BF16 input as FP32, squares it, and calls ATen mean before its compiled normalization/rotation epilogue. On a B300, the cast/square/reduction chain is visible in the full-model profile.\n\nThis change replaces that reduction with one kernel for supported BF16 head-128 layouts. It extracts and reuses the ordered reduction already used by the in-tree bit-exact RMSNorm kernels. The existing compiled epilogue stays in place, retaining its rounding. A per-signature BitExactFusionGate verifies the reduction against ATen; unsupported layouts, camera head-64, autograd and other existing fallback conditions keep their reference paths.\n\nBaseline: `5325cfabd757819e2e01bb7eb3b28c5b39b8cec9`.\nPR head: `4f25dde0bf22a3fe194d03c2782e515341ece64f`.\nNative vLLM-Omni reference: `725c1c9acd108d9f5248bd937489f19a2c560205`.\n\n## Accuracy Tests\n\nThe shared ordered-reduction refactor passed 78 relevant operator tests. One additional Nomas test covers the actual compiled epilogue, verified fusion activation and camera head-64 fallback. Operator tests cover packed views, batched inputs, extreme amplitudes, mutable-input CUDA Graph replay and a compiled custom-op call.\n\nBefore/after cleanup quality at 640×352×49 and 1280×704×121, seed 42, matched every native BF16 output element and every decoded pixel, including short/long/short request reuse. The exact committed head additionally matches main at 640×352×121 (seed 42), 1280×704×121 (seeds 123/2026 on one GPU, seed 42 with Ulysses 2), and 1280×704×241 with two events and Ulysses 2/4 (seed 42). These final-head checks comprise 12 main/PR case pairs and 1,932 all-frame comparisons; all native tensors and pixels match. Every repeated-request pixel check also passes.\n\nThe existing `test_fused_qk_norm_rope_and_modulate_cast_are_bitwise_exact` also exposes a difference between the baseline compiled epilogue and the unfused eager expression with this Torch runtime. This PR retains that compiled epilogue and tests against actual baseline behavior; it does not loosen the existing assertion or claim to fix that separate issue.\n\n## Speed Tests and Profiling\n\nHardware: one NVIDIA B300 SXM6 AC, same physical GPU for each arm. Workload: native Hy-Nomas, BF16, 1280×704, 121 frames, 8 steps, CFG 1, flow shift 5, seed 42, CPU RNG, batch/concurrency 1, no offload. Full-model torch.compile and BCG are disabled in both SGLang arms; pre-existing pointwise compilation is retained.\n\nBoth SGLang arms retain the same native numerical-policy defaults: cuDNN TF32 and BF16 reduced-precision reductions are allowed. The lossless claim means exact preservation of this main configuration, not a new strict-FP32 library contract. The Omni worker likewise reports cuDNN TF32 and BF16 reduced-precision reduction allowed; matmul TF32 is disabled and float32 matmul precision is `highest`. These observed policy flags are recorded with the separate native attribution trace.\n\nA/A: two independent processes, two warmups and five measured requests each. Per-prompt CV <=0.18%; full observed range <=0.47%.\n\n| Final-head comparison | E2E median / p95 (s) | Denoise median (ms, async diagnostic) | Peak reserved (MiB) | Measured requests |\n| --- | ---: | ---: | ---: | ---: |\n| Main `5325cfabd7` | 13.2316 / 13.2721 | 7588.19 | 51656 | 30 |\n| PR `4f25dde0bf` | 12.9954 / 13.0460 | 7350.29 | 51554 | 30 |\n\nThree independent ABBA rounds give paired geometric speedup **1.017632×**, or **1.7326% lower E2E latency**. The round-cluster bootstrap 95% interval is [1.016757×, 1.018689×]; there are three independent rounds, not sixty independent experiments. All 60 measured outputs and 24 warmup outputs match per prompt. Every record uses the same physical GPU and an unchanged clean source tree at the stated SHA. Process initialization was 37.88–39.70 s; first and second warmup generation ranges were 21.15–21.57 s and 12.99–13.28 s, with existing compiler caches retained.\n\n| Cleanup arm | E2E median / p95 (s) | Denoise median (ms, async diagnostic) | Peak reserved (MiB) | Measured requests |\n| --- | ---: | ---: | ---: | ---: |\n| Before cleanup | 13.0077 / 13.0296 | 7350.64 | 51554 | 20 |\n| Final `4f25dde0bf` | 12.9999 / 13.0429 | 7349.63 | 51554 | 20 |\n\nTwo cleanup ABBA rounds give paired before/after = **0.999734×** (after latency +0.0267%), within the frozen 0.5% noise bound. All 40 measured outputs match per prompt. No confidence interval is inferred from two rounds. Process initialization was 37.81–39.97 s; first warmup generation was 21.11–22.36 s and the second 12.99–13.52 s. These runs reuse the recorded compiler caches; they are not a fresh-container cold-start benchmark.\n\nThe timing boundary includes generation and frame materialization, excluding file/video encoding and hashing. Profiler and synchronized stage attribution runs are separate. This is offline generation; no HTTP serving-throughput claim is made.\n\n| Native Omni reference (same workload/GPU) | E2E median / p95 (s) | Measured requests | Peak allocated / reserved (MiB, separate attribution) |\n| --- | ---: | ---: | ---: |\n| `725c1c9acd` | 19.5245 / 19.8001 | 10 (two processes) | 59764.14 / 64064 |\n\nEach reference process uses two warmups followed by five measured requests; repeated output pixels match per prompt. Initialization is 34.36–34.63 s, with first/second warmups 25.63–25.75 s and 21.89–21.93 s. The native output's zero-valued denoise metric is a placeholder, so it is not reported as a measured zero.\n\nA separate synchronized diagnostic records the actual worker numerical flags and allocator peaks. Its third, warmed short-prompt request is profiled: the eight `denoise_step` spans sum to 10164.40 ms and `post_decode` takes 1273.53 ms. On this native offline path, `post_decode` performs the extra clean DiT forward that commits the KV cache; VAE decoding happens later in `forward`. Thus the step-plus-cache-forward sum is 11437.93 ms. These instrumented spans are attribution, not samples in the E2E benchmark or directly interchangeable with SGLang's async stage timers.\n\nThe frozen native Omni Hy-Nomas deploy configuration requires `enforce_eager=True`; its pipeline rejects full transformer compilation and its `setup_compile` is not implemented. Native compiled FlexAttention remains enabled. This follows the supported model path rather than disabling a supported model compilation option.\n\nThe cross-framework runs use equivalent BF16 weights (all 3,082 loaded tensors verified), tokenization, masks, initial noise and timesteps. Pixel outputs still differ between native frameworks. The seed-2026 long prompt has mean all-frame SSIM 0.581538 / PSNR 19.3859 dB, with minimum SSIM 0.552361 at frame 56. Both outputs retain the fox and forest-path subject, but tree geometry, light placement and the camera/background trajectory differ visibly. These rows are context and do not count toward a quality-qualified cross-framework aggregate. Diagnostic substitutions of text features and the norm epilogue did not resolve all differences and are excluded from performance measurements. \n\nThe two-event 241-frame sample is the worst observed per-frame case: minimum SSIM 0.408733 at frame 165, with mean SSIM 0.580408 / PSNR 20.0781 dB on both two and four GPUs. Small-clip CLIP cosine minima are 0.9764/0.9766 for short/long prompts; this semantic metric does not qualify other seeds, long clips or temporal behavior.\n\n| Configuration | Seed | Prompt | Mean SSIM | Mean PSNR dB | Minimum SSIM (frame) |\n| --- | ---: | --- | ---: | ---: | --- |\n| 640×352×49, 1 GPU | 42 | short | 0.880478 | 28.7216 | 0.834386 (0) |\n| 640×352×49, 1 GPU | 42 | long | 0.746338 | 24.2553 | 0.664320 (0) |\n| 640×352×121, 1 GPU | 42 | short | 0.792630 | 24.9853 | 0.736303 (0) |\n| 640×352×121, 1 GPU | 42 | long | 0.805865 | 22.5212 | 0.766986 (120) |\n| 1280×704×121, 1 GPU | 42 | short | 0.821916 | 24.0311 | 0.733267 (1) |\n| 1280×704×121, 1 GPU | 42 | long | 0.818989 | 24.8243 | 0.803209 (85) |\n| 1280×704×121, 1 GPU | 123 | short | 0.810740 | 25.1545 | 0.662402 (19) |\n| 1280×704×121, 1 GPU | 123 | long | 0.830551 | 25.1924 | 0.703005 (0) |\n| 1280×704×121, 1 GPU | 2026 | short | 0.770584 | 24.6378 | 0.673881 (81) |\n| 1280×704×121, 1 GPU | 2026 | long | 0.581538 | 19.3859 | 0.552361 (56) |\n| 1280×704×121, 2 GPUs | 42 | short | 0.821916 | 24.0311 | 0.733267 (1) |\n| 1280×704×121, 2 GPUs | 42 | long | 0.818989 | 24.8243 | 0.803209 (85) |\n| 1280×704×241, 2 GPUs, 2 events | 42 | events | 0.580408 | 20.0781 | 0.408733 (165) |\n| 1280×704×241, 4 GPUs, 2 events | 42 | events | 0.580408 | 20.0781 | 0.408733 (165) |\n\n<details>\n<summary>Actual cross-framework worst samples (quality limitation)</summary>\n\n![Native SGLang and Omni, seed 2026 long prompt, worst frame 56](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/omni-worst-seed2026-long.png)\n\n![Native SGLang and Omni, two events, worst frame 165](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/omni-events-seed42-g2.png)\n\n</details>\n\n## Profile and actual outputs\n\nSeparate, matched short-prompt traces show 864 calls to the new `_mean_square_kernel` (25.43 ms summed GPU time), replacing 864 casts, 864 square kernels and 864 ATen reductions. Denoising kernel count drops from 28,990 to 27,262; summed denoising GPU time is 7607.58 → 7363.90 ms. Decode retains all 10,262 kernels (4050.53 → 4057.29 ms). These trace durations explain the change and are excluded from the latency statistics.\n\nTrace SHA256: main `8b0bdc855e5dbdfe7634742d8e6ec301635446fe00326be50f8fbfe04ecb2c17`; final `5fe09c2b2456e1d635e7d7f5ebe483922d3f61f8697ae9ab754df455960c78a7`. Full trace and stage/kernel comparison reports are in the evidence release.\n\nThe comparisons below are actual native main/final-head generations: Hy-Nomas, 1280×704, 121 frames, 8 steps, BF16, seed 123, one B300. Each montage pairs frames 0/60/120 (0/2.5/5 s). Native BF16 values and every decoded pixel match exactly; each main/PR encoded-video pair is byte-identical.\n\n![Actual main and PR short-prompt frames at 0, 2.5 and 5 seconds](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-final-head-media-00-short.png)\n\nShort prompt: [main video](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/main-00-short-1280x704-f121-seed123.mp4) · [PR video](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/final-00-short-1280x704-f121-seed123.mp4)\n\n![Actual main and PR long-prompt frames at 0, 2.5 and 5 seconds](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-final-head-media-01-long.png)\n\nLong prompt: [main video](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/main-01-long-1280x704-f121-seed123.mp4) · [PR video](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/final-01-long-1280x704-f121-seed123.mp4)\n\n[Media provenance and hashes](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-final-media-provenance.json)\n\n## Reproduction and scope\n\n[Complete reproduction commands](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-reproduction.txt) · [Reproduction and raw measurement archive](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-reproduction-and-results.tar.gz) · [Archive manifest](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-reproduction-and-results-manifest.json)\n\nTraces: [main](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-main-profile.trace.json.gz) · [final head](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-final-profile.trace.json.gz) · [native Omni](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-omni-profile.trace.json.gz). [Matched-stage kernel report](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-profile-comparison-v1.json) and [Final-head measurement verification](https://github.com/BBuf/sglang/releases/download/b300-nomas-mean-square-evidence-20261109/nomas-final-performance-validation-v1.json) provide the source/hash checks.\n\nThe archive includes every frozen matrix row, including pending and unsuccessful cells; this PR claims one validated scenario improvement. All checkpoint revisions, the two separate dependency environments, native backend selection, numerical policy, initial noise and output checks are recorded. The original container tag is mutable; recorded package inventories describe the measured environment. No aggregate claim is made for untested or quality-mismatched cells.\n\nThe optimization is internal and adds no configuration flag. The supported reduction is CUDA BF16 head-128 with the documented contiguous/packed layout and size bounds; the applicability predicate and runtime gate preserve the reference elsewhere. Operator-level graph tests do not establish new model-level BCG support.\n\n## Checklist\n\n- [x] Keep the four-file diff limited to the shared reduction, Nomas call site and focused regressions.\n- [x] Run relevant operator/model tests, Ruff, isort and `git diff --check`.\n- [x] Complete cleanup before/after and exact-final-head model performance checks.\n- [x] Publish exact reproduction, dependency, profile and quality evidence.\n- [x] Verify embedded actual main/PR comparisons on the rendered Draft PR page.\n\n\nUpstream GPU CI is currently gated because this remains a Draft PR: the [gate log](https://github.com/sgl-project/sglang/actions/runs/42622032979/job/129176597002) reports `PR is draft. Blocking CI.` The B300 validations above were run directly at the recorded head; no upstream GPU CI pass is claimed.\n\n<!-- pr-states:start -->\n---\n### CI States\n\nLatest PR Test (Base): <!-- slot:pr-test:start -->:white_check_mark: [Run #43116998365](https://github.com/sgl-project/sglang/actions/runs/43116998365)<!-- slot:pr-test:end -->\nLatest PR Test (Extra): <!-- slot:pr-test-extra:start -->:x: [Run #43116998031](https://github.com/sgl-project/sglang/actions/runs/43116998031)<!-- slot:pr-test-extra:end -->\nLatest PR Test (AMD ROCm 10): <!-- slot:pr-test-amd:start -->:hourglass_flowing_sand: [Run #43116998340](https://github.com/sgl-project/sglang/actions/runs/43116998340)<!-- slot:pr-test-amd:end -->\n\n> [!TIP]\n> Base CI only covers the core cases, and its workload may not exercise your change. Use `/rerun-test` to run the tests your change touches, or copy this prompt for an agent:\n>\n> ```text\n> Find the registered tests this PR affects and run them with /rerun-test, following https://github.com/sgl-project/sglang/blob/main/.agents/skills/rerun-test/SKILL.md\n> ```\n<!-- pr-states:end -->",
+        "title": "[Perf] [NVIDIA] diffusion/nomas: Fuse exact head-128 mean-square reduction",
+        "base": "main",
+        "base_sha": "fc6d3b6f91bb3aecc03aff8183c212d0ef8888a1",
+        "head": "bbuf/b300-nomas-norm-rope-1109",
+        "head_sha": "3ba73dc76b21aed9e378bf932dff707eb4e197d0",
+        "head_repo_id": 905188926,
+        "head_repo_full_name": "BBuf/sglang",
+        "merge_commit_sha": "4457a1c47fc9c5c78b00fc666d219f59cd7d8376",
+        "user": {
+          "login": "BBuf",
+          "name": "BBuf",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+          "id": 35585791
+        },
+        "requested_reviewers": [
+          {
+            "login": "HaiShaw",
+            "name": "HaiShaw",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/3349073?v=4",
+            "id": 3349073
+          },
+          {
+            "login": "mickqian",
+            "name": "mickqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+            "id": 30898949
+          },
+          {
+            "login": "ping1jing2",
+            "name": "ping1jing2",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/32810407?v=4",
+            "id": 32810407
+          },
+          {
+            "login": "niehen6174",
+            "name": "niehen6174",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/42087078?v=4",
+            "id": 42087078
+          },
+          {
+            "login": "AgainstEntropy",
+            "name": "AgainstEntropy",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/42559837?v=4",
+            "id": 42559837
+          },
+          {
+            "login": "kevin-mii",
+            "name": "kevin-mii",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/45493463?v=4",
+            "id": 45493463
+          },
+          {
+            "login": "yingluosanqian",
+            "name": "yingluosanqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/65484791?v=4",
+            "id": 65484791
+          },
+          {
+            "login": "yichiche",
+            "name": "yichiche",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/179548237?v=4",
+            "id": 179548237
+          }
+        ],
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-11-09T13:02:47Z",
+        "updated_at": "2026-11-12T03:20:54Z",
+        "closed_at": "2026-11-12T03:20:54Z",
+        "merged_at": "2026-11-12T03:20:54Z",
+        "commits": 9,
+        "changed_files": 4,
+        "additions": 156,
+        "deletions": 7,
+        "display_url": "https://github.com/sgl-project/sglang/pull/49308",
+        "display_title": "[Perf] [NVIDIA] diffusion/nomas: Fuse exact head-128 mean-square reduction"
+      },
+      "patch": {
+        "patches": [
+          {
+            "filename": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_cast_before_weight_bitexact.py",
+            "patch": "@@ -25,14 +25,13 @@ def _fold_halves(values, ROWS: tl.constexpr, WIDTH: tl.constexpr):\n \n \n @triton.jit\n-def _ordered_rstd(\n+def _ordered_mean_square(\n     X,\n     M: tl.constexpr,\n     DIM: tl.constexpr,\n     ROWS: tl.constexpr,\n     HEADS: tl.constexpr = 1,\n     TOKEN_STRIDE: tl.constexpr = 0,\n-    EPS: tl.constexpr = 1e-6,\n ):\n     rows = tl.program_id(0).to(tl.int64) * ROWS + tl.arange(0, ROWS)\n     if TOKEN_STRIDE == 0 or TOKEN_STRIDE == HEADS * DIM:\n@@ -59,10 +58,68 @@ def _ordered_rstd(\n     total = _fold_halves(total, ROWS, 4)\n     total = _fold_halves(total, ROWS, 2)\n     total = _fold_halves(total, ROWS, 1)\n-    mean = mul_rn_f32(tl.reshape(total, (ROWS,)), 1.0 / DIM)\n+    return mul_rn_f32(tl.reshape(total, (ROWS,)), 1.0 / DIM)\n+\n+\n+@triton.jit\n+def _ordered_rstd(\n+    X,\n+    M: tl.constexpr,\n+    DIM: tl.constexpr,\n+    ROWS: tl.constexpr,\n+    HEADS: tl.constexpr = 1,\n+    TOKEN_STRIDE: tl.constexpr = 0,\n+    EPS: tl.constexpr = 1e-6,\n+):\n+    mean = _ordered_mean_square(X, M, DIM, ROWS, HEADS, TOKEN_STRIDE)\n     return cuda_rsqrtf(mean + EPS)\n \n \n+@triton.jit\n+def _mean_square_kernel(\n+    X, Out, M: tl.constexpr, HEADS: tl.constexpr, TOKEN_STRIDE: tl.constexpr\n+):\n+    rows = tl.program_id(0).to(tl.int64) * 16 + tl.arange(0, 16)\n+    mean = _ordered_mean_square(X, M, 128, 16, HEADS, TOKEN_STRIDE)\n+    tl.store(Out + rows, mean, rows < M)\n+\n+\n+def _fake_mean_square(x):\n+    return torch.empty((*x.shape[:-1], 1), device=x.device, dtype=torch.float32)\n+\n+\n+def can_use_rmsnorm_mean_square(x: torch.Tensor) -> bool:\n+    return (\n+        is_cuda()\n+        and x.is_cuda\n+        and x.dtype == torch.bfloat16\n+        and x.ndim == 4\n+        and x.shape[-1] == 128\n+        and x.stride(-1) == 1\n+        and x.stride(-2) == 128\n+        and x.stride(1) >= x.shape[2] * 128\n+        and (x.shape[0] == 1 or x.stride(0) == x.shape[1] * x.stride(1))\n+        and 16 <= x.numel() // 128\n+        and x.numel() < 2**29\n+    )\n+\n+\n+@register_custom_op(\n+    op_name=\"rmsnorm_mean_square_bitexact\", mutates_args=[], fake_impl=_fake_mean_square\n+)\n+def rmsnorm_mean_square_bitexact(x: torch.Tensor) -> torch.Tensor:\n+    \"\"\"Match ``x.float().square().mean(-1, keepdim=True)`` for BF16 head-128 views.\"\"\"\n+    if not can_use_rmsnorm_mean_square(x):\n+        raise ValueError(\"Unsupported head-128 mean-square inputs\")\n+    with torch.cuda.device(x.device):\n+        out = _fake_mean_square(x)\n+        rows = x.numel() // 128\n+        _mean_square_kernel[(triton.cdiv(rows, 16),)](\n+            x, out, rows, x.shape[2], x.stride(1), num_warps=4, enable_fp_fusion=False\n+        )\n+    return out\n+\n+\n @triton.jit\n def _ordered_norm_kernel(\n     X,"
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/runtime/models/dits/nomas_layers.py",
+            "patch": "@@ -20,6 +20,11 @@\n from torch.nn import functional as F\n \n from sglang.kernels.ops.diffusion import modulate_scale_shift, residual_gate_add\n+from sglang.kernels.ops.diffusion.norm.rmsnorm_cast_before_weight_bitexact import (\n+    can_use_rmsnorm_mean_square,\n+    rmsnorm_mean_square_bitexact,\n+)\n+from sglang.kernels.ops.diffusion.sites.bitexact_gate import BitExactFusionGate\n from sglang.multimodal_gen.runtime.distributed.communication_op import (\n     sequence_model_parallel_all_gather,\n     sequence_model_parallel_all_to_all_4D,\n@@ -32,6 +37,10 @@\n )\n from sglang.multimodal_gen.runtime.layers.mlp import MLP\n from sglang.multimodal_gen.runtime.layers.visual_embedding import ModulateProjection\n+from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger\n+\n+logger = init_logger(__name__)\n+_MEAN_SQUARE = BitExactFusionGate(\"Nomas mean square\", per_signature=True)\n \n \n def attention(q, k, v, attn_mask):\n@@ -265,15 +274,27 @@ def _compiled_norm_rotate():\n \n \n def rms_norm_rotate(norm, x, freqs_cis, dtype):\n-    \"\"\"``apply_rotary_emb_single(norm(x).to(dtype), freqs_cis)`` with one fused kernel.\n+    \"\"\"Normalize and rotate without materializing the FP32 input and its square.\n \n-    The mean-square reduction stays in ATen so its summation order is unchanged;\n-    the normalisation, weight, cast and rotation are fused with the same rounding.\n+    The mean-square kernel preserves ATen's reduction order; the existing\n+    compiled normalization and rotation keep their original rounding.\n     \"\"\"\n     if not _fused_ok(x):\n         return apply_rotary_emb_single(norm(x).to(dtype), freqs_cis)\n     cos, sin = _rope_tables(x, freqs_cis)\n-    mean_square = x.float().pow(2).mean(-1, keepdim=True)\n+\n+    def reference():\n+        return x.float().pow(2).mean(-1, keepdim=True)\n+\n+    if can_use_rmsnorm_mean_square(x):\n+        mean_square = _MEAN_SQUARE.run(\n+            lambda: rmsnorm_mean_square_bitexact(x),\n+            reference,\n+            sig=(x.shape, x.stride(), x.device),\n+            logger=logger,\n+        )\n+    else:\n+        mean_square = reference()\n     with torch.autocast(x.device.type, enabled=False):\n         return _compiled_norm_rotate()(\n             x, mean_square, norm.eps, norm.weight, cos, sin, dtype"
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/test/unit/test_nomas.py",
+            "patch": "@@ -346,6 +346,37 @@ def test_fused_qk_norm_rope_and_modulate_cast_are_bitwise_exact():\n     assert torch.equal(fused, layers.modulate(x, shift, scale).to(torch.bfloat16))\n \n \n+@pytest.mark.skipif(not is_nvidia_cuda, reason=\"fused kernels need CUDA\")\n+@torch.inference_mode()\n+def test_mean_square_fusion_preserves_compiled_rope_and_camera_fallback():\n+    from sglang.multimodal_gen.runtime.models.dits import nomas_layers as layers\n+\n+    for dim in (128, 64):\n+        x = torch.randn(1, 2000, 3, 16, dim, device=\"cuda\", dtype=torch.bfloat16)[\n+            :, :, 1\n+        ]\n+        norm = layers.RMSNorm(dim).cuda().bfloat16()\n+        norm.weight.normal_(1, 0.1)\n+        angles = torch.randn(2000, dim, device=\"cuda\")\n+        freqs = (angles.cos(), angles.sin())\n+        cos, sin = layers._rope_tables(x, freqs)\n+        expected = layers._compiled_norm_rotate()(\n+            x,\n+            x.float().square().mean(-1, keepdim=True),\n+            norm.eps,\n+            norm.weight,\n+            cos,\n+            sin,\n+            torch.bfloat16,\n+        )\n+        assert torch.equal(\n+            layers.rms_norm_rotate(norm, x, freqs, torch.bfloat16), expected\n+        )\n+        if dim == 128:\n+            assert layers._MEAN_SQUARE.is_verified((x.shape, x.stride(), x.device))\n+            assert not layers._MEAN_SQUARE.disabled\n+\n+\n @pytest.mark.skipif(not is_nvidia_cuda, reason=\"fused kernels need CUDA\")\n @torch.inference_mode()\n def test_pixelumm_fused_norm_and_swiglu_are_bitwise_exact():"
+          },
+          {
+            "filename": "test/registered/kernels/ops/diffusion/test_norm.py",
+            "patch": "@@ -859,6 +859,46 @@ def test_rmsnorm_cast_before_weight_reduction_boundaries(dim, eps, rows):\n     assert torch.equal(rmsnorm_cast_before_weight_bitexact(x, weight, eps), expected)\n \n \n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"Requires CUDA PTX\")\n+@pytest.mark.parametrize(\n+    \"batch,seq,heads,packed\",\n+    [(1, 1, 16, False), (1, 17, 4, True), (2, 2000, 16, False)],\n+)\n+@pytest.mark.parametrize(\"amplitude\", [1.0, 1e-38, 1e19])\n+def test_head128_mean_square_exact(batch, seq, heads, packed, amplitude):\n+    from sglang.kernels.ops.diffusion.norm.rmsnorm_cast_before_weight_bitexact import (\n+        rmsnorm_mean_square_bitexact,\n+    )\n+\n+    x = (\n+        torch.randn(batch, seq, 3 if packed else 1, heads, 128, device=\"cuda\")\n+        * amplitude\n+    ).bfloat16()\n+    x = x[:, :, 1 if packed else 0]\n+    expected = x.float().square().mean(-1, keepdim=True)\n+    assert torch.equal(rmsnorm_mean_square_bitexact(x), expected)\n+\n+\n+@pytest.mark.skipif(torch.version.hip is not None, reason=\"Requires CUDA PTX\")\n+def test_head128_mean_square_capture_replay_and_compile():\n+    from sglang.kernels.ops.diffusion.norm.rmsnorm_cast_before_weight_bitexact import (\n+        rmsnorm_mean_square_bitexact,\n+    )\n+\n+    x = torch.randn(1, 31, 4, 128, device=\"cuda\", dtype=torch.bfloat16)\n+    rmsnorm_mean_square_bitexact(x)\n+    graph = torch.cuda.CUDAGraph()\n+    with torch.cuda.graph(graph):\n+        captured = rmsnorm_mean_square_bitexact(x)\n+    compiled = torch.compile(rmsnorm_mean_square_bitexact, fullgraph=True)\n+    for _ in range(2):\n+        x.normal_()\n+        graph.replay()\n+        expected = x.float().square().mean(-1, keepdim=True)\n+        assert torch.equal(captured, expected)\n+        assert torch.equal(compiled(x), expected)\n+\n+\n def _moss_image_norm_eager(x, weight):\n     normalized = x.float() * torch.rsqrt(\n         x.float().square().mean(-1, keepdim=True) + 1e-6"
+          }
+        ],
+        "url": "https://github.com/sgl-project/sglang/pull/49308",
+        "title": "sgl-project/sglang#49308 (patch)",
+        "display_url": "https://github.com/sgl-project/sglang/pull/49308",
+        "display_title": "sgl-project/sglang#49308 (patch)"
+      }
+    },
+    {
+      "number": 47686,
+      "info": {
+        "url": "https://github.com/sgl-project/sglang/pull/47686",
+        "number": 47686,
+        "state": "closed",
+        "merged": true,
+        "mergeable": false,
+        "draft": false,
+        "body": "## Summary\n\nWhen `camera_chunk_size == 1` (the value in the released Hy-Nomas `transformer/config.json`), each camera chunk is one latent frame, so the softmax in `NomasCameraAttention` runs over a single key and equals 1.0. The output for every token is just the value vector of its frame, independent of q and k.\n\nThis PR takes that path directly: it skips the `img_attn_q` GEMM, the q/k RMSNorm + RoPE and the per-frame SDPA launches, and gathers `v` by frame index (with `token_offset` for sequence-parallel slices). Other chunk sizes use the old code unchanged. The change is 7 lines in `nomas.py` (`git diff -w`); the rest of the diff is re-indentation of the old path into the `else`.\n\nScope: this only runs for requests that carry camera poses (`norm_extrinsics`). Requests without a camera never reach this module.\n\n## Evidence\n\nReal Hy-Nomas DiT weights loaded from the assembled checkpoint (0 missing / 0 unexpected keys), H100, 352x640, one 10-latent segment of 8 steps, DiT only, random text embeddings, median of several runs:\n\n| | original | this PR | bitwise equal |\n|---|---|---|---|\n| hist 0 | 1341 ms | 1237 ms (-8%) | yes |\n| hist 3 | 1460 ms | 1271 ms (-13%) | yes |\n| hist 8 | 1543 ms | 1322 ms (-14%) | yes |\n\nA second container (slower host CPU) showed larger gains for the same comparison: 1858 -> 1370 ms (-26%) at hist 0, 1920 -> 1438 ms (-25%) at hist 3, 2299 -> 1814 ms (-21%) at hist 3 with action windows. The forward issues about 8k kernel launches and the GPU is idle roughly half the time, so the gain scales with how launch-bound the host is. Absolute numbers differ between containers; only compare within a table.\n\n## Tests\n\n`test_camera_chunk_of_one_reads_each_frames_value_without_attention` in `test_nomas.py`: builds the expected output with real SDPA over random q/k (one key per frame), checks the module matches it, checks a slice that starts mid-frame, and fails if `img_attn_q` is called.\n\n- main: fails (`a one-key softmax needs no query`), Modal CPU.\n- This PR: **not run on the final tree** (CPU or CUDA unit tests). Bitwise equality was checked on real weights in the benchmark above.\n\n## Review\n\nAn independent review pass found no correctness issue. Optional follow-ups it suggested: a `has_camera` tensor case in the test, and a comment that the shortcut relies on `chunk_size == 1`.\n\n## Not checked\n\n- No end-to-end camera request, only the DiT.\n- Fixed-tree CPU and CUDA unit tests not run (see above).\n- TP/SP multi-rank run not done; the slice test covers the `token_offset` path on one rank.\n\n<!-- pr-states:start -->\n---\n### CI States\n\nLatest PR Test (Base): <!-- slot:pr-test:start -->:white_check_mark: [Run #41240893047](https://github.com/sgl-project/sglang/actions/runs/41240893047)<!-- slot:pr-test:end -->\nLatest PR Test (Extra): <!-- slot:pr-test-extra:start -->:x: [Run #41240893086](https://github.com/sgl-project/sglang/actions/runs/41240893086)<!-- slot:pr-test-extra:end -->\nLatest PR Test (AMD ROCm 10): <!-- slot:pr-test-amd:start -->:x: [Run #41240892997](https://github.com/sgl-project/sglang/actions/runs/41240892997)<!-- slot:pr-test-amd:end -->\n\n> [!TIP]\n> Base CI only covers the core cases, and its workload may not exercise your change. Use `/rerun-test` to run the tests your change touches, or copy this prompt for an agent:\n>\n> ```text\n> Find the registered tests this PR affects and run them with /rerun-test, following https://github.com/sgl-project/sglang/blob/main/.agents/skills/rerun-test/SKILL.md\n> ```\n<!-- pr-states:end -->",
+        "title": "[Perf] diffusion: Nomas camera attention reads each frame's value directly when camera_chunk_size is 1",
+        "base": "main",
+        "base_sha": "181380682b50f4606d1a09df3cbbbfc21de931e3",
+        "head": "perf/nomas-camera-chunk1",
+        "head_sha": "cb28f20efd1b7c2cb2740d5e486510c84c83fc22",
+        "head_repo_id": 1325390327,
+        "head_repo_full_name": "OnePunchMonk/sglang",
+        "merge_commit_sha": "1ad0149814bfbe0cdcc22fca3d757dd23d0fbe11",
+        "user": {
+          "login": "OnePunchMonk",
+          "name": "OnePunchMonk",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/119044997?v=4",
+          "id": 119044997
+        },
+        "requested_reviewers": [
+          {
+            "login": "HaiShaw",
+            "name": "HaiShaw",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/3349073?v=4",
+            "id": 3349073
+          },
+          {
+            "login": "mickqian",
+            "name": "mickqian",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/30898949?v=4",
+            "id": 30898949
+          },
+          {
+            "login": "ping1jing2",
+            "name": "ping1jing2",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/32810407?v=4",
+            "id": 32810407
+          },
+          {
+            "login": "BBuf",
+            "name": "BBuf",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/35585791?v=4",
+            "id": 35585791
+          },
+          {
+            "login": "AgainstEntropy",
+            "name": "AgainstEntropy",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/42559837?v=4",
+            "id": 42559837
+          },
+          {
+            "login": "kevin-mii",
+            "name": "kevin-mii",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/45493463?v=4",
+            "id": 45493463
+          },
+          {
+            "login": "yichiche",
+            "name": "yichiche",
+            "email": null,
+            "avatar_url": "https://avatars.githubusercontent.com/u/179548237?v=4",
+            "id": 179548237
+          }
+        ],
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-31T20:52:00Z",
+        "updated_at": "2026-11-01T09:56:46Z",
+        "closed_at": "2026-11-01T09:56:45Z",
+        "merged_at": "2026-11-01T09:56:45Z",
+        "commits": 1,
+        "changed_files": 2,
+        "additions": 84,
+        "deletions": 35,
+        "display_url": "https://github.com/sgl-project/sglang/pull/47686",
+        "display_title": "[Perf] diffusion: Nomas camera attention reads each frame's value directly when camera_chunk_size is 1"
+      },
+      "patch": {
+        "patches": [
+          {
+            "filename": "python/sglang/multimodal_gen/runtime/models/dits/nomas.py",
+            "patch": "@@ -219,42 +219,49 @@ def forward(self, x, camera, spatial_tokens, has_camera, token_offset=0):\n         \"\"\"``x`` holds video tokens [token_offset, token_offset + n) of the segment.\"\"\"\n         b, n, _ = x.shape\n         frames = camera.shape[1]\n-        q = self.img_attn_q(x).view(b, n, 16, 64)\n-        k, v = (\n-            self.keyboard_attn_kv(self.keyboard_embed(camera))\n-            .view(b, frames, 2, 16, 64)\n-            .unbind(2)\n-        )\n-        tokens = torch.arange(n, device=x.device) + token_offset\n-        qids = (tokens // spatial_tokens).clamp(max=7499)\n-        kids = torch.arange(frames, device=x.device).clamp(max=7499)\n-        q = rms_norm_rotate(\n-            self.key_attn_q_norm,\n-            q,\n-            (self.freqs_cos[qids], self.freqs_sin[qids]),\n-            v.dtype,\n-        )\n-        k = rms_norm_rotate(\n-            self.key_attn_k_norm,\n-            k,\n-            (self.freqs_cos[kids], self.freqs_sin[kids]),\n-            v.dtype,\n-        )\n-        chunks = []\n-        # Each camera chunk covers a contiguous token range; intersect with ours.\n-        for start in range(0, frames, self.chunk_size):\n-            end = min(start + self.chunk_size, frames)\n-            lo = max(start * spatial_tokens, token_offset) - token_offset\n-            hi = min(end * spatial_tokens, token_offset + n) - token_offset\n-            if hi <= lo:\n-                continue\n-            out = F.scaled_dot_product_attention(\n-                q[:, lo:hi].transpose(1, 2),\n-                k[:, start:end].transpose(1, 2),\n-                v[:, start:end].transpose(1, 2),\n+        if self.chunk_size == 1:\n+            # Softmax over a single key is exactly 1, so each token reads its frame's value.\n+            v = self.keyboard_attn_kv(self.keyboard_embed(camera))\n+            v = v.view(b, frames, 2, 16, 64)[:, :, 1]\n+            frame = (torch.arange(n, device=x.device) + token_offset) // spatial_tokens\n+            out = self.proj_keyboard(v[:, frame].flatten(2))\n+        else:\n+            q = self.img_attn_q(x).view(b, n, 16, 64)\n+            k, v = (\n+                self.keyboard_attn_kv(self.keyboard_embed(camera))\n+                .view(b, frames, 2, 16, 64)\n+                .unbind(2)\n             )\n-            chunks.append(out.transpose(1, 2).flatten(2))\n-        out = self.proj_keyboard(torch.cat(chunks, 1))\n+            tokens = torch.arange(n, device=x.device) + token_offset\n+            qids = (tokens // spatial_tokens).clamp(max=7499)\n+            kids = torch.arange(frames, device=x.device).clamp(max=7499)\n+            q = rms_norm_rotate(\n+                self.key_attn_q_norm,\n+                q,\n+                (self.freqs_cos[qids], self.freqs_sin[qids]),\n+                v.dtype,\n+            )\n+            k = rms_norm_rotate(\n+                self.key_attn_k_norm,\n+                k,\n+                (self.freqs_cos[kids], self.freqs_sin[kids]),\n+                v.dtype,\n+            )\n+            chunks = []\n+            # Each camera chunk covers a contiguous token range; intersect with ours.\n+            for start in range(0, frames, self.chunk_size):\n+                end = min(start + self.chunk_size, frames)\n+                lo = max(start * spatial_tokens, token_offset) - token_offset\n+                hi = min(end * spatial_tokens, token_offset + n) - token_offset\n+                if hi <= lo:\n+                    continue\n+                out = F.scaled_dot_product_attention(\n+                    q[:, lo:hi].transpose(1, 2),\n+                    k[:, start:end].transpose(1, 2),\n+                    v[:, start:end].transpose(1, 2),\n+                )\n+                chunks.append(out.transpose(1, 2).flatten(2))\n+            out = self.proj_keyboard(torch.cat(chunks, 1))\n         if has_camera is not None:\n             # Upstream intentionally promotes this residual to float32.\n             out = out * has_camera.float()[:, None, None]"
+          },
+          {
+            "filename": "python/sglang/multimodal_gen/test/unit/test_nomas.py",
+            "patch": "@@ -758,6 +758,48 @@ def test_sequence_parallel_indivisible_segment_rejected_by_input_validation(\n             stage.forward(batch, args)\n \n \n+@torch.inference_mode()\n+def test_camera_chunk_of_one_reads_each_frames_value_without_attention(monkeypatch):\n+    module = tiny_model().action_modules[0]\n+    assert module.chunk_size == 1\n+    x, camera = torch.randn(1, 12, 256), torch.randn(1, 3, 64)  # 3 frames x 4 tokens\n+    _, value = (\n+        module.keyboard_attn_kv(module.keyboard_embed(camera))\n+        .view(1, 3, 2, 16, 64)\n+        .unbind(2)\n+    )\n+    q, k = torch.randn(1, 12, 16, 64), torch.randn(1, 3, 16, 64)\n+    attended = torch.cat(\n+        [\n+            F.scaled_dot_product_attention(\n+                q[:, 4 * f : 4 * f + 4].transpose(1, 2),\n+                k[:, f : f + 1].transpose(1, 2),\n+                value[:, f : f + 1].transpose(1, 2),\n+            )\n+            .transpose(1, 2)\n+            .flatten(2)\n+            for f in range(3)\n+        ],\n+        dim=1,\n+    )\n+    expected = x + module.proj_keyboard(attended)\n+\n+    def unused(*args):\n+        raise AssertionError(\"a one-key softmax needs no query\")\n+\n+    monkeypatch.setattr(module.img_attn_q, \"forward\", unused)\n+    torch.testing.assert_close(\n+        module(x, camera, 4, None), expected, atol=1e-6, rtol=1e-6\n+    )\n+    # A sequence-parallel rank holds a token slice that starts mid-frame.\n+    torch.testing.assert_close(\n+        module(x[:, 5:11], camera, 4, None, token_offset=5),\n+        expected[:, 5:11],\n+        atol=1e-6,\n+        rtol=1e-6,\n+    )\n+\n+\n def test_action_windows_and_camera_gate_follow_upstream():\n     \"\"\"Malformed action timing must degrade to full attention, not reject the\n     request, and a camera-on segment must not carry a gate mask.\"\"\""
+          }
+        ],
+        "url": "https://github.com/sgl-project/sglang/pull/47686",
+        "title": "sgl-project/sglang#47686 (patch)",
+        "display_url": "https://github.com/sgl-project/sglang/pull/47686",
+        "display_title": "sgl-project/sglang#47686 (patch)"
+      }
+    }
+  ]
+}

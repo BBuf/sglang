@@ -1,0 +1,55 @@
+{
+  "status": "failed_preserve_no_automatic_retry",
+  "pid": 80767,
+  "benchmark": false,
+  "results": [
+    {
+      "label": "nomas-common-weight-identity01",
+      "command": [
+        "docker",
+        "exec",
+        "-e",
+        "CUDA_VISIBLE_DEVICES=",
+        "bbuf-diffusion-6000-20261113-sgl",
+        "/opt/sglang/bin/python",
+        "/task/scripts/materialize_nomas_common01.py"
+      ],
+      "returncode": 0,
+      "log_sha256": "f1c42e88c06d709680ff9853fc38d19bd941d855ae4cefa5d57cc2e0439b0f19"
+    },
+    {
+      "label": "nomas-49-omni-native01-driver",
+      "command": [
+        "python3",
+        "/data/xyzhang/diffusion-6000-20261113/scripts/nomas-native-visits/run.py",
+        "omni",
+        "nomas-49-omni-native01",
+        "inputs/nomas-49-omni-native01.json"
+      ],
+      "returncode": 0,
+      "log_sha256": "2e60cbc1adec2e2402d2eddbcff97292cd430100dc977522ded1015f717a28ed"
+    },
+    {
+      "label": "nomas-49-sgl-native01-driver",
+      "command": [
+        "python3",
+        "/data/xyzhang/diffusion-6000-20261113/scripts/nomas-native-visits/run.py",
+        "sgl",
+        "nomas-49-sgl-native01",
+        "inputs/nomas-49-sgl-native01.json"
+      ],
+      "returncode": 1,
+      "log_sha256": "c19e7c22d82a864e887049ec44e33ac3f09da1c75658d681114cdfc053e1e7d8"
+    }
+  ],
+  "at": "2026-11-15T08:20:13.709376+00:00",
+  "active_pid": null,
+  "command": [
+    "python3",
+    "/data/xyzhang/diffusion-6000-20261113/scripts/nomas-native-visits/run.py",
+    "sgl",
+    "nomas-49-sgl-native01",
+    "inputs/nomas-49-sgl-native01.json"
+  ],
+  "error": "AssertionError(('nomas-49-sgl-native01-driver', 1))"
+}

@@ -1,0 +1,11 @@
+# Nomas source mapping before first native admission
+
+6000 only; frozenSG0745bfe49b855ae48e0c1ef3305362b8e0c78a03 / Omniaa2968e858a718989332a61ad40758024cb4a3a5. This is a source-derived plan, not measured bottleneck evidence.
+
+Native SGLang NomasLatentSession.generate_segment calls model.prepare_segment_context once then model.predict for8steps; it bypasses a normal module forward call. Nomas model uses a model-specific segmented KV attention plan. A generic module runner/proxy and flag do not prove graph execution. Any BCG proposal must show real warmup capture and serving replay, explicitly update text mask/action boundaries/context, avoid retaining prior request cache, and preserve expected new-shape capture vs miss/fallback distinctions. Do not implement before actual profile establishes a worthwhile target.
+
+Native all-stage profiler: pipeline_executor.profile_execution(full_profile=batch.profile_all_stages) wraps actual stage execution; STAGE labels include NomasTextEncodingStage, NomasDenoisingStage and NomasDecodingStage. Use an uninstrumented native warm request before full-stage profile; no admission tensor observer in measured/profile visits. Do not rely on standard-denoiser step profiling because this custom loop does not call that profiler-step hook. Profile remains separate from A/A or paired performance.
+
+Candidates to classify only after actual trace: CPU launches/host checks in8step loop, existing compiled FlexAttention and mask preparation, DiT GEMMs/pointwise norms, PixelUMM decoder attention/MLP, text encoder, native export. Existing Nomas mean-square/QK+MRoPE/INT8 and camera shortcuts already merged (source-review04); never duplicate them. Standard compiler-disabled full model still uses native compiled FlexAttention/pointwise kernels; keep both frameworks effective native paths.
+
+Single-GPU49f quality admission precedes121/241f or SP2; preserve resource/OOM failures. All native initial noise/TE masks/schedule records and generated MP4 required. Both sides use unchanged canonical DiT/decoder tensors; SGL original TE wrapper requires all338 consumed tensors byte-equal. Native finalKVcommit behavior differs (SGL skips unused, Omni executes); disclose rather than equalizing by adding/removing useful work.

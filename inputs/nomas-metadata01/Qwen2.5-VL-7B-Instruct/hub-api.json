@@ -1,0 +1,297 @@
+{
+  "_id": "6795ffcd88cd7c0294702a72",
+  "id": "Qwen/Qwen2.5-VL-7B-Instruct",
+  "private": false,
+  "pipeline_tag": "image-text-to-text",
+  "library_name": "transformers",
+  "tags": [
+    "transformers",
+    "safetensors",
+    "qwen2_5_vl",
+    "image-text-to-text",
+    "multimodal",
+    "conversational",
+    "en",
+    "arxiv:2309.00071",
+    "arxiv:2409.12191",
+    "arxiv:2308.12966",
+    "license:apache-2.0",
+    "eval-results",
+    "text-generation-inference",
+    "endpoints_compatible",
+    "deploy:azure",
+    "region:us"
+  ],
+  "downloads": 5711718,
+  "likes": 1771,
+  "modelId": "Qwen/Qwen2.5-VL-7B-Instruct",
+  "author": "Qwen",
+  "sha": "cc594898137f460bfe9f0759e9844b3ce807cfb5",
+  "lastModified": "2025-04-06T16:23:01.000Z",
+  "gated": false,
+  "disabled": false,
+  "widgetData": [
+    {
+      "text": "Hi, what can you help me with?"
+    },
+    {
+      "text": "What is 84 * 3 / 2?"
+    },
+    {
+      "text": "Tell me an interesting fact about the universe!"
+    },
+    {
+      "text": "Explain quantum computing in simple terms."
+    }
+  ],
+  "model-index": null,
+  "config": {
+    "architectures": [
+      "Qwen2_5_VLForConditionalGeneration"
+    ],
+    "model_type": "qwen2_5_vl",
+    "tokenizer_config": {
+      "bos_token": null,
+      "eos_token": "<|im_end|>",
+      "unk_token": null,
+      "pad_token": "<|endoftext|>",
+      "chat_template": "{% set image_count = namespace(value=0) %}{% set video_count = namespace(value=0) %}{% for message in messages %}{% if loop.first and message['role'] != 'system' %}<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n{% endif %}<|im_start|>{{ message['role'] }}\n{% if message['content'] is string %}{{ message['content'] }}<|im_end|>\n{% else %}{% for content in message['content'] %}{% if content['type'] == 'image' or 'image' in content or 'image_url' in content %}{% set image_count.value = image_count.value + 1 %}{% if add_vision_id %}Picture {{ image_count.value }}: {% endif %}<|vision_start|><|image_pad|><|vision_end|>{% elif content['type'] == 'video' or 'video' in content %}{% set video_count.value = video_count.value + 1 %}{% if add_vision_id %}Video {{ video_count.value }}: {% endif %}<|vision_start|><|video_pad|><|vision_end|>{% elif 'text' in content %}{{ content['text'] }}{% endif %}{% endfor %}<|im_end|>\n{% endif %}{% endfor %}{% if add_generation_prompt %}<|im_start|>assistant\n{% endif %}"
+    },
+    "processor_config": {
+      "chat_template": "{% set image_count = namespace(value=0) %}{% set video_count = namespace(value=0) %}{% for message in messages %}{% if loop.first and message['role'] != 'system' %}<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n{% endif %}<|im_start|>{{ message['role'] }}\n{% if message['content'] is string %}{{ message['content'] }}<|im_end|>\n{% else %}{% for content in message['content'] %}{% if content['type'] == 'image' or 'image' in content or 'image_url' in content %}{% set image_count.value = image_count.value + 1 %}{% if add_vision_id %}Picture {{ image_count.value }}: {% endif %}<|vision_start|><|image_pad|><|vision_end|>{% elif content['type'] == 'video' or 'video' in content %}{% set video_count.value = video_count.value + 1 %}{% if add_vision_id %}Video {{ video_count.value }}: {% endif %}<|vision_start|><|video_pad|><|vision_end|>{% elif 'text' in content %}{{ content['text'] }}{% endif %}{% endfor %}<|im_end|>\n{% endif %}{% endfor %}{% if add_generation_prompt %}<|im_start|>assistant\n{% endif %}"
+    }
+  },
+  "cardData": {
+    "license": "apache-2.0",
+    "language": [
+      "en"
+    ],
+    "pipeline_tag": "image-text-to-text",
+    "tags": [
+      "multimodal"
+    ],
+    "library_name": "transformers"
+  },
+  "transformersInfo": {
+    "auto_model": "AutoModelForMultimodalLM",
+    "pipeline_tag": "image-text-to-text",
+    "processor": "AutoProcessor"
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes",
+      "blobId": "a6344aac8c09253b3b630fb776ae94478aa0275b",
+      "size": 1519
+    },
+    {
+      "rfilename": "README.md",
+      "blobId": "5f169031e3f61faa8262272000c36d54bdc9b926",
+      "size": 18574
+    },
+    {
+      "rfilename": "chat_template.json",
+      "blobId": "732bd68bc5427d1fb6c06a59b3bf2456b2155d24",
+      "size": 1050
+    },
+    {
+      "rfilename": "config.json",
+      "blobId": "58ee12a9fb3d8708a1e41e49cb9aa5ac5017b6a6",
+      "size": 1374
+    },
+    {
+      "rfilename": "generation_config.json",
+      "blobId": "1088c9865dbf2e8152485664bb07495e89a14efb",
+      "size": 216
+    },
+    {
+      "rfilename": "merges.txt",
+      "blobId": "20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0",
+      "size": 1671839
+    },
+    {
+      "rfilename": "model-00001-of-00005.safetensors",
+      "blobId": "77da309030fbb0afdd36ab5899f9e515758b50f5",
+      "size": 3900233256,
+      "lfs": {
+        "sha256": "e97b877e47fde53a6c6e77aafb36e58e91ee9d95c4a3eeac6f1b5c0e6a1c986e",
+        "size": 3900233256,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "model-00002-of-00005.safetensors",
+      "blobId": "b404bf51eaa1b3231f6ac670e6c1d83fdddc9e5c",
+      "size": 3864726320,
+      "lfs": {
+        "sha256": "a9a300a43b4724eee2abe7c18ceb26768d0ab011eb0cad19d9bfd2476a24d024",
+        "size": 3864726320,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "model-00003-of-00005.safetensors",
+      "blobId": "24df661f0acaa6c1d3368ddf2aff98da02a183c2",
+      "size": 3864726424,
+      "lfs": {
+        "sha256": "111223d173e00bbee81cba1216fad28668df3476706b7fd26f4d5b50f8b3a507",
+        "size": 3864726424,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "model-00004-of-00005.safetensors",
+      "blobId": "b95b193f3c1b6d531efce9fb16a68f260a30a241",
+      "size": 3864733680,
+      "lfs": {
+        "sha256": "ef47f634fa57d46ee134edcc09f34085a47da1e16c12a2abe0d67118be6d72ed",
+        "size": 3864733680,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "model-00005-of-00005.safetensors",
+      "blobId": "cf27374081ee269586ec091f14f0f82f8ef5ad3e",
+      "size": 1089994880,
+      "lfs": {
+        "sha256": "0c859795ad3a627a9b95bcb762e059d5b768a4a36fdd4affeff269d93fdecc67",
+        "size": 1089994880,
+        "pointerSize": 135
+      }
+    },
+    {
+      "rfilename": "model.safetensors.index.json",
+      "blobId": "f0c9e9b8e043f5de0ac99fd8b2ea75515d811e7b",
+      "size": 57619
+    },
+    {
+      "rfilename": "preprocessor_config.json",
+      "blobId": "7f3b746825e5eef53ed8ed57a91df9e86ee62c0a",
+      "size": 350
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "blobId": "443909a61d429dff23010e5bddd28ff530edda00",
+      "size": 7031645
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "blobId": "91684ea3dc135a7d815e2c932054ce88c1aab41f",
+      "size": 5702
+    },
+    {
+      "rfilename": "vocab.json",
+      "blobId": "4783fe10ac3adce15ac8f358ef5462739852c569",
+      "size": 2776833
+    }
+  ],
+  "spaces": [
+    "kulkas2pintu/QWEN_EDIT_IMAGE",
+    "kogutt999/Pro-Realism-Edit-Studio",
+    "Onise/Qwen-Image-Edit-2509-LoRAs-Fast2",
+    "prithivMLmods/Qwen-Image-Edit-2511-LoRAs-Fast",
+    "prithivMLmods/Qwen-Image-Edit-2509-LoRAs-Fast",
+    "ivannm/Qwen-Image-Edit-2509-LoRAs-Fast2-copy",
+    "ARandomCoder2026/Qwen_Img_Space",
+    "multimodalart/Hunyuan-Video-1-5",
+    "nvidia/Cosmos3-Action-Viewer",
+    "Upsampler/qwen-image-edit",
+    "kulkas2pintu/Video_to_video_WAN",
+    "emanforhelp/model-pulse",
+    "linoyts/Qwen-Image-Edit-Angles",
+    "prithivMLmods/FireRed-Image-Edit-1.0-Fast",
+    "alexnasa/Wan2.2-Animate-ZEROGPU",
+    "Qwen/Qwen-Image-Edit-2509",
+    "embedl/hfviewer",
+    "prithivMLmods/Qwen-Image-Edit-2509-LoRAs-Fast-Fusion",
+    "Qdpie/Qdpie-Qwen-Image-Editor",
+    "tencent/hy-nomas",
+    "witcherderivia/QwenStyle",
+    "a333ffff/Qwen-Image-Edit-2511-Custom",
+    "NeoLeoLP/Qwen-Image-Edit-2511-LoRAs-Fast",
+    "rl74/Qwen-Image-Edit-2511-AnyPose",
+    "Shakethatassshowmetwatyougot/Qwen-Image-Edit-2511-LoRAs-Fast",
+    "lsadouk1111/lecturefacile-dyslexie",
+    "witcherderivia/PromptRoute",
+    "akhaliq/FrameForge",
+    "Sarah-okeson/Qwen-Image-Edit-Object-Manipulator",
+    "KingNish/OpenGPT-4o",
+    "Qwen/Qwen-Image-Edit",
+    "multimodalart/Qwen-Image-Edit-Fast",
+    "linoyts/Qwen-Image-Edit-2511-AnyPose",
+    "stepfun-ai/Step1X-Edit",
+    "multimodalart/self-forcing",
+    "fffiloni/Meigen-MultiTalk",
+    "linoyts/Qwen-Image-Edit-2511-Fast",
+    "prithivMLmods/Qwen-Image-Edit-Object-Manipulator",
+    "tori29umai/Qwen-Image-2509-CharacterSheet",
+    "Heartsync/VEO3-RealTime",
+    "prithivMLmods/Qwen3-VL-Outpost",
+    "anycoderapps/Qwen-Image-Edit-2509-Photo-to-Anime",
+    "linoyts/Qwen-Image-Edit-next-scene",
+    "linoyts/Qwen-Image-Edit-2509-Fast",
+    "artificialguybr/qwen-vl",
+    "LPX55/Qwen-Image-Edit-2511-Turbo-Lightning",
+    "linoyts/Qwen-Image-Edit-Inpaint",
+    "ysharma/fast-image-studio",
+    "zerogpu-aoti/Qwen-Image-Edit-Outpaint",
+    "BLIP3o/blip-3o",
+    "akhaliq/Qwen-Image-Edit-2509-LoRAs-Fast",
+    "yeq6x/QIE-Image2GuideBody",
+    "InstantX/Qwen-Image-ControlNet-Inpainting",
+    "davanstrien/ColPali-Query-Generator",
+    "fffiloni/Wan2.1-VACE-1.3B",
+    "TencentARC/BrushEdit",
+    "multimodalart/Qwen-Image-Light-Migration",
+    "zerogpu-aoti/Qwen-Image-Edit-Relight",
+    "multimodalart/Qwen-Image-Edit-Angles-2",
+    "akhaliq/eigen-banana-qwen-image-edit",
+    "Memfice/Qwen-Image-Edit-next-scene",
+    "systms/ACTION-HF",
+    "geceff1/FireRed-Image-Edit-1.0-Fast",
+    "TIGER-Lab/MEGA-Bench",
+    "ginigen/Nano-Banana-PRO",
+    "fffiloni/Wan2.1",
+    "linoyts/Qwen-Image-Edit-Fusion",
+    "witcherderivia/TeleStyleV2",
+    "visionLMsftw/comparevlms",
+    "Funker1515/cpuqwen",
+    "prithivMLmods/QIE-Object-Remover-Bbox",
+    "wcy1122/MGM-Omni",
+    "multimodalart/Apply-Texture-Qwen-Image-Edit",
+    "TencentARC/IC-Custom",
+    "lenML/Qwen-Image-Edit-2511-Fast",
+    "Yellowbox2026/Qwen-Image-Edit-2511-AnyPose",
+    "zerogpu-aoti/Qwen-Image-Edit-Multi-Image",
+    "akhaliq/Qwen-Edit-3DChibi-LoRA",
+    "akhaliq/Qwen-Edit-2509-Upscale-LoRA",
+    "IndexTeam/AnisoraV3",
+    "ZGred3213/Qwen-Image-Edit-2509-LoRAs-Fast",
+    "fffiloni/SCAIL-2",
+    "Lubi153/Pro-Realism-Edit-Studio-v.17",
+    "ginigen/Wan-2.2-Enhanced",
+    "fffiloni/Reward-Forcing",
+    "KingNish/Qwen-VL",
+    "Heartsync/qedit",
+    "GiorgioV/Qwen-Image-Edit-2509-2",
+    "akhaliq/Qwen-Image-Edit-2509-Light_restoration",
+    "GiorgioV/Test-Qwen-Image-Edit-2509-LoRAs-Fast",
+    "ravenrose996688/Pro-Realism-Edit-Studio-v.17",
+    "systms/INFL8",
+    "ghjjhv/Qwen-Image-Edit-2511-LoRAs-Fast",
+    "mrdbourke/Qwen2.5-VL-Instruct-Demo",
+    "dmorawiec/Qwen-VL-Object-Detection",
+    "multimodalart/Eigen-Banana",
+    "GiorgioV/Qwen-Image-Edit-2509-1",
+    "prithivMLmods/Qwen-Image-Edit-3D-Lighting-Control",
+    "artificialguybr/Qwen-Image-Edit-Lora-Explorer",
+    "TencentARC/RollingForcing"
+  ],
+  "createdAt": "2025-01-26T09:26:37.000Z",
+  "safetensors": {
+    "parameters": {
+      "BF16": 8292166656
+    },
+    "total": 8292166656
+  },
+  "usedStorage": 16584414560
+}
