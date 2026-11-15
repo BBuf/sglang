@@ -1,0 +1,56 @@
+{
+  "arm": "sgl",
+  "run": "nomas-c2-sgl-native23",
+  "purpose": "Native queued C2 admission; require same-arm C1 MP4 identity; diagnostic only",
+  "benchmark": false,
+  "status": "raw_complete",
+  "started_at": "2026-11-15T11:25:06.942144+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-c2-visits23/serve.py",
+      "start",
+      "sgl",
+      "nomas-c2-sgl-native23"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-c2-visits23/submit.py",
+      "sgl",
+      "nomas-c2-sgl-native23"
+    ]
+  ],
+  "input_hashes": {
+    "runs/nomas-49-sgl-native02/outputs/results.json": "5e6247fb00a23a07fdb7790e8d05f10e01694ac0b144d7a937f48ecaae8f8ba7",
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/nomas-native-workloads01.json": "0d407ba41a9749f65c9f29e131ec35a2665ab9f3e73d3896b2351b28041aff7e",
+    "inputs/nomas-c2-sgl-native23.json": "fd376e367fb27e639e6a54c40cc56a6d0e4a8633564365c7f0b6cf134a96fbf5",
+    "scripts/nomas-c2-visits23/build_nomas_video_payload.py": "9282ee477285948fbaaed3b6ae503c880db14a0ad70e44ff859dfa37f3c16e22",
+    "scripts/nomas-c2-visits23/run.py": "2a32445ba3e31fcc956ca8c11eef7d084345c2897ae6554534bbefe013826b4d",
+    "scripts/nomas-c2-visits23/serve.py": "7ca2502c5c441149eb9145bd69b60975cc46b7df934d41b07151d7ca22c1cc60",
+    "scripts/nomas-c2-visits23/submit.py": "bb99edbdf38627a46434481f7ab7cc3a496f4dd70dc685071824c104c18e7d3a",
+    "scripts/nomas-native-observer01/sitecustomize.py": "258b2f1ff11d51bef59f4feab8a97c7b8b3f34f8c91154d93321547666621ee1",
+    "scripts/nomas-vae-mean-observer07/sitecustomize.py": "e6aac4a5d21f964ecd37dc5678bff5714e9a3ae01a052b1ba6ae951f84d36bb1",
+    "scripts/materialize_nomas_keys02.py": "79e837829f901da84ee559bb3775fc1894cd8a45c285aec1627204c99c32ebb1",
+    "scripts/nomas_checkpoint_key_audit02.py": "5df609929f5acccad3f79719cd8b0c8313a3842256a8f0a9a17a8bf7ad9369da",
+    "evidence/preflight/nomas-key-only-materialization02.json": "a58730eea74afa5247ae22a8782b5ef5384dbff88f53dd08b7fad522dafa1055"
+  },
+  "updated_at": "2026-11-15T11:26:56.114850+00:00",
+  "launch_to_ready_seconds": 43.343361065723,
+  "completed_outputs": 6,
+  "reference_checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "gpu_cleanup": "idle_verified"
+}

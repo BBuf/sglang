@@ -1,0 +1,151 @@
+{
+  "physical_gpus": [
+    0
+  ],
+  "purpose": "Frozen241frame native resource and all-frame quality admission onGPU0; no performance claim",
+  "benchmark": false,
+  "poll_seconds": 0.1,
+  "require_own_repeat": false,
+  "model": "tencent/Hy-Nomas-Diffusers",
+  "weights_revision": "a1ae04d11ae4ea176d1f76de634c115944f9882d",
+  "requests": [
+    {
+      "id": "nomas-241-short-seed42",
+      "prompt_id": "short",
+      "frames": 241,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission"
+    },
+    {
+      "id": "nomas-241-long-seed42",
+      "prompt_id": "long",
+      "frames": 241,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission"
+    },
+    {
+      "id": "nomas-241-short-seed1101",
+      "prompt_id": "short",
+      "frames": 241,
+      "seed": 1101,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission"
+    },
+    {
+      "id": "nomas-241-long-seed1101",
+      "prompt_id": "long",
+      "frames": 241,
+      "seed": 1101,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission"
+    },
+    {
+      "id": "nomas-241-short-seed2026",
+      "prompt_id": "short",
+      "frames": 241,
+      "seed": 2026,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission"
+    },
+    {
+      "id": "nomas-241-long-seed2026",
+      "prompt_id": "long",
+      "frames": 241,
+      "seed": 2026,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission"
+    },
+    {
+      "id": "nomas-241-short-seed42-repeat",
+      "prompt_id": "short",
+      "frames": 241,
+      "seed": 42,
+      "width": 1280,
+      "height": 704,
+      "fps": 24,
+      "steps": 8,
+      "guidance_scale": 1.0,
+      "flow_shift": 5.0,
+      "batch": 1,
+      "concurrency": 1,
+      "role": "admission",
+      "repeat_of": "nomas-241-short-seed42"
+    }
+  ],
+  "server_args": {
+    "omni": [
+      "/task/cache/nomas-frozen01/Hy-Nomas-Diffusers",
+      "--omni",
+      "--deploy-config",
+      "/task/repos/vllm-omni/vllm_omni/deploy/hy_nomas.yaml",
+      "--host",
+      "127.0.0.1",
+      "--port",
+      "32151"
+    ]
+  },
+  "server_env": {
+    "omni": {
+      "HF_HUB_OFFLINE": "1",
+      "PYTHONPATH": "/task/scripts/nomas-native-observer01:/task/repos/vllm-omni",
+      "NOMAS_AUDIT_DIR": "/task/runs/nomas-241-omni-native17/runtime-audit",
+      "NOMAS_AUDIT_ARM": "omni"
+    }
+  },
+  "quality_metrics": {
+    "within_sgl_lossless": "Exact generated artifact and decoded pixels; retain native raw tensors for diagnosis",
+    "cross_framework": {
+      "ssim_min": 0.92,
+      "psnr_min_db": 24.0,
+      "source": "Benchmark skill video defaults; fixed before any Nomas currentmachine outputs",
+      "all_frames": true,
+      "semantic_or_temporal_metrics": "Supplementary only; never erase failed SSIM/PSNR cells"
+    }
+  },
+  "measurement_note": "Observer synchronizes/saves actual tensors and adds step receipts; these diagnostic timings cannot establish performance. Native full-model/DiT eager; intrinsic compiled FlexAttention is allowed/disclosed. Offline one segment, SGL omits unused finalKVcommit; Omni native final commit retained and counted.",
+  "checkpoint_adaptation": "Only safetensors header keys changed; canonical BF16 payload bytes proven identical. Main source unchanged; first unadapted-load failure retained."
+}

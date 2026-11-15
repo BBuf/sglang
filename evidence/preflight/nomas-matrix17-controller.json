@@ -1,0 +1,26 @@
+{
+  "status": "complete",
+  "benchmark": false,
+  "completed": [
+    "nomas-241-sgl-native17",
+    "nomas-241-omni-native17",
+    "nomas-241-sgl-mean-quality17",
+    "native241_cross_quality_CPU"
+  ],
+  "physical_gpus": [
+    0
+  ],
+  "active": null,
+  "command": [
+    "docker",
+    "exec",
+    "-e",
+    "CUDA_VISIBLE_DEVICES=",
+    "-e",
+    "PYTHONPATH=/task/envs/quality-tools",
+    "bbuf-diffusion-6000-20261113-sgl",
+    "/opt/sglang/bin/python",
+    "/task/scripts/audit_nomas_native17.py"
+  ],
+  "updated_at": "2026-11-15T11:10:23.895059+00:00"
+}

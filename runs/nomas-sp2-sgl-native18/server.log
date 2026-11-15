@@ -1,0 +1,1199 @@
+[11-15 11:10:50] Auto memory policy for NomasPipelineConfig: 94.4 GiB free on the least-free selected GPU holds the 44.4 GiB of weights per GPU at least 2x, so every component without an explicit placement stays resident.
+[11-15 11:10:50] Proposed encoder parallel folding (mode=world) for ServerArgs (tp=1 sp=2 cfg=1 replica=2); the loader keeps it for encoders wide enough to benefit.
+[11-15 11:10:50] server_args: {"model_path": "/task/cache/nomas-native-common02", "model_subfolder": null, "model_variant": null, "model_id": null, "served_model_name": "/task/cache/nomas-native-common02", "backend": "sglang", "attention_backend": null, "enable_attention_backend_autotune": false, "attention_backend_config": {}, "component_attention_backends": {}, "component_attention_backend_roles": {}, "cache_dit_config": null, "nccl_port": null, "enable_nccl_nvls": false, "trust_remote_code": false, "revision": null, "num_gpus": 2, "performance_mode": "auto", "base_gpu_id": 0, "gpu_ids": null, "numa_node": null, "nnodes": 1, "node_rank": 0, "dist_init_addr": null, "tp_size": 1, "sp_degree": 2, "ulysses_degree": 2, "ring_degree": 1, "kv_gather_degree": 1, "sp_split_auto": false, "dp_size": 1, "enable_cfg_parallel": false, "cfg_parallel_degree": 1, "encoder_parallel": "auto", "hsdp_replicate_dim": 1, "hsdp_shard_dim": 2, "dist_timeout": 3600, "scheduler_rpc_timeout": null, "pipeline_class_name": null, "lora_path": null, "lora_nickname": "default", "lora_scale": 1.0, "lora_alpha": null, "lora_merge_mode": "auto", "lora_weight_name": null, "component_paths": {}, "component_weights_paths": {}, "component_direct_gpu_weight_loading": {}, "component_quantizations": {}, "component_precisions": {}, "component_quantization_ignored_layers": {}, "load_diffusion_decoder": false, "transformer_weights_path": null, "minimax_h3_adaln_cache_path": null, "minimax_h3_adaln_online": null, "minimax_h3_adaln_plan_width": null, "minimax_h3_adaln_host_cache_gb": null, "quantization": null, "quantization_ignored_layers": null, "lora_target_modules": null, "component_residency": {"all": "resident"}, "cpu_offload_components": null, "dit_cpu_offload": true, "direct_gpu_weight_loading": false, "dit_layerwise_offload": false, "layerwise_offload_components": null, "dit_offload_prefetch_size": 0.0, "dit_layerwise_resident_layers": 0.0, "dit_layerwise_residency_policy": "leading", "dit_layerwise_residency_lifetime": "forward", "layerwise_prefetch_size": {}, "layerwise_resident_layers": {}, "layerwise_residency_policy": {}, "layerwise_residency_lifetime": {}, "offload_during_compile": true, "text_encoder_cpu_offload": true, "image_encoder_cpu_offload": true, "vae_cpu_offload": false, "use_fsdp_inference": false, "pin_cpu_memory": true, "ltx2_two_stage_device_mode": null, "comfyui_mode": false, "enable_torch_compile": false, "regional_compile": false, "allow_cudnn_tf32": true, "allow_bf16_reduced_precision_reduction": true, "enable_breakable_cuda_graph": false, "bcg_text_buckets": null, "enable_layerwise_nvtx_marker": false, "warmup_mode": "off", "warmup_resolutions": null, "warmup_num_frames": null, "warmup_steps": 1, "warmup_sampling_params": null, "disable_autocast": false, "master_port": 30005, "host": "127.0.0.1", "port": 32150, "http_graceful_shutdown_timeout": null, "enable_metrics": false, "webui": false, "webui_port": 12312, "scheduler_port": 5582, "scheduler_ports": [5582], "batching_mode": "dynamic", "batching_max_size": 1, "batching_delay_ms": 0.0, "batching_config": null, "enable_batching_metrics": false, "async_output_save": false, "sleep_on_idle": false, "strict_ports": false, "output_path": "outputs/", "input_save_path": "inputs/uploads", "prompt_file_path": null, "model_paths": {}, "model_loaded": {"transformer": true, "vae": true, "video_vae": true, "audio_vae": true, "video_dit": true, "audio_dit": true, "dual_tower_bridge": true}, "boundary_ratio": null, "disagg_role": "monolithic", "disagg_timeout": 3600, "disagg_dispatch_policy": "round_robin", "disagg_mode": false, "disagg_transfer_pool_size": 268435456, "disagg_p2p_hostname": "127.0.0.1", "disagg_ib_device": null, "disagg_server_addr": null, "encoder_urls": null, "prompt_encoder_urls": null, "image_encoder_urls": null, "denoiser_urls": null, "decoder_urls": null, "encoder_tp": null, "denoiser_tp": null, "denoiser_sp": null, "denoiser_ulysses": null, "denoiser_ring": null, "decoder_sp": null, "pool_work_endpoint": null, "pool_result_endpoint": null, "log_level": "info", "log_requests": false, "log_requests_level": 2, "log_requests_format": "text", "log_requests_target": null, "uvicorn_access_log_exclude_prefixes": [], "enable_cache_report": false, "disable_conditioning_cache": false, "conditioning_cache_max_size_mb": 512.0, "enable_trace": false, "otlp_traces_endpoint": "localhost:4317", "otlp_service_name": null, "srt_encoder_url": null, "srt_encoder_connect_timeout": 3.05, "srt_encoder_timeout": 100, "pe_server_url": null, "prompt_enhancer_config": null}
+[11-15 11:10:50] Starting server...
+Diffusion runtime modules were imported before this worker initialized its platform: sglang.multimodal_gen.configs, sglang.multimodal_gen.configs.attention_roles, sglang.multimodal_gen.configs.models, sglang.multimodal_gen.configs.models.base, sglang.multimodal_gen.configs.models.dits (+321 more). spawn re-executes /opt/sglang/bin/sglang at module scope in every child, so these were built ahead of platform initialization and hook application, and the classes and registrations they created are already past reach. Move the import inside if __name__ == "__main__": or into the function that uses it.
+[11-15 11:11:03] GPU 0 worker bound to NUMA node 0
+[11-15 11:11:03] Scheduler (dp replica 0) bind at endpoint: tcp://127.0.0.1:5582
+[11-15 11:11:03] Numerics policy: cudnn TF32 and bf16 reduced-precision reduction enabled. These lower precision below the reference, so quality='exact' is bit-reproducible on this server but not free of approximate library defaults. Pass --allow-cudnn-tf32 false --allow-bf16-reduced-precision-reduction false for the strict contract (slower fp32 convolutions).
+[11-15 11:11:03] torch.compile cache: TORCHINDUCTOR_CACHE_DIR=/root/.cache/sgl_diffusion/torch_compile_cache/inductor TRITON_CACHE_DIR=/root/.cache/sgl_diffusion/torch_compile_cache/triton
+[11-15 11:11:03] Initializing distributed environment with world_size=2, device=cuda:0, timeout=3600
+[11-15 11:11:03] Setting distributed timeout to 3600 seconds
+[11-15 11:11:03] GPU 1 worker bound to NUMA node 1
+[11-15 11:11:03] Numerics policy: cudnn TF32 and bf16 reduced-precision reduction enabled. These lower precision below the reference, so quality='exact' is bit-reproducible on this server but not free of approximate library defaults. Pass --allow-cudnn-tf32 false --allow-bf16-reduced-precision-reduction false for the strict contract (slower fp32 convolutions).
+[11-15 11:11:04] Found nccl from library libnccl.so.2
+[11-15 11:11:04] sglang-diffusion is using nccl==2.30.7
+[11-15 11:11:04] Found nccl from library libnccl.so.2
+[11-15 11:11:04] sglang-diffusion is using nccl==2.30.7
+[11-15 11:11:04] Found nccl from library libnccl.so.2
+[11-15 11:11:04] sglang-diffusion is using nccl==2.30.7
+[11-15 11:11:04] No pipeline_class_name specified, using model_index.json
+[11-15 11:11:05] Diffusers version: 0.37.0
+[11-15 11:11:05] Diffusers version: 0.37.0
+[11-15 11:11:05] Using pipeline from model_index.json: NomasPipeline
+[11-15 11:11:05] Loading pipeline modules...
+[11-15 11:11:05] Model already exists locally and is complete
+[11-15 11:11:05] Model path: /task/cache/nomas-native-common02
+[11-15 11:11:05] Diffusers version: 0.37.0
+[11-15 11:11:05] Loading pipeline modules from config: {'_class_name': 'NomasPipeline', '_diffusers_version': '0.37.0', 'tokenizer': ['transformers', 'AutoTokenizer'], 'text_encoder': ['transformers', 'Qwen2_5_VLForConditionalGeneration'], 'transformer': ['diffusers', 'NomasTransformer3DModel'], 'vae': ['diffusers', 'NomasPixelUMMDecoder'], 'scheduler': ['diffusers', 'FlowMatchEulerDiscreteScheduler']}
+[11-15 11:11:05] Loading required components: ['tokenizer', 'text_encoder', 'transformer', 'vae', 'scheduler']
+[11-15 11:11:06] Memory-aware component load order: ['transformer', 'text_encoder', 'vae', 'tokenizer', 'scheduler']
+Loading required modules:   0%|          | 0/5 [00:00<?, ?it/s][11-15 11:11:06] Loading transformer from /task/cache/nomas-native-common02/transformer. avail mem: 92.97 GB
+[11-15 11:11:06] Loading NomasTransformer3DModel from 4 safetensors file(s) , param_dtype: torch.bfloat16
+Loading required modules:   0%|          | 0/5 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards: 0%|          | 0/4[ALoading safetensors checkpoint shards: 100%|██████████| 4/4
+Loading required modules:  20%|██        | 1/5 [00:03<00:13,  3.28s/it][11-15 11:11:09] Loaded transformer: NomasTransformer3DModel (sgl-diffusion version). model size: 16.03 GB, vram: 16.03 GB. avail GPU mem: 76.93 GB
+Loading required modules:  20%|██        | 1/5 [00:03<00:14,  3.56s/it][11-15 11:11:09] Loading text_encoder from /task/cache/nomas-native-common02/text_encoder. avail mem: 76.93 GB
+[11-15 11:11:09] Defaulting to Torch SDPA backend on SM12.x
+
+Loading safetensors checkpoint shards: 0%|          | 0/5[A
+Loading safetensors checkpoint shards: 20%|██        | 1/5[A
+Loading safetensors checkpoint shards: 40%|████      | 2/5[A
+Loading safetensors checkpoint shards: 60%|██████    | 3/5[A
+Loading safetensors checkpoint shards: 80%|████████  | 4/5[A
+Loading safetensors checkpoint shards: 100%|██████████| 5/5[ALoading safetensors checkpoint shards: 100%|██████████| 5/5
+[11-15 11:12:34] Attention backends for text_encoder: torch_sdpa
+Loading required modules:  40%|████      | 2/5 [01:28<02:34, 51.55s/it][11-15 11:12:34] Loaded text_encoder: Qwen2_5_VLForConditionalGeneration (sgl-diffusion version). model size: 14.25 GB, vram: 14.25 GB. avail GPU mem: 62.53 GB
+Loading required modules:  40%|████      | 2/5 [01:28<02:34, 51.57s/it][11-15 11:12:34] Loading vae from /task/cache/nomas-native-common02/vae. avail mem: 62.53 GB
+/opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+[11-15 11:13:32] Loaded vae: NomasPixelUMMDecoder (sgl-diffusion version). model size: 12.99 GB, vram: 12.99 GB. avail GPU mem: 49.41 GB
+Loading required modules:  60%|██████    | 3/5 [02:26<01:48, 54.22s/it][11-15 11:13:32] Loading tokenizer from /task/cache/nomas-native-common02/tokenizer. avail mem: 49.41 GB
+Loading required modules:  60%|██████    | 3/5 [02:26<01:48, 54.25s/it][11-15 11:13:33] Loaded tokenizer: Qwen2Tokenizer (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 49.41 GB
+Loading required modules:  80%|████████  | 4/5 [02:27<00:33, 33.36s/it][11-15 11:13:33] Loading scheduler from /task/cache/nomas-native-common02/scheduler. avail mem: 49.41 GB
+[11-15 11:13:33] Loaded scheduler: FlowMatchEulerDiscreteScheduler (sgl-diffusion version). model size: NA GB, weights: none. avail GPU mem: 49.41 GB
+Loading required modules: 100%|██████████| 5/5 [02:27<00:00, 29.50s/it]
+[11-15 11:13:33] Creating pipeline stages...
+[11-15 11:13:33] Pipeline instantiated
+[11-15 11:13:33] Worker 0: Initialized device, model, and distributed environment.
+Loading required modules:  80%|████████  | 4/5 [02:27<00:33, 33.42s/it]Loading required modules: 100%|██████████| 5/5 [02:27<00:00, 29.51s/it]
+[11-15 11:13:34] Worker 0: Scheduler loop started.
+[11-15 11:13:34] [server-load] workers_ready_monotonic_ns=7147307048840925
+[11-15 11:13:34] Starting FastAPI server.
+[2026-11-15 11:13:34] [32mINFO[0m:     Started server process [[36m178273[0m]
+[2026-11-15 11:13:34] [32mINFO[0m:     Waiting for application startup.
+[11-15 11:13:34] ZMQ Broker is listening for offline jobs on tcp://127.0.0.1:32151
+[2026-11-15 11:13:34] [32mINFO[0m:     Application startup complete.
+[2026-11-15 11:13:34] [32mINFO[0m:     Uvicorn running on [1mhttp://127.0.0.1:32150[0m (Press CTRL+C to quit)
+[2026-11-15 11:13:35] [32mINFO[0m:     127.0.0.1:50344 - "[1mGET /liveness HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:13:36] Adjusting number of frames from 49 to 49 based on model
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mPOST /v1/videos HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:13:36] Sampling params:
+                       width: 1280
+                      height: 704
+                  num_frames: 49
+                         fps: 24
+                      prompt: <redacted, len=620>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 8
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: None
+                 save_output: True
+            output_file_path: /task/runs/nomas-sp2-sgl-native18/outputs/00-short/native-output/a72d1930-5549-45a0-bcd1-1bf9191a5c05.mp4
+        
+[11-15 11:13:36] Running pipeline stages: ['NomasInputValidationStage', 'NomasTextEncodingStage', 'TimestepPreparationStage', 'NomasLatentPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-15 11:13:36] [NomasInputValidationStage] started...
+[11-15 11:13:36] [NomasInputValidationStage] finished in 0.0001 seconds
+[11-15 11:13:36] [NomasTextEncodingStage] started...
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:13:36] [NomasTextEncodingStage] finished in 0.4743 seconds
+[11-15 11:13:36] [TimestepPreparationStage] started...
+[11-15 11:13:36] [TimestepPreparationStage] finished in 0.0004 seconds
+[11-15 11:13:36] [NomasLatentPreparationStage] started...
+[11-15 11:13:36] [NomasLatentPreparationStage] finished in 0.0029 seconds
+[11-15 11:13:36] [NomasDenoisingStage] started...
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:13:43] IPC all-to-all unavailable (requires an NVLink-connected GPU pair); using NCCL
+[11-15 11:13:43] IPC all-to-all unavailable (requires an NVLink-connected GPU pair); using NCCL
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:13:50] Nomas: 1 segments, 0 cached tokens, 13 latent frames
+[11-15 11:13:50] [NomasDenoisingStage] finished in 13.5018 seconds
+[11-15 11:13:50] [NomasDecodingStage] started...
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:13:59] [NomasDecodingStage] finished in 9.3035 seconds
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:13:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:00] Output saved to [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/00-short/native-output/a72d1930-5549-45a0-bcd1-1bf9191a5c05.mp4[0;0m
+[11-15 11:14:00] Metrics dumped to: [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/00-short/perf.json[0;0m
+[11-15 11:14:00] Pixel data generated successfully in [92m24.82[0;0m seconds
+[11-15 11:14:00] Peak memory usage: 50242.00 MB
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/a72d1930-5549-45a0-bcd1-1bf9191a5c05/content HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:00] Adjusting number of frames from 49 to 49 based on model
+[2026-11-15 11:14:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mPOST /v1/videos HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:01] Sampling params:
+                       width: 1280
+                      height: 704
+                  num_frames: 49
+                         fps: 24
+                      prompt: <redacted, len=1391>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 8
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: None
+                 save_output: True
+            output_file_path: /task/runs/nomas-sp2-sgl-native18/outputs/01-long/native-output/cdf7d5f5-5f18-425c-9716-ae83702502a3.mp4
+        
+[11-15 11:14:01] Running pipeline stages: ['NomasInputValidationStage', 'NomasTextEncodingStage', 'TimestepPreparationStage', 'NomasLatentPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-15 11:14:01] [NomasInputValidationStage] started...
+[11-15 11:14:01] [NomasInputValidationStage] finished in 0.0001 seconds
+[11-15 11:14:01] [NomasTextEncodingStage] started...
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:01] [NomasTextEncodingStage] finished in 0.0878 seconds
+[11-15 11:14:01] [TimestepPreparationStage] started...
+[11-15 11:14:01] [TimestepPreparationStage] finished in 0.0003 seconds
+[11-15 11:14:01] [NomasLatentPreparationStage] started...
+[11-15 11:14:01] [NomasLatentPreparationStage] finished in 0.0026 seconds
+[11-15 11:14:01] [NomasDenoisingStage] started...
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:05] Nomas: 1 segments, 0 cached tokens, 13 latent frames
+[11-15 11:14:05] [NomasDenoisingStage] finished in 4.0677 seconds
+[11-15 11:14:05] [NomasDecodingStage] started...
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:06] [NomasDecodingStage] finished in 0.5694 seconds
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:07] Output saved to [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/01-long/native-output/cdf7d5f5-5f18-425c-9716-ae83702502a3.mp4[0;0m
+[11-15 11:14:07] Metrics dumped to: [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/01-long/perf.json[0;0m
+[11-15 11:14:07] Pixel data generated successfully in [92m6.96[0;0m seconds
+[11-15 11:14:07] Peak memory usage: 50244.00 MB
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/cdf7d5f5-5f18-425c-9716-ae83702502a3/content HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:08] Adjusting number of frames from 49 to 49 based on model
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mPOST /v1/videos HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:08] Sampling params:
+                       width: 1280
+                      height: 704
+                  num_frames: 49
+                         fps: 24
+                      prompt: <redacted, len=620>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 8
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: None
+                 save_output: True
+            output_file_path: /task/runs/nomas-sp2-sgl-native18/outputs/02-short/native-output/13bc2c69-a2c0-443a-bec2-e852f57d7e4e.mp4
+        
+[11-15 11:14:08] Running pipeline stages: ['NomasInputValidationStage', 'NomasTextEncodingStage', 'TimestepPreparationStage', 'NomasLatentPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-15 11:14:08] [NomasInputValidationStage] started...
+[11-15 11:14:08] [NomasInputValidationStage] finished in 0.0001 seconds
+[11-15 11:14:08] [NomasTextEncodingStage] started...
+[11-15 11:14:08] [NomasTextEncodingStage] finished in 0.0076 seconds
+[11-15 11:14:08] [TimestepPreparationStage] started...
+[11-15 11:14:08] [TimestepPreparationStage] finished in 0.0004 seconds
+[11-15 11:14:08] [NomasLatentPreparationStage] started...
+[11-15 11:14:08] [NomasLatentPreparationStage] finished in 0.0025 seconds
+[11-15 11:14:08] [NomasDenoisingStage] started...
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:09] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:10] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:11] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:12] Nomas: 1 segments, 0 cached tokens, 13 latent frames
+[11-15 11:14:12] [NomasDenoisingStage] finished in 3.9568 seconds
+[11-15 11:14:12] [NomasDecodingStage] started...
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:12] [NomasDecodingStage] finished in 0.5681 seconds
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:12] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:13] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:14] Output saved to [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/02-short/native-output/13bc2c69-a2c0-443a-bec2-e852f57d7e4e.mp4[0;0m
+[11-15 11:14:14] Metrics dumped to: [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/02-short/perf.json[0;0m
+[11-15 11:14:14] Pixel data generated successfully in [92m6.09[0;0m seconds
+[11-15 11:14:14] Peak memory usage: 50244.00 MB
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/13bc2c69-a2c0-443a-bec2-e852f57d7e4e/content HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:14] Adjusting number of frames from 121 to 121 based on model
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mPOST /v1/videos HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:14] Sampling params:
+                       width: 1280
+                      height: 704
+                  num_frames: 121
+                         fps: 24
+                      prompt: <redacted, len=620>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 8
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: None
+                 save_output: True
+            output_file_path: /task/runs/nomas-sp2-sgl-native18/outputs/03-short/native-output/b62b4366-e317-43eb-92c7-73b258b484fb.mp4
+        
+[11-15 11:14:14] Running pipeline stages: ['NomasInputValidationStage', 'NomasTextEncodingStage', 'TimestepPreparationStage', 'NomasLatentPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-15 11:14:14] [NomasInputValidationStage] started...
+[11-15 11:14:14] [NomasInputValidationStage] finished in 0.0001 seconds
+[11-15 11:14:14] [NomasTextEncodingStage] started...
+[11-15 11:14:14] [NomasTextEncodingStage] finished in 0.0077 seconds
+[11-15 11:14:14] [TimestepPreparationStage] started...
+[11-15 11:14:14] [TimestepPreparationStage] finished in 0.0004 seconds
+[11-15 11:14:14] [NomasLatentPreparationStage] started...
+[11-15 11:14:14] [NomasLatentPreparationStage] finished in 0.0056 seconds
+[11-15 11:14:14] [NomasDenoisingStage] started...
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:14] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:15] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:16] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:17] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:18] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:19] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:20] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:21] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:22] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:23] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:24] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:25] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:26] Nomas: 1 segments, 0 cached tokens, 31 latent frames
+[11-15 11:14:26] [NomasDenoisingStage] finished in 11.6543 seconds
+[11-15 11:14:26] [NomasDecodingStage] started...
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:26] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:27] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:28] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:29] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:30] [NomasDecodingStage] finished in 4.3677 seconds
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:30] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:31] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:32] Output saved to [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/03-short/native-output/b62b4366-e317-43eb-92c7-73b258b484fb.mp4[0;0m
+[11-15 11:14:32] Metrics dumped to: [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/03-short/perf.json[0;0m
+[11-15 11:14:32] Pixel data generated successfully in [92m17.85[0;0m seconds
+[11-15 11:14:32] Peak memory usage: 51482.00 MB
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/b62b4366-e317-43eb-92c7-73b258b484fb/content HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:32] Adjusting number of frames from 121 to 121 based on model
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mPOST /v1/videos HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:32] Sampling params:
+                       width: 1280
+                      height: 704
+                  num_frames: 121
+                         fps: 24
+                      prompt: <redacted, len=1391>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 8
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: None
+                 save_output: True
+            output_file_path: /task/runs/nomas-sp2-sgl-native18/outputs/04-long/native-output/dec9e773-caaa-4793-a7ad-65f25e2f0352.mp4
+        
+[11-15 11:14:32] Running pipeline stages: ['NomasInputValidationStage', 'NomasTextEncodingStage', 'TimestepPreparationStage', 'NomasLatentPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-15 11:14:32] [NomasInputValidationStage] started...
+[11-15 11:14:32] [NomasInputValidationStage] finished in 0.0001 seconds
+[11-15 11:14:32] [NomasTextEncodingStage] started...
+[11-15 11:14:32] [NomasTextEncodingStage] finished in 0.0095 seconds
+[11-15 11:14:32] [TimestepPreparationStage] started...
+[11-15 11:14:32] [TimestepPreparationStage] finished in 0.0004 seconds
+[11-15 11:14:32] [NomasLatentPreparationStage] started...
+[11-15 11:14:32] [NomasLatentPreparationStage] finished in 0.0056 seconds
+[11-15 11:14:32] [NomasDenoisingStage] started...
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:32] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:33] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:34] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:35] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:36] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:37] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:38] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:39] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:40] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:41] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:42] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:43] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:43] Nomas: 1 segments, 0 cached tokens, 31 latent frames
+[11-15 11:14:43] [NomasDenoisingStage] finished in 11.4863 seconds
+[11-15 11:14:43] [NomasDecodingStage] started...
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:44] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:45] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:46] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:47] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:48] [NomasDecodingStage] finished in 4.3844 seconds
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:48] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:49] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:50] Output saved to [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/04-long/native-output/dec9e773-caaa-4793-a7ad-65f25e2f0352.mp4[0;0m
+[11-15 11:14:50] Metrics dumped to: [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/04-long/perf.json[0;0m
+[11-15 11:14:50] Pixel data generated successfully in [92m17.84[0;0m seconds
+[11-15 11:14:50] Peak memory usage: 51482.00 MB
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352 HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/dec9e773-caaa-4793-a7ad-65f25e2f0352/content HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:50] Adjusting number of frames from 121 to 121 based on model
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mPOST /v1/videos HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:14:50] Sampling params:
+                       width: 1280
+                      height: 704
+                  num_frames: 121
+                         fps: 24
+                      prompt: <redacted, len=620>
+                  neg_prompt: <redacted, len=0>
+                        seed: 42
+                 infer_steps: 8
+      num_outputs_per_prompt: 1
+              guidance_scale: 1.0
+     embedded_guidance_scale: 6.0
+                    n_tokens: None
+                  flow_shift: 5.0
+                  image_path: None
+                 save_output: True
+            output_file_path: /task/runs/nomas-sp2-sgl-native18/outputs/05-short/native-output/57a8e43b-b60f-4143-95b9-b6fca0e8501c.mp4
+        
+[11-15 11:14:50] Running pipeline stages: ['NomasInputValidationStage', 'NomasTextEncodingStage', 'TimestepPreparationStage', 'NomasLatentPreparationStage', 'denoising_stage', 'decoding_stage']
+[11-15 11:14:50] [NomasInputValidationStage] started...
+[11-15 11:14:50] [NomasInputValidationStage] finished in 0.0001 seconds
+[11-15 11:14:50] [NomasTextEncodingStage] started...
+[11-15 11:14:50] [NomasTextEncodingStage] finished in 0.0081 seconds
+[11-15 11:14:50] [TimestepPreparationStage] started...
+[11-15 11:14:50] [TimestepPreparationStage] finished in 0.0004 seconds
+[11-15 11:14:50] [NomasLatentPreparationStage] started...
+[11-15 11:14:50] [NomasLatentPreparationStage] finished in 0.0057 seconds
+[11-15 11:14:50] [NomasDenoisingStage] started...
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:50] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:51] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:52] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:53] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:54] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:55] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:56] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:57] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:58] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:14:59] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:00] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:15:01] Nomas: 1 segments, 0 cached tokens, 31 latent frames
+[11-15 11:15:01] [NomasDenoisingStage] finished in 11.4732 seconds
+[11-15 11:15:01] [NomasDecodingStage] started...
+[2026-11-15 11:15:01] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:02] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:03] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:04] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:05] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:15:06] [NomasDecodingStage] finished in 4.3955 seconds
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:06] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:07] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[11-15 11:15:08] Output saved to [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/05-short/native-output/57a8e43b-b60f-4143-95b9-b6fca0e8501c.mp4[0;0m
+[11-15 11:15:08] Metrics dumped to: [1;36m/task/runs/nomas-sp2-sgl-native18/outputs/05-short/perf.json[0;0m
+[11-15 11:15:08] Pixel data generated successfully in [92m17.71[0;0m seconds
+[11-15 11:15:08] Peak memory usage: 51482.00 MB
+[2026-11-15 11:15:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:08] [32mINFO[0m:     127.0.0.1:50354 - "[1mGET /v1/videos/57a8e43b-b60f-4143-95b9-b6fca0e8501c/content HTTP/1.1[0m" [32m200 OK[0m
+[2026-11-15 11:15:09] [32mINFO[0m:     Shutting down
+[2026-11-15 11:15:09] [32mINFO[0m:     Waiting for application shutdown.
+[11-15 11:15:09] FastAPI app is shutting down...
+[2026-11-15 11:15:09] [32mINFO[0m:     Application shutdown complete.
+[2026-11-15 11:15:09] [32mINFO[0m:     Finished server process [[36m178273[0m]
+/opt/python/cpython-3.12.15-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 2 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

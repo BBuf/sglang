@@ -1,0 +1,55 @@
+{
+  "arm": "sgl",
+  "run": "nomas-sp2-sgl-native18",
+  "purpose": "Frozen strictUlysses2 native49and121 shape/longprompt/repeat admission; actual perrank receipts; no timing claim",
+  "benchmark": false,
+  "status": "raw_complete",
+  "started_at": "2026-11-15T11:10:32.719537+00:00",
+  "commands": [
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-sp2-visits18/serve.py",
+      "start",
+      "sgl",
+      "nomas-sp2-sgl-native18"
+    ],
+    [
+      "docker",
+      "exec",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/nomas-sp2-visits18/submit.py",
+      "sgl",
+      "nomas-sp2-sgl-native18"
+    ]
+  ],
+  "input_hashes": {
+    "manifest.json": "2e62746d35ce4f8a11df6e293e0dab54cb5561e76998e625a0d8ed1832b2fda7",
+    "inputs/nomas-native-workloads01.json": "0d407ba41a9749f65c9f29e131ec35a2665ab9f3e73d3896b2351b28041aff7e",
+    "inputs/nomas-sp2-sgl-native18.json": "a4f110c367e23b1e709b3bb3f301358a0a09b669231f7990a6408f7c6e052898",
+    "scripts/nomas-sp2-visits18/build_nomas_video_payload.py": "9282ee477285948fbaaed3b6ae503c880db14a0ad70e44ff859dfa37f3c16e22",
+    "scripts/nomas-sp2-visits18/run.py": "00c66ac71e001f8419026715d18bb7232b1a692ee9493ec57a92460a9b1cf8f4",
+    "scripts/nomas-sp2-visits18/serve.py": "7ca2502c5c441149eb9145bd69b60975cc46b7df934d41b07151d7ca22c1cc60",
+    "scripts/nomas-sp2-visits18/submit.py": "d56de500aafcdd790ff1b98088defd90dbb74d42644f5028237dda1d959c919b",
+    "scripts/nomas-sp2-observer18/sitecustomize.py": "9252f6bd98aa3edf72e068b6f030bd09418d1fa2eb853c41b5e67480d94062c6",
+    "scripts/nomas-sp2-candidate-observer18/sitecustomize.py": "3c2437b472ee3e455bd2769c58f006a21293fc98a575db60f18ed91ded66ed4a",
+    "scripts/materialize_nomas_keys02.py": "79e837829f901da84ee559bb3775fc1894cd8a45c285aec1627204c99c32ebb1",
+    "scripts/nomas_checkpoint_key_audit02.py": "5df609929f5acccad3f79719cd8b0c8313a3842256a8f0a9a17a8bf7ad9369da",
+    "evidence/preflight/nomas-key-only-materialization02.json": "a58730eea74afa5247ae22a8782b5ef5384dbff88f53dd08b7fad522dafa1055"
+  },
+  "updated_at": "2026-11-15T11:15:13.849161+00:00",
+  "launch_to_ready_seconds": 181.6175754107535,
+  "completed_outputs": 6,
+  "reference_checks": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "gpu_cleanup": "idle_verified"
+}

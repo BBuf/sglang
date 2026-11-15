@@ -1,0 +1,49 @@
+{
+  "status": "complete",
+  "benchmark": false,
+  "completed": [
+    "nomas-c2-sgl-native23",
+    "nomas-c2-omni-native23",
+    "nomas-c2-PR-native23"
+  ],
+  "physical_gpus": [
+    0
+  ],
+  "updated_at": "2026-11-15T11:30:54.036954+00:00",
+  "prior_SP2_terminal_state": {
+    "status": "complete",
+    "benchmark": false,
+    "completed": [
+      "nomas-sp2-sgl-native18",
+      "nomas-sp2-omni-native18",
+      "nomas-sp2-PR-native18",
+      "SP2_cross_quality_CPU"
+    ],
+    "physical_gpus": [
+      0,
+      1
+    ],
+    "updated_at": "2026-11-15T11:24:52.266297+00:00",
+    "active": null,
+    "command": [
+      "docker",
+      "exec",
+      "-e",
+      "CUDA_VISIBLE_DEVICES=",
+      "-e",
+      "PYTHONPATH=/task/envs/quality-tools",
+      "bbuf-diffusion-6000-20261113-sgl",
+      "/opt/sglang/bin/python",
+      "/task/scripts/audit_nomas_sp2_18.py"
+    ]
+  },
+  "active": null,
+  "command": [
+    "python3",
+    "/data/xyzhang/diffusion-6000-20261113/scripts/nomas-c2-visits23/run.py",
+    "sgl",
+    "nomas-c2-PR-native23",
+    "inputs/nomas-c2-PR-native23.json"
+  ],
+  "quality_scope": "All C2 outputs exact to actual same-arm C1 outputs; existing cross-framework failures remain."
+}

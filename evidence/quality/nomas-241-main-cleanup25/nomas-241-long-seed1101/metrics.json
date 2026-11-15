@@ -1,0 +1,64 @@
+{
+  "workload_id": "nomas-241-long-seed1101",
+  "paths": [
+    "runs/nomas-241-sgl-native17/outputs/03-long/output.mp4",
+    "runs/nomas-241-sgl-mean-quality17/outputs/03-long/output.mp4"
+  ],
+  "artifact_sha256": "35187595cc2185c3442fda073ba96f8e3a57d8d5f5b3966e20a7aae179332af3",
+  "artifact_exact": true,
+  "decoded_frames": 241,
+  "decoded_rgb_exact": true,
+  "decoded_rgb_sha256": [
+    "e8545d5f0bce938c70fa7b83823e36c83cba7823b919170b858ae5db97a3e7fa",
+    "e8545d5f0bce938c70fa7b83823e36c83cba7823b919170b858ae5db97a3e7fa"
+  ],
+  "all_frame_ssim": 1.0,
+  "all_frame_psnr_db": null,
+  "psnr_note": "positive infinity; byte-exact RGB",
+  "max_abs_error": 0,
+  "representative_frames": [
+    0,
+    120,
+    240
+  ],
+  "timestamps": [
+    0.0,
+    5.0,
+    10.0
+  ],
+  "comparison": "evidence/quality/nomas-241-main-cleanup25/nomas-241-long-seed1101/comparison.png",
+  "decode_commands": [
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-i",
+      "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common2/diffusion-6000-20261113/runs/nomas-241-sgl-native17/outputs/03-long/output.mp4",
+      "-map",
+      "0:v:0",
+      "-threads",
+      "1",
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      "rgb24",
+      "pipe:1"
+    ],
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-i",
+      "/Users/bbuf/\u5de5\u4f5c\u76ee\u5f55/Common2/diffusion-6000-20261113/runs/nomas-241-sgl-mean-quality17/outputs/03-long/output.mp4",
+      "-map",
+      "0:v:0",
+      "-threads",
+      "1",
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      "rgb24",
+      "pipe:1"
+    ]
+  ]
+}
