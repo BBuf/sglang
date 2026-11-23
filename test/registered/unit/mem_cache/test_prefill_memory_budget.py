@@ -29,7 +29,7 @@ from sglang.test.ci.ci_register import register_cpu_ci
 from sglang.test.test_utils import CustomTestCase, published_topology
 from sglang.test.unified_allocator_fixtures import build_test_unified_pools
 
-register_cpu_ci(est_time=10, suite="base-a-test-cpu")
+register_cpu_ci(est_time=3, suite="base-a-test-cpu")
 
 
 def _shared_allocator(*, page_size=4, total_bytes=2048, pool_tokens=None):
