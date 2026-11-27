@@ -1,0 +1,76 @@
+{
+  "source": "Separate SGLang main torch.profiler edit, 2048x2048, six steps. Host time is inclusive and instrumented, GPU time is the union of correlated kernel intervals. Nested regions overlap.",
+  "main_sha": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+  "regions": {
+    "_get_flat_visual_features": {
+      "host_ms": 104.016185546875,
+      "correlated_gpu_union_ms": 28.6452587890625,
+      "calls": 740,
+      "top_kernels_ms": [
+        [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<96, 128, 64, 4, false, false, cutlass::bfloat16_t, Flash_kernel_traits<96, 12",
+          9.5744
+        ],
+        [
+          "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_",
+          6.299
+        ],
+        [
+          "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x256_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_",
+          5.7072
+        ],
+        [
+          "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::",
+          1.5672
+        ],
+        [
+          "sm80_xmma_fprop_implicit_gemm_indexed_bf16bf16_bf16f32_f32_nhwckrsc_nhwc_tilesize64x128x32_stage5_warpsize2x2x1_g1_tensor16x8x16_execute_k",
+          1.3841
+        ],
+        [
+          "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 3, 64, 64>(at",
+          0.764
+        ],
+        [
+          "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::BFloat16, float, false>(int, float, c10::BFloat16 const*, c10::B",
+          0.6442
+        ]
+      ]
+    },
+    "_compute_image_conditioning": {
+      "host_ms": 313.8871689453125,
+      "correlated_gpu_union_ms": 196.4310439453125,
+      "calls": 4335,
+      "top_kernels_ms": [
+        [
+          "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_",
+          142.6084
+        ],
+        [
+          "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<96, 128, 64, 4, false, false, cutlass::bfloat16_t, Flash_kernel_traits<96, 12",
+          9.5744
+        ],
+        [
+          "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x256_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_",
+          5.7072
+        ],
+        [
+          "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x128_32x4_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_",
+          4.5253
+        ],
+        [
+          "kernel_cutlass_kernel_sglangkernelsopsattentionfa4_sm120flash_fwdFlashAttentionForwardSm120_object_at__tensorptrbf16gmemalign16o8i64div8i6",
+          4.4438
+        ],
+        [
+          "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::",
+          4.0024
+        ],
+        [
+          "void at::native::vectorized_elementwise_kernel<4, at::native::BinaryFunctor<c10::BFloat16, c10::BFloat16, c10::BFloat16, at::native::binar",
+          4.0023
+        ]
+      ]
+    }
+  }
+}
