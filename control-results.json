@@ -1,0 +1,219 @@
+{
+  "source_commits": {
+    "main": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+    "head": "744373f6b54402b0cdd413c0269d96eac031e96b"
+  },
+  "mixed_workload_vision_calls_by_measured_request": {
+    "main": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "head": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "matched_graph": [
+    {
+      "label": "main",
+      "sha": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+      "main_eager_exact": true,
+      "server_warmup_captures": 1,
+      "server_warmup_replays": 6,
+      "samples": [
+        {
+          "prompt": "prime",
+          "vision_calls": 2,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "long-a",
+          "vision_calls": 1,
+          "real_replays": 0,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "summer",
+          "vision_calls": 1,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "rain",
+          "vision_calls": 1,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "long-b",
+          "vision_calls": 1,
+          "real_replays": 0,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "prime",
+          "vision_calls": 0,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        }
+      ]
+    },
+    {
+      "label": "head",
+      "sha": "744373f6b54402b0cdd413c0269d96eac031e96b",
+      "main_eager_exact": true,
+      "server_warmup_captures": 1,
+      "server_warmup_replays": 6,
+      "samples": [
+        {
+          "prompt": "prime",
+          "vision_calls": 2,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "long-a",
+          "vision_calls": 0,
+          "real_replays": 0,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "summer",
+          "vision_calls": 0,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "rain",
+          "vision_calls": 0,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "long-b",
+          "vision_calls": 0,
+          "real_replays": 0,
+          "real_dispatches": 6,
+          "real_captures": 0
+        },
+        {
+          "prompt": "prime",
+          "vision_calls": 0,
+          "real_replays": 6,
+          "real_dispatches": 6,
+          "real_captures": 0
+        }
+      ]
+    }
+  ],
+  "narrow_cache_offload_and_fp8": {
+    "budget": 4,
+    "offload": 4,
+    "offload-fp8": 4
+  },
+  "quality_rejection_and_recovery": [
+    {
+      "label": "main",
+      "head": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+      "outputs": 3,
+      "rejected": {
+        "status": 400,
+        "detail": "MiniMax H3 image supports quality='exact' or 'lossless'"
+      }
+    },
+    {
+      "label": "head",
+      "head": "744373f6b54402b0cdd413c0269d96eac031e96b",
+      "outputs": 3,
+      "rejected": {
+        "status": 400,
+        "detail": "MiniMax H3 image supports quality='exact' or 'lossless'"
+      }
+    }
+  ],
+  "two_independent_replicas": {
+    "main": {
+      "samples": 12,
+      "aggregate_closed_loop_throughput": 0.3488604154768805,
+      "p50_http_s": 5.6228588864999995,
+      "p95_http_s": 5.6514159483499995,
+      "min_pair_overlap_s": 5.59908447,
+      "max_start_skew_ms": 4.901136,
+      "peak_mib_by_gpu_0_1": [
+        94214,
+        94128
+      ]
+    },
+    "head": {
+      "all_png_rgba_exact_by_replica": [
+        true,
+        true
+      ],
+      "samples": 12,
+      "aggregate_closed_loop_throughput": 0.35003016103430123,
+      "p50_http_s": 5.6031070955,
+      "p95_http_s": 5.6270938385500004,
+      "min_pair_overlap_s": 5.576162184,
+      "max_start_skew_ms": 4.714004,
+      "peak_mib_by_gpu_0_1": [
+        94320,
+        94112
+      ]
+    }
+  },
+  "tp2_four_request_memory": [
+    {
+      "label": "main",
+      "head": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+      "outputs": 4,
+      "http_s": [
+        11.35809067,
+        3.189069543,
+        5.17059659,
+        2.898163216
+      ],
+      "rejected": null,
+      "peak_mib_by_gpu_0_1": [
+        50482,
+        50474
+      ]
+    },
+    {
+      "label": "head",
+      "head": "744373f6b54402b0cdd413c0269d96eac031e96b",
+      "outputs": 4,
+      "http_s": [
+        11.243619134,
+        3.174621834,
+        5.160960724,
+        2.899476674
+      ],
+      "rejected": null,
+      "peak_mib_by_gpu_0_1": [
+        50482,
+        50474
+      ]
+    }
+  ],
+  "tp2_exact_requests": 10,
+  "packaged_driver_exact_outputs": 11
+}

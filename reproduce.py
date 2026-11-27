@@ -24,9 +24,15 @@ def main():
     parser.add_argument("--model-path", type=Path, required=True)
     parser.add_argument("--out", type=Path, default=Path("artifacts"))
     parser.add_argument("--port", type=int, default=32150)
+    parser.add_argument("--control", help="Optional entry in control-workloads.json")
+    parser.add_argument("--barrier-dir", type=Path, help="Shared empty directory for the two replica clients")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent
     manifest = json.loads((root / "workload.json").read_text())
+    if args.control:
+        manifest = json.loads((root / "control-workloads.json").read_text())[args.control]
+    if args.barrier_dir is not None and "replica" not in manifest:
+        parser.error("--barrier-dir requires --control replica0 or replica1")
     argv = list(manifest["sglang_serve"])
     model_path = str(args.model_path.resolve(strict=True))
     argv[argv.index("--model-path") + 1] = model_path
@@ -60,6 +66,15 @@ def main():
                 if digest(raw) != spec["sha256"]:
                     raise ValueError(f"Reference hash mismatch for {spec['file']}")
                 refs.append(("image", (spec["upload_name"], raw, "image/png")))
+            if args.barrier_dir is not None and item["role"] != "warmup":
+                replica = manifest["replica"]
+                (args.barrier_dir / f"{i}-ready-{replica}").touch(exist_ok=False)
+                peer = args.barrier_dir / f"{i}-ready-{1 - replica}"
+                deadline = time.monotonic() + 420
+                while not peer.exists():
+                    if time.monotonic() > deadline:
+                        raise TimeoutError(f"Waiting for peer on request {i}")
+                    time.sleep(0.005)
             if refs:
                 form = {
                     k: str(v).lower() if isinstance(v, bool) else str(v)
@@ -73,6 +88,11 @@ def main():
                 start = time.perf_counter_ns()
                 response = session.post(url + "/generations", json=body, timeout=3600)
             end = time.perf_counter_ns()
+            if "expected_rejection" in item:
+                expected = item["expected_rejection"]
+                assert response.status_code == expected["status"] and response.json() == {"detail": expected["detail"]}
+                (dest / "rejection.json").write_text(response.text)
+                continue
             response.raise_for_status()
             (dest / "response.json").write_bytes(response.content)
             raw = base64.b64decode(
@@ -97,9 +117,8 @@ def main():
             (args.out / "samples.json").write_text(json.dumps(rows, indent=2) + "\n")
             print(json.dumps(row), flush=True)
     measured = [r["http_s"] for r in rows if r["role"] == "measure"]
-    print(
-        f"{len(measured)} timed requests, HTTP p50 {statistics.median(measured):.6f} s"
-    )
+    if measured:
+        print(f"{len(measured)} timed requests, HTTP p50 {statistics.median(measured):.6f} s")
 
 
 if __name__ == "__main__":
