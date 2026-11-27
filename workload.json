@@ -1,0 +1,413 @@
+{
+  "model": "black-forest-labs/FLUX.2-klein-4B",
+  "weights_revision": "e7b7dc27f91deacad38e78976d1f2b499d76a294",
+  "main_sha": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+  "head_sha": "344d720fc93f9c1de5ec21c62cd30c18cc92e02f",
+  "sglang_serve": [
+    "--model-path",
+    "{model-path}",
+    "--model-id",
+    "black-forest-labs/FLUX.2-klein-4B",
+    "--pipeline-class-name",
+    "Flux2KleinPipeline",
+    "--backend",
+    "sglang",
+    "--num-gpus",
+    "1",
+    "--component-residency",
+    "all=resident",
+    "--warmup-mode",
+    "off",
+    "--enable-torch-compile",
+    "false",
+    "--enable-breakable-cuda-graph",
+    "false",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "32150"
+  ],
+  "server_environment": {
+    "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+    "TOKENIZERS_PARALLELISM": "false",
+    "OMP_NUM_THREADS": "4",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "0"
+  },
+  "requests": [
+    {
+      "role": "warmup",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 1101,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 43,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-1.png",
+          "sha256": "9bb5e7eb071daa1f4d1262a0545bc357ce8f1d345ddebf121ce4c718af5e18a2",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 44,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 45,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-1.png",
+          "sha256": "8c96a81c74eb065296be48a41fde28bc41a9c586bd192a30121660cc99fb048c",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 46,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref2-0.png",
+          "sha256": "e53df95d81f249d6f7ba9aa885065cb3bb6977817be27d71d07d62686a2dbaea",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 47,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref2-1.png",
+          "sha256": "bc204967c1310c66ffe3c9a413fa6542bee3826747ded8e4da4b66a2ae25ac75",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 48,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref3-0.png",
+          "sha256": "5fe2dd87ca723da0e6b534ed2542c9ebb9a85feecd8bc260c4df25a6ad9f89c6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "measure",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 49,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref3-1.png",
+          "sha256": "8fad03b817e2a24248a8ff919bdb9f1497f2a58ff4f21764971bc61e4e038e34",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 43,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-1.png",
+          "sha256": "9bb5e7eb071daa1f4d1262a0545bc357ce8f1d345ddebf121ce4c718af5e18a2",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 43,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-1.png",
+          "sha256": "9bb5e7eb071daa1f4d1262a0545bc357ce8f1d345ddebf121ce4c718af5e18a2",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 1101,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "exact"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 1101,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 43,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-1.png",
+          "sha256": "9bb5e7eb071daa1f4d1262a0545bc357ce8f1d345ddebf121ce4c718af5e18a2",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Change the season to winter, keeping the subjects and the position of the objects.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 1101,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "exact"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    },
+    {
+      "role": "control",
+      "body": {
+        "prompt": "Preserve the people, their clothing, poses and the arrangement of the landscape. Show the same scene after a gentle snowfall in the late afternoon, with cool shadows and soft winter light.",
+        "model": "black-forest-labs/FLUX.2-klein-4B",
+        "n": 1,
+        "seed": 49,
+        "size": "1024x1024",
+        "guidance_scale": 1.0,
+        "generator_device": "cpu",
+        "num_inference_steps": 4,
+        "output_format": "png",
+        "response_format": "b64_json",
+        "output_compression": 0,
+        "quality": "high"
+      },
+      "uploads": [
+        {
+          "file": "references/ref3-1.png",
+          "sha256": "8fad03b817e2a24248a8ff919bdb9f1497f2a58ff4f21764971bc61e4e038e34",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 4
+    }
+  ]
+}

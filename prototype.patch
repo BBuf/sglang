@@ -1,0 +1,160 @@
+diff --git a/python/sglang/multimodal_gen/runtime/models/vaes/autoencoder_kl_flux2.py b/python/sglang/multimodal_gen/runtime/models/vaes/autoencoder_kl_flux2.py
+index 1f109ec..4061b25 100644
+--- a/python/sglang/multimodal_gen/runtime/models/vaes/autoencoder_kl_flux2.py
++++ b/python/sglang/multimodal_gen/runtime/models/vaes/autoencoder_kl_flux2.py
+@@ -17,6 +17,7 @@ from sglang.multimodal_gen.runtime.models.vaes.common import (
+     ParallelTiledVAE,
+     can_install_spatial_shard_parallel_decode,
+ )
++from sglang.multimodal_gen.runtime.models.vaes.fast_path_gate import use_vae_fast_path
+ from sglang.multimodal_gen.runtime.models.vaes.parallel.diffusers_spatial import (
+     enable_diffusers_decoder_spatial_parallel,
+ )
+@@ -130,7 +131,7 @@ class AutoencoderKLFlux2(AutoencoderKLMixin, ParallelTiledVAE):
+ 
+     @cached_vae_encode
+     def encode(
+-        self, x: torch.Tensor, return_dict: bool = True
++        self, x: torch.Tensor, return_dict: bool = True, *, use_fast_path: bool = False
+     ) -> Union[DiagonalGaussianDistribution]:
+         """
+         Encode a batch of images into latents.
+@@ -149,11 +150,12 @@ class AutoencoderKLFlux2(AutoencoderKLMixin, ParallelTiledVAE):
+             assert x.shape[2] == 1
+             x = x.squeeze(2)
+ 
+-        if self.use_slicing and x.shape[0] > 1:
+-            encoded_slices = [self._encode(x_slice) for x_slice in x.split(1)]
+-            h = torch.cat(encoded_slices)
+-        else:
+-            h = self._encode(x)
++        with use_vae_fast_path(self.encoder, use_fast_path):
++            if self.use_slicing and x.shape[0] > 1:
++                encoded_slices = [self._encode(x_slice) for x_slice in x.split(1)]
++                h = torch.cat(encoded_slices)
++            else:
++                h = self._encode(x)
+ 
+         posterior = DiagonalGaussianDistribution(h)
+         return posterior
+diff --git a/python/sglang/multimodal_gen/runtime/models/vaes/flux2_vae_cuda_opt.py b/python/sglang/multimodal_gen/runtime/models/vaes/flux2_vae_cuda_opt.py
+index 8dfe064..6b1e51e 100644
+--- a/python/sglang/multimodal_gen/runtime/models/vaes/flux2_vae_cuda_opt.py
++++ b/python/sglang/multimodal_gen/runtime/models/vaes/flux2_vae_cuda_opt.py
+@@ -94,7 +94,7 @@ class FusedGroupNormSiLU(nn.Module):
+         )
+ 
+ 
+-def _install_norm_silu(decoder, resnet_cls, gate: VaeFastPathGate) -> int:
++def _install_norm_silu(module, resnet_cls, gate: VaeFastPathGate) -> int:
+     def _fusable(norm) -> bool:
+         return (
+             type(norm) is nn.GroupNorm
+@@ -104,7 +104,7 @@ def _install_norm_silu(decoder, resnet_cls, gate: VaeFastPathGate) -> int:
+         )
+ 
+     count = 0
+-    for m in decoder.modules():
++    for m in module.modules():
+         if (
+             type(m) is resnet_cls
+             and m.time_emb_proj is None
+@@ -122,12 +122,12 @@ def _install_norm_silu(decoder, resnet_cls, gate: VaeFastPathGate) -> int:
+             m.nonlinearity = nn.Identity()
+             count += 2
+     if (
+-        type(getattr(decoder, "conv_norm_out", None)) is nn.GroupNorm
+-        and isinstance(getattr(decoder, "conv_act", None), nn.SiLU)
+-        and _fusable(decoder.conv_norm_out)
++        type(getattr(module, "conv_norm_out", None)) is nn.GroupNorm
++        and isinstance(getattr(module, "conv_act", None), nn.SiLU)
++        and _fusable(module.conv_norm_out)
+     ):
+-        decoder.conv_norm_out = FusedGroupNormSiLU(decoder.conv_norm_out, gate)
+-        decoder.conv_act = nn.Identity()
++        module.conv_norm_out = FusedGroupNormSiLU(module.conv_norm_out, gate)
++        module.conv_act = nn.Identity()
+         count += 1
+     return count
+ 
+@@ -392,8 +392,9 @@ def _install_decoder_fast_paths(vae: nn.Module, label: str) -> nn.Module:
+ 
+ 
+ def maybe_optimize_flux2_vae(vae: nn.Module) -> nn.Module:
+-    """Install the quality-gated CUDA FLUX.2 VAE decoder fast paths."""
+-    from diffusers.models.autoencoders.vae import Decoder
++    """Install the CUDA FLUX.2 VAE encoder and decoder fast paths."""
++    from diffusers.models.autoencoders.vae import Decoder, Encoder
++    from diffusers.models.resnet import ResnetBlock2D
+ 
+     from sglang.multimodal_gen.runtime.models.vaes.autoencoder_kl_flux2 import (
+         AutoencoderKLFlux2,
+@@ -401,6 +402,11 @@ def maybe_optimize_flux2_vae(vae: nn.Module) -> nn.Module:
+ 
+     if not isinstance(vae, AutoencoderKLFlux2) or type(vae.decoder) is not Decoder:
+         return vae
++    if _HAS_TRITON and type(vae.encoder) is Encoder:
++        gate = VaeFastPathGate()
++        if _install_norm_silu(vae.encoder, ResnetBlock2D, gate):
++            register_vae_fast_path_gate(vae.encoder, gate)
++            vae.supports_fast_encode = True
+     return _install_decoder_fast_paths(vae, "FLUX.2 VAE")
+ 
+ 
+diff --git a/python/sglang/multimodal_gen/runtime/pipelines_core/stages/image_encoding.py b/python/sglang/multimodal_gen/runtime/pipelines_core/stages/image_encoding.py
+index 3ae9720..e2c8f0d 100644
+--- a/python/sglang/multimodal_gen/runtime/pipelines_core/stages/image_encoding.py
++++ b/python/sglang/multimodal_gen/runtime/pipelines_core/stages/image_encoding.py
+@@ -19,6 +19,7 @@ from diffusers.models.autoencoders.vae import DiagonalGaussianDistribution
+ from diffusers.models.modeling_outputs import AutoencoderKLOutput
+ 
+ from sglang.multimodal_gen.configs.pipeline_configs.base import TextConditioningOutput
++from sglang.multimodal_gen.configs.sample.sampling_params import quality_allows
+ from sglang.multimodal_gen.runtime.cache.conditioning import use_gpu_conditioning_hash
+ from sglang.multimodal_gen.runtime.distributed import get_local_torch_device
+ from sglang.multimodal_gen.runtime.managers.forward_context import set_forward_context
+@@ -89,6 +90,7 @@ class ImageVAEEncodingFingerprint:
+     encode_sample_mode: str
+     vae_precision: Any
+     vae_tiling: bool
++    use_fast_encode: bool = False
+ 
+ 
+ def _freeze_image_source_value(value):
+@@ -906,6 +908,11 @@ class ImageVAEEncodingStage(PipelineStage):
+             )
+         ]
+ 
++    def _use_fast_encode(self, batch: Req) -> bool:
++        return getattr(self.vae, "supports_fast_encode", False) and quality_allows(
++            batch.quality, "high"
++        )
++
+     def forward(
+         self,
+         batch: Req,
+@@ -944,6 +951,7 @@ class ImageVAEEncodingStage(PipelineStage):
+             assert vae is not None
+             self.vae = vae
+ 
++            encode_kwargs = {"use_fast_path": True} if self._use_fast_encode(batch) else {}
+             for image in images:
+                 image = self.preprocess(
+                     image,
+@@ -991,7 +999,7 @@ class ImageVAEEncodingStage(PipelineStage):
+                         ),
+                     ):
+                         latent_dist: DiagonalGaussianDistribution = vae.encode(
+-                            video_condition
++                            video_condition, **encode_kwargs
+                         )
+                     # for auto_encoder from diffusers
+                     if isinstance(latent_dist, AutoencoderKLOutput):
+@@ -1076,6 +1084,7 @@ class ImageVAEEncodingStage(PipelineStage):
+             encode_sample_mode=sample_mode,
+             vae_precision=server_args.pipeline_config.vae_precision,
+             vae_tiling=bool(server_args.pipeline_config.vae_tiling),
++            use_fast_encode=self._use_fast_encode(batch),
+         )
+ 
+     def retrieve_latents(
