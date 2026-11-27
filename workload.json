@@ -1,0 +1,443 @@
+{
+  "model": "MiniMaxAI/MiniMax-H3-Image",
+  "weights_revision": "5f90473023975e6271b0ed1dd84c4e88e4bbc6d3",
+  "main_sha": "075ccb8add6d69f5a1954fae1bce3920adc422ef",
+  "head_sha": "c72859fcac96a4f930ea3a0540c60d9f9f2967a4",
+  "sglang_serve": [
+    "--model-path",
+    "{model-path}",
+    "--backend",
+    "sglang",
+    "--num-gpus",
+    "1",
+    "--tp-size",
+    "1",
+    "--ulysses-degree",
+    "1",
+    "--ring-degree",
+    "1",
+    "--component-residency",
+    "all=resident",
+    "--performance-mode",
+    "auto",
+    "--enable-torch-compile",
+    "false",
+    "--enable-breakable-cuda-graph",
+    "false",
+    "--warmup-resolutions",
+    "2048x2048",
+    "--warmup-steps",
+    "6",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "32150",
+    "--attention-backend",
+    "fa4",
+    "--warmup-sampling-params",
+    "{\"prompt\": \"<Picture 1> is the reference image. Preserve its subject and composition, and change the season to a snowy winter evening.\", \"image_path\": [\"references/ref0-0.png\"], \"quality\": \"lossless\", \"num_inference_steps\": 6, \"guidance_scale\": 1.0, \"generator_device\": \"cpu\"}"
+  ],
+  "server_environment": {
+    "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+    "TOKENIZERS_PARALLELISM": "false",
+    "OMP_NUM_THREADS": "4",
+    "SGLANG_DIFFUSION_SYNC_STAGE_PROFILING": "0"
+  },
+  "requests": [
+    {
+      "role": "warmup",
+      "body": {
+        "seed": 42,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Change the scene to winter without moving the subjects.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "warmup",
+      "body": {
+        "seed": 43,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep the composition and subjects. Use the warm natural light of a clear late afternoon.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 100,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep the composition and subjects. Use the warm natural light of a clear late afternoon.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 104,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> and <Picture 2> are reference images. Preserve the setting and subjects from the first image and apply the lighting of the second image.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference-0.png"
+        },
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference-1.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 107,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep all subjects in their original positions. Change the light to an overcast morning.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 107,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> and <Picture 2> are reference images. Preserve the setting and subjects from the first image and apply the lighting of the second image.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference-0.png"
+        },
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference-1.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 254,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Change the scene to winter without moving the subjects.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 255,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> and <Picture 2> are reference images. Preserve the setting and subjects from the first image and apply the lighting of the second image.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference-0.png"
+        },
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference-1.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 511,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep all subjects in their original positions. Change the light to an overcast morning.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "measure",
+      "body": {
+        "seed": 511,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> and <Picture 2> are reference images. Preserve the setting and subjects from the first image and apply the lighting of the second image.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference-0.png"
+        },
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference-1.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "control",
+      "body": {
+        "seed": 41,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Preserve the outline and arrangement of the objects. Depict the scene just after a light snowfall, emphasizing the cool shadows and soft blue light.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-patch64.png",
+          "sha256": "d82f1a61d5c56e91f2bd163dcdb2e55a76421310d10e3fcf31fb8854f4985c28",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "control",
+      "body": {
+        "seed": 42,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Preserve the outline and arrangement of the objects. Depict the scene just after a light snowfall, emphasizing the cool shadows and soft blue light.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-patch64.png",
+          "sha256": "d82f1a61d5c56e91f2bd163dcdb2e55a76421310d10e3fcf31fb8854f4985c28",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "control",
+      "body": {
+        "seed": 96,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep all subjects in their original positions. Change the light to an overcast morning.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref2-0.png",
+          "sha256": "e53df95d81f249d6f7ba9aa885065cb3bb6977817be27d71d07d62686a2dbaea",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "control",
+      "body": {
+        "seed": 99,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep the composition and subjects. Use the warm natural light of a clear late afternoon.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "exact"
+      },
+      "uploads": [
+        {
+          "file": "references/ref1-0.png",
+          "sha256": "1028f6ce7d3ad3a4e7a6a3f504f3c14525ee4938ed0e538c745039832a1f5b04",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    },
+    {
+      "role": "repeat_check",
+      "body": {
+        "seed": 100,
+        "generator_device": "cpu",
+        "guidance_scale": 1.0,
+        "model": "{model-path}",
+        "num_inference_steps": 6,
+        "prompt": "<Picture 1> is the reference image. Keep the composition and subjects. Use the warm natural light of a clear late afternoon.",
+        "n": 1,
+        "size": "2048x2048",
+        "response_format": "b64_json",
+        "output_format": "png",
+        "output_compression": 0,
+        "quality": "lossless"
+      },
+      "uploads": [
+        {
+          "file": "references/ref0-0.png",
+          "sha256": "13eb9ad436cd6fcf4baa3fd840b78f98d4fca88d5c986b22989678e915a56cb6",
+          "upload_name": "reference.png"
+        }
+      ],
+      "steps": 6
+    }
+  ]
+}

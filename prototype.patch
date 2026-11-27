@@ -1,0 +1,53 @@
+diff --git a/python/sglang/multimodal_gen/runtime/cache/conditioning.py b/python/sglang/multimodal_gen/runtime/cache/conditioning.py
+index 8f96b9f..10c956c 100644
+--- a/python/sglang/multimodal_gen/runtime/cache/conditioning.py
++++ b/python/sglang/multimodal_gen/runtime/cache/conditioning.py
+@@ -853,7 +853,7 @@ def _vae_numeric_settings(vae):
+     }
+ 
+ 
+-def cached_vae_call(vae, method, args, compute, *, group=None):
++def cached_vae_call(vae, method, args, compute, *, group=None, nested=False):
+     """Cache a deterministic result derived from ``vae`` across requests.
+ 
+     When ``compute`` issues collectives, ``group`` must hold every rank that
+@@ -863,7 +863,7 @@ def cached_vae_call(vae, method, args, compute, *, group=None):
+     if cache is None:
+         return compute()
+     return cache.run(
+-        vae, method, (args, _vae_numeric_settings(vae)), {}, compute, group
++        vae, method, (args, _vae_numeric_settings(vae)), {}, compute, group, nested=nested
+     )
+ 
+ 
+diff --git a/python/sglang/multimodal_gen/runtime/models/vaes/minimax_h3.py b/python/sglang/multimodal_gen/runtime/models/vaes/minimax_h3.py
+index 3613a7a..0a0e248 100644
+--- a/python/sglang/multimodal_gen/runtime/models/vaes/minimax_h3.py
++++ b/python/sglang/multimodal_gen/runtime/models/vaes/minimax_h3.py
+@@ -8,6 +8,7 @@ from sglang.multimodal_gen.configs.models.vaes.minimax_h3_audio import (
+ from sglang.multimodal_gen.configs.models.vaes.minimax_h3_video import (
+     MiniMaxH3VideoVAEConfig,
+ )
++from sglang.multimodal_gen.runtime.cache.conditioning import cached_vae_call
+ from sglang.multimodal_gen.runtime.managers.memory_managers.layerwise_offload import (
+     LayerwiseOffloadableModuleMixin,
+ )
+@@ -106,6 +107,18 @@ class MiniMaxH3ImageVAE(MiniMaxH3VideoVAE):
+         self.decode_fast_path_gate = self._sgl_gate
+         register_vae_fast_path_gate(self, self.decode_fast_path_gate)
+ 
++    def tiled_encode(self, x):
++        encode = super().tiled_encode
++        if x.ndim != 5 or x.shape[2] != 1:
++            return encode(x)
++        if self.parallel_tiling and get_tile_parallel_state()[1] > 1:
++            return encode(x)
++        # The request generator samples this posterior after tile assembly.
++        # On a miss, unchanged tiles can still hit their own cache entries.
++        return cached_vae_call(
++            self, "tiled_image_moments", (x,), lambda: encode(x), nested=True
++        )
++
+     def _run_tile_tasks(
+         self, tiles, tile_indices, forward_fn, cls_agg=None, *, tile_batch: int = 1
+     ):
