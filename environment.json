@@ -1,0 +1,69 @@
+{
+  "device": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 595.84, 97887 MiB",
+  "python": "3.12.15",
+  "packages": {
+    "torch": "2.14.1+cu130",
+    "triton": "3.8.0",
+    "transformers": "5.19.0",
+    "diffusers": "0.37.0",
+    "flashinfer-python": "0.7.4",
+    "nvidia-cudnn-cu13": "9.24.0.43",
+    "pillow": "11.3.0",
+    "numpy": "2.3.5",
+    "requests": "2.34.2"
+  },
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "controls": {
+    "decoder": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.01
+    },
+    "guard-eager": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.1
+    },
+    "guard-high": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.1
+    },
+    "guard-bcg": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.1
+    },
+    "guard-actual_replay": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.1
+    },
+    "guard-sp2": {
+      "cpu_affinity": "0-127",
+      "gpu_count": 2,
+      "http_poll_s": 0.1,
+      "layout": "TP1, Ulysses 2, ring 1, PCIe SYS",
+      "nccl": {
+        "main": {
+          "shm_direct_channel_lines": 12,
+          "peer_channel_lines": 0
+        },
+        "head": {
+          "shm_direct_channel_lines": 12,
+          "peer_channel_lines": 0
+        }
+      }
+    },
+    "guard-trace": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.1
+    },
+    "guard-fp8": {
+      "cpu_affinity": "0-31,64-95",
+      "gpu_count": 1,
+      "http_poll_s": 0.1
+    }
+  }
+}
