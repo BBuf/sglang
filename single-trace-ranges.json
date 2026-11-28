@@ -1,0 +1,106 @@
+{
+  "head": {
+    "trace": "9d2b66fe-fcd9-4154-b736-9c4617ab40a2-rank-0.trace.json.gz",
+    "sha256": "ae6ab0b8619bdb84b3c57e1f41be209f23aaac086d61304992c247d895168edd",
+    "stages": {
+      "STAGE MOSSImageBeforeDenoisingStage": {
+        "host_launches": 4783,
+        "graph_launches": 0,
+        "device_kernels": 4783,
+        "graph_id_kernels": 0,
+        "host_region_ms": 180.6917158203125
+      },
+      "STAGE denoising_stage": {
+        "host_launches": 40094,
+        "graph_launches": 2150,
+        "device_kernels": 66429,
+        "graph_id_kernels": 28532,
+        "host_region_ms": 4018.081607421875
+      }
+    },
+    "top_graph_id_kernels_by_summed_time": [
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_256x128_32x3_tn_align8::Params)",
+        "calls": 4160,
+        "summed_ms": 459.70973900000047
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x64_64x4_tn_align8>(cutlass_80_tensorop_bf16_s16816gemm_relu_bf16_128x64_64x4_tn_align8::Params)",
+        "calls": 8320,
+        "summed_ms": 239.92721999999932
+      },
+      {
+        "name": "_norm_modulate_kernel",
+        "calls": 4160,
+        "summed_ms": 16.55365499999998
+      },
+      {
+        "name": "void sglang::residual_gate_add::(anonymous namespace)::residual_gate_add_broadcast_kernel<__nv_bfloat16, 8>(__nv_bfloat16*, __nv_bfloat16 const*, __nv_bfloat16 const*, __nv_bfloat16 const*, long, long)",
+        "calls": 4159,
+        "summed_ms": 13.42261799999998
+      },
+      {
+        "name": "_norm_rope_kernel",
+        "calls": 4160,
+        "summed_ms": 12.248407999999918
+      },
+      {
+        "name": "_situ_lookup_kernel",
+        "calls": 2080,
+        "summed_ms": 11.435891999999985
+      },
+      {
+        "name": "std::enable_if<!(false), void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, false, true, true, false, 7, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float>)",
+        "calls": 50,
+        "summed_ms": 4.109712999999999
+      },
+      {
+        "name": "std::enable_if<true, void>::type internal::gemvx::kernel<int, int, __nv_bfloat16, __nv_bfloat16, __nv_bfloat16, float, true, true, true, false, 8, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16 const>, cublasGemvTensorStridedBatched<__nv_bfloat16>, float>)",
+        "calls": 100,
+        "summed_ms": 2.938550000000001
+      }
+    ]
+  },
+  "eager": {
+    "trace": "fe57532a-2b1f-4fef-940e-92c4f7782ac4-rank-0.trace.json.gz",
+    "sha256": "e112ef5c6e682b7909237d9a9331bba20cfa43c4d622219dc076ded848b02ada",
+    "stages": {
+      "STAGE MOSSImageBeforeDenoisingStage": {
+        "host_launches": 4783,
+        "graph_launches": 0,
+        "device_kernels": 4783,
+        "graph_id_kernels": 0,
+        "host_region_ms": 177.6548837890625
+      },
+      "STAGE denoising_stage": {
+        "host_launches": 66544,
+        "graph_launches": 0,
+        "device_kernels": 66544,
+        "graph_id_kernels": 0,
+        "host_region_ms": 7085.968008789063
+      }
+    },
+    "top_graph_id_kernels_by_summed_time": []
+  },
+  "stock": {
+    "trace": "9c81704f-645b-4afe-97b3-a0d915e9ae7c-rank-0.trace.json.gz",
+    "sha256": "8b3953d695a5098e73b30175506e74f498029598e3fa922f4641fe065779edb2",
+    "stages": {
+      "STAGE MOSSImageBeforeDenoisingStage": {
+        "host_launches": 4783,
+        "graph_launches": 0,
+        "device_kernels": 4783,
+        "graph_id_kernels": 0,
+        "host_region_ms": 172.341708984375
+      },
+      "STAGE denoising_stage": {
+        "host_launches": 66744,
+        "graph_launches": 0,
+        "device_kernels": 66744,
+        "graph_id_kernels": 0,
+        "host_region_ms": 7099.11341796875
+      }
+    },
+    "top_graph_id_kernels_by_summed_time": []
+  }
+}

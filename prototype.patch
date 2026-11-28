@@ -1,0 +1,47 @@
+diff --git a/python/sglang/multimodal_gen/runtime/breakable_cuda_graph/runner.py b/python/sglang/multimodal_gen/runtime/breakable_cuda_graph/runner.py
+index e5018e9..729fcc0 100644
+--- a/python/sglang/multimodal_gen/runtime/breakable_cuda_graph/runner.py
++++ b/python/sglang/multimodal_gen/runtime/breakable_cuda_graph/runner.py
+@@ -34,6 +34,7 @@ import os
+ from dataclasses import dataclass, field, fields, is_dataclass, replace
+ from typing import Any, ClassVar
+ 
++import msgspec
+ import torch
+ import torch.nn as nn
+ 
+@@ -75,6 +76,10 @@ def _map_tensors(obj, fn):
+         return [_map_tensors(o, fn) for o in obj]
+     if isinstance(obj, dict):
+         return {k: _map_tensors(v, fn) for k, v in obj.items()}
++    if isinstance(obj, msgspec.Struct):
++        return msgspec.structs.replace(
++            obj, **{key: _map_tensors(getattr(obj, key), fn) for key in obj.__struct_fields__}
++        )
+     if is_dataclass(obj) and not isinstance(obj, type):
+         return replace(
+             obj,
+@@ -97,6 +102,9 @@ def _flatten_tensors(obj, out: list):
+     elif isinstance(obj, dict):
+         for k in sorted(obj):
+             _flatten_tensors(obj[k], out)
++    elif isinstance(obj, msgspec.Struct):
++        for key in obj.__struct_fields__:
++            _flatten_tensors(getattr(obj, key), out)
+     elif is_dataclass(obj) and not isinstance(obj, type):
+         for field in fields(obj):
+             _flatten_tensors(getattr(obj, field.name), out)
+@@ -121,6 +129,13 @@ def _signature_leaf(obj: Any) -> Any:
+             "dict",
+             tuple((k, _signature_leaf(obj[k])) for k in sorted(obj)),
+         )
++    if isinstance(obj, msgspec.Struct):
++        return (
++            "struct",
++            type(obj).__module__,
++            type(obj).__qualname__,
++            tuple((k, _signature_leaf(getattr(obj, k))) for k in obj.__struct_fields__),
++        )
+     if is_dataclass(obj) and not isinstance(obj, type):
+         return (
+             "dataclass",
